@@ -68,5 +68,3 @@
 3️⃣ **Wireframes** – Sketch out UI layouts for core features.
 
 ---
-
-🚀 **Let me know if this version looks good, or if you want any tweaks!** 🐾🐶🍲
