@@ -1,8 +1,14 @@
-# `Feeder`
+# `SousChef`
 
 ## Database Schema Design
 
-![Feeder Database Schema](./schema.png)[Feeder DB Diagram](https://dbdiagram.io/d/Feeder-67b52a3e263d6cf9a0a3f0dd)
+![SousChef Database Schema](./schema.png)[Feeder DB Diagram](https://dbdiagram.io/d/Feeder-67b52a3e263d6cf9a0a3f0dd)
+
+---
+
+## Wireframes
+
+[SousChef Figma Wireframes](https://www.figma.com/design/6REkLUjH1ESsXoMgSiP0xg/Feeder?node-id=0-1&t=avI4XcjiKxzs4CG4-1)
 
 ---
 
