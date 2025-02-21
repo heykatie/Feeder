@@ -24,7 +24,7 @@ COPY /frontend/ .
 
 RUN npm run build
 
-# Builds production image for deply
+# Builds production image for deploy
 
 FROM --platform=amd64 node:18-alpine as production
 
@@ -33,7 +33,7 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
 # Fill out this out (or change node_env to development if running local docker testing) on render/docker
-ARG SCHEMA=skely
+ARG SCHEMA=souschef
 ENV SCHEMA=${SCHEMA}
 
 # Fill this out on render using internal db url, or external url if running locally on docker
