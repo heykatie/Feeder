@@ -39,6 +39,14 @@ router.post('/', validateSignup, async (req, res) => {
 		id: user.id,
 		email: user.email,
 		username: user.username,
+		firstName: user.firstName || null,
+		lastName: user.lastName || null,
+		phone: user.phone || null,
+		birthday: user.birthday || null,
+		avatarUrl: user.avatarUrl || null,
+		bio: user.bio || null,
+		theme: user.theme || null,
+		sousChef: user.SousChef || null,
 	};
 
 	await setTokenCookie(res, safeUser);
@@ -49,18 +57,30 @@ router.post('/', validateSignup, async (req, res) => {
 });
 
 // Restore session user
-router.get('/', (req, res) => {
-	const { user } = req;
-	if (user) {
-		const safeUser = {
-			id: user.id,
-			email: user.email,
-			username: user.username,
-		};
-		return res.json({
-			user: safeUser,
-		});
-	} else return res.json({ user: null });
-});
+router.get(
+	'/',
+	async (req, res) => {
+		const { user } = req;
+		if (user) {
+
+			const safeUser = {
+				id: user.id,
+				email: user.email,
+				username: user.username,
+				firstName: user.firstName || null,
+				lastName: user.lastName || null,
+				phone: user.phone || null,
+				birthday: user.birthday || null,
+				avatarUrl: user.avatarUrl || null,
+				bio: user.bio || null,
+				theme: user.theme || null,
+				sousChef: user.SousChef || null
+			};
+			return res.json({
+				user: safeUser
+			});
+		} else return res.json({ user: null });
+	}
+);
 
 module.exports = router;

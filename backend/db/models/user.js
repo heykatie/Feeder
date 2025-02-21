@@ -193,6 +193,7 @@ module.exports = (sequelize, DataTypes) => {
 				attributes: {
 					exclude: ['hashedPassword', 'createdAt', 'updatedAt'],
 				},
+				include: [{ model: sequelize.models.SousChef }],
 			},
 			hooks: {
 				beforeCreate: async (user) => {
@@ -207,7 +208,7 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 		}
-	);
+  );
 	User.afterCreate(async (user, options) => {
 		await sequelize.models.SousChef.create({
 			userId: user.id,
