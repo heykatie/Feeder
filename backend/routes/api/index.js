@@ -23,24 +23,27 @@ router.get(
 );
 
 // test GET /api/require-auth
-// router.get(
-//   '/require-auth',
-//   requireAuth,
-//   (req, res) => {
-//     return res.json(req.user);
-//   }
-// );
+router.get(
+  '/require-auth',
+  requireAuth,
+  (req, res) => {
+    return res.json(req.user);
+  }
+);
 
 // test GET /api/set-token-cookie
-// router.get('/set-token-cookie', async (_req, res) => {
-//   const user = await User.findOne({
-//     where: {
-//       username: 'Demo-lition'
-//     }
-//   });
-//   setTokenCookie(res, user);
-//   return res.json({ user: user });
-// });
+router.get('/set-token-cookie', async (_req, res) => {
+  const user = await User.findOne({
+		where: {
+			username: 'demo-lition',
+		},
+  });
+  if (!user) {
+    return res.status(404).json({ error: 'Demo user not found' });
+  }
+  setTokenCookie(res, user);
+  return res.json({ user: user });
+});
 
 
 // test route
