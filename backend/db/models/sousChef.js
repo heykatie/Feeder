@@ -1,4 +1,7 @@
 'use strict';
+
+const { Model, Validator } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
 	const SousChef = sequelize.define(
 		'SousChef',
@@ -22,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: 1,
 				validate: {
-					min: 0,
+					min: 1,
 				},
 			},
 			xp: {
@@ -34,56 +37,46 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 			type: {
-				type: DataTypes.STRING,
+				type: DataTypes.ENUM(
+					'Starter Spoon', // (Basic) - The newbie chef just getting started
+					'Whisk Tamer', // (Baker) - Master of dough and desserts
+					'Chill Conjurer', // (Freeze Expert) - Ice-cold precision in frozen treats
+					'Broth Whisperer', // (Broth Healer) - Brews magical healing broths
+					'Flame Forged', // (Grill Master) - Blazing hot BBQ expert
+					'Alchemist', // (Alchemist) - A scientist in the kitchen, mixing elements
+					'Herb Sage', // (Herbalist) - Master of plants and natural healing
+					'Prime Cut Pro', // (Butcher) - Precision slicer, master of meats
+					'RawDawg', // (Raw Feeder) - No cooking, just pure, primal meals
+					'Gilded Gourmet', // (Fancy Feaster) - Luxurious, 5-star pet cuisine
+					'Zen Healer', // (Holistic Angel) - Balanced meals for the soul
+					'Soothing Angel', // (Therapeutic) - Cooks with health and healing in mind
+					'Arcane Chef', // (Mystic) - Uses ancient knowledge for powerful meals
+					'Wandering Nomad', // (Nomadic) - Inspired by global pet cuisines
+					'Cybernetic Saucier', // (Cyber) - Tech-powered precision cooking
+					'Untamed Flavorist', // (Wild) - Rustic, primal, and instinct-driven chef
+					'Dehydrated Hydra' // (Dehydration Specialist) - Master of preserving meals
+				),
 				allowNull: false,
-				defaultValue: 'Basic',
-				validate: {
-					isIn: [
-						[
-							'Starter Spoon', // (Basic) - The newbie chef just getting started
-							'Whisk Tamer', // (Baker) - Master of dough and desserts
-							'Chill Conjurer', // (Freeze Expert) - Ice-cold precision in frozen treats
-							'Broth Whisperer', // (Broth Healer) - Brews magical healing broths
-							'Flame Forged', // (Grill Master) - Blazing hot BBQ expert
-							'Alchemist', // (Alchemist) - A scientist in the kitchen, mixing elements
-							'Herb Sage', // (Herbalist) - Master of plants and natural healing
-							'Prime Cut Pro', // (Butcher) - Precision slicer, master of meats
-							'RawDawg', // (Raw Feeder) - No cooking, just pure, primal meals
-							'Gilded Gourmet', // (Fancy Feaster) - Luxurious, 5-star pet cuisine
-							'Zen Healer', // (Holistic Angel) - Balanced meals for the soul
-							'Soothing Angel', // (Therapeutic) - Cooks with health and healing in mind
-							'Arcane Chef', // (Mystic) - Uses ancient knowledge for powerful meals
-							'Wandering Nomad', // (Nomadic) - Inspired by global pet cuisines
-							'Cybernetic Saucier', // (Cyber) - Tech-powered precision cooking
-							'Untamed Flavorist', // (Wild) - Rustic, primal, and instinct-driven chef
-							'Dehydrated Hydra', // (Dehydration Specialist) - Master of preserving meals
-						],
-					],
-				},
+				defaultValue: 'Starter Spoon',
 			},
 			evoStage: {
-				type: DataTypes.STRING,
+				type: DataTypes.ENUM(
+					'Foraging Fledgling',
+					'Culinary Explorer',
+					'Epicurean Beastmaster'
+				),
 				allowNull: false,
-				defaultValue: 'Apprentice Chef',
-				validate: {
-					isIn: [
-						[
-							'Foraging Fledgling',
-							'Culinary Explorer',
-							'Epicurean Beastmaster',
-						],
-					],
-				},
+				defaultValue: 'Foraging Fledgling',
 			},
 			imageUrl: {
 				type: DataTypes.STRING,
-				allowNull: true,
+				allowNull: false,
 				defaultValue:
 					'https://souschef-prj.s3.us-west-1.amazonaws.com/default-souschef.png',
 			},
 			animationUrl: {
 				type: DataTypes.STRING,
-				allowNull: true,
+				allowNull: false,
 				defaultValue:
 					'https://souschef-prj.s3.us-west-1.amazonaws.com/default-souschef-animation.json',
 			},
