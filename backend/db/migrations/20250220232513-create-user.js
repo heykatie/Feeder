@@ -19,23 +19,16 @@ module.exports = {
 					type: Sequelize.INTEGER,
 				},
 				firstName: {
-					type: Sequelize.STRING,
+					type: Sequelize.STRING(50),
 					allowNull: true,
 				},
 				lastName: {
-					type: Sequelize.STRING,
+					type: Sequelize.STRING(50),
 					allowNull: true,
 				},
 				phone: {
 					type: Sequelize.STRING(20),
 					allowNull: true,
-					validate: {
-						isValidPhone(value) {
-							if (!/^\+\d{1,3}\d{4,14}$/.test(value)) {
-								throw new Error('Invalid phone number format.');
-							}
-						},
-					},
 				},
 				birthday: {
 					type: Sequelize.DATEONLY,
@@ -52,12 +45,12 @@ module.exports = {
 					unique: true,
 				},
 				hashedPassword: {
-					type: Sequelize.STRING.BINARY,
+					type: Sequelize.STRING(72),
 					allowNull: false,
 				},
 				avatarUrl: {
-					type: Sequelize.STRING,
-					allowNull: false,
+					type: Sequelize.TEXT,
+					allowNull: true,
 					defaultValue:
 						process.env.DEFAULT_AVATAR_URL ||
 						'https://souschef-prj.s3.us-west-1.amazonaws.com/default-avatar.png',
@@ -65,9 +58,6 @@ module.exports = {
 				bio: {
 					type: Sequelize.TEXT,
 					allowNull: true,
-					validate: {
-						len: [0, 500],
-					},
 				},
 				theme: {
 					type: Sequelize.ENUM('dark', 'light', 'system'),
@@ -87,17 +77,22 @@ module.exports = {
 			},
 			options
 		);
-		await queryInterface.addIndex(
-			'Users',
-			[Sequelize.fn('LOWER', Sequelize.col('username'))],
-			{
-				unique: true,
-				name: 'unique_username_lowercase_index',
-			}
-		);
+		if (process.env.NODE_ENV !== 'development') {
+			await queryInterface.addIndex(
+				'Users',
+				[Sequelize.fn('LOWER', Sequelize.col('username'))],
+				{
+					unique: true,
+					name: 'unique_username_lowercase_index',
+				}
+			);
+		}
 	},
 	async down(queryInterface, Sequelize) {
-		// options.tableName = 'Users';
-		await queryInterface.dropTable(options.tableName, options);
+		options.tableName = 'Users';
+		if (process.env.NODE_ENV === 'production') {
+			options.schema = process.env.SCHEMA;
+		}
+		await queryInterface.dropTable(options);
 	},
 };

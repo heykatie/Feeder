@@ -48,6 +48,11 @@ module.exports = (sequelize, DataTypes) => {
 					len: [1, 50],
 					is: /^[a-zA-ZÀ-ÿ' -]+$/i,
 				},
+				set(value) {
+					if (typeof value === 'string') {
+						this.setDataValue('firstName', value.trim());
+					}
+				},
 			},
 			lastName: {
 				type: DataTypes.STRING,
@@ -56,43 +61,57 @@ module.exports = (sequelize, DataTypes) => {
 					len: [1, 50],
 					is: /^[a-zA-ZÀ-ÿ' -]+$/i,
 				},
+				set(value) {
+					if (typeof value === 'string') {
+						this.setDataValue('lastName', value.trim());
+					}
+				},
 			},
 			phone: {
-				type: DataTypes.STRING,
+				type: DataTypes.STRING(20),
 				allowNull: true,
-				validate: {
-					isValidPhone(value) {
-						if (value) {
-							const phoneNumber = parsePhoneNumberFromString(value);
-							if (!phoneNumber || !phoneNumber.isValid()) {
-								throw new Error('Invalid phone number.');
-							}
-						}
-					},
-				},
 				set(value) {
-					const phoneNumber = parsePhoneNumberFromString(value);
-					if (phoneNumber && phoneNumber.isValid()) {
-						this.setDataValue('phone', phoneNumber.format('E.164'));
-					} else {
+					if (!value) {
 						this.setDataValue('phone', null);
+						return;
+					}
+
+					const trimmedValue = value.trim();
+
+					if (/^\+\d{11,15}$/.test(trimmedValue)) {
+						this.setDataValue('phone', trimmedValue);
+						return;
+					}
+
+					try {
+						const phoneNumber = parsePhoneNumberFromString(
+							trimmedValue,
+							'US'
+						);
+						if (phoneNumber?.isValid()) {
+							this.setDataValue('phone', phoneNumber.format('E.164'));
+						} else {
+							throw new Error('Invalid phone number.');
+						}
+					} catch {
+						throw new Error('Invalid phone number.');
 					}
 				},
 			},
 			birthday: {
 				type: DataTypes.DATEONLY,
 				allowNull: true,
-				validate: {
-					isOldEnough(value) {
-						if (value) {
-							const age =
-								new Date().getFullYear() -
-								new Date(value).getFullYear();
-							if (age < 13)
-								throw new Error('Users must be at least 13 years old.');
-						}
-					},
-				},
+				// validate: {
+				// 	isOldEnough(value) {
+				// 		if (value) {
+				// 			const age =
+				// 				new Date().getFullYear() -
+				// 				new Date(value).getFullYear();
+				// 			if (age < 13)
+				// 				throw new Error('Users must be at least 13 years old.');
+				// 		}
+				// 	},
+				// },
 			},
 			username: {
 				type: DataTypes.STRING,
@@ -141,7 +160,7 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 			avatarUrl: {
-				type: DataTypes.STRING,
+				type: DataTypes.TEXT,
 				allowNull: true,
 				get() {
 					return (
@@ -150,6 +169,9 @@ module.exports = (sequelize, DataTypes) => {
 						'https://souschef-prj.s3.us-west-1.amazonaws.com/default-avatar.png'
 					);
 				},
+				// defaultValue:
+				// 	process.env.DEFAULT_AVATAR_URL ||
+				// 	'https://souschef-prj.s3.us-west-1.amazonaws.com/default-avatar.png',
 			},
 			bio: {
 				type: DataTypes.TEXT,
@@ -175,7 +197,7 @@ module.exports = (sequelize, DataTypes) => {
 			hooks: {
 				beforeCreate: async (user) => {
 					if (user.password) {
-						user.hashedPassword = await bcrypt.hash(user.password, 10); // Hash password before saving
+						user.hashedPassword = await bcrypt.hash(user.password, 10);
 					}
 				},
 				beforeUpdate: async (user) => {
@@ -185,6 +207,20 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 		}
-  );
+	);
+	User.afterCreate(async (user, options) => {
+		await sequelize.models.SousChef.create({
+			userId: user.id,
+			name: 'SousChef',
+			level: 1,
+			xp: 0,
+			type: 'Starter Spoon',
+			evoStage: 'Foraging Fledgling',
+			imageUrl:
+				'https://souschef-prj.s3.us-west-1.amazonaws.com/default-souschef.png',
+			animationUrl:
+				'https://souschef-prj.s3.us-west-1.amazonaws.com/default-souschef-animation.json',
+		});
+	});
   return User;
 };
