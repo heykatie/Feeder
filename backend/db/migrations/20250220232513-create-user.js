@@ -3,13 +3,13 @@
 let options = {};
 options.tableName = 'Users';
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
+	options.schema = process.env.SCHEMA; // define your schema in options object
 }
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable(
+	async up(queryInterface, Sequelize) {
+		await queryInterface.createTable(
 			options.tableName,
 			{
 				id: {
@@ -27,8 +27,11 @@ module.exports = {
 					allowNull: true,
 				},
 				phone: {
-					type: Sequelize.STRING(18),
+					type: Sequelize.STRING(20),
 					allowNull: true,
+					validate: {
+						is: /^\+\d{1,3}\d{4,14}$/,
+					},
 				},
 				birthday: {
 					type: Sequelize.DATEONLY,
@@ -52,17 +55,22 @@ module.exports = {
 					type: Sequelize.STRING,
 					allowNull: false,
 					defaultValue:
+						process.env.DEFAULT_AVATAR_URL ||
 						'https://souschef-prj.s3.us-west-1.amazonaws.com/default-avatar.png',
 				},
 				bio: {
 					type: Sequelize.TEXT,
-					allowNull: false,
-					defaultValue: '',
+					allowNull: true,
+					validate: {
+						len: [0, 500],
+					},
 				},
 				theme: {
-					type: Sequelize.STRING,
+					type: Sequelize.ENUM('dark', 'light', 'system'),
 					allowNull: false,
-					defaultValue: 'dark',
+					defaultValue: Sequelize.literal(
+						`COALESCE(NULLIF('${process.env.DEFAULT_THEME}', ''), 'dark')`
+					),
 				},
 				createdAt: {
 					allowNull: false,
@@ -77,9 +85,17 @@ module.exports = {
 			},
 			options
 		);
-  },
-  async down(queryInterface, Sequelize) {
-    // options.tableName = 'Users';
-    await queryInterface.dropTable(options.tableName, options);
-  }
+		await queryInterface.addIndex(
+			'Users',
+			[Sequelize.fn('LOWER', Sequelize.col('username'))],
+			{
+				unique: true,
+				name: 'unique_username_lowercase_index',
+			}
+		);
+	},
+	async down(queryInterface, Sequelize) {
+		// options.tableName = 'Users';
+		await queryInterface.dropTable(options.tableName, options);
+	},
 };

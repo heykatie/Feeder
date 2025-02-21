@@ -19,6 +19,8 @@ pass
 	.has()
 	.digits() // Must have digits
 	.has()
+	.symbols()
+	.has()
 	.not()
 	.spaces(); // Should not have spaces
 
@@ -59,61 +61,46 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: true,
 				validate: {
-					// isNumeric: true, // Ensures the value contains only numbers
-					// len: [10, 15], // Allows between 10 to 15 digits for phone numbers
-					validatePhone(value) {
+					isValidPhone(value) {
 						if (value) {
-							try {
-								// Remove spaces and other non-numeric characters except +
-								let sanitizedValue = value.replace(/[^0-9+]/g, '');
-
-								// Add default country code if missing
-								// if (!sanitizedValue.startsWith('+')) {
-								// 	sanitizedValue = `+1${sanitizedValue}`;
-								// }
-
-								// Parse and validate the phone number
-								const phoneNumber = parsePhoneNumberFromString(
-									sanitizedValue,
-									'US'
-								);
-
-								if (
-									value.length < 12 &&
-									(!phoneNumber || !phoneNumber.isValid())
-								) {
-									throw new Error('Invalid phone number.');
-								}
-
-								// Return sanitized number for database storage
-								return phoneNumber || sanitizedValue;
-							} catch (err) {
-								console.error(
-									'Phone number validation error:',
-									err.message
-								);
+							const phoneNumber = parsePhoneNumberFromString(value);
+							if (!phoneNumber || !phoneNumber.isValid()) {
 								throw new Error('Invalid phone number.');
 							}
 						}
 					},
-					isEmptyStringAllowed(value) {
-						if (value === '') {
-							return; // Allow empty string
-						}
-						if (value && value.length < 10) {
-							throw new Error('Phone must be a valid number.');
-						}
-					},
+				},
+				set(value) {
+					const phoneNumber = parsePhoneNumberFromString(value);
+					if (phoneNumber && phoneNumber.isValid()) {
+						this.setDataValue('phone', phoneNumber.format('E.164'));
+					} else {
+						this.setDataValue('phone', null);
+					}
 				},
 			},
 			birthday: {
 				type: DataTypes.DATEONLY,
 				allowNull: true,
+				validate: {
+					isOldEnough(value) {
+						if (value) {
+							const age =
+								new Date().getFullYear() -
+								new Date(value).getFullYear();
+							if (age < 13)
+								throw new Error('Users must be at least 13 years old.');
+						}
+					},
+				},
 			},
 			username: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				unique: true,
+				set(value) {
+					this.setDataValue('username', value.toLowerCase());
+				},
 				validate: {
 					len: [4, 30],
 					isNotEmail(value) {
@@ -150,30 +137,31 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
-					len: [60, 60],
+					len: [59, 72],
 				},
 			},
 			avatarUrl: {
 				type: DataTypes.STRING,
 				allowNull: true,
-				defaultValue:
-					'https://souschef-prj.s3.us-west-1.amazonaws.com/default-avatar.png',
+				get() {
+					return (
+						this.getDataValue('avatarUrl') ||
+						process.env.DEFAULT_AVATAR_URL ||
+						'https://souschef-prj.s3.us-west-1.amazonaws.com/default-avatar.png'
+					);
+				},
 			},
 			bio: {
 				type: DataTypes.TEXT,
 				allowNull: true,
 				validate: {
-					validateBio(value) {
-						if (value && value.length > 500) {
-							throw new Error('Bio must be at most 500 characters.');
-						}
-					},
+					len: [0, 500],
 				},
 			},
 			theme: {
 				type: DataTypes.ENUM('dark', 'light', 'system'),
 				allowNull: false,
-				defaultValue: 'dark',
+				defaultValue: process.env.DEFAULT_THEME || 'dark',
 			},
 		},
 		{
