@@ -47,8 +47,8 @@ router.get('/set-token-cookie', async (_req, res) => {
 
 
 // test route
-// router.post('/test', function (req, res) {
-// 	res.json({ requestBody: req.body });
-// });
+router.post('/test', function (req, res) {
+	res.json({ requestBody: req.body });
+});
 
 module.exports = router;
