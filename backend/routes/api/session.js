@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, SousChef } = require('../../db/models');
 
 const router = express.Router();
 
@@ -24,13 +24,25 @@ const validateLogin = [
 // Restore session user
 router.get(
   '/',
-  (req, res) => {
+  async (req, res) => {
     const { user } = req;
     if (user) {
+			const userWithSousChef = await User.findByPk(user.id, {
+				include: [{ model: SousChef }]
+			});
+
       const safeUser = {
         id: user.id,
         email: user.email,
-        username: user.username,
+				username: user.username,
+				firstName: user.firstName || null,
+				lastName: user.lastName || null,
+				phone: user.phone || null,
+				birthday: user.birthday || null,
+				avatarUrl: user.avatarUrl || null,
+				bio: user.bio || null,
+				theme: user.theme || null,
+				sousChef: userWithSousChef.SousChef || null
       };
       return res.json({
         user: safeUser

@@ -81,7 +81,15 @@ module.exports = (sequelize, DataTypes) => {
 					'https://souschef-prj.s3.us-west-1.amazonaws.com/default-souschef-animation.json',
 			},
 		},
-		{}
+		{
+			sequelize,
+			modelName: 'SousChef',
+			defaultScope: {
+				attributes: {
+					exclude: ['createdAt', 'updatedAt'],
+				},
+			},
+		}
 	);
 
 	SousChef.associate = function (models) {
