@@ -30,7 +30,11 @@ module.exports = {
 					type: Sequelize.STRING(20),
 					allowNull: true,
 					validate: {
-						is: /^\+\d{1,3}\d{4,14}$/,
+						isValidPhone(value) {
+							if (!/^\+\d{1,3}\d{4,14}$/.test(value)) {
+								throw new Error('Invalid phone number format.');
+							}
+						},
 					},
 				},
 				birthday: {
@@ -68,9 +72,7 @@ module.exports = {
 				theme: {
 					type: Sequelize.ENUM('dark', 'light', 'system'),
 					allowNull: false,
-					defaultValue: Sequelize.literal(
-						`COALESCE(NULLIF('${process.env.DEFAULT_THEME}', ''), 'dark')`
-					),
+					defaultValue: 'dark',
 				},
 				createdAt: {
 					allowNull: false,

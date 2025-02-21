@@ -38,7 +38,7 @@ module.exports = {
 					allowNull: false,
 					defaultValue: 1,
 					validate: {
-						min: 0,
+						min: 1,
 					},
 				},
 				xp: {
@@ -50,14 +50,36 @@ module.exports = {
 					},
 				},
 				type: {
-					type: Sequelize.STRING,
+					type: Sequelize.ENUM(
+						'Starter Spoon',
+						'Whisk Tamer',
+						'Chill Conjurer',
+						'Broth Whisperer',
+						'Flame Forged',
+						'Alchemist',
+						'Herb Sage',
+						'Prime Cut Pro',
+						'RawDawg',
+						'Gilded Gourmet',
+						'Zen Healer',
+						'Soothing Angel',
+						'Arcane Chef',
+						'Wandering Nomad',
+						'Cybernetic Saucier',
+						'Untamed Flavorist',
+						'Dehydrated Hydra'
+					),
 					allowNull: false,
-					defaultValue: 'Basic',
+					defaultValue: 'Starter Spoon',
 				},
 				evoStage: {
-					type: Sequelize.STRING,
+					type: Sequelize.ENUM(
+						'Foraging Fledgling',
+						'Culinary Explorer',
+						'Epicurean Beastmaster'
+					),
 					allowNull: false,
-					defaultValue: 'Apprentice Chef',
+					defaultValue: 'Foraging Fledgling',
 				},
 				imageUrl: {
 					type: Sequelize.STRING,

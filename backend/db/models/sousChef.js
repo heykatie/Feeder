@@ -70,13 +70,13 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			imageUrl: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				allowNull: true,
 				defaultValue:
 					'https://souschef-prj.s3.us-west-1.amazonaws.com/default-souschef.png',
 			},
 			animationUrl: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				allowNull: true,
 				defaultValue:
 					'https://souschef-prj.s3.us-west-1.amazonaws.com/default-souschef-animation.json',
 			},
