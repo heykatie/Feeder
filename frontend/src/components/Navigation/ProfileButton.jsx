@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkLogout } from '../../redux/session';
+import { logout } from '../../redux/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
@@ -32,15 +32,15 @@ function ProfileButton() {
 
 	const closeMenu = () => setShowMenu(false);
 
-	const logout = (e) => {
+	const handleLogout = (e) => {
 		e.preventDefault();
-		dispatch(thunkLogout());
+		dispatch(logout());
 		closeMenu();
 	};
 
 	return (
 		<>
-			<button onClick={toggleMenu}>
+			<button onClick={toggleMenu} aria-label='profile menu'>
 				<i className='fas fa-user-circle' />
 			</button>
 			{showMenu && (
@@ -50,7 +50,7 @@ function ProfileButton() {
 							<li>{user.username}</li>
 							<li>{user.email}</li>
 							<li>
-								<button onClick={logout}>Log Out</button>
+								<button onClick={handleLogout}>Log Out</button>
 							</li>
 						</>
 					) : (

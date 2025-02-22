@@ -4,9 +4,9 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 // import App from './App';
 import './index.css';
-import configureStore from './store';
-import { restoreCSRF, csrfFetch } from './store/csrf';
-import * as sessionActions from './store/session';
+import configureStore from './redux';
+import { restoreCSRF, csrfFetch } from './redux/csrf';
+import * as sessionActions from './redux/session';
 import { router } from './router';
 
 const store = configureStore();

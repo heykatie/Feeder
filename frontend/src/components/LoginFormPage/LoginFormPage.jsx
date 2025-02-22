@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { thunkLogin } from '../../redux/session';
+import { login } from '../../redux/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import './LoginForm.css';
+// import './LoginForm.css';
 
 function LoginFormPage() {
 	const navigate = useNavigate();
@@ -18,7 +18,7 @@ function LoginFormPage() {
 		e.preventDefault();
 
 		const serverResponse = await dispatch(
-			thunkLogin({
+			login({
 				email,
 				password,
 			})
