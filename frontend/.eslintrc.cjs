@@ -10,14 +10,14 @@ module.exports = {
 	parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
 	settings: { react: { version: '18.2' } },
 	plugins: ['react-refresh'],
-	// overrides: [
-	// 	{
-	// 		files: ['src/context/*.jsx'],
-	// 		rules: {
-	// 			'react-refresh/only-export-components': 'off',
-	// 		},
-	// 	},
-	// ],
+	overrides: [
+		{
+			files: ['src/context/*.jsx'],
+			rules: {
+				'react-refresh/only-export-components': 'off',
+			},
+		},
+	],
 	ignorePatterns: ['dist', 'node_modules'],
 	rules: {
 		'react-refresh/only-export-components': [

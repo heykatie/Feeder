@@ -1,26 +1,23 @@
 import { defineConfig } from 'vite';
+import eslintPlugin from 'vite-plugin-eslint';
 import react from '@vitejs/plugin-react';
-import eslint from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig((mode) => ({
 	plugins: [
 		react(),
-		eslint({
+		eslintPlugin({
 			lintOnStart: true,
 			failOnError: mode === 'production',
 		}),
 	],
-	// To automatically open the app in the browser whenever the server starts,
-	// uncomment the following lines:
 	server: {
-		open: true,
+		port: 3000,
 		proxy: {
-			// '/api': 'http://localhost:8000'
 			'/api': {
 				target: 'http://localhost:8000',
 				changeOrigin: true,
-				secure: true, // https vs http
+				secure: true,
 			},
 		},
 	},
