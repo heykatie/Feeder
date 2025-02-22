@@ -77,16 +77,6 @@ module.exports = {
 			},
 			options
 		);
-		if (process.env.NODE_ENV !== 'development') {
-			await queryInterface.addIndex(
-				'Users',
-				[Sequelize.fn('LOWER', Sequelize.col('username'))],
-				{
-					unique: true,
-					name: 'unique_username_lowercase_index',
-				}
-			);
-		}
 	},
 	async down(queryInterface, Sequelize) {
 		await queryInterface.dropTable(options);
