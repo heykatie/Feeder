@@ -8,11 +8,27 @@ const cookieParser = require('cookie-parser');
 const { environment } = require('./config');
 const { ValidationError } = require('sequelize');
 const routes = require('./routes');
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const { sequelize } = require('./db/models');
 
 const isProduction = environment === 'production';
 
 const app = express();
 
+const sessionMiddleware = session({
+	secret: process.env.SESSION_SECRET, // Keep this secret in .env
+	store: new SequelizeStore({ db: sequelize }),
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		secure: process.env.NODE_ENV === 'production',
+		httpOnly: true,
+		sameSite: 'Lax',
+	},
+});
+
+app.use(sessionMiddleware);
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));

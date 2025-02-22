@@ -22,10 +22,20 @@ export const authenticate = () => async (dispatch) => {
 		if (response.ok) {
 			const data = await response.json();
 			dispatch(setUser(data));
+			return data;
 		}
 	} catch (e) {
-		return e;
+		console.error('Auth Error:', e);
+		return null;
 	}
+};
+
+export const fetchSession = () => async (dispatch) => {
+	const res = await csrfFetch('/api/session');
+	if (!res.ok) throw new Error('Not authenticated');
+	const data = await res.json();
+	dispatch(setUser(data));
+	return res;
 };
 
 export const login = (user) => async (dispatch) => {
@@ -73,6 +83,7 @@ export const logout = () => async (dispatch) => {
 		method: 'DELETE',
 	});
 	dispatch(removeUser());
+	return true;
 };
 
 const initialState = { user: null };
