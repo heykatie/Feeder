@@ -23,3 +23,6 @@ export const router = createBrowserRouter([
 		],
 	},
 ]);
+
+
+// element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
