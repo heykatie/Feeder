@@ -6,7 +6,7 @@ import { useModal } from '../../context/useModal';
 
 function LoginFormModal() {
 	const dispatch = useDispatch();
-	const [email, setEmail] = useState('');
+	const [credential, setCredential] = useState('');
 	const [password, setPassword] = useState('');
 	const [errors, setErrors] = useState({});
 	const { closeModal } = useModal();
@@ -16,7 +16,7 @@ function LoginFormModal() {
 
 		const serverResponse = await dispatch(
 			login({
-				email,
+				credential,
 				password,
 			})
 		);
@@ -33,11 +33,11 @@ function LoginFormModal() {
 			<h1>Log In</h1>
 			<form onSubmit={handleSubmit}>
 				<label>
-					Email
+					Credential
 					<input
 						type='text'
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						value={credential}
+						onChange={(e) => setCredential(e.target.value)}
 						required
 					/>
 				</label>
