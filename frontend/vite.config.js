@@ -4,16 +4,24 @@ import eslint from 'vite-plugin-eslint';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    eslint({
-      lintOnStart: true,
-      failOnError: mode === "production"
-    })
-  ],
-  // To automatically open the app in the browser whenever the server starts,
-  // uncomment the following lines:
-  server: {
-    open: true
-  }
+	plugins: [
+		react(),
+		eslint({
+			lintOnStart: true,
+			failOnError: mode === 'production',
+		}),
+	],
+	// To automatically open the app in the browser whenever the server starts,
+	// uncomment the following lines:
+	server: {
+		open: true,
+		proxy: {
+			// '/api': 'http://localhost:8000'
+			'/api': {
+				target: 'http://localhost:8000',
+				changeOrigin: true,
+				secure: true, // https vs http
+			},
+		},
+	},
 }));
