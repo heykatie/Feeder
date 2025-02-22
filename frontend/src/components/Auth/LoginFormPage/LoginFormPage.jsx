@@ -1,22 +1,25 @@
 import { useState } from 'react';
-import { login } from '../../redux/session';
-import { useDispatch } from 'react-redux';
-import { useModal } from '../../context/useModal';
+import { login } from '../../../redux/session';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
 // import './LoginForm.css';
 
-function LoginFormModal() {
+function LoginFormPage() {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [credential, setCredential] = useState('');
+	const sessionUser = useSelector((state) => state.session.user);
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [errors, setErrors] = useState({});
-	const { closeModal } = useModal();
+
+	if (sessionUser) return <Navigate to='/' replace={true} />;
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		const serverResponse = await dispatch(
 			login({
-				credential,
+				email,
 				password,
 			})
 		);
@@ -24,20 +27,22 @@ function LoginFormModal() {
 		if (serverResponse) {
 			setErrors(serverResponse);
 		} else {
-			closeModal();
+			navigate('/');
 		}
 	};
 
 	return (
 		<>
 			<h1>Log In</h1>
+			{errors.length > 0 &&
+				errors.map((message) => <p key={message}>{message}</p>)}
 			<form onSubmit={handleSubmit}>
 				<label>
-					Credential
+					Email
 					<input
 						type='text'
-						value={credential}
-						onChange={(e) => setCredential(e.target.value)}
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
 				</label>
@@ -58,4 +63,4 @@ function LoginFormModal() {
 	);
 }
 
-export default LoginFormModal;
+export default LoginFormPage;

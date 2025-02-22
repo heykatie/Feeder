@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { ModalProvider, Modal } from '../context/Modal';
+import { ModalProvider, Modal } from '../context/ModalProvider';
 import { authenticate } from '../redux/session';
 import Navigation from '../components/Navigation/Navigation';
 import {fetchSession} from '../redux/session'

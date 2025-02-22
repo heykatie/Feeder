@@ -34,47 +34,51 @@ export const fetchSession = () => async (dispatch) => {
 	const res = await csrfFetch('/api/session');
 	if (!res.ok) throw new Error('Not authenticated');
 	const data = await res.json();
-	dispatch(setUser(data));
+	dispatch(setUser(data.user));
 	return res;
 };
 
 export const login = (user) => async (dispatch) => {
 	const { credential, password } = user;
-	const response = await csrfFetch('/api/session', {
-		method: 'POST',
-		body: JSON.stringify({
-			credential,
-			password,
-		}),
-	});
+	try {
+		const response = await csrfFetch('/api/session', {
+			method: 'POST',
+			body: JSON.stringify({ credential, password }),
+		});
 
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-    return response;
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages;
-  } else {
-    return { server: 'Something went wrong. Please try again' };
-  }
+		if (response.ok) {
+			const data = await response.json();
+			dispatch(setUser(data.user));
+			return null;
+		}
+	} catch (error) {
+		if (error.response && error.response.status < 500) {
+			const errorMessages = await error.response.json();
+			return errorMessages;
+		}
+		return { server: 'Login went wrong. Please try again.' };
+	}
 };
 
 export const signup = (user) => async (dispatch) => {
-	const response = await csrfFetch('/api/users', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(user),
-	});
+	try {
+		const response = await csrfFetch('/api/users', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(user),
+		});
 
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(setUser(data));
-	} else if (response.status < 500) {
-		const errorMessages = await response.json();
-		return errorMessages;
-	} else {
-		return { server: 'Something went wrong. Please try again' };
+		if (response.ok) {
+			const data = await response.json();
+			dispatch(setUser(data.user));
+			return null;
+		}
+	} catch (error) {
+		if (error.response && error.response.status < 500) {
+			const errorMessages = await error.response.json();
+			return errorMessages;
+		}
+		return { server: 'Signup went wrong. Please try again.' };
 	}
 };
 
