@@ -11,24 +11,24 @@
   },
   "dependencies": {
     "js-cookie": "^3.0.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^8.1.1",
-    "react-router-dom": "^6.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^8.1.3",
+    "react-router-dom": "^6.29.0",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.26.3",
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.0.3",
-    "eslint": "^8.45.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.19",
     "redux-logger": "^3.0.6",
-    "vite": "^4.4.5",
+    "vite": "^4.5.9",
     "vite-plugin-eslint": "^1.8.1"
   }
 }
