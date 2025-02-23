@@ -27,7 +27,7 @@ const AboutPet = () => {
 				alt='SousChef Logo'
 				className='page-logo'
 			/>
-			<h2>Tell us about your pet</h2>
+			<h2>Tell us about your baby</h2>
 
 			<form onSubmit={handleSubmit}>
 				<input

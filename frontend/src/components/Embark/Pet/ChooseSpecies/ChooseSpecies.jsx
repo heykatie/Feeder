@@ -23,7 +23,7 @@ const ChooseSpecies = ({ onSelect }) => {
 
 	return (
 		<div className='pet-selection-container'>
-			<h2>Choose Your Companion</h2>
+			<h2>Who are we feeding?</h2>
 			<div className='pet-options'>
 				<div
 					className={`pet-card ${selectedPet === 'cat' ? 'selected' : ''}`}

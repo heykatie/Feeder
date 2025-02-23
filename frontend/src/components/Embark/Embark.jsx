@@ -4,6 +4,7 @@ import AboutPet from './Pet/AboutPet';
 import './Embark.css';
 import ChooseSpecies from './Pet/ChooseSpecies';
 import Signup from './Signup/Signup';
+import PickSousChef from './PickSousChef';
 
 const Embark = () => {
 	const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Embark = () => {
 	const forms = [
 		{ id: 0, component: <ChooseSpecies onSelect={handleSelectPet} /> },
 		{ id: 1, component: <AboutPet /> },
-		{ id: 2, component: <h2>Choose Your Starting Pack</h2> },
+		{ id: 2, component: <PickSousChef/> },
 		{ id: 3, component: <Signup onNext={handleNext} /> }, // Add Signup as the 4th step
 	];
 
