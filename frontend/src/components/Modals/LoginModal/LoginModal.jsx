@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { login } from '../../../redux/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../../context/ModalContext';
+import { NavLink } from 'react-router-dom';
 import './LoginModal.css';
 
 function LoginFormModal() {
@@ -26,19 +27,6 @@ function LoginFormModal() {
 		} else {
 			closeModal();
 		}
-	};
-
-	// 🔹 OAuth Login Handlers
-	const handleGoogleLogin = () => {
-		window.location.href = `${
-			import.meta.env.VITE_APP_API_URL
-		}/api/oauth/google`;
-	};
-
-	const handleDiscordLogin = () => {
-		window.location.href = `${
-			import.meta.env.VITE_APP_API_URL
-		}/api/oauth/discord`;
 	};
 
 	return (
@@ -76,10 +64,13 @@ function LoginFormModal() {
 				</div>
 
 				<div className='social-login'>
-					<button className='google-login' onClick={handleGoogleLogin}>
+					<button
+						className='google-login'
+						onClick={() => (window.location.href = '/api/oauth/google')}>
 						<i className='fa-brands fa-google'></i> Google
 					</button>
-					<button className='discord-login' onClick={handleDiscordLogin}>
+					<button className='discord-login'
+						onClick={() => (window.location.href = '/api/oauth/discord')}>
 						<i className='fa-brands fa-discord'></i> Discord
 					</button>
 				</div>
