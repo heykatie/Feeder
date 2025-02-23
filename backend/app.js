@@ -5,30 +5,55 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const { environment } = require('./config');
 const { ValidationError } = require('sequelize');
 const routes = require('./routes');
+const { sequelize } = require('./db/models');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const { sequelize } = require('./db/models');
+const pgSession = require('connect-pg-simple')(session);
+const passport = require('./config/passport');
 
+const { environment } = require('./config');
 const isProduction = environment === 'production';
 
 const app = express();
 
-const sessionMiddleware = session({
-	secret: process.env.SESSION_SECRET, // Keep this secret in .env
-	store: new SequelizeStore({ db: sequelize }),
-	resave: false,
-	saveUninitialized: false,
-	cookie: {
-		secure: process.env.NODE_ENV === 'production',
-		httpOnly: true,
-		sameSite: 'Lax',
-	},
-});
+let sessionStore;
 
-app.use(sessionMiddleware);
+if (isProduction) {
+	sessionStore = new pgSession({
+		conString: process.env.DATABASE_URL,
+		ssl: {
+			rejectUnauthorized: false,
+		},
+		schemaName: 'souschef',
+		pruneSessionInterval: 60 * 60 * 24,
+		createTableIfMissing: true,
+	});
+} else {
+  // sessionStore = new session.MemoryStore();
+  sessionStore = new SequelizeStore({ db: sequelize });
+}
+
+// Set up Passport middleware
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		resave: false,
+		saveUninitialized: false, // saves empty sessions if true
+		store: sessionStore,
+		cookie: {
+			secure: isProduction, // Use secure cookies in production (requires HTTPS)
+			httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+			maxAge: 1000 * 60 * 60 * 24, // 1 day
+      sameSite: 'Lax',
+		},
+	})
+);
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));

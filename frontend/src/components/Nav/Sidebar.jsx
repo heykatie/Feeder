@@ -8,7 +8,7 @@ const Sidebar = ({ showMenu, toggleMenu }) => {
 	return (
 		<>
 			<div className={`sidebar ${showMenu ? 'hidden' : ''}`}>
-				<NavLink to='/home' className='sidebar-navLink'>
+				<NavLink to='/dashboard' className='sidebar-navLink'>
 					<i className='fa-solid fa-house'></i>
 				</NavLink>
 				<NavLink to='/recipes' className='sidebar-navLink'>
@@ -35,7 +35,7 @@ const Sidebar = ({ showMenu, toggleMenu }) => {
 					onClick={toggleMenu}>
 					<i className='fa-solid fa-xmark'></i>
 				</button>
-				<NavLink to='/home' onClick={toggleMenu} className='sidebar-navLink'>
+				<NavLink to='/dashboard' onClick={toggleMenu} className='sidebar-navLink'>
 					<i className='fa-solid fa-house'></i>{' '}
 					<span className='text'>Home</span>
 				</NavLink>
