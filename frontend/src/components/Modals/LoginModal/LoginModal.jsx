@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { login } from '../../../redux/session';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../../context/ModalContext';
-import { NavLink } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './LoginModal.css';
 
 function LoginFormModal() {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [credential, setCredential] = useState('');
 	const [password, setPassword] = useState('');
 	const [errors, setErrors] = useState({});
+	const [showPassword, setShowPassword] = useState(false);
 	const { closeModal } = useModal();
 
-	const handleSubmit = async (e) => {
+	const handleLogin = async (e) => {
 		e.preventDefault();
 
 		const serverResponse = await dispatch(
@@ -26,7 +29,28 @@ function LoginFormModal() {
 			setErrors(serverResponse);
 		} else {
 			closeModal();
+			navigate('/dashboard');
 		}
+	};
+
+		const demoLogin = async (e) => {
+		e.preventDefault();
+		const demoCredential = 'demo@user.io';
+		const demoPassword = 'Password123@';
+		try {
+			await dispatch(
+				login({ credential: demoCredential, password: demoPassword })
+			);
+			navigate('/dashboard');
+			closeModal();
+		} catch (res) {
+			const data = await res.json();
+			if (data && data.message) setErrors(data);
+		}
+	};
+
+	const togglePasswordVisibility = () => {
+		setShowPassword((prev) => !prev);
 	};
 
 	return (
@@ -34,7 +58,7 @@ function LoginFormModal() {
 			<img src='/images/logo.png' alt='SousChef Logo' className='logo' />
 			<h2>Log in to SousChef</h2>
 
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleLogin}>
 				<div className='input-container'>
 					<input
 						type='text'
@@ -44,35 +68,46 @@ function LoginFormModal() {
 						required
 					/>
 				</div>
-				<div className='input-container password-container'>
+				<div className='password-container'>
 					<input
-						type='password'
+						type={showPassword ? 'text' : 'password'}
 						placeholder='Password'
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
-					<span className='forgot-password'>FORGOT?</span>
+					<span
+						className='password-toggle'
+						onClick={togglePasswordVisibility}>
+						{showPassword ? <FaEyeSlash /> : <FaEye />}
+					</span>
 				</div>
 
-				<button type='submit' className='login-button'>
-					Log In
-				</button>
+				<div className='login'>
+					<button type='submit' className='login-button'>
+						Log In
+					</button>
+				</div>
+
+				<div className='demologin'>
+					<button
+						className='btn-secondary w-full mt-4'
+						onClick={demoLogin}>
+						Demo Account
+					</button>
+				</div>
 
 				<div className='or-divider'>
 					<span>OR</span>
 				</div>
 
 				<div className='social-login'>
-					<button
-						className='google-login'
-						onClick={() => (window.location.href = '/api/oauth/google')}>
+					<a href='/api/oauth/google' className='google-login'>
 						<i className='fa-brands fa-google'></i> Google
-					</button>
-					<button className='discord-login'
-						onClick={() => (window.location.href = '/api/oauth/discord')}>
+					</a>
+					<a href='/api/oauth/discord' className='discord-login'>
 						<i className='fa-brands fa-discord'></i> Discord
-					</button>
+					</a>
 				</div>
 
 				<p className='signup-text'>

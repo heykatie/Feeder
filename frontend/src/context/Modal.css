@@ -15,10 +15,14 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 #modal-content {
   position: absolute;
-  background-color: white;
+  background-color: #1A1A2E;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  padding: 25px;
 }

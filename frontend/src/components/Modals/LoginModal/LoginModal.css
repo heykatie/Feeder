@@ -1,32 +1,36 @@
 /* Modal Container */
 .login-modal {
-  background: #1A1A2E;
+  /* background: #1A1A2E; */
+  background: linear-gradient(#1A1A2E, #1A1A2E);
+  /* Dark Indigo */
   color: white;
-  padding: 30px;
-  border-radius: 10px;
+  padding: 25px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 350px;
+  width: 320px;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  border: 2px solid #1A1A2E;
 }
 
 /* Logo */
 .logo {
-  width: 60px;
-  margin-bottom: 10px;
+  width: 70px;
+  margin-bottom: 12px;
 }
 
 /* Heading */
 h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 22px;
 }
 
-/* Input Fields */
 .input-container {
-  width: 100%;
+  width: 90%;
+  /* max-width: 280px; */
   margin-bottom: 15px;
   position: relative;
 }
@@ -35,10 +39,11 @@ input {
   width: 100%;
   padding: 12px;
   border-radius: 8px;
+  max-width: 300px;
   border: 1px solid #444;
   background: #232946;
   color: white;
-  font-size: 14px;
+  font-size: 15px;
   outline: none;
 }
 
@@ -46,48 +51,77 @@ input::placeholder {
   color: #B3B3B3;
 }
 
-/* Forgot Password */
+/* Password Input & Toggle */
 .password-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  width: 90%;
+  /* max-width: 280px; */
+  position: relative;
+  margin-bottom: 15px;
 }
 
-.forgot-password {
-  font-size: 12px;
-  color: #A379FF;
-  cursor: pointer;
+.password-toggle {
   position: absolute;
-  right: 12px;
-  top: 50%;
+  right: 0px;
+  top: 55%;
   transform: translateY(-50%);
+  cursor: pointer;
+  color: #B3B3B3;
+  font-size: 18px;
+  transition: color 0.3s ease;
 }
 
-/* Login Button */
+.password-toggle:hover {
+  color: #FFFFFF;
+}
+
 .login-button {
   width: 100%;
+  max-width: 300px;
   background: #00C6CF;
+  /* Neon Cyan */
   color: white;
   border: none;
-  padding: 12px;
+  padding: 14px;
   border-radius: 8px;
   font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
   transition: background 0.3s ease;
+  margin-bottom: 12px;
 }
 
 .login-button:hover {
   background: #64CCC5;
+  /* Lighter Neon Cyan */
+}
+
+.demologin button {
+  width: 100%;
+  max-width: 300px;
+  background: #FFB84C;
+  color: #121212;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.demologin button:hover {
+  background: #FFD166;
+  /* Lighter Warm Amber */
 }
 
 /* OR Divider */
 .or-divider {
-  margin: 15px 0;
+  margin: 18px 0;
   display: flex;
   align-items: center;
   width: 100%;
   color: #B3B3B3;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .or-divider::before,
@@ -96,77 +130,27 @@ input::placeholder {
   flex: 1;
   height: 1px;
   background: #444;
-  margin: 0 10px;
+  margin: 0 12px;
 }
 
-/* Social Login Buttons */
 .social-login {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
+  max-width: 300px;
+  justify-content: center;
 }
 
-.social-login button {
+.social-login a {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
   font-weight: bold;
-}
-
-.facebook-login {
-  background: #1877F2;
-  color: white;
-}
-
-.google-login {
-  background: #DB4437;
-  color: white;
-}
-
-.facebook-login:hover {
-  background: #165EAB;
-}
-
-.google-login:hover {
-  background: #BF3B2C;
-}
-
-/* Signup Text */
-.signup-text {
-  font-size: 12px;
-  color: #B3B3B3;
-  margin-top: 15px;
-}
-
-.signup-link {
-  color: #FFB84C;
-  cursor: pointer;
-}
-
-.social-login {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.google-login,
-.discord-login {
-  width: 48%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 14px;
+  text-decoration: none;
+  font-size: 15px;
 }
 
 .google-login {
@@ -187,4 +171,23 @@ input::placeholder {
 
 .discord-login i {
   margin-right: 8px;
+}
+
+/* Signup Text */
+.signup-text {
+  font-size: 13px;
+  color: #B3B3B3;
+  margin-top: 18px;
+}
+
+.signup-link {
+  color: #A379FF;
+  /* Electric Purple */
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-link:hover {
+  color: #C49CFF;
+  /* Lighter Electric Purple */
 }
