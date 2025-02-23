@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
 import AvatarButton from './AvatarButton';
 import Sidebar from './Sidebar';
-import OpenModalMenuItem from '../Modals/OpenModalMenuItem';
-import LoginModal from '../Modals/LoginModal';
+import OpenModalMenuItem from '../../context/OpenModalMenuItem';
+import LoginModal from '../Auth/Modals/LoginModal';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -37,12 +37,12 @@ const Navbar = () => {
 						aria-label='navbar-menu-btn'
 						className='navbar-menu-btn'
 						onClick={toggleMenu}>
-						<i className='fa-solid fa-bars'></i>
+						<i className='fa-solid fa-hamburger'></i>
 					</button>
 					<NavLink to='/' className='logo'>
 						<img src='/images/logo.png' alt='SousChef Logo' />
-						<span> SousChef </span>
 					</NavLink>
+					<NavLink to='/' className='logo'>SousChef</NavLink>
 				</div>
 
 				<div className='navbar-center'>
@@ -57,7 +57,7 @@ const Navbar = () => {
 						<AvatarButton />
 					) : (
 						<OpenModalMenuItem
-							itemText='Log In'
+								itemText='Log In'
 							onItemClick={closeMenu}
 							modalComponent={<LoginModal />}
 						/>

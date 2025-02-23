@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginFormPage from '../components/Auth/LoginFormPage';
+import LoginModal from '../components/Auth/Modals/LoginModal';
 import SignupFormPage from '../components/Auth/SignupFormPage';
 import Layout from './Layout';
 import Splash from '../components/Splash';
@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: 'login',
-				element: <LoginFormPage />,
+				element: <div style={{display:'flex', justifyContent:'center'} }><LoginModal /></div>,
 			},
 			{
 				path: 'signup',

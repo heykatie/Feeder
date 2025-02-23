@@ -80,3 +80,21 @@
   margin-bottom: 15px;
   cursor: pointer;
 }
+
+.close-btn:hover {
+  background: none;
+  border: none;
+  color: #FFB84C;
+  cursor: pointer;
+}
+
+.navbar-right li {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar-right li:hover {
+  color: #FFB84C;
+}

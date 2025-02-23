@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../redux/session';
-import OpenModalMenuItem from '../../Modals/OpenModalMenuItem';
+import OpenModalMenuItem from '../../../context/OpenModalMenuItem';
 import LoginFormModal from '../../Modals/LoginFormModal';
 import SignupFormModal from '../../Modals/SignupFormModal';
 

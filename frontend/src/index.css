@@ -1,7 +1,10 @@
 /* TODO: Add sitewide styles */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Rubik+Doodle+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Coiny&family=Rubik+Doodle+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Coiny&family=Press+Start+2P&family=Rubik+Doodle+Shadow&display=swap');
 
-/* 🌙 Global Dark Theme (SousChef) */
 :root {
   /* 🎨 Background Colors */
   --bg-color: #121212;
@@ -38,16 +41,20 @@
   /* Subtle dark borders */
 }
 
-/* 🌑 Global Styling */
 body {
+  font-family: "Baloo 2", serif;
+  /* font-family: "Rubik Doodle Shadow", serif; */
+  /* font-family: "Coiny", serif; */
+  /* font-family: "Press Start 2P", serif; */
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
 }
 
-/* 🛠️ UI Panels & Cards */
 .panel,
 .card {
   background: var(--panel-bg);
@@ -56,7 +63,6 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* 🔗 Links */
 a {
   color: var(--highlight-color);
   text-decoration: none;
@@ -67,19 +73,16 @@ a:hover {
   color: var(--active-color);
 }
 
-/* 🏠 Navbar */
 .top-navbar {
   background: var(--alt-bg-color);
   border-bottom: 2px solid var(--border-color);
 }
 
-/* 📜 Sidebar */
 .sidebar {
   background: var(--alt-bg-color);
   border-right: 2px solid var(--border-color);
 }
 
-/* ✏️ Inputs & Forms */
 input,
 textarea {
   background: var(--panel-bg);
@@ -93,9 +96,8 @@ input::placeholder {
   color: var(--muted-text);
 }
 
-/* 🔘 Buttons */
 button {
-  background: var(--cta-color);
+  /* background: var(--cta-color); */
   color: var(--text-color);
   border: none;
   padding: 10px 15px;
@@ -106,14 +108,14 @@ button {
 }
 
 button:hover {
-  background: var(--highlight-color);
+  /* background: var(--highlight-color); */
+  color: #A379FF;
 }
 
 li {
   list-style: none;
 }
 
-/* 🏆 XP & Progress Bars */
 .xp-bar {
   background: var(--active-color);
   height: 8px;
@@ -121,7 +123,6 @@ li {
   transition: width 0.3s ease;
 }
 
-/* 🍏 Ingredient Tags */
 .ingredient-veg {
   color: var(--veg-color);
 }
@@ -138,7 +139,6 @@ li {
   color: var(--dairy-color);
 }
 
-/* 📌 Utility Classes */
 .text-muted {
   color: var(--muted-text);
 }
@@ -147,7 +147,6 @@ li {
   border: 1px solid var(--border-color);
 }
 
-/* 🌙 Global Dark Theme for SousChef */
 :root {
   /* 🔹 Main Dark Theme Colors */
   --bg-color: #121212;
@@ -182,21 +181,17 @@ li {
   /* Dairy & liquids */
 }
 
-/* 🌙 Apply Dark Theme Globally */
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
 }
 
-/* 🔹 Alternative Sections */
 .alt-bg {
   background-color: var(--alt-bg-color);
 }
 
-/* 🟦 UI Panels & Cards */
 .panel {
   background: var(--panel-bg);
   padding: 15px;
@@ -204,7 +199,6 @@ body {
   border: 1px solid var(--border-color);
 }
 
-/* 🔗 Links */
 a {
   color: var(--primary-accent);
   text-decoration: none;
@@ -215,19 +209,16 @@ a:hover {
   color: var(--secondary-accent);
 }
 
-/* 🚀 Navbar */
 .top-navbar {
   background: var(--alt-bg-color);
   border-bottom: 1px solid var(--border-color);
 }
 
-/* 📌 Sidebar */
 .sidebar {
   background: var(--alt-bg-color);
   border-right: 1px solid var(--border-color);
 }
 
-/* 📝 Forms & Inputs */
 input,
 textarea {
   background: var(--panel-bg);
@@ -241,9 +232,8 @@ input::placeholder {
   color: var(--secondary-text);
 }
 
-/* 🎛 Buttons */
 button {
-  background: var(--primary-accent);
+  /* background: var(--primary-accent); */
   color: var(--text-color);
   border: none;
   padding: 10px;
@@ -253,10 +243,10 @@ button {
 }
 
 button:hover {
-  background: var(--secondary-accent);
+  /* background: var(--secondary-accent); */
+  color: #A379FF;
 }
 
-/* ⚡ XP Progress Bar */
 .xp-bar {
   background: var(--panel-bg);
   border-radius: 5px;
@@ -271,13 +261,11 @@ button:hover {
   transition: width 0.5s ease-in-out;
 }
 
-/* ⭐ Achievements & Leaderboards */
 .leaderboard-highlight {
   color: var(--secondary-accent);
   font-weight: bold;
 }
 
-/* 🟠 Call-to-Action Buttons */
 .cta-btn {
   background: var(--cta-color);
   color: var(--text-color);
@@ -291,29 +279,23 @@ button:hover {
   background: var(--primary-accent);
 }
 
-/* 🥑 Ingredient-Based Categories */
 .veg {
   color: var(--green);
 }
 
-/* Vegetables */
 .meat {
   color: var(--red);
 }
 
-/* Meats */
 .grain {
   color: var(--yellow);
 }
 
-/* Grains */
 .dairy {
   color: var(--blue);
 }
 
-/* Dairy */
 
-/* 📌 Utility Classes */
 .text-muted {
   color: var(--secondary-text);
 }

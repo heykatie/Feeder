@@ -16,14 +16,8 @@
   background: none;
   border: none;
   color: white;
-  font-size: 20px;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-.navbar-menu-btn i {
-  color: white !important;
   font-size: 24px;
+  cursor: pointer;
   margin-right: 10px;
 }
 
@@ -31,19 +25,15 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: white;
-  font-size: 18px;
+  font-size: 21px;
   font-weight: bold;
+  color: #FFB84C;
+  margin: auto;
 }
 
 .logo img {
-  width: 30px;
-  height: 30px;
-  margin-right: 5px;
-}
-
-.logo span {
-  color: #FFB84C;
+  width: 50%;
+  margin: auto;
 }
 
 .navbar-center {

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { login } from '../../../redux/session';
+import { login } from '../../../../redux/session';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '../../../../context/ModalContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './LoginModal.css';
 
@@ -93,7 +93,7 @@ function LoginFormModal() {
 					<button
 						className='btn-secondary w-full mt-4'
 						onClick={demoLogin}>
-						Demo Account
+						Demo Chef
 					</button>
 				</div>
 

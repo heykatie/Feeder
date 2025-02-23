@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 #modal-background {
@@ -16,6 +17,7 @@
   left: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(1px);
 }
 
 #modal-content {
@@ -25,4 +27,19 @@
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
   padding: 25px;
+}
+
+#modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  align-self: flex-end;
+  cursor: pointer;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+#modal-close:hover {
+  color: #FFB84C;
 }

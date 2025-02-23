@@ -1,4 +1,4 @@
-import { useRef, useState, useContext } from 'react';
+import { useRef, useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { ModalContext } from './ModalContext';
 import './Modal.css';
@@ -16,6 +16,17 @@ export function ModalProvider({ children }) {
 			onModalClose();
 		}
 	};
+
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === 'Escape') {
+				closeModal();
+			}
+		};
+
+		document.addEventListener('keydown', handleKeyDown);
+		return () => document.removeEventListener('keydown', handleKeyDown);
+	}, []);
 
 	const contextValue = {
 		modalRef,
@@ -42,7 +53,12 @@ export function Modal() {
 	return ReactDOM.createPortal(
 		<div id='modal'>
 			<div id='modal-background' onClick={closeModal} />
-			<div id='modal-content'>{modalContent}</div>
+			<div id='modal-content'>
+				<button aria-label='close-btn' id='modal-close' onClick={closeModal}>
+					<i className='fa-solid fa-xmark'></i>
+				</button>
+				{modalContent}
+			</div>
 		</div>,
 		modalRef.current
 	);
