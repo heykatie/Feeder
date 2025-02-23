@@ -109,6 +109,10 @@ button:hover {
   background: var(--highlight-color);
 }
 
+li {
+  list-style: none;
+}
+
 /* 🏆 XP & Progress Bars */
 .xp-bar {
   background: var(--active-color);

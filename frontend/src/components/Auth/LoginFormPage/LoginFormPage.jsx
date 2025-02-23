@@ -8,7 +8,7 @@ function LoginFormPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const sessionUser = useSelector((state) => state.session.user);
-	const [email, setEmail] = useState('');
+	const [credential, setCredential] = useState('');
 	const [password, setPassword] = useState('');
 	const [errors, setErrors] = useState({});
 
@@ -19,7 +19,7 @@ function LoginFormPage() {
 
 		const serverResponse = await dispatch(
 			login({
-				email,
+				credential,
 				password,
 			})
 		);
@@ -38,15 +38,15 @@ function LoginFormPage() {
 				errors.map((message) => <p key={message}>{message}</p>)}
 			<form onSubmit={handleSubmit}>
 				<label>
-					Email
+					Credential
 					<input
 						type='text'
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						value={credential}
+						onChange={(e) => setCredential(e.target.value)}
 						required
 					/>
 				</label>
-				{errors.email && <p>{errors.email}</p>}
+				{errors.credential && <p>{errors.credential}</p>}
 				<label>
 					Password
 					<input

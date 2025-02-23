@@ -18,8 +18,7 @@
   pointer-events: none;
 }
 
-/* Icons are circular and aligned */
-.sidebar-link {
+.sidebar-navLink {
   color: white;
   text-decoration: none;
   font-size: 22px;
@@ -32,8 +31,7 @@
   transition: transform 0.2s ease-in-out;
 }
 
-/* Hover effect */
-.sidebar-link:hover {
+.sidebar-navLink:hover {
   transform: scale(1.15);
 }
 
@@ -54,8 +52,7 @@
   left: 0;
 }
 
-/* Sidebar Links in Expanded Mode */
-.sidebar-panel .sidebar-link {
+.sidebar-panel .sidebar-navLink {
   display: flex;
   align-items: center;
   justify-content: left;
@@ -65,18 +62,15 @@
   width: 180px;
 }
 
-/* Hide Text When Not Expanded */
-.sidebar-panel .sidebar-link .text {
+.sidebar-panel .sidebar-navLink .text {
   display: none;
 }
 
-/* Show Text When Sidebar Expands */
-.sidebar-panel.expanded .sidebar-link .text {
+.sidebar-panel.expanded .sidebar-navLink .text {
   display: inline-block;
   font-size: 18px;
 }
 
-/* Close Button for Sidebar */
 .close-btn {
   background: none;
   border: none;

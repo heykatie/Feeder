@@ -1,15 +1,33 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import ProfileButton from './ProfileButton';
+import { useState, useEffect, useRef } from 'react';
+import AvatarButton from './AvatarButton';
 import Sidebar from './Sidebar';
+import OpenModalMenuItem from '../Modals/OpenModalMenuItem';
+import LoginModal from '../Modals/LoginModal';
 import './Navbar.css';
 
 const Navbar = () => {
+	const ulRef = useRef();
 	const user = useSelector((state) => state.session.user);
 	const [showMenu, setShowMenu] = useState(false);
 
 	const toggleMenu = () => setShowMenu(!showMenu);
+	const closeMenu = () => setShowMenu(false);
+
+	useEffect(() => {
+		if (!showMenu) return;
+
+		const closeMenu = (e) => {
+			if (ulRef.current && !ulRef.current.contains(e.target)) {
+				setShowMenu(false);
+			}
+		};
+
+		document.addEventListener('click', closeMenu);
+
+		return () => document.removeEventListener('click', closeMenu);
+	}, [showMenu]);
 
 	return (
 		<>
@@ -21,10 +39,10 @@ const Navbar = () => {
 						onClick={toggleMenu}>
 						<i className='fa-solid fa-bars'></i>
 					</button>
-					<Link to='/' className='logo'>
+					<NavLink to='/' className='logo'>
 						<img src='/images/logo.png' alt='SousChef Logo' />
 						<span> SousChef </span>
-					</Link>
+					</NavLink>
 				</div>
 
 				<div className='navbar-center'>
@@ -35,11 +53,18 @@ const Navbar = () => {
 				</div>
 
 				<div className='navbar-right'>
-					{user ? <ProfileButton /> : <Link to='/login'>Log in</Link>}
+					{user ? (
+						<AvatarButton />
+					) : (
+						<OpenModalMenuItem
+							itemText='Log In'
+							onItemClick={closeMenu}
+							modalComponent={<LoginModal />}
+						/>
+					)}
 				</div>
 			</nav>
 
-			{/* Sidebar Component */}
 			<Sidebar showMenu={showMenu} toggleMenu={toggleMenu} />
 		</>
 	);

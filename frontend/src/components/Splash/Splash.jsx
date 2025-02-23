@@ -3,7 +3,7 @@
 const Splash = () => {
 	return (
 		<div>
-			<h1>Welcome To Capstone Express Starter</h1>
+			<h1 style={{display:'flex', justifyContent:'center'}}>Welcome To Capstone Express Starter</h1>
 		</div>
 	);
 };
