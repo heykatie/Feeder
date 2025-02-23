@@ -116,7 +116,7 @@ function LoginFormModal() {
 						className='signup-link'
 						onClick={() => {
 							closeModal();
-							navigate('/signup')
+							navigate('/embark')
 						}}>
 						Sign up
 					</span>

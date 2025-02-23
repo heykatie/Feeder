@@ -1,0 +1,98 @@
+.about-pet-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #1A1A2E;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.page-logo {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+form input,
+form textarea {
+  width: 65%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 5px;
+  background: #232946;
+  color: white;
+  font-size: 16px;
+}
+
+.save-btn {
+  background: #00C6CF;
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  width: 70%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.continue-btn:hover {
+  background: #A379FF;
+}
+
+.form-step {
+  width: 100%;
+  max-width: 500px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1A1A2E;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.back-btn,
+.next-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.back-btn {
+  background-color: #A379FF;
+  color: white;
+}
+
+.next-btn {
+  background-color: #00C6CF;
+  color: white;
+}
+
+.back-btn:hover {
+  background-color: #8F60FF;
+}
+
+.next-btn:hover {
+  background-color: #00A4B2;
+}

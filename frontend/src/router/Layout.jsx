@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { ModalProvider, Modal } from '../context/ModalProvider';
 import { authenticate } from '../redux/session';
-// import Navigation from '../components/Nav/Navigation';
 import { fetchSession } from '../redux/session';
 import Navbar from '../components/Nav/Navbar';
 
 export default function Layout() {
 	const dispatch = useDispatch();
+	const location = useLocation();
 	const [isLoaded, setIsLoaded] = useState(false);
 
 	useEffect(() => {
@@ -22,8 +22,7 @@ export default function Layout() {
 	return (
 		<>
 			<ModalProvider>
-				{/* <Navigation /> */}
-				<Navbar />
+				{location.pathname !== '/embark' && <Navbar />}
 				{isLoaded && <Outlet />}
 				<Modal />
 			</ModalProvider>
