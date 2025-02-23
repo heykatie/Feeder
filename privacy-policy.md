@@ -1,6 +1,6 @@
 # Privacy Policy for SousChef
 
-**Effective Date:** [Your Date]
+**Effective Date:** 02/22/25
 
 Thank you for using **SousChef**. Your privacy is important to us.  
 This Privacy Policy explains how we collect, use, and protect your information.
@@ -18,7 +18,7 @@ This Privacy Policy explains how we collect, use, and protect your information.
 ## 3. **How You Can Delete Your Data**
 - You can delete your account and all associated data by:
   1. Going to **Account Settings > Delete Account** (coming soon).
-  2. Contacting us at **[your email]** to request manual deletion.
+  2. Contacting us on LinkedIn to request manual deletion.
 
 ## 4. **Third-Party Services**
 We use third-party **OAuth providers** (Google, Facebook, LinkedIn, GitHub) to authenticate users.  
