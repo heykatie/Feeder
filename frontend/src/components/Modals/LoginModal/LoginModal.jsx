@@ -112,7 +112,14 @@ function LoginFormModal() {
 
 				<p className='signup-text'>
 					Don’t have an account?{' '}
-					<span className='signup-link'>Sign up</span>
+					<span
+						className='signup-link'
+						onClick={() => {
+							closeModal();
+							navigate('/signup')
+						}}>
+						Sign up
+					</span>
 				</p>
 			</form>
 		</div>
