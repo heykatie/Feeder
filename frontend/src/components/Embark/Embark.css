@@ -69,7 +69,7 @@
 .exit-btn {
   position: absolute;
   top: 20px;
-  right: 20px;
+  left: 20px;
   background: transparent;
   border: none;
   color: white;
@@ -82,4 +82,3 @@
 .exit-btn:hover {
   color: #ffb84c;
 }
-

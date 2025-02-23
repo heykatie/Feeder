@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AboutPet from './Pet/AboutPet';
 import './Embark.css';
 import ChooseSpecies from './Pet/ChooseSpecies';
+import Signup from './Signup/Signup';
 
 const Embark = () => {
 	const navigate = useNavigate();
@@ -12,40 +13,41 @@ const Embark = () => {
 		setStep(step + 1);
 	};
 
-	// Example Forms (Add more as needed)
-	const forms = [
-		{ id: 0, component: <ChooseSpecies onSelect={handleSelectPet} /> },
-		{ id: 1, component: <AboutPet /> }, // Placeholder
-		{ id: 2, component: <h2>Choose Your Starting Pack</h2> }, // Placeholder
-	];
-
-	// **Handle swipe gestures**
-	useEffect(() => {
-		const handleKeyDown = (e) => {
-			if (e.key === 'ArrowRight' && step < forms.length - 1) {
-				setStep(step + 1);
-			}
-			if (e.key === 'ArrowLeft' && step > 0) {
-				setStep(step - 1);
-			}
-			if (e.key === 'Escape') {
-				handleExit(); // Exit when Esc is pressed
-			}
-		};
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [step]);
-
-	// **Handle next step when clicking Continue**
 	const handleNext = () => {
 		if (step < forms.length - 1) {
 			setStep(step + 1);
 		} else {
-			navigate('/dashboard'); // Redirect after last step
+			navigate('/dashboard');
 		}
 	};
 
-	// **Handle previous step**
+	const forms = [
+		{ id: 0, component: <ChooseSpecies onSelect={handleSelectPet} /> },
+		{ id: 1, component: <AboutPet /> },
+		{ id: 2, component: <h2>Choose Your Starting Pack</h2> },
+		{ id: 3, component: <Signup onNext={handleNext} /> }, // Add Signup as the 4th step
+	];
+
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === 'Enter' && step === 3) {
+				handleNext();
+			}
+			if (e.key === 'ArrowRight' && step < forms.length - 1) {
+				handleNext();
+			}
+			if (e.key === 'ArrowLeft' && step > 0) {
+				handleBack();
+			}
+			if (e.key === 'Escape') {
+				handleExit();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [step]);
+
 	const handleBack = () => {
 		if (step > 0) {
 			setStep(step - 1);
@@ -55,7 +57,6 @@ const Embark = () => {
 	const handleExit = () => {
 		navigate('/'); // Navigate back to home
 	};
-
 
 	return (
 		<div className='embark-container'>

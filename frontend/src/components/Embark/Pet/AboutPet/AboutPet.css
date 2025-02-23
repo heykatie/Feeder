@@ -6,6 +6,7 @@
   color: white;
   border-radius: 10px;
   text-align: center;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .page-logo {
@@ -13,12 +14,12 @@
   margin-bottom: 10px;
 }
 
-h2 {
+.about-pet-container h2 {
   font-size: 1.5rem;
   margin-bottom: 15px;
 }
 
-form input,
+.about-pet-container form input,
 form textarea {
   width: 65%;
   padding: 10px;
