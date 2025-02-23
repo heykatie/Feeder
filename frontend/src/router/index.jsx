@@ -20,6 +20,10 @@ export const router = createBrowserRouter([
 				path: 'signup',
 				element: <SignupFormPage />,
 			},
+			{
+				path: '*',
+				element: <h1 style={{display:'flex', justifyContent:'center'}}> Feature Coming Soon! </h1>
+			}
 		],
 	},
 ]);

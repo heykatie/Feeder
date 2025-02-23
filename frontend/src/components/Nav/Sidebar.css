@@ -1,0 +1,88 @@
+.sidebar {
+  position: fixed;
+  top: 40%;
+  left: 1rem;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
+  background: #121212;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.sidebar.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Icons are circular and aligned */
+.sidebar-link {
+  color: white;
+  text-decoration: none;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.sidebar-link:hover {
+  transform: scale(1.15);
+}
+
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 200px;
+  height: 100vh;
+  background: rgba(26, 26, 46, 0.95);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: left 0.3s ease-in-out;
+}
+
+.sidebar-panel.expanded {
+  left: 0;
+}
+
+/* Sidebar Links in Expanded Mode */
+.sidebar-panel .sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 10px;
+  padding: 12px 0;
+  margin-left: .5rem;
+  width: 180px;
+}
+
+/* Hide Text When Not Expanded */
+.sidebar-panel .sidebar-link .text {
+  display: none;
+}
+
+/* Show Text When Sidebar Expands */
+.sidebar-panel.expanded .sidebar-link .text {
+  display: inline-block;
+  font-size: 18px;
+}
+
+/* Close Button for Sidebar */
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  align-self: flex-end;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
