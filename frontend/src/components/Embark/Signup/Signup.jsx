@@ -43,7 +43,7 @@ const Signup = ({ onNext }) => {
 				<div className='input-container'>
 					<input
 						type='text'
-						placeholder='Username'
+						placeholder='Username*'
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
 						required
@@ -53,7 +53,7 @@ const Signup = ({ onNext }) => {
 				<div className='input-container'>
 					<input
 						type='email'
-						placeholder='Email'
+						placeholder='Email*'
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						required
@@ -63,7 +63,7 @@ const Signup = ({ onNext }) => {
 				<div className='password-container'>
 					<input
 						type={showPassword ? 'text' : 'password'}
-						placeholder='Password'
+						placeholder='Password*'
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						required
