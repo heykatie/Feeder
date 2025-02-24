@@ -10,11 +10,13 @@ const personalities = [
 	{ label: 'Calm', emoji: '🧘' },
 ];
 
-const StartingChef = ({ onNext, onBack, onUpdate }) => {
-	const [name, setName] = useState('');
-	const [eyeShape, setEyeShape] = useState('cute');
-	const [color, setColor] = useState('#ffcc00');
-	const [personality, setPersonality] = useState('Playful');
+const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
+	const [name, setName] = useState(initialData.sousChefName || '');
+	const [eyeShape, setEyeShape] = useState(initialData.eyeShape || 'cute');
+	const [color, setColor] = useState(initialData.color || '#ffcc00');
+	const [personality, setPersonality] = useState(
+		initialData.personality || 'Playful'
+	);
 
 	const updateSelection = (field, value) => {
 		if (field === 'name') setName(value);

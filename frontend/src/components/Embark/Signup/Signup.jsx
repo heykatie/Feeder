@@ -5,14 +5,27 @@ import { signup } from '../../../redux/users';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './Signup.css';
 
-const Signup = ({ onNext }) => {
+const Signup = ({ onNext, onUpdate, initialData }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
+
+	const [username, setUsername] = useState(initialData.username || '');
+	const [email, setEmail] = useState(initialData.email || '');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [errors, setErrors] = useState({});
+
+	const handleChange = (field, value) => {
+		if (field === 'username') setUsername(value);
+		if (field === 'email') setEmail(value);
+		if (field === 'password') setPassword(value);
+
+		onUpdate({
+			username: field === 'username' ? value : username,
+			email: field === 'email' ? value : email,
+			password: field === 'password' ? value : password,
+		});
+	};
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
@@ -23,7 +36,7 @@ const Signup = ({ onNext }) => {
 		if (serverResponse) {
 			setErrors(serverResponse);
 		} else {
-			onNext(); // Move to the next step after signing up
+			onNext();
 		}
 	};
 
@@ -45,7 +58,7 @@ const Signup = ({ onNext }) => {
 						type='text'
 						placeholder='Username*'
 						value={username}
-						onChange={(e) => setUsername(e.target.value)}
+						onChange={(e) => handleChange('username', e.target.value)}
 						required
 					/>
 				</div>
@@ -55,7 +68,7 @@ const Signup = ({ onNext }) => {
 						type='email'
 						placeholder='Email*'
 						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						onChange={(e) => handleChange('email', e.target.value)}
 						required
 					/>
 				</div>
@@ -65,7 +78,7 @@ const Signup = ({ onNext }) => {
 						type={showPassword ? 'text' : 'password'}
 						placeholder='Password*'
 						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						onChange={(e) => handleChange('password', e.target.value)}
 						required
 					/>
 					<span

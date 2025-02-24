@@ -175,7 +175,7 @@ const Embark = () => {
 				handleNext();
 			} else if (e.key === ' ' && !stepValid) {
 				handleNext(true);
-			} else if (e.key === 'Backspace') {
+			} else if (e.key === 'Backspace' && !isInputField) {
 				handleBack();
 			}
 		};
@@ -237,7 +237,7 @@ const Embark = () => {
 			component: (
 				<AboutPet
 					selectedSpecies={selection.companion}
-					initialData={selection} 
+					initialData={selection}
 					onUpdate={(petData) =>
 						setSelection((prev) => ({ ...prev, ...petData }))
 					}
@@ -248,6 +248,7 @@ const Embark = () => {
 			id: 2,
 			component: (
 				<StartingChef
+					initialData={selection}
 					onUpdate={(sousChefData) =>
 						setSelection((prev) => ({ ...prev, ...sousChefData }))
 					}
@@ -258,6 +259,7 @@ const Embark = () => {
 			id: 3,
 			component: (
 				<Signup
+					initialData={selection}
 					onUpdate={(userData) =>
 						setSelection((prev) => ({ ...prev, ...userData }))
 					}
