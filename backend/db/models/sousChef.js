@@ -75,7 +75,8 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			personality: {
 				type: DataTypes.ENUM('Playful', 'Serious', 'Mischievous', 'Calm'),
-				allowNull: true,
+				allowNull: false,
+				defaultValue: 'Playful',
 			},
 			eyeShape: {
 				type: DataTypes.ENUM('cute', 'serious', 'glowing'),

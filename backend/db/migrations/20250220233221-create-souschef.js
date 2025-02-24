@@ -93,7 +93,8 @@ module.exports = {
 						'Mischievous',
 						'Calm'
 					),
-					allowNull: true,
+					allowNull: false,
+					defaultValue: 'Playful',
 				},
 				eyeShape: {
 					type: Sequelize.ENUM('cute', 'serious', 'glowing'),
