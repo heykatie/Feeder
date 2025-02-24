@@ -1,52 +1,37 @@
 import { useState } from 'react';
+import SousChefSVG from './SousChef/SousChefSVG';
+import './StartingChef.css';
 
-const souschefTypes = [
-	'Starter Spoon',
-	'Whisk Tamer',
-	'Chill Conjurer',
-	'Broth Whisperer',
-	'Flame Forged',
-	'Alchemist',
-	'Herb Sage',
-	'Prime Cut Pro',
-	'RawDawg',
-	'Gilded Gourmet',
-	'Zen Healer',
-	'Soothing Angel',
-	'Arcane Chef',
-	'Wandering Nomad',
-	'Cybernetic Saucier',
-	'Untamed Flavorist',
-	'Dehydrated Hydra',
-];
+const eyeShapes = ['cute', 'serious', 'glowing'];
 
-const StartingPack = ({ selectedType, onNext, onBack }) => {
+const StartingChef = ({ onNext, onBack }) => {
 	const [name, setName] = useState('');
-	const [souschefType, setSouschefType] = useState('Starter Spoon');
+	const [eyeShape, setEyeShape] = useState('cute');
+	const [color, setColor] = useState('#ffcc00'); // Default color
 
 	const handleContinue = () => {
 		if (!name.trim()) return;
 		onNext({
 			name,
-			type: souschefType,
+			type: 'Starter Spoon', // Default starting type
 			level: 1,
 			xp: 0,
 			evoStage: 'Foraging Fledgling',
-			imageUrl: `/images/souschefs/${souschefType}.png`,
-			animationUrl: `/animations/souschefs/${souschefType}.json`,
+			eyeShape, // ✅ Send selected eye shape
+			color, // ✅ Custom color
 		});
 	};
 
 	return (
-		<div className='starting-pack-container'>
+		<div className='starting-chef-container'>
 			<h2>Customize Your SousChef</h2>
-			<div className='souschef-preview'>
-				<img
-					src={`/images/souschefs/${souschefType}.png`}
-					alt={souschefType}
-				/>
+
+			{/* SousChef Preview */}
+			<div className='souschef-preview' style={{ borderColor: color }}>
+				<SousChefSVG eyeShape={eyeShape} />
 			</div>
 
+			{/* Name Input */}
 			<input
 				type='text'
 				placeholder="SousChef's Name"
@@ -54,29 +39,31 @@ const StartingPack = ({ selectedType, onNext, onBack }) => {
 				onChange={(e) => setName(e.target.value)}
 			/>
 
-			<select
-				value={souschefType}
-				onChange={(e) => setSouschefType(e.target.value)}>
-				{souschefTypes.map((type) => (
-					<option key={type} value={type}>
-						{type}
-					</option>
+			{/* Eye Shape Selection */}
+			<div className='eye-shape-selector'>
+				<label>Eye Shape:</label>
+				{eyeShapes.map((shape) => (
+					<button
+						key={shape}
+						className={eyeShape === shape ? 'selected' : ''}
+						onClick={() => setEyeShape(shape)}>
+						{shape}
+					</button>
 				))}
-			</select>
-
-			<div className='buttons'>
-				<button className='back' onClick={onBack}>
-					← Back
-				</button>
-				<button
-					className='continue'
-					onClick={handleContinue}
-					disabled={!name.trim()}>
-					Continue →
-				</button>
 			</div>
+
+			{/* Color Picker */}
+			<div className='color-picker'>
+				<label>Pick a color:</label>
+				<input
+					type='color'
+					value={color}
+					onChange={(e) => setColor(e.target.value)}
+				/>
+			</div>
+
 		</div>
 	);
 };
 
-export default StartingPack;
+export default StartingChef;

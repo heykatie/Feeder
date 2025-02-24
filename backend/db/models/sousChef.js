@@ -68,6 +68,20 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: 'Foraging Fledgling',
 			},
+			color: {
+				type: DataTypes.STRING(7),
+				allowNull: false,
+				defaultValue: '#FFCC00',
+			},
+			personality: {
+				type: DataTypes.ENUM('Playful', 'Serious', 'Mischievous', 'Calm'),
+				allowNull: true,
+			},
+			eyeShape: {
+				type: DataTypes.ENUM('cute', 'serious', 'glowing'),
+				allowNull: false,
+				defaultValue: 'cute',
+			},
 			imageUrl: {
 				type: DataTypes.STRING,
 				allowNull: true,
