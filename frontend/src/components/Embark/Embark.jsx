@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AboutPet from './pet/AboutPet';
 import './Embark.css';
@@ -15,6 +16,8 @@ const Embark = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
+	const sousChef = useSelector((state) => state.sousChef.sousChef);
+
 	const [selection, setSelection] = useState({
 		companion: '',
 		name: '',
@@ -38,10 +41,17 @@ const Embark = () => {
 	const [buttonText, setButtonText] = useState('Skip →');
 
 	useEffect(() => {
-		if (stepValid !== prevStepValid) {
-			setButtonText(stepValid ? 'Continue →' : 'Skip →');
+		if (stepValid !== prevStepValid || step === forms.length - 1) {
+			const newText =
+				step === forms.length - 1
+					? 'Level up now'
+					: stepValid
+					? 'Continue →'
+					: 'Skip →';
 
-			if (stepValid) {
+			setButtonText(newText);
+
+			if (newText === 'Continue →' || newText === 'Level up now') {
 				const btn = document.querySelector('.embark-next-btn.continue');
 				if (btn) {
 					btn.classList.remove('animate');
@@ -52,7 +62,7 @@ const Embark = () => {
 
 			setPrevStepValid(stepValid);
 		}
-	}, [stepValid, prevStepValid]);
+	}, [stepValid, prevStepValid, step]);
 
 	useEffect(() => {
 		setStepValid(isStepValid(step));
@@ -100,39 +110,51 @@ const Embark = () => {
 		}, 0);
 	}, []);
 
-
-	const handleSubmit = async () => {
+	const handleSubmit = async (e) => {
+		if (e?.preventDefault) e.preventDefault();
 		if (isSubmitting) return;
 		setIsSubmitting(true);
 
 		try {
-			const newUser = {
-				username: selection.username,
-				email: selection.email,
-				password: selection.password,
-			};
-			const userResponse = await dispatch(signup(newUser));
-
-			if (!userResponse.ok) throw new Error('Failed to create user');
-
-			const userData = await userResponse.json();
-			const userId = userData.id;
-			const sousChefId = userData.sousChef.id;
-
-			await dispatch(
-				createPet({
-					userId,
-					name: selection.name,
-					species: selection.companion,
-					breed: selection.breed,
-					age: selection.age,
-					weight: selection.weight,
-					birthday: selection.birthday,
-					allergies: selection.allergies,
-					notes: selection.notes,
-					image: selection.image,
+			const userResponse = await dispatch(
+				signup({
+					username: selection.username,
+					email: selection.email,
+					password: selection.password,
 				})
 			);
+
+			if (!userResponse.payload) {
+				throw new Error('User creation failed');
+			}
+
+			const userId = userResponse.payload.id;
+			const sousChefId = userResponse.payload.SousChef?.id || SousChef?.id;
+
+
+			if (!sousChefId) {
+				console.error(
+					'No sousChefId found, updateSousChef will not dispatch.'
+				);
+				return;
+			}
+
+			if (selection.name) {
+				await dispatch(
+					createPet({
+						userId,
+						name: selection.name,
+						species: selection.companion,
+						breed: selection.breed,
+						age: selection.age,
+						weight: selection.weight,
+						birthday: selection.birthday,
+						allergies: selection.allergies,
+						notes: selection.notes,
+						image: selection.image,
+					})
+				);
+			}
 
 			const sousChefUpdates = {};
 			if (selection.sousChefName)
@@ -142,7 +164,7 @@ const Embark = () => {
 			if (selection.personality)
 				sousChefUpdates.personality = selection.personality;
 
-			if (Object.keys(sousChefUpdates).length > 0) {
+			if (Object.keys(sousChefUpdates).length > 0 && sousChefId) {
 				await dispatch(
 					updateSousChef({ sousChefId, sousChefData: sousChefUpdates })
 				);
@@ -197,15 +219,16 @@ const Embark = () => {
 					selection.name.trim() !== ''
 				);
 			case 2:
-			return (
-				(selection.sousChefName?.trim() !== '' &&
-					selection.sousChefName !== undefined) ||
-				(selection.eyeShape?.trim() !== '' &&
-					selection.eyeShape !== undefined) ||
-				(selection.color?.trim() !== '' && selection.color !== undefined) ||
-				(selection.personality?.trim() !== '' &&
-					selection.personality !== undefined)
-			);
+				return (
+					(selection.sousChefName?.trim() !== '' &&
+						selection.sousChefName !== undefined) ||
+					(selection.eyeShape?.trim() !== '' &&
+						selection.eyeShape !== undefined) ||
+					(selection.color?.trim() !== '' &&
+						selection.color !== undefined) ||
+					(selection.personality?.trim() !== '' &&
+						selection.personality !== undefined)
+				);
 			case 3:
 				return (
 					typeof selection.username === 'string' &&
@@ -259,6 +282,7 @@ const Embark = () => {
 			id: 3,
 			component: (
 				<Signup
+					handleSubmit={handleSubmit}
 					initialData={selection}
 					onUpdate={(userData) =>
 						setSelection((prev) => ({ ...prev, ...userData }))

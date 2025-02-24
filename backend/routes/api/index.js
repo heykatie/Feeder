@@ -20,12 +20,12 @@ router.use('/souschef', sousChefRouter);
 
 
 // GET /api/restore-user
-// router.get(
-//   '/restore-user',
-//   (req, res) => {
-//     return res.json(req.user);
-//   }
-// );
+router.get(
+  '/restore-user',
+  (req, res) => {
+    return res.json(req.user);
+  }
+);
 
 // test GET /api/require-auth
 // router.get(

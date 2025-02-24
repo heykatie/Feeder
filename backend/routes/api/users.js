@@ -2,8 +2,8 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
+const { User, SousChef } = require('../../db/models');
 
 const router = express.Router();
 
@@ -43,20 +43,25 @@ router.put('/:userId', requireAuth, async (req, res) => {
 		await user.update({ firstName, lastName, phone, birthday, avatarUrl, bio, theme });
 
 		// Return updated user
-		const safeUser = {
-			id: user.id,
-			email: user.email,
-			username: user.username,
-			firstName: user.firstName || null,
-			lastName: user.lastName || null,
-			phone: user.phone || null,
-			birthday: user.birthday || null,
-			avatarUrl: user.avatarUrl || null,
-			bio: user.bio || null,
-			theme: user.theme || null,
-		};
+		// const safeUser = {
+		// 	id: user.id,
+		// 	email: user.email,
+		// 	username: user.username,
+		// 	firstName: user.firstName || null,
+		// 	lastName: user.lastName || null,
+		// 	phone: user.phone || null,
+		// 	birthday: user.birthday || null,
+		// 	avatarUrl: user.avatarUrl || null,
+		// 	bio: user.bio || null,
+		// 	theme: user.theme || null,
+		// };
 
-		return res.json({ user: safeUser });
+		const updatedUser = await User.findByPk(user.id, {
+			attributes: { exclude: ['hashedPassword'] },
+			include: [{ model: SousChef }],
+		});
+
+		return res.json({ user: updatedUser });
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ message: 'Error updating user profile' });
@@ -70,49 +75,59 @@ router.post('/', validateSignup, async (req, res) => {
 	const hashedPassword = bcrypt.hashSync(password);
 	const user = await User.create({ email, username, hashedPassword });
 
-	const safeUser = {
-		id: user.id,
-		email: user.email,
-		username: user.username,
-		firstName: user.firstName || null,
-		lastName: user.lastName || null,
-		phone: user.phone || null,
-		birthday: user.birthday || null,
-		avatarUrl: user.avatarUrl || null,
-		bio: user.bio || null,
-		theme: user.theme || null,
-		sousChef: user.SousChef || null,
-	};
+	// const safeUser = {
+	// 	id: user.id,
+	// 	email: user.email,
+	// 	username: user.username,
+	// 	firstName: user.firstName || null,
+	// 	lastName: user.lastName || null,
+	// 	phone: user.phone || null,
+	// 	birthday: user.birthday || null,
+	// 	avatarUrl: user.avatarUrl || null,
+	// 	bio: user.bio || null,
+	// 	theme: user.theme || null,
+	// 	sousChef: user.SousChef || null,
+	// };
 
-	await setTokenCookie(res, safeUser);
+	const responseUser = await User.findByPk(user.id, {
+		attributes: { exclude: ['hashedPassword'] },
+		include: [{ model: SousChef }],
+	});
+
+	await setTokenCookie(res, responseUser);
 
 	return res.json({
-		user: safeUser,
+		user: responseUser,
 	});
 });
 
 // Restore session user
 router.get(
-	'/',
-	async (req, res) => {
+	'/', restoreUser, requireAuth, async (req, res) => {
 		const { user } = req;
 		if (user) {
 
-			const safeUser = {
-				id: user.id,
-				email: user.email,
-				username: user.username,
-				firstName: user.firstName || null,
-				lastName: user.lastName || null,
-				phone: user.phone || null,
-				birthday: user.birthday || null,
-				avatarUrl: user.avatarUrl || null,
-				bio: user.bio || null,
-				theme: user.theme || null,
-				sousChef: user.SousChef || null
-			};
+			// const safeUser = {
+			// 	id: user.id,
+			// 	email: user.email,
+			// 	username: user.username,
+			// 	firstName: user.firstName || null,
+			// 	lastName: user.lastName || null,
+			// 	phone: user.phone || null,
+			// 	birthday: user.birthday || null,
+			// 	avatarUrl: user.avatarUrl || null,
+			// 	bio: user.bio || null,
+			// 	theme: user.theme || null,
+			// 	sousChef: user.SousChef || null
+			// };
+
+			const restoredUser = await User.findByPk(user.id, {
+				attributes: { exclude: ['hashedPassword'] },
+				include: [{ model: SousChef }],
+			});
+
 			return res.json({
-				user: safeUser
+				user: restoredUser,
 			});
 		} else return res.json({ user: null });
 	}

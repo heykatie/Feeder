@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
 
-// 🔹 Async Thunk: Create a SousChef
+
 export const createSousChef = createAsyncThunk(
 	'sousChef/create',
 	async (sousChefData, { rejectWithValue }) => {
@@ -16,7 +16,7 @@ export const createSousChef = createAsyncThunk(
 				return rejectWithValue(errorData);
 			}
 			const data = await response.json();
-			return data; // ✅ Return created SousChef data
+			return data; 
 		} catch (error) {
 			return rejectWithValue({
 				server: 'Failed to create SousChef. Please try again.',
@@ -25,7 +25,7 @@ export const createSousChef = createAsyncThunk(
 	}
 );
 
-// 🔹 Async Thunk: Get a User's SousChef
+
 export const getSousChef = createAsyncThunk(
 	'sousChef/get',
 	async (_, { rejectWithValue }) => {
@@ -42,7 +42,7 @@ export const getSousChef = createAsyncThunk(
 	}
 );
 
-// 🔹 Async Thunk: Update SousChef
+
 export const updateSousChef = createAsyncThunk(
 	'sousChef/update',
 	async ({ sousChefId, sousChefData }, { rejectWithValue }) => {
@@ -57,7 +57,7 @@ export const updateSousChef = createAsyncThunk(
 				return rejectWithValue(errorData);
 			}
 			const data = await response.json();
-			return data; // ✅ Return updated SousChef data
+			return data;
 		} catch (error) {
 			return rejectWithValue({
 				server: 'Failed to update SousChef. Please try again.',
@@ -115,6 +115,6 @@ const sousChefSlice = createSlice({
 	},
 });
 
-// 🔹 Export Actions & Reducer
+
 export const { setSousChef, clearSousChef } = sousChefSlice.actions;
 export default sousChefSlice.reducer;

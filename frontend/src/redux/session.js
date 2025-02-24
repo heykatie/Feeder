@@ -21,11 +21,12 @@ export const restoreSession = createAsyncThunk(
 // 🔹 Async Thunk: Login User
 export const login = createAsyncThunk(
 	'session/login',
-	async (userCredentials, { rejectWithValue }) => {
+	async ({ credential, password }, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch('/api/session', {
 				method: 'POST',
-				body: JSON.stringify(userCredentials),
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ credential, password }),
 			});
 			if (!response.ok) {
 				const errorData = await response.json();

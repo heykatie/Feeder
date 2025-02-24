@@ -3,8 +3,8 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
+const { User, SousChef } = require('../../db/models');
 
 const router = express.Router();
 
@@ -21,26 +21,30 @@ const validateLogin = [
 ];
 
 // Restore session user
-router.get('/', restoreUser, (req, res) => {
+router.get('/', restoreUser, requireAuth, async (req, res) => {
 	const { user } = req;
-	if (user) {
-		const safeUser = {
-			id: user.id,
-			email: user.email,
-			username: user.username,
-			firstName: user.firstName || null,
-			lastName: user.lastName || null,
-			phone: user.phone || null,
-			birthday: user.birthday || null,
-			avatarUrl: user.avatarUrl || null,
-			bio: user.bio || null,
-			theme: user.theme || null,
-			sousChef: user.SousChef || null,
-		};
-		return res.json({
-			user: safeUser,
-		});
-	} else return res.json({ user: null });
+	if (!user) return res.json({ user: null });
+
+	const restoredUser = await User.findByPk(user.id, {
+		attributes: { exclude: ['hashedPassword'] },
+		include: [{ model: SousChef }],
+	});
+
+	// const safeUser = {
+	// 	id: user.id,
+	// 	email: user.email,
+	// 	username: user.username,
+	// 	firstName: user.firstName || null,
+	// 	lastName: user.lastName || null,
+	// 	phone: user.phone || null,
+	// 	birthday: user.birthday || null,
+	// 	avatarUrl: user.avatarUrl || null,
+	// 	bio: user.bio || null,
+	// 	theme: user.theme || null,
+	// 	sousChef: user.SousChef || null,
+	// };
+
+	return res.json({ user: restoredUser });
 });
 
 // Log in
@@ -65,6 +69,7 @@ router.post('/', validateLogin, async (req, res, next) => {
 				email: credential,
 			},
 		},
+		include: [{ model: SousChef }],
 	});
 
 	if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
@@ -75,26 +80,26 @@ router.post('/', validateLogin, async (req, res, next) => {
 		return next(err);
 	}
 
-	const safeUser = {
-		id: user.id,
-		email: user.email,
-		username: user.username,
-		firstName: user.firstName || null,
-		lastName: user.lastName || null,
-		phone: user.phone || null,
-		birthday: user.birthday || null,
-		avatarUrl: user.avatarUrl || null,
-		bio: user.bio || null,
-		theme: user.theme || null,
-		sousChef: user.SousChef || null,
-	};
+	// const safeUser = {
+	// 	id: user.id,
+	// 	email: user.email,
+	// 	username: user.username,
+	// 	firstName: user.firstName || null,
+	// 	lastName: user.lastName || null,
+	// 	phone: user.phone || null,
+	// 	birthday: user.birthday || null,
+	// 	avatarUrl: user.avatarUrl || null,
+	// 	bio: user.bio || null,
+	// 	theme: user.theme || null,
+	// 	sousChef: user.SousChef || null,
+	// };
 
-	await setTokenCookie(res, safeUser);
+	await setTokenCookie(res, user);
 
 	req.session.userId = user.id;
 
 	return res.json({
-		user: safeUser,
+		user: user,
 	});
 });
 

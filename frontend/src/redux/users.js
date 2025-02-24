@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
+import { setSousChef } from './souschef';
+import {login} from './session';
 
 export const signup = createAsyncThunk(
 	'user/signup',
@@ -16,10 +18,20 @@ export const signup = createAsyncThunk(
 			}
 			const data = await response.json();
 
-			// ✅ Automatically log in user after signup
 			dispatch(setUser(data.user));
 
-			return data.user; // ✅ Return user data to store
+			if (data.user.sousChef) {
+				dispatch(setSousChef(data.user.sousChef));
+			}
+
+			await dispatch(
+				login({
+					credential: userData.email || userData.username,
+					password: userData.password,
+				})
+			);
+
+			return data.user;
 		} catch (error) {
 			return rejectWithValue({ server: 'Signup failed. Please try again.' });
 		}

@@ -5,7 +5,7 @@ import { signup } from '../../../redux/users';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './Signup.css';
 
-const Signup = ({ onNext, onUpdate, initialData }) => {
+const Signup = ({ onNext, onUpdate, initialData, handleSubmit }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -27,18 +27,18 @@ const Signup = ({ onNext, onUpdate, initialData }) => {
 		});
 	};
 
-	const handleSignup = async (e) => {
-		e.preventDefault();
-		const serverResponse = await dispatch(
-			signup({ username, email, password })
-		);
+	// const handleSignup = async (e) => {
+	// 	e.preventDefault();
+	// 	const serverResponse = await dispatch(
+	// 		signup({ username, email, password })
+	// 	);
 
-		if (serverResponse) {
-			setErrors(serverResponse);
-		} else {
-			onNext();
-		}
-	};
+	// 	if (serverResponse) {
+	// 		setErrors(serverResponse);
+	// 	} else {
+	// 		onNext();
+	// 	}
+	// };
 
 	const togglePasswordVisibility = () => {
 		setShowPassword((prev) => !prev);
@@ -52,7 +52,7 @@ const Signup = ({ onNext, onUpdate, initialData }) => {
 				className='page-logo'
 			/>
 			<h2>Begin Your Adventure</h2>
-			<form onSubmit={handleSignup}>
+			<form onSubmit={handleSubmit}>
 				<div className='input-container'>
 					<input
 						type='text'
@@ -88,9 +88,9 @@ const Signup = ({ onNext, onUpdate, initialData }) => {
 					</span>
 				</div>
 
-				<button type='submit' className='signup-button'>
+				{/* <button type='submit' className='signup-button'>
 					Sign Up
-				</button>
+				</button> */}
 
 				<div className='or-divider'>
 					<span>or Signup with</span>

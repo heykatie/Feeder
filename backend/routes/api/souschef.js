@@ -36,14 +36,22 @@ router.get('/', requireAuth, async (req, res) => {
 
 // 🔹 Update SousChef
 router.put('/:sousChefId', requireAuth, async (req, res) => {
+	const { sousChefId } = req.params;
+
 	try {
-		const sousChef = await SousChef.findByPk(req.params.sousChefId);
-		if (!sousChef || sousChef.userId !== req.user.id) {
+		const sousChef = await SousChef.findByPk(sousChefId);
+
+		if (!sousChef) {
+			return res.status(404).json({ error: 'SousChef not found' });
+		}
+
+		if (sousChef.userId !== req.user.id) {
 			return res.status(403).json({ error: 'Unauthorized' });
 		}
 
 		await sousChef.update(req.body);
-		return res.json(sousChef);
+		const updatedSousChef = await SousChef.findByPk(sousChefId);
+		return res.json(updatedSousChef);
 	} catch (error) {
 		return res.status(500).json({ error: 'Failed to update SousChef' });
 	}

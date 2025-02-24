@@ -9,6 +9,8 @@ import { restoreCSRF, csrfFetch } from './redux/csrf';
 import * as sessionActions from './redux/session';
 import { router } from './router';
 
+const isStrictMode = import.meta.env.VITE_STRICT_MODE === 'true';
+
 if (import.meta.env.MODE !== 'production') {
 	restoreCSRF();
 
@@ -22,10 +24,15 @@ if (import.meta.env.MODE !== 'production') {
 // }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-	<React.StrictMode>
+	isStrictMode ? (
+		<React.StrictMode>
+			<ReduxProvider store={store}>
+				<RouterProvider router={router} />
+			</ReduxProvider>
+		</React.StrictMode>
+	) : (
 		<ReduxProvider store={store}>
-			{/* <App /> */}
 			<RouterProvider router={router} />
 		</ReduxProvider>
-	</React.StrictMode>
+	)
 );
