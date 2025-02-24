@@ -1,42 +1,48 @@
 import { useState, useEffect } from 'react';
 import './AboutPet.css';
 
-const AboutPet = ({ onUpdate }) => {
+const AboutPet = ({ onUpdate, selectedSpecies }) => {
 	const [formData, setFormData] = useState({
 		name: '',
+		species: selectedSpecies || '',
 		breed: '',
 		age: '',
 		weight: '',
 		allergies: '',
+		notes: '',
+		image: '',
+		birthday: '',
 	});
 
-	// Handle input changes
 	const handleChange = (e) => {
-		setFormData({ ...formData, [e.target.petName]: e.target.value });
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+
+	const handleFileChange = (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			setFormData((prev) => ({ ...prev, image: URL.createObjectURL(file) }));
+		}
 	};
 
 	useEffect(() => {
-		onUpdate(formData.name || '');
-	}, [formData.name, onUpdate]);
+		onUpdate(formData);
+	}, [formData, onUpdate]);
 
 	return (
 		<div className='about-pet-container'>
-			<img
-				src='/images/logo.png'
-				alt='SousChef Logo'
-				className='page-logo'
-			/>
-			<h2>Tell us about your pet</h2>
+			<h2>Tell us about your {formData.species || 'baby'}</h2>{' '}
 
 			<form>
 				<input
 					type='text'
-					name='petName'
+					name='name'
 					placeholder='Name*'
-					value={formData.petName}
+					value={formData.name}
 					onChange={handleChange}
 					required
 				/>
+
 				<input
 					type='text'
 					name='breed'
@@ -55,15 +61,38 @@ const AboutPet = ({ onUpdate }) => {
 				<input
 					type='number'
 					name='weight'
-					placeholder='Weight'
+					placeholder='Weight (lbs)'
 					value={formData.weight}
+					onChange={handleChange}
+				/>
+				<input
+					type='date'
+					name='birthday'
+					value={formData.birthday}
 					onChange={handleChange}
 				/>
 				<textarea
 					name='allergies'
-					placeholder='Any allergies or notes'
+					placeholder='Any allergies?'
 					value={formData.allergies}
 					onChange={handleChange}></textarea>
+				<textarea
+					name='notes'
+					placeholder='Additional notes'
+					value={formData.notes}
+					onChange={handleChange}></textarea>
+
+				<div className='file-upload-container'>
+					<input
+						type='file'
+						accept='image/*'
+						onChange={handleFileChange}
+					/>
+				</div>
+
+				{formData.image && (
+					<img src={formData.image} alt='Pet' className='preview-image' />
+				)}
 			</form>
 		</div>
 	);

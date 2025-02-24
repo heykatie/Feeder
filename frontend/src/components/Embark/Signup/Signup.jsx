@@ -33,6 +33,11 @@ const Signup = ({ onNext }) => {
 
 	return (
 		<div className='signup-form'>
+			<img
+				src='/images/logo.png'
+				alt='SousChef Logo'
+				className='page-logo'
+			/>
 			<h2>Begin Your Journey</h2>
 			<form onSubmit={handleSignup}>
 				<div className='input-container'>

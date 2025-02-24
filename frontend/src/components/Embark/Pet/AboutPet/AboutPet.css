@@ -17,18 +17,36 @@
 .about-pet-container h2 {
   font-size: 1.5rem;
   margin-bottom: 15px;
+  margin-top: auto;
+}
+
+.about-pet-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .about-pet-container form input,
-form textarea {
-  width: 65%;
-  padding: 10px;
-  margin: 8px 0;
+.about-pet-container form textarea,
+.about-pet-container form select {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px;
+  margin: 6px 0;
   border: none;
   border-radius: 5px;
   background: #232946;
   color: white;
   font-size: 16px;
+  text-align: left;
+}
+
+.name-species-container {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  gap: 10px;
 }
 
 .save-btn {
@@ -66,8 +84,9 @@ form textarea {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   margin-top: 20px;
+  padding: 10px;
 }
 
 .back-btn,
@@ -96,4 +115,33 @@ form textarea {
 
 .next-btn:hover {
   background-color: #00A4B2;
+}
+
+.preview-image {
+  max-width: 100px;
+  max-height: 100px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.file-upload-container input {
+  width: 100%;
+  max-width: 400px;
+  background: none;
+  color: white;
+  border: 2px dashed #00C6CF;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.file-upload-container input:hover {
+  border-color: #A379FF;
 }

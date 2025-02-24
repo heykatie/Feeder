@@ -14,7 +14,6 @@ const Embark = () => {
 	const [stepValid, setStepValid] = useState(false);
 	const [showExitModal, setShowExitModal] = useState(false);
 
-	// Function to update validation state when selection changes
 	useEffect(() => {
 		setStepValid(isStepValid(step));
 	}, [step, selection]);
@@ -38,25 +37,32 @@ const Embark = () => {
 	}, [step]);
 
 	const handleExit = useCallback(() => {
-		setShowExitModal(true); // ✅ Open exit confirmation modal instead of navigating
+		setShowExitModal(true);
 	}, []);
 
-	// Prevent accidental exits with the Escape key
 	useEffect(() => {
 		const handleKeyDown = (e) => {
+			const activeElement = document.activeElement;
+			const isInputField =
+				activeElement.tagName === 'INPUT' ||
+				activeElement.tagName === 'TEXTAREA' ||
+				activeElement.tagName === 'SELECT';
+
+			if (isInputField) return;
+
 			if ((e.key === 'Enter' || e.key === ' ') && stepValid) {
 				handleNext();
 			} else if (e.key === ' ' && !stepValid) {
-				handleNext(true); // Skip if space is pressed
+				handleNext(true);
 			} else if (e.key === 'Backspace') {
 				handleBack();
 			} else if (e.key === 'Escape') {
-				setShowExitModal(true); // ✅ Show exit confirmation instead of exiting immediately
+				setShowExitModal(true);
 			}
 		};
 
 		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown); // ✅ Cleanup event listener
+		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, [handleNext, handleBack, step, stepValid]);
 
 	const isStepValid = (currentStep) => {
@@ -150,7 +156,6 @@ const Embark = () => {
 				</button>
 			</div>
 
-			{/* ✅ Pass showExitModal and setShowExitModal to ConfirmExit */}
 			{showExitModal && (
 				<ConfirmExit
 					showExitModal={showExitModal}
