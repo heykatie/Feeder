@@ -36,7 +36,11 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.SousChef, {
 			foreignKey: 'userId',
 			onDelete: 'CASCADE',
-		});
+			});
+			User.hasMany(models.Pet, {
+				foreignKey: 'userId',
+				onDelete: 'CASCADE',
+			});
     }
   }
   User.init(
