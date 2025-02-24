@@ -3,23 +3,28 @@ import './ChooseSpecies.css';
 import catGif from '/images/cat.apng';
 import dogGif from '/images/dog.apng';
 
-const ChooseSpecies = ({ onSelect }) => {
+const ChooseSpecies = ({ onSelect, onChangeSelection }) => {
 	const [selectedPet, setSelectedPet] = useState(null);
-
-	const handleSelect = (pet) => {
-		setSelectedPet(pet);
-		setTimeout(() => onSelect(pet), 500);
-	};
+	const pets = ['cat', 'dog'];
 
 	useEffect(() => {
-		const handleKeyDown = (e) => {
-			if (e.key === 'Enter' && selectedPet) {
-				onSelect(selectedPet);
+		const handleSelection = (e) => {
+			const currentIndex = pets.indexOf(selectedPet);
+
+			if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+				const nextIndex = (currentIndex + 1) % pets.length;
+				setSelectedPet(pets[nextIndex]);
+				onChangeSelection(pets[nextIndex]);
+			} else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+				const prevIndex = (currentIndex - 1 + pets.length) % pets.length;
+				setSelectedPet(pets[prevIndex]);
+				onChangeSelection(pets[prevIndex]);
 			}
 		};
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [selectedPet]);
+
+		window.addEventListener('keydown', handleSelection);
+		return () => window.removeEventListener('keydown', handleSelection);
+	}, [selectedPet, onChangeSelection]);
 
 	return (
 		<div className='pet-selection-container'>
@@ -27,13 +32,21 @@ const ChooseSpecies = ({ onSelect }) => {
 			<div className='pet-options'>
 				<div
 					className={`pet-card ${selectedPet === 'cat' ? 'selected' : ''}`}
-					onClick={() => handleSelect('cat')}>
+					onClick={() => {
+						setSelectedPet('cat');
+						onChangeSelection('cat');
+					}}
+					tabIndex='0'>
 					<img src={catGif} alt='Cat' className='pet-gif' />
 					<p>Cat</p>
 				</div>
 				<div
 					className={`pet-card ${selectedPet === 'dog' ? 'selected' : ''}`}
-					onClick={() => handleSelect('dog')}>
+					onClick={() => {
+						setSelectedPet('dog');
+						onChangeSelection('dog');
+					}}
+					tabIndex='0'>
 					<img src={dogGif} alt='Dog' className='pet-gif' />
 					<p>Dog</p>
 				</div>

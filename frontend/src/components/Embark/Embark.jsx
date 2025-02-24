@@ -1,63 +1,121 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AboutPet from './Pet/AboutPet';
 import './Embark.css';
 import ChooseSpecies from './Pet/ChooseSpecies';
 import Signup from './Signup/Signup';
-import PickSousChef from './PickSousChef';
+import StartingChef from './StartingChef';
 
 const Embark = () => {
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
+	const [selection, setSelection] = useState({});
+	const [stepValid, setStepValid] = useState(false); // Track if step is valid
 
-	const handleSelectPet = (pet) => {
-		setStep(step + 1);
-	};
+	// Function to update validation state when selection changes
+	useEffect(() => {
+		setStepValid(isStepValid(step));
+	}, [step, selection]);
 
-	const handleNext = () => {
-		if (step < forms.length - 1) {
-			setStep(step + 1);
-		} else {
-			navigate('/dashboard');
+	const handleNext = useCallback(
+		(skip = false) => {
+			if (!skip && !stepValid) return;
+			if (step < forms.length - 1) {
+				setStep((prev) => prev + 1);
+			} else {
+				navigate('/dashboard');
+			}
+		},
+		[step, stepValid, navigate]
+	);
+
+	const handleBack = useCallback(() => {
+		if (step > 0) {
+			setStep((prev) => prev - 1);
+		}
+	}, [step]);
+
+	const handleExit = useCallback(() => {
+		navigate('/');
+	}, [navigate]);
+
+	// Check if the current step has required inputs filled
+	const isStepValid = (currentStep) => {
+		switch (currentStep) {
+			case 0: // ChooseSpecies step
+				return selection.companion !== undefined;
+			case 1: // AboutPet step
+				return selection.petName?.trim();
+			case 2: // StartingChef step
+				return selection.souschefName?.trim();
+			case 3: // Signup step
+				return (
+					selection.username?.trim() &&
+					selection.email?.trim() &&
+					selection.password?.trim()
+				);
+			default:
+				return true;
 		}
 	};
 
-	const forms = [
-		{ id: 0, component: <ChooseSpecies onSelect={handleSelectPet} /> },
-		{ id: 1, component: <AboutPet /> },
-		{ id: 2, component: <PickSousChef/> },
-		{ id: 3, component: <Signup onNext={handleNext} /> }, // Add Signup as the 4th step
-	];
-
 	useEffect(() => {
 		const handleKeyDown = (e) => {
-			if (e.key === 'Enter' && step === 3) {
+			if ((e.key === 'Enter' || e.key === ' ') && stepValid) {
 				handleNext();
-			}
-			if (e.key === 'ArrowRight' && step < forms.length - 1) {
-				handleNext();
-			}
-			if (e.key === 'ArrowLeft' && step > 0) {
+			} else if (e.key === ' ' && !stepValid) {
+				handleNext(true); // Skip if space is pressed
+			} else if (e.key === 'Backspace') {
 				handleBack();
-			}
-			if (e.key === 'Escape') {
+			} else if (e.key === 'Escape') {
 				handleExit();
 			}
 		};
 
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [step]);
+	}, [handleNext, handleBack, handleExit, step, stepValid]);
 
-	const handleBack = () => {
-		if (step > 0) {
-			setStep(step - 1);
-		}
-	};
-
-	const handleExit = () => {
-		navigate('/'); // Navigate back to home
-	};
+	const forms = [
+		{
+			id: 0,
+			component: (
+				<ChooseSpecies
+					onSelect={(companion) =>
+						setSelection({ ...selection, companion })
+					}
+				/>
+			),
+		},
+		{
+			id: 1,
+			component: (
+				<AboutPet
+					onUpdate={(petName) => setSelection({ ...selection, petName })}
+				/>
+			),
+		},
+		{
+			id: 2,
+			component: (
+				<StartingChef
+					onUpdate={(souschefName) =>
+						setSelection({ ...selection, souschefName })
+					}
+				/>
+			),
+		},
+		{
+			id: 3,
+			component: (
+				<Signup
+					onUpdate={(userData) =>
+						setSelection({ ...selection, ...userData })
+					}
+				/>
+			),
+		},
+	];
 
 	return (
 		<div className='embark-container'>
@@ -71,8 +129,9 @@ const Embark = () => {
 						← Back
 					</button>
 				)}
-				<button className='next-btn' onClick={handleNext}>
-					{step < forms.length - 1 ? 'Continue →' : 'Finish'}
+				{/* Button updates dynamically based on validation */}
+				<button className='next-btn' onClick={() => handleNext(!stepValid)}>
+					{stepValid ? 'Continue →' : 'Skip →'}
 				</button>
 			</div>
 		</div>

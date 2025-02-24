@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './AboutPet.css';
 
-const AboutPet = () => {
+const AboutPet = ({ onUpdate }) => {
 	const [formData, setFormData] = useState({
 		name: '',
 		breed: '',
@@ -10,15 +10,15 @@ const AboutPet = () => {
 		allergies: '',
 	});
 
+	// Handle input changes
 	const handleChange = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
+		setFormData({ ...formData, [e.target.petName]: e.target.value });
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		console.log('Pet data submitted:', formData);
-		// Send data to backend or store in Redux
-	};
+	// Auto-save when data changes
+	useEffect(() => {
+		onUpdate(formData);
+	}, [formData, onUpdate]);
 
 	return (
 		<div className='about-pet-container'>
@@ -27,14 +27,14 @@ const AboutPet = () => {
 				alt='SousChef Logo'
 				className='page-logo'
 			/>
-			<h2>Tell us about your baby</h2>
+			<h2>Tell us about your pet</h2>
 
-			<form onSubmit={handleSubmit}>
+			<form>
 				<input
 					type='text'
-					name='name'
+					name='petName'
 					placeholder='Name'
-					value={formData.name}
+					value={formData.petName}
 					onChange={handleChange}
 					required
 				/>
@@ -65,10 +65,6 @@ const AboutPet = () => {
 					placeholder='Any allergies or notes'
 					value={formData.allergies}
 					onChange={handleChange}></textarea>
-
-				<button type='submit' className='save-btn'>
-					Save
-				</button>
 			</form>
 		</div>
 	);
