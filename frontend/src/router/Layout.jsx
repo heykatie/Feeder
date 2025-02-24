@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { ModalProvider, Modal } from '../context/ModalProvider';
 import { authenticate } from '../redux/session';
 import { fetchSession } from '../redux/session';
-import Navbar from '../components/Nav/Navbar';
+import Navbar from '../components/Nav';
 
 export default function Layout() {
 	const dispatch = useDispatch();

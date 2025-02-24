@@ -1,16 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AboutPet from './Pet/AboutPet';
+import AboutPet from './pet/AboutPet';
 import './Embark.css';
-import ChooseSpecies from './Pet/ChooseSpecies';
+import ChooseSpecies from './pet/ChooseSpecies';
 import Signup from './Signup/Signup';
 import StartingChef from './StartingChef';
+import ConfirmExit from '../models/ConfirmExit';
 
 const Embark = () => {
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
 	const [selection, setSelection] = useState({});
-	const [stepValid, setStepValid] = useState(false); // Track if step is valid
+	const [stepValid, setStepValid] = useState(false);
+	const [showExitModal, setShowExitModal] = useState(false);
 
 	// Function to update validation state when selection changes
 	useEffect(() => {
@@ -36,29 +38,10 @@ const Embark = () => {
 	}, [step]);
 
 	const handleExit = useCallback(() => {
-		navigate('/');
-	}, [navigate]);
+		setShowExitModal(true); // ✅ Open exit confirmation modal instead of navigating
+	}, []);
 
-	// Check if the current step has required inputs filled
-	const isStepValid = (currentStep) => {
-		switch (currentStep) {
-			case 0: // ChooseSpecies step
-				return selection.companion !== undefined;
-			case 1: // AboutPet step
-				return selection.petName?.trim();
-			case 2: // StartingChef step
-				return selection.souschefName?.trim();
-			case 3: // Signup step
-				return (
-					selection.username?.trim() &&
-					selection.email?.trim() &&
-					selection.password?.trim()
-				);
-			default:
-				return true;
-		}
-	};
-
+	// Prevent accidental exits with the Escape key
 	useEffect(() => {
 		const handleKeyDown = (e) => {
 			if ((e.key === 'Enter' || e.key === ' ') && stepValid) {
@@ -68,13 +51,44 @@ const Embark = () => {
 			} else if (e.key === 'Backspace') {
 				handleBack();
 			} else if (e.key === 'Escape') {
-				handleExit();
+				setShowExitModal(true); // ✅ Show exit confirmation instead of exiting immediately
 			}
 		};
 
 		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [handleNext, handleBack, handleExit, step, stepValid]);
+		return () => window.removeEventListener('keydown', handleKeyDown); // ✅ Cleanup event listener
+	}, [handleNext, handleBack, step, stepValid]);
+
+	const isStepValid = (currentStep) => {
+		switch (currentStep) {
+			case 0:
+				return (
+					typeof selection.companion === 'string' &&
+					selection.companion.trim() !== ''
+				);
+			case 1:
+				return (
+					typeof selection.petName === 'string' &&
+					selection.petName.trim() !== ''
+				);
+			case 2:
+				return (
+					typeof selection.souschefName === 'string' &&
+					selection.souschefName.trim() !== ''
+				);
+			case 3:
+				return (
+					typeof selection.username === 'string' &&
+					typeof selection.email === 'string' &&
+					typeof selection.password === 'string' &&
+					selection.username.trim() !== '' &&
+					selection.email.trim() !== '' &&
+					selection.password.trim() !== ''
+				);
+			default:
+				return true;
+		}
+	};
 
 	const forms = [
 		{
@@ -82,7 +96,7 @@ const Embark = () => {
 			component: (
 				<ChooseSpecies
 					onSelect={(companion) =>
-						setSelection({ ...selection, companion })
+						setSelection((prev) => ({ ...prev, companion }))
 					}
 				/>
 			),
@@ -91,7 +105,9 @@ const Embark = () => {
 			id: 1,
 			component: (
 				<AboutPet
-					onUpdate={(petName) => setSelection({ ...selection, petName })}
+					onUpdate={(petName) =>
+						setSelection((prev) => ({ ...prev, petName }))
+					}
 				/>
 			),
 		},
@@ -100,7 +116,7 @@ const Embark = () => {
 			component: (
 				<StartingChef
 					onUpdate={(souschefName) =>
-						setSelection({ ...selection, souschefName })
+						setSelection((prev) => ({ ...prev, souschefName }))
 					}
 				/>
 			),
@@ -110,7 +126,7 @@ const Embark = () => {
 			component: (
 				<Signup
 					onUpdate={(userData) =>
-						setSelection({ ...selection, ...userData })
+						setSelection((prev) => ({ ...prev, ...userData }))
 					}
 				/>
 			),
@@ -129,11 +145,18 @@ const Embark = () => {
 						← Back
 					</button>
 				)}
-				{/* Button updates dynamically based on validation */}
 				<button className='next-btn' onClick={() => handleNext(!stepValid)}>
 					{stepValid ? 'Continue →' : 'Skip →'}
 				</button>
 			</div>
+
+			{/* ✅ Pass showExitModal and setShowExitModal to ConfirmExit */}
+			{showExitModal && (
+				<ConfirmExit
+					showExitModal={showExitModal}
+					setShowExitModal={setShowExitModal}
+				/>
+			)}
 		</div>
 	);
 };

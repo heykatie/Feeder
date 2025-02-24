@@ -15,10 +15,9 @@ const AboutPet = ({ onUpdate }) => {
 		setFormData({ ...formData, [e.target.petName]: e.target.value });
 	};
 
-	// Auto-save when data changes
 	useEffect(() => {
-		onUpdate(formData);
-	}, [formData, onUpdate]);
+		onUpdate(formData.name || '');
+	}, [formData.name, onUpdate]);
 
 	return (
 		<div className='about-pet-container'>
@@ -33,7 +32,7 @@ const AboutPet = ({ onUpdate }) => {
 				<input
 					type='text'
 					name='petName'
-					placeholder='Name'
+					placeholder='Name*'
 					value={formData.petName}
 					onChange={handleChange}
 					required

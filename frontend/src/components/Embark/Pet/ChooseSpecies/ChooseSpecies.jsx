@@ -3,53 +3,55 @@ import './ChooseSpecies.css';
 import catGif from '/images/cat.apng';
 import dogGif from '/images/dog.apng';
 
-const ChooseSpecies = ({ onSelect, onChangeSelection }) => {
+const ChooseSpecies = ({ onSelect }) => {
 	const [selectedPet, setSelectedPet] = useState(null);
 	const pets = ['cat', 'dog'];
+
+	const handlePetSelection = (pet) => {
+		setSelectedPet(pet);
+		onSelect(pet); // ✅ Call onSelect immediately
+	};
 
 	useEffect(() => {
 		const handleSelection = (e) => {
 			const currentIndex = pets.indexOf(selectedPet);
+			let newSelection = selectedPet;
 
 			if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-				const nextIndex = (currentIndex + 1) % pets.length;
-				setSelectedPet(pets[nextIndex]);
-				onChangeSelection(pets[nextIndex]);
+				newSelection = pets[(currentIndex + 1) % pets.length];
 			} else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-				const prevIndex = (currentIndex - 1 + pets.length) % pets.length;
-				setSelectedPet(pets[prevIndex]);
-				onChangeSelection(pets[prevIndex]);
+				newSelection = pets[(currentIndex - 1 + pets.length) % pets.length];
+			}
+
+			if (newSelection !== selectedPet) {
+				handlePetSelection(newSelection);
 			}
 		};
 
 		window.addEventListener('keydown', handleSelection);
 		return () => window.removeEventListener('keydown', handleSelection);
-	}, [selectedPet, onChangeSelection]);
+	}, [selectedPet]);
 
 	return (
 		<div className='pet-selection-container'>
 			<h2>Who are we feeding?</h2>
 			<div className='pet-options'>
-				<div
-					className={`pet-card ${selectedPet === 'cat' ? 'selected' : ''}`}
-					onClick={() => {
-						setSelectedPet('cat');
-						onChangeSelection('cat');
-					}}
-					tabIndex='0'>
-					<img src={catGif} alt='Cat' className='pet-gif' />
-					<p>Cat</p>
-				</div>
-				<div
-					className={`pet-card ${selectedPet === 'dog' ? 'selected' : ''}`}
-					onClick={() => {
-						setSelectedPet('dog');
-						onChangeSelection('dog');
-					}}
-					tabIndex='0'>
-					<img src={dogGif} alt='Dog' className='pet-gif' />
-					<p>Dog</p>
-				</div>
+				{pets.map((pet) => (
+					<div
+						key={pet}
+						className={`pet-card ${
+							selectedPet === pet ? 'selected' : ''
+						}`}
+						onClick={() => handlePetSelection(pet)}
+						tabIndex='0'>
+						<img
+							src={pet === 'cat' ? catGif : dogGif}
+							alt={pet}
+							className='pet-gif'
+						/>
+						<p>{pet.charAt(0).toUpperCase() + pet.slice(1)}</p>
+					</div>
+				))}
 			</div>
 		</div>
 	);
