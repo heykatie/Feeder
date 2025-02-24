@@ -3,7 +3,7 @@ import { csrfFetch } from './csrf';
 
 
 export const createSousChef = createAsyncThunk(
-	'sousChef/create',
+	'sousChefs/create',
 	async (sousChefData, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch('/api/souschefs', {
@@ -16,7 +16,7 @@ export const createSousChef = createAsyncThunk(
 				return rejectWithValue(errorData);
 			}
 			const data = await response.json();
-			return data; 
+			return data;
 		} catch (error) {
 			return rejectWithValue({
 				server: 'Failed to create SousChef. Please try again.',
@@ -27,7 +27,7 @@ export const createSousChef = createAsyncThunk(
 
 
 export const getSousChef = createAsyncThunk(
-	'sousChef/get',
+	'sousChefs/get',
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch('/api/souschefs');
@@ -44,7 +44,7 @@ export const getSousChef = createAsyncThunk(
 
 
 export const updateSousChef = createAsyncThunk(
-	'sousChef/update',
+	'sousChefs/update',
 	async ({ sousChefId, sousChefData }, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch(`/api/souschefs/${sousChefId}`, {
@@ -67,7 +67,7 @@ export const updateSousChef = createAsyncThunk(
 );
 
 const sousChefSlice = createSlice({
-	name: 'sousChef',
+	name: 'sousChefs',
 	initialState: { sousChef: null, status: 'idle', error: null },
 	reducers: {
 		setSousChef: (state, action) => {

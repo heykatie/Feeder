@@ -40,6 +40,7 @@ router.put('/:sousChefId', requireAuth, async (req, res) => {
 
 	try {
 		const sousChef = await SousChef.findByPk(sousChefId);
+		console.log('SousChef Found:', sousChef);
 
 		if (!sousChef) {
 			return res.status(404).json({ error: 'SousChef not found' });

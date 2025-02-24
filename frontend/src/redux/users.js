@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
-import { setSousChef } from './souschef';
-import {login} from './session';
+import { setSousChef } from './souschefs';
+import { login } from './session';
 
 export const signup = createAsyncThunk(
-	'user/signup',
+	'users/signup',
 	async (userData, { rejectWithValue, dispatch }) => {
 		try {
 			const response = await csrfFetch('/api/users', {
@@ -39,7 +39,7 @@ export const signup = createAsyncThunk(
 );
 
 export const updateUser = createAsyncThunk(
-	'user/update',
+	'users/update',
 	async ({ userId, userData }, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch(`/api/users/${userId}`, {
@@ -61,7 +61,7 @@ export const updateUser = createAsyncThunk(
 
 // 🔹 User Slice
 const usersSlice = createSlice({
-	name: 'user',
+	name: 'users',
 	initialState: { user: null, status: 'idle', error: null },
 	reducers: {
 		setUser: (state, action) => {

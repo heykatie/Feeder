@@ -10,13 +10,13 @@ import ConfirmExit from '../models/ConfirmExit';
 import { useDispatch } from 'react-redux';
 import { signup } from '../../redux/users';
 import { createPet } from '../../redux/pets';
-import { updateSousChef } from '../../redux/souschef';
+import { updateSousChef } from '../../redux/souschefs';
 
 const Embark = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
-	const sousChef = useSelector((state) => state.sousChef.sousChef);
+	const sousChef = useSelector((state) => state.sousChefs.sousChef);
 
 	const [selection, setSelection] = useState({
 		companion: '',
@@ -129,8 +129,7 @@ const Embark = () => {
 			}
 
 			const userId = userResponse.payload.id;
-			const sousChefId = userResponse.payload.SousChef?.id || SousChef?.id;
-
+			const sousChefId = userResponse.payload.SousChef?.id || sousChef?.id;
 
 			if (!sousChefId) {
 				console.error(
@@ -163,6 +162,7 @@ const Embark = () => {
 			if (selection.color) sousChefUpdates.color = selection.color;
 			if (selection.personality)
 				sousChefUpdates.personality = selection.personality;
+
 
 			if (Object.keys(sousChefUpdates).length > 0 && sousChefId) {
 				await dispatch(
