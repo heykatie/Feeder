@@ -10,17 +10,21 @@
 
 .footer-links {
   display: flex;
-  gap: 150px;
+  justify-content: space-evenly;
+  width: 100%;
+  max-width: 900px;
 }
 
 .footer-link {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: #FFD166;
+  justify-content: center;
+  text-align: center;
+  gap: 6px;
+  color: white;
   text-decoration: none;
   font-size: 1rem;
-  font-weight: bold;
+  position: relative;
   transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
@@ -33,6 +37,15 @@
   transform: translateY(-2px);
 }
 
-.icon {
-  font-size: 1.2rem;
+/* Tooltip Effect */
+.link-text {
+  min-width: 150px;
+  text-align: center;
+  display: inline-block;
+  transition: opacity 0.2s ease-in-out;
+  margin: auto;
+}
+
+.footer-link:hover .link-text {
+  opacity: 1;
 }
