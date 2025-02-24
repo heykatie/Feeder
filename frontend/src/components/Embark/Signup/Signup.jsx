@@ -38,7 +38,7 @@ const Signup = ({ onNext }) => {
 				alt='SousChef Logo'
 				className='page-logo'
 			/>
-			<h2>Begin Your Journey</h2>
+			<h2>Begin Your Adventure</h2>
 			<form onSubmit={handleSignup}>
 				<div className='input-container'>
 					<input

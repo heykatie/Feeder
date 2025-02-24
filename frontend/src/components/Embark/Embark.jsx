@@ -10,35 +10,100 @@ import ConfirmExit from '../models/ConfirmExit';
 const Embark = () => {
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
-	const [selection, setSelection] = useState({});
+	const [selection, setSelection] = useState({
+		companion: '',
+		name: '',
+		breed: '',
+		age: '',
+		weight: '',
+		birthday: '',
+		allergies: '',
+		notes: '',
+		image: '',
+		souschefName: '',
+		email: '',
+		password: '',
+	});
+
 	const [stepValid, setStepValid] = useState(false);
 	const [showExitModal, setShowExitModal] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	useEffect(() => {
 		setStepValid(isStepValid(step));
 	}, [step, selection]);
 
-	const handleNext = useCallback(
-		(skip = false) => {
-			if (!skip && !stepValid) return;
-			if (step < forms.length - 1) {
-				setStep((prev) => prev + 1);
-			} else {
-				navigate('/dashboard');
-			}
-		},
-		[step, stepValid, navigate]
-	);
+	const handleNext = async (skip = false) => {
+		if (!skip && !stepValid) return;
+
+		if (step === 0 && !selection.companion) {
+			setStep(2);
+		} else if (step < forms.length - 1) {
+			setStep((prev) => prev + 1);
+		} else {
+			await handleSubmit();
+		}
+	};
 
 	const handleBack = useCallback(() => {
-		if (step > 0) {
+		if (step === 2 && !selection.companion) {
+			setStep(0);
+		} else if (step > 0) {
 			setStep((prev) => prev - 1);
 		}
-	}, [step]);
+	}, [step, selection.companion]);
 
 	const handleExit = useCallback(() => {
 		setShowExitModal(true);
 	}, []);
+
+	const handleSubmit = async () => {
+		if (isSubmitting) return;
+		setIsSubmitting(true);
+
+		try {
+			const userResponse = await fetch('/api/users/signup', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					username: selection.username,
+					email: selection.email,
+					password: selection.password,
+				}),
+			});
+
+			if (!userResponse.ok) throw new Error('Failed to create user');
+
+			const userData = await userResponse.json();
+			const userId = userData.id;
+
+			const petResponse = await fetch('/api/pets', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					userId,
+					name: selection.name,
+					species: selection.companion,
+					breed: selection.breed,
+					age: selection.age,
+					weight: selection.weight,
+					birthday: selection.birthday,
+					allergies: selection.allergies,
+					notes: selection.notes,
+					image: selection.image,
+				}),
+			});
+
+			if (!petResponse.ok) throw new Error('Failed to create pet');
+
+			navigate('/dashboard');
+		} catch (error) {
+			console.error('Error:', error);
+			alert('Something went wrong! Please try again.');
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -152,8 +217,15 @@ const Embark = () => {
 						← Back
 					</button>
 				)}
-				<button className='next-btn' onClick={() => handleNext(!stepValid)}>
-					{stepValid ? 'Continue →' : 'Skip →'}
+				<button
+					className='next-btn'
+					onClick={() => handleNext(!stepValid)}
+					disabled={isSubmitting}>
+					{isSubmitting
+						? 'Personalizing your journey...'
+						: stepValid
+						? 'Continue →'
+						: 'Skip →'}
 				</button>
 			</div>
 
