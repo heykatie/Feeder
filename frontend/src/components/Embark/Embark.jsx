@@ -8,6 +8,8 @@ import StartingChef from './StartingChef';
 import ConfirmExit from '../models/ConfirmExit';
 import { useDispatch } from 'react-redux';
 import { signup } from '../../redux/users';
+import { createPet } from '../../redux/pets';
+import { updateSousChef } from '../../redux/souschef';
 
 const Embark = () => {
 	const dispatch = useDispatch();
@@ -98,30 +100,27 @@ const Embark = () => {
 		}, 0);
 	}, []);
 
+
 	const handleSubmit = async () => {
 		if (isSubmitting) return;
 		setIsSubmitting(true);
 
 		try {
-			const userResponse = await fetch('/api/users/signup', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					username: selection.username,
-					email: selection.email,
-					password: selection.password,
-				}),
-			});
+			const newUser = {
+				username: selection.username,
+				email: selection.email,
+				password: selection.password,
+			};
+			const userResponse = await dispatch(signup(newUser));
 
 			if (!userResponse.ok) throw new Error('Failed to create user');
 
 			const userData = await userResponse.json();
 			const userId = userData.id;
+			const sousChefId = userData.sousChef.id;
 
-			const petResponse = await fetch('/api/pets', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
+			await dispatch(
+				createPet({
 					userId,
 					name: selection.name,
 					species: selection.companion,
@@ -132,10 +131,22 @@ const Embark = () => {
 					allergies: selection.allergies,
 					notes: selection.notes,
 					image: selection.image,
-				}),
-			});
+				})
+			);
 
-			if (!petResponse.ok) throw new Error('Failed to create pet');
+			const sousChefUpdates = {};
+			if (selection.sousChefName)
+				sousChefUpdates.name = selection.sousChefName;
+			if (selection.eyeShape) sousChefUpdates.eyeShape = selection.eyeShape;
+			if (selection.color) sousChefUpdates.color = selection.color;
+			if (selection.personality)
+				sousChefUpdates.personality = selection.personality;
+
+			if (Object.keys(sousChefUpdates).length > 0) {
+				await dispatch(
+					updateSousChef({ sousChefId, sousChefData: sousChefUpdates })
+				);
+			}
 
 			navigate('/dashboard');
 		} catch (error) {
@@ -214,6 +225,7 @@ const Embark = () => {
 			id: 0,
 			component: (
 				<ChooseSpecies
+					selectedSpecies={selection.companion}
 					onSelect={(companion) =>
 						setSelection((prev) => ({ ...prev, companion }))
 					}
@@ -225,8 +237,9 @@ const Embark = () => {
 			component: (
 				<AboutPet
 					selectedSpecies={selection.companion}
+					initialData={selection} 
 					onUpdate={(petData) =>
-						setSelection((prev) => ({ ...prev, name: petData.name }))
+						setSelection((prev) => ({ ...prev, ...petData }))
 					}
 				/>
 			),

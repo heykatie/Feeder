@@ -3,33 +3,42 @@ import './ChooseSpecies.css';
 import catGif from '/images/cat.apng';
 import dogGif from '/images/dog.apng';
 
-const ChooseSpecies = ({ onSelect }) => {
-	const [selectedPet, setSelectedPet] = useState(null);
+const ChooseSpecies = ({ onSelect, selectedSpecies }) => {
+	const [selectedPet, setSelectedPet] = useState(selectedSpecies || null);
 	const pets = ['cat', 'dog'];
 
 	const handlePetSelection = (pet) => {
 		setSelectedPet(pet);
-		onSelect(pet); // ✅ Call onSelect immediately
+		onSelect(pet);
+	};
+
+	const handleKeyDown = (e) => {
+		const currentIndex = pets.indexOf(selectedPet);
+		let newSelection = selectedPet;
+
+		if (e.key === 'Escape') {
+			if (selectedPet) {
+				setSelectedPet(null);
+				onSelect(null);
+			} else {
+				return;
+			}
+		}
+
+		if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+			newSelection = pets[(currentIndex + 1) % pets.length];
+		} else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+			newSelection = pets[(currentIndex - 1 + pets.length) % pets.length];
+		}
+
+		if (newSelection !== selectedPet) {
+			handlePetSelection(newSelection);
+		}
 	};
 
 	useEffect(() => {
-		const handleSelection = (e) => {
-			const currentIndex = pets.indexOf(selectedPet);
-			let newSelection = selectedPet;
-
-			if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-				newSelection = pets[(currentIndex + 1) % pets.length];
-			} else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-				newSelection = pets[(currentIndex - 1 + pets.length) % pets.length];
-			}
-
-			if (newSelection !== selectedPet) {
-				handlePetSelection(newSelection);
-			}
-		};
-
-		window.addEventListener('keydown', handleSelection);
-		return () => window.removeEventListener('keydown', handleSelection);
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, [selectedPet]);
 
 	return (

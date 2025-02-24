@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
 
-// 🔹 Async Thunk: Signup User
 export const signup = createAsyncThunk(
 	'user/signup',
-	async (userData, { rejectWithValue }) => {
+	async (userData, { rejectWithValue, dispatch }) => {
 		try {
 			const response = await csrfFetch('/api/users', {
 				method: 'POST',
@@ -16,6 +15,10 @@ export const signup = createAsyncThunk(
 				return rejectWithValue(errorData);
 			}
 			const data = await response.json();
+
+			// ✅ Automatically log in user after signup
+			dispatch(setUser(data.user));
+
 			return data.user; // ✅ Return user data to store
 		} catch (error) {
 			return rejectWithValue({ server: 'Signup failed. Please try again.' });

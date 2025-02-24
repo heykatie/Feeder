@@ -1,39 +1,38 @@
 import { useState, useEffect } from 'react';
 import './AboutPet.css';
 
-const AboutPet = ({ onUpdate, selectedSpecies }) => {
+const AboutPet = ({ onUpdate, selectedSpecies, initialData }) => {
 	const [formData, setFormData] = useState({
-		name: '',
-		species: selectedSpecies || '',
-		breed: '',
-		age: '',
-		weight: '',
-		allergies: '',
-		notes: '',
-		image: '',
-		birthday: '',
+		name: initialData.name || '',
+		species: selectedSpecies || initialData.species || '',
+		breed: initialData.breed || '',
+		age: initialData.age || '',
+		weight: initialData.weight || '',
+		allergies: initialData.allergies || '',
+		notes: initialData.notes || '',
+		image: initialData.image || '',
+		birthday: initialData.birthday || '',
 	});
 
 	const handleChange = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
+		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+		onUpdate({ [e.target.name]: e.target.value });
 	};
 
-	const handleFileChange = (e) => {
-		const file = e.target.files[0];
-		if (file) {
-			setFormData((prev) => ({ ...prev, image: URL.createObjectURL(file) }));
-		}
-	};
+const handleFileChange = (e) => {
+	const file = e.target.files[0];
+	if (file) {
+		const imageUrl = URL.createObjectURL(file);
+		setFormData((prev) => ({ ...prev, image: imageUrl }));
+		onUpdate({ image: imageUrl, file });
+	}
+};
 
 	useEffect(() => {
-		if (formData.name.trim() !== '') {
+		if (formData.name.trim() !== '' && formData.name !== selectedSpecies) {
 			onUpdate({ name: formData.name });
 		}
-	}, [formData.name, onUpdate]);
-
-	// useEffect(() => {
-	// 	onUpdate({ name: formData.name });
-	// }, [formData.name, onUpdate]);
+	}, [formData.name]);
 
 	return (
 		<div className='about-pet-container'>

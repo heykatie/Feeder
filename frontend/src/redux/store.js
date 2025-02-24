@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { thunk } from 'redux-thunk';
 import sessionReducer from './session';
 import usersReducer from './users';
-import {thunk} from 'redux-thunk';
+import petsReducer from './pets';
+import sousChefReducer from './souschef';
 
 const isProduction = import.meta.env.MODE === 'production';
 
@@ -11,6 +13,8 @@ const store = configureStore({
 	reducer: {
 		session: sessionReducer,
 		users: usersReducer,
+		pets: petsReducer,
+		sousChef: sousChefReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		isProduction
