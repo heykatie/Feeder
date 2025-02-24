@@ -6,8 +6,11 @@ import ChooseSpecies from './pet/ChooseSpecies';
 import Signup from './Signup/Signup';
 import StartingChef from './StartingChef';
 import ConfirmExit from '../models/ConfirmExit';
+import { useDispatch } from 'react-redux';
+import { signup } from '../../redux/users';
 
 const Embark = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
 	const [selection, setSelection] = useState({

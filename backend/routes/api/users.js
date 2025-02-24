@@ -28,6 +28,41 @@ const validateSignup = [
 	handleValidationErrors,
 ];
 
+// Update user profile
+router.put('/:userId', requireAuth, async (req, res) => {
+	const { userId } = req.params;
+	const { firstName, lastName, phone, birthday, avatarUrl, bio, theme } = req.body;
+
+	try {
+		const user = await User.findByPk(userId);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		// Update user details
+		await user.update({ firstName, lastName, phone, birthday, avatarUrl, bio, theme });
+
+		// Return updated user
+		const safeUser = {
+			id: user.id,
+			email: user.email,
+			username: user.username,
+			firstName: user.firstName || null,
+			lastName: user.lastName || null,
+			phone: user.phone || null,
+			birthday: user.birthday || null,
+			avatarUrl: user.avatarUrl || null,
+			bio: user.bio || null,
+			theme: user.theme || null,
+		};
+
+		return res.json({ user: safeUser });
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ message: 'Error updating user profile' });
+	}
+});
+
 // Sign up
 router.post('/', validateSignup, async (req, res) => {
 	const { email, password, username } = req.body;
