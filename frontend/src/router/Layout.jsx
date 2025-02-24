@@ -19,7 +19,7 @@ export default function Layout() {
 		<>
 			<ModalProvider>
 				{location.pathname !== '/embark' && <Navbar />}
-				{isLoaded && <Outlet />}
+				<div className='main-content'>{isLoaded && <Outlet />}</div>
 				<Modal />
 				{location.pathname !== '/embark' && <Footer />}
 			</ModalProvider>

@@ -49,3 +49,33 @@
 .footer-link:hover .link-text {
   opacity: 1;
 }
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  /* Pushes the footer down */
+}
+
+.footer {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #121212;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px dotted var(--border-color);
+  position: relative;
+  /* Can be absolute if issues persist */
+  bottom: 0;
+}
