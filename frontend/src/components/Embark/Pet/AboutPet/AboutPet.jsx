@@ -3,7 +3,7 @@ import './AboutPet.css';
 
 const AboutPet = ({ onUpdate, selectedSpecies, initialData }) => {
 	const [formData, setFormData] = useState({
-		name: initialData.name || '',
+		petName: initialData.petName || '',
 		species: selectedSpecies || initialData.species || '',
 		breed: initialData.breed || '',
 		age: initialData.age || '',
@@ -15,8 +15,9 @@ const AboutPet = ({ onUpdate, selectedSpecies, initialData }) => {
 	});
 
 	const handleChange = (e) => {
-		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-		onUpdate({ [e.target.name]: e.target.value });
+		const { name, value } = e.target; // ✅ Correct destructuring
+		setFormData((prev) => ({ ...prev, [name]: value }));
+		onUpdate({ [name]: value });
 	};
 
 const handleFileChange = (e) => {
@@ -29,10 +30,10 @@ const handleFileChange = (e) => {
 };
 
 	useEffect(() => {
-		if (formData.name.trim() !== '' && formData.name !== selectedSpecies) {
-			onUpdate({ name: formData.name });
+		if (formData.petName.trim() !== '' && formData.petName !== selectedSpecies) {
+			onUpdate({ petName: formData.petName });
 		}
-	}, [formData.name]);
+	}, [formData.petName]);
 
 	return (
 		<div className='about-pet-container'>
@@ -43,9 +44,9 @@ const handleFileChange = (e) => {
 				<form>
 					<input
 						type='text'
-						name='name'
+						name='petName'
 						placeholder='Name*'
-						value={formData.name}
+						value={formData.petName}
 						onChange={handleChange}
 						required
 					/>

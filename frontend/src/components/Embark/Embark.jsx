@@ -20,7 +20,7 @@ const Embark = () => {
 
 	const [selection, setSelection] = useState({
 		companion: '',
-		name: '',
+		petName: '',
 		breed: '',
 		age: '',
 		weight: '',
@@ -138,11 +138,11 @@ const Embark = () => {
 				return;
 			}
 
-			if (selection.name) {
+			if (selection.petName) {
 				await dispatch(
 					createPet({
 						userId,
-						name: selection.name,
+						name: selection.petName,
 						species: selection.companion,
 						breed: selection.breed,
 						age: selection.age,
@@ -215,8 +215,8 @@ const Embark = () => {
 				);
 			case 1:
 				return (
-					typeof selection.name === 'string' &&
-					selection.name.trim() !== ''
+					typeof selection.petName === 'string' &&
+					selection.petName.trim() !== ''
 				);
 			case 2:
 				return (

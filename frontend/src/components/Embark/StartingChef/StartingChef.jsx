@@ -11,7 +11,9 @@ const personalities = [
 ];
 
 const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
-	const [name, setName] = useState(initialData.sousChefName || '');
+	const [sousChefName, setSousChefName] = useState(
+		initialData.sousChefName || ''
+	);
 	const [eyeShape, setEyeShape] = useState(initialData.eyeShape || 'cute');
 	const [color, setColor] = useState(initialData.color || '#ffcc00');
 	const [personality, setPersonality] = useState(
@@ -19,13 +21,13 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 	);
 
 	const updateSelection = (field, value) => {
-		if (field === 'name') setName(value);
+		if (field === 'sousChefName') setSousChefName(value);
 		if (field === 'eyeShape') setEyeShape(value);
 		if (field === 'color') setColor(value);
 		if (field === 'personality') setPersonality(value);
 
 		onUpdate({
-			souschefName: field === 'name' ? value : name,
+			sousChefName: field === 'sousChefName' ? value : sousChefName,
 			eyeShape: field === 'eyeShape' ? value : eyeShape,
 			color: field === 'color' ? value : color,
 			personality: field === 'personality' ? value : personality,
@@ -33,9 +35,9 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 	};
 
 	const handleContinue = () => {
-		if (!name.trim()) return;
+		if (!sousChefName.trim()) return;
 		onNext({
-			name,
+			name: sousChefName,
 			type: 'Starter Spoon',
 			level: 1,
 			xp: 0,
@@ -63,8 +65,8 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 			<input
 				type='text'
 				placeholder="SousChef's Name"
-				value={name}
-				onChange={(e) => updateSelection('name', e.target.value)}
+				value={sousChefName}
+				onChange={(e) => updateSelection('sousChefName', e.target.value)}
 			/>
 
 			{/* Eye Shape Selection */}
@@ -75,7 +77,7 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 						<button
 							key={shape}
 							className={eyeShape === shape ? 'selected' : ''}
-							onClick={() => updateSelection('eyeShape', shape)}>
+							onClick={(e) => updateSelection('eyeShape', shape)}>
 							<SousChefSVG eyeShape={shape} color={color} small />
 						</button>
 					))}
@@ -90,7 +92,7 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 						<button
 							key={label}
 							className={personality === label ? 'selected' : ''}
-							onClick={() => updateSelection('personality', label)}>
+							onClick={(e) => updateSelection('personality', label)}>
 							<span>{emoji}</span> {label}
 						</button>
 					))}
