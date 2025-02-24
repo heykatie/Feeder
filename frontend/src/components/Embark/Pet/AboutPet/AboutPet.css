@@ -1,5 +1,5 @@
 .about-pet-container {
-  max-width: 500px;
+  max-width: 700px;
   margin: 50px auto;
   padding: 20px;
   background-color: #1A1A2E;
@@ -7,11 +7,17 @@
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-.page-logo {
-  width: 80px;
-  margin-bottom: 10px;
+.about-pet-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
 }
 
 .about-pet-container h2 {
@@ -117,18 +123,30 @@
   background-color: #00A4B2;
 }
 
+.image-preview-container {
+  position: absolute;
+  top: 50%;
+  right: -250px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .preview-image {
-  max-width: 100px;
-  max-height: 100px;
-  margin-top: 10px;
-  border-radius: 5px;
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 198, 207, 0.8);
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeScale 0.4s ease-out forwards;
 }
 
 .file-upload-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
 }
 
 .file-upload-container input {
@@ -144,4 +162,31 @@
 
 .file-upload-container input:hover {
   border-color: #A379FF;
+}
+
+@keyframes fadeScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .image-preview-container {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    margin-top: 20px;
+  }
+
+  .preview-image {
+    max-width: 120px;
+    max-height: 120px;
+  }
 }

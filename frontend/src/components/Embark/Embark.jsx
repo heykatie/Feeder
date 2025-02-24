@@ -74,8 +74,8 @@ const Embark = () => {
 				);
 			case 1:
 				return (
-					typeof selection.petName === 'string' &&
-					selection.petName.trim() !== ''
+					typeof selection.name === 'string' &&
+					selection.name.trim() !== ''
 				);
 			case 2:
 				return (
@@ -111,8 +111,9 @@ const Embark = () => {
 			id: 1,
 			component: (
 				<AboutPet
-					onUpdate={(petName) =>
-						setSelection((prev) => ({ ...prev, petName }))
+					selectedSpecies={selection.companion}
+					onUpdate={(petData) =>
+						setSelection((prev) => ({ ...prev, name: petData.name }))
 					}
 				/>
 			),
