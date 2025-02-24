@@ -46,7 +46,7 @@
 }
 
 .back-btn,
-.next-btn {
+.embark-next-btn {
   background: #00c6cf;
   color: white;
   border: none;
@@ -62,7 +62,7 @@
 }
 
 .back-btn:hover,
-.next-btn:hover {
+.embark-next-btn:hover {
   background: #ffb84c;
 }
 
@@ -81,4 +81,67 @@
 
 .exit-btn:hover {
   color: #ffb84c;
+}
+
+.embark-next-btn {
+  position: relative;
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.embark-next-btn.skip {
+  background-color: #aaa;
+  color: black;
+}
+
+.embark-button-text {
+  display: inline-block;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.embark-next-btn .button-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.embark-next-btn .button-text-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.embark-next-btn .button-text-exit {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.embark-next-btn.continue {
+  background-color: #00c6cf;
+  color: white;
+  animation: bounce 0.3s ease-in-out;
 }

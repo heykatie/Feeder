@@ -5,9 +5,15 @@ import './ConfirmExit.css';
 export default function ConfirmExit({ showExitModal, setShowExitModal }) {
 	const navigate = useNavigate();
 
+	// const confirmExit = useCallback(() => {
+	// 	navigate('/');
+	// 	// window.location.reload();
+	// }, [navigate]);
+
 	const confirmExit = useCallback(() => {
-		navigate('/'); 
-	}, [navigate]);
+		setShowExitModal(false);
+		navigate('/')
+	}, [navigate, setShowExitModal]);
 
 
 	useEffect(() => {

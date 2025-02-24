@@ -20,7 +20,7 @@ const Embark = () => {
 		allergies: '',
 		notes: '',
 		image: '',
-		souschefName: '',
+		sousChefName: '',
 		email: '',
 		password: '',
 	});
@@ -28,6 +28,26 @@ const Embark = () => {
 	const [stepValid, setStepValid] = useState(false);
 	const [showExitModal, setShowExitModal] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const [prevStepValid, setPrevStepValid] = useState(false);
+	const [buttonText, setButtonText] = useState('Skip →');
+
+	useEffect(() => {
+		if (stepValid !== prevStepValid) {
+			setButtonText(stepValid ? 'Continue →' : 'Skip →');
+
+			if (stepValid) {
+				const btn = document.querySelector('.embark-next-btn.continue');
+				if (btn) {
+					btn.classList.remove('animate');
+					void btn.offsetWidth;
+					btn.classList.add('animate');
+				}
+			}
+
+			setPrevStepValid(stepValid);
+		}
+	}, [stepValid, prevStepValid]);
 
 	useEffect(() => {
 		setStepValid(isStepValid(step));
@@ -54,7 +74,25 @@ const Embark = () => {
 	}, [step, selection.companion]);
 
 	const handleExit = useCallback(() => {
+		// setSelection({
+		// 	companion: '',
+		// 	name: '',
+		// 	breed: '',
+		// 	age: '',
+		// 	weight: '',
+		// 	birthday: '',
+		// 	allergies: '',
+		// 	notes: '',
+		// 	image: '',
+		// 	sousChefName: '',
+		// 	email: '',
+		// 	password: '',
+		// });
 		setShowExitModal(true);
+		setTimeout(() => {
+			navigate('/', { replace: true });
+			setStep(0);
+		}, 0);
 	}, []);
 
 	const handleSubmit = async () => {
@@ -113,16 +151,18 @@ const Embark = () => {
 				activeElement.tagName === 'TEXTAREA' ||
 				activeElement.tagName === 'SELECT';
 
-			if (isInputField) return;
-
-			if ((e.key === 'Enter' || e.key === ' ') && stepValid) {
+			if (e.key === 'Escape') {
+				if (isInputField) {
+					activeElement.blur();
+				} else {
+					setShowExitModal(true);
+				}
+			} else if ((e.key === 'Enter' || e.key === ' ') && stepValid) {
 				handleNext();
 			} else if (e.key === ' ' && !stepValid) {
 				handleNext(true);
 			} else if (e.key === 'Backspace') {
 				handleBack();
-			} else if (e.key === 'Escape') {
-				setShowExitModal(true);
 			}
 		};
 
@@ -143,10 +183,15 @@ const Embark = () => {
 					selection.name.trim() !== ''
 				);
 			case 2:
-				return (
-					typeof selection.souschefName === 'string' &&
-					selection.souschefName.trim() !== ''
-				);
+			return (
+				(selection.sousChefName?.trim() !== '' &&
+					selection.sousChefName !== undefined) ||
+				(selection.eyeShape?.trim() !== '' &&
+					selection.eyeShape !== undefined) ||
+				(selection.color?.trim() !== '' && selection.color !== undefined) ||
+				(selection.personality?.trim() !== '' &&
+					selection.personality !== undefined)
+			);
 			case 3:
 				return (
 					typeof selection.username === 'string' &&
@@ -187,8 +232,8 @@ const Embark = () => {
 			id: 2,
 			component: (
 				<StartingChef
-					onUpdate={(souschefName) =>
-						setSelection((prev) => ({ ...prev, souschefName }))
+					onUpdate={(sousChefData) =>
+						setSelection((prev) => ({ ...prev, ...sousChefData }))
 					}
 				/>
 			),
@@ -218,14 +263,12 @@ const Embark = () => {
 					</button>
 				)}
 				<button
-					className='next-btn'
+					className={`embark-next-btn ${stepValid ? 'continue' : 'skip'}`}
 					onClick={() => handleNext(!stepValid)}
 					disabled={isSubmitting}>
-					{isSubmitting
-						? 'Personalizing your journey...'
-						: stepValid
-						? 'Continue →'
-						: 'Skip →'}
+					<span key={buttonText} className='embark-button-text'>
+						{isSubmitting ? 'Personalizing your journey...' : buttonText}
+					</span>
 				</button>
 			</div>
 

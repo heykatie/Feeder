@@ -26,8 +26,14 @@ const AboutPet = ({ onUpdate, selectedSpecies }) => {
 	};
 
 	useEffect(() => {
-		onUpdate({ name: formData.name });
+		if (formData.name.trim() !== '') {
+			onUpdate({ name: formData.name });
+		}
 	}, [formData.name, onUpdate]);
+
+	// useEffect(() => {
+	// 	onUpdate({ name: formData.name });
+	// }, [formData.name, onUpdate]);
 
 	return (
 		<div className='about-pet-container'>

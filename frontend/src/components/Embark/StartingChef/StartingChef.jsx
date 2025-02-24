@@ -10,11 +10,25 @@ const personalities = [
 	{ label: 'Calm', emoji: '🧘' },
 ];
 
-const StartingChef = ({ onNext, onBack }) => {
+const StartingChef = ({ onNext, onBack, onUpdate }) => {
 	const [name, setName] = useState('');
 	const [eyeShape, setEyeShape] = useState('cute');
-	const [color, setColor] = useState('#ffcc00'); // Default color
-	const [personality, setPersonality] = useState('Playful'); // Default
+	const [color, setColor] = useState('#ffcc00');
+	const [personality, setPersonality] = useState('Playful');
+
+	const updateSelection = (field, value) => {
+		if (field === 'name') setName(value);
+		if (field === 'eyeShape') setEyeShape(value);
+		if (field === 'color') setColor(value);
+		if (field === 'personality') setPersonality(value);
+
+		onUpdate({
+			souschefName: field === 'name' ? value : name,
+			eyeShape: field === 'eyeShape' ? value : eyeShape,
+			color: field === 'color' ? value : color,
+			personality: field === 'personality' ? value : personality,
+		});
+	};
 
 	const handleContinue = () => {
 		if (!name.trim()) return;
@@ -26,7 +40,7 @@ const StartingChef = ({ onNext, onBack }) => {
 			evoStage: 'Foraging Fledgling',
 			eyeShape,
 			color,
-			personality, // ✅ Send personality
+			personality,
 		});
 	};
 
@@ -48,10 +62,10 @@ const StartingChef = ({ onNext, onBack }) => {
 				type='text'
 				placeholder="SousChef's Name"
 				value={name}
-				onChange={(e) => setName(e.target.value)}
+				onChange={(e) => updateSelection('name', e.target.value)}
 			/>
 
-			{/* Eye Shape Selection with Preview */}
+			{/* Eye Shape Selection */}
 			<div className='eye-shape-selector'>
 				<label>Eye Shape:</label>
 				<div className='eye-preview-container'>
@@ -59,7 +73,7 @@ const StartingChef = ({ onNext, onBack }) => {
 						<button
 							key={shape}
 							className={eyeShape === shape ? 'selected' : ''}
-							onClick={() => setEyeShape(shape)}>
+							onClick={() => updateSelection('eyeShape', shape)}>
 							<SousChefSVG eyeShape={shape} color={color} small />
 						</button>
 					))}
@@ -74,7 +88,7 @@ const StartingChef = ({ onNext, onBack }) => {
 						<button
 							key={label}
 							className={personality === label ? 'selected' : ''}
-							onClick={() => setPersonality(label)}>
+							onClick={() => updateSelection('personality', label)}>
 							<span>{emoji}</span> {label}
 						</button>
 					))}
@@ -88,7 +102,7 @@ const StartingChef = ({ onNext, onBack }) => {
 					<input
 						type='color'
 						value={color}
-						onChange={(e) => setColor(e.target.value)}
+						onChange={(e) => updateSelection('color', e.target.value)}
 					/>
 					<div
 						className='color-preview'
