@@ -5,6 +5,8 @@ import Layout from './Layout';
 import Splash from '../components/Splash';
 import AboutPet from '../components/Embark/Pet/AboutPet';
 import Embark from '../components/Embark';
+import ChooseSpecies from '../components/Embark/pet/ChooseSpecies';
+import StartingChef from '../components/Embark/StartingChef';
 
 export const router = createBrowserRouter([
 	{
@@ -27,8 +29,16 @@ export const router = createBrowserRouter([
 				element: <Embark />,
 			},
 			{
+				path: 'pick-species',
+				element: <ChooseSpecies />,
+			},
+			{
 				path: 'about-pet',
 				element: <AboutPet />,
+			},
+			{
+				path: 'customize-souschef',
+				element: <StartingChef/>
 			},
 			{
 				path: '*',

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { ModalProvider, Modal } from '../context/ModalProvider';
 import { restoreSession } from '../redux/session';
 import Navbar from '../components/Nav';
+import Footer from '../components/Footer';
 
 export default function Layout() {
 	const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function Layout() {
 				{location.pathname !== '/embark' && <Navbar />}
 				{isLoaded && <Outlet />}
 				<Modal />
+				{location.pathname !== '/embark' && <Footer />}
 			</ModalProvider>
 		</>
 	);
