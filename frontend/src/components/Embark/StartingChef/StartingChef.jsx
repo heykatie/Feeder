@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import SousChefSVG from '../../SousChef/SousChefSVG';
 import './StartingChef.css';
 
@@ -20,6 +20,10 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 		initialData.personality || 'Playful'
 	);
 
+	const nameInputRef = useRef(null);
+	const sections = ['sousChefName', 'eyeShape', 'personality', 'color'];
+	const [selectedSection, setSelectedSection] = useState(0);
+
 	const updateSelection = (field, value) => {
 		if (field === 'sousChefName') setSousChefName(value);
 		if (field === 'eyeShape') setEyeShape(value);
@@ -34,25 +38,75 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 		});
 	};
 
-	const handleContinue = () => {
-		if (!sousChefName.trim()) return;
-		onNext({
-			name: sousChefName,
-			type: 'Starter Spoon',
-			level: 1,
-			xp: 0,
-			evoStage: 'Foraging Fledgling',
-			eyeShape,
-			color,
-			personality,
-		});
+	// **Keyboard Navigation**
+	const handleKeyDown = (e) => {
+		if (
+			document.activeElement.tagName === 'INPUT' &&
+			e.key !== 'ArrowUp' &&
+			e.key !== 'ArrowDown'
+		)
+			return;
+
+		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+			e.preventDefault();
+			let newIndex =
+				e.key === 'ArrowUp'
+					? (selectedSection - 1 + sections.length) % sections.length
+					: (selectedSection + 1) % sections.length;
+
+			setSelectedSection(newIndex);
+
+			// Explicitly focus the corresponding field
+			setTimeout(() => {
+				if (sections[newIndex] === 'sousChefName' && nameInputRef.current) {
+					nameInputRef.current.focus();
+				} else if (sections[newIndex] === 'eyeShape') {
+					document
+						.querySelector('[data-type="eyeShape"].selected')
+						?.focus();
+				} else if (sections[newIndex] === 'personality') {
+					document
+						.querySelector('[data-type="personality"].selected')
+						?.focus();
+				} else if (sections[newIndex] === 'color') {
+					document.querySelector('input[type="color"]')?.focus();
+				}
+			}, 10);
+		}
+
+		if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+			e.preventDefault();
+			if (sections[selectedSection] === 'eyeShape') {
+				const currentIndex = eyeShapes.indexOf(eyeShape);
+				const newIndex =
+					e.key === 'ArrowRight'
+						? (currentIndex + 1) % eyeShapes.length
+						: (currentIndex - 1 + eyeShapes.length) % eyeShapes.length;
+				updateSelection('eyeShape', eyeShapes[newIndex]);
+			} else if (sections[selectedSection] === 'personality') {
+				const currentIndex = personalities.findIndex(
+					(p) => p.label === personality
+				);
+				const newIndex =
+					e.key === 'ArrowRight'
+						? (currentIndex + 1) % personalities.length
+						: (currentIndex - 1 + personalities.length) %
+						personalities.length;
+				updateSelection('personality', personalities[newIndex].label);
+			}
+		}
 	};
+
+	// Attach keydown listener
+	useEffect(() => {
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [eyeShape, personality, selectedSection]);
 
 	return (
 		<div className='starting-chef-container'>
 			<h2>Customize Your SousChef</h2>
 
-			{/* SousChef Preview */}
 			<div className='souschef-preview' style={{ borderColor: color }}>
 				<SousChefSVG
 					eyeShape={eyeShape}
@@ -61,15 +115,16 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 				/>
 			</div>
 
-			{/* Name Input */}
+			{/* 🔹 Autofocus Input */}
 			<input
 				type='text'
-				placeholder="SousChef's Name"
+				ref={nameInputRef}
+				className={!sousChefName ? 'empty' : ''}
+				placeholder='Name your SousChef'
 				value={sousChefName}
 				onChange={(e) => updateSelection('sousChefName', e.target.value)}
 			/>
 
-			{/* Eye Shape Selection */}
 			<div className='eye-shape-selector'>
 				<label>Eye Shape:</label>
 				<div className='eye-preview-container'>
@@ -77,14 +132,15 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 						<button
 							key={shape}
 							className={eyeShape === shape ? 'selected' : ''}
-							onClick={(e) => updateSelection('eyeShape', shape)}>
+							data-type='eyeShape'
+							tabIndex='0'
+							onClick={() => updateSelection('eyeShape', shape)}>
 							<SousChefSVG eyeShape={shape} color={color} small />
 						</button>
 					))}
 				</div>
 			</div>
 
-			{/* Personality Selection */}
 			<div className='personality-selector'>
 				<label>Personality:</label>
 				<div className='personality-options'>
@@ -92,14 +148,15 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 						<button
 							key={label}
 							className={personality === label ? 'selected' : ''}
-							onClick={(e) => updateSelection('personality', label)}>
+							data-type='personality'
+							tabIndex='0'
+							onClick={() => updateSelection('personality', label)}>
 							<span>{emoji}</span> {label}
 						</button>
 					))}
 				</div>
 			</div>
 
-			{/* Color Picker */}
 			<div className='color-picker'>
 				<label>Pick a color:</label>
 				<div className='color-input-container'>

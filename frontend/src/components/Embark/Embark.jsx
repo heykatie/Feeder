@@ -192,10 +192,18 @@ const Embark = () => {
 				} else {
 					setShowExitModal(true);
 				}
-			} else if ((e.key === 'Enter' || e.key === ' ') && stepValid) {
+			} else if (e.key === 'Enter' && stepValid) {
 				handleNext();
-			} else if (e.key === ' ' && !stepValid) {
-				handleNext(true);
+			} else if (e.key === ' ') {
+				if (
+					activeElement &&
+					(activeElement.tagName === 'BUTTON' ||
+						activeElement.tagName === 'INPUT')
+				) {
+					activeElement.click();
+				} else if (!stepValid) {
+					handleNext(true);
+				}
 			} else if (e.key === 'Backspace' && !isInputField) {
 				handleBack();
 			}
@@ -290,6 +298,7 @@ const Embark = () => {
 			),
 		},
 	];
+
 
 	return (
 		<div className='embark-container'>

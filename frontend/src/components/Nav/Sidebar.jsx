@@ -9,7 +9,8 @@ const Sidebar = ({ showMenu, toggleMenu }) => {
 	const [isExpanded, setIsExpanded] = useState(false);
 
 	const handleExpandToggle = () => {
-		setIsExpanded(!isExpanded);
+		setIsExpanded((prev) => !prev);
+		toggleMenu();
 	};
 
 	useEffect(() => {
