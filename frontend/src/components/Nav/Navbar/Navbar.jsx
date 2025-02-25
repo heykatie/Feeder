@@ -17,9 +17,12 @@ const Navbar = () => {
 
 	const toggleExpand = () => {
 		setIsExpanded((prev) => !prev);
+		if (!isExpanded) setShowMenu(false);
+		if (isExpanded) setShowMenu((prev) => !prev);
 	};
 
 	const toggleMenu = () => {
+		if (isExpanded) setShowMenu(true);
 		setShowMenu((prev) => !prev);
 	};
 
