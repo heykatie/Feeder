@@ -48,7 +48,7 @@ const ChooseSpecies = ({ onSelect, selectedSpecies }) => {
 				{pets.map((pet) => (
 					<div
 						key={pet}
-						className={`pet-card ${
+						className={`species-card ${
 							selectedPet === pet ? 'selected' : ''
 						}`}
 						onClick={() => handlePetSelection(pet)}

@@ -233,7 +233,7 @@ input::placeholder {
 }
 
 button {
-  /* background: var(--primary-accent); */
+  background: var(--primary-accent);
   color: var(--text-color);
   border: none;
   padding: 10px;

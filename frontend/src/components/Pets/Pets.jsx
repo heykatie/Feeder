@@ -1,13 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPets, createPet, deletePet } from '../../redux/pets';
-import PetForm from './PetForm';
+import { getPets, createPet, deletePet, updatePet } from '../../redux/pets';
+import AboutPet from '../../forms/AboutPet';
+import OpenModalButton from '../../context/OpenModalButton';
+import pupGif from '/images/pup.gif';
 import './Pets.css';
 
 const Pets = () => {
 	const dispatch = useDispatch();
-  const { pets, status, error } = useSelector((state) => state.pets);
-  const user = useSelector((state) => state.session.user)
+	const { pets, status, error } = useSelector((state) => state.pets);
+	const user = useSelector((state) => state.session.user);
+	const [petToEdit, setPetToEdit] = useState(null);
 
 	useEffect(() => {
 		dispatch(getPets());
@@ -23,26 +26,36 @@ const Pets = () => {
 		dispatch(getPets());
 	};
 
+	const handlePetUpdate = async (updatedPetData) => {
+		if (updatedPetData.id) {
+			await dispatch(updatePet(updatedPetData));
+			dispatch(getPets());
+		}
+	};
+
 	return (
 		<div className='pets-container'>
 			<h2>My Pets</h2>
 
-			{/* Add Pet Form */}
-			<PetForm onSubmit={handleAddPet} />
+			<OpenModalButton
+				buttonText='+ Add Pet'
+				modalComponent={<AboutPet onUpdate={handleAddPet} mode='add' />}
+			/>
 
-			{/* Display Pets */}
-			{status === 'loading' ? (
-				<p>Loading pets...</p>
-			) : error ? (
-				<p className='error'>{error}</p>
-			) : pets.length === 0 ? (
+      {status === 'loading' && (
+        <p>Loading pets...</p>
+      )}
+
+      {error && error?.server}
+
+      {pets.length === 0 ? (
 				<p>No pets added yet.</p>
 			) : (
 				<ul className='pet-list'>
 					{pets.map((pet) => (
 						<li key={pet.id} className='pet-card'>
 							<img
-								src={pet.image || '/default-pet.png'}
+								src={pupGif || pet?.image }
 								alt={pet.name}
 							/>
 							<h3>{pet.name}</h3>
@@ -54,11 +67,24 @@ const Pets = () => {
 							</p>
 							<p>Allergies: {pet.allergies || 'None'}</p>
 							<p>Notes: {pet.notes || 'No notes'}</p>
-							<button
-								onClick={() => handleDeletePet(pet.id)}
-								className='delete-btn'>
-								Delete
-							</button>
+							<div className='pet-actions'>
+								<OpenModalButton
+									buttonText='Edit'
+									onClick={() => setPetToEdit(pet)}
+									modalComponent={
+										<AboutPet
+											onUpdate={handlePetUpdate}
+											initialData={petToEdit}
+											mode='edit'
+										/>
+									}
+								/>
+								<button
+									onClick={() => handleDeletePet(pet.id)}
+									className='delete-btn'>
+									Delete
+								</button>
+							</div>
 						</li>
 					))}
 				</ul>

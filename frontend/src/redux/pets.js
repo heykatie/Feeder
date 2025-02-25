@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
 
-// 🔹 Async Thunk: Create a Pet
+
 export const createPet = createAsyncThunk(
 	'pets/create',
 	async (petData, { rejectWithValue }) => {
@@ -16,16 +16,17 @@ export const createPet = createAsyncThunk(
 				return rejectWithValue(errorData);
 			}
 			const data = await response.json();
-			return data; // ✅ Return created pet data
+			return data;
 		} catch (error) {
+			const err = (await error.json() || JSON.stringify(error))
 			return rejectWithValue({
-				server: 'Failed to create pet. Please try again.',
+				server: err || 'Failed to create pet. Please try again.',
 			});
 		}
 	}
 );
 
-// 🔹 Async Thunk: Get Pets for Logged-in User
+
 export const getPets = createAsyncThunk(
 	'pets/getAll',
 	async (_, { rejectWithValue }) => {
@@ -38,6 +39,50 @@ export const getPets = createAsyncThunk(
 			return data.pets;
 		} catch (error) {
 			return rejectWithValue('Failed to fetch pets.');
+		}
+	}
+);
+
+export const updatePet = createAsyncThunk(
+	'pets/update',
+	async ({ petId, ...updatedData }, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch(`/api/pets/${petId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(updatedData),
+			});
+			if (!response.ok) {
+				const errorData = await response.json();
+				return rejectWithValue(errorData);
+			}
+			const data = await response.json();
+			return data;
+		} catch (error) {
+			return rejectWithValue({
+				server: 'Failed to update pet. Please try again.',
+			});
+		}
+	}
+);
+
+
+export const deletePet = createAsyncThunk(
+	'pets/delete',
+	async (petId, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch(`/api/pets/${petId}`, {
+				method: 'DELETE',
+			});
+			if (!response.ok) {
+				const errorData = await response.json();
+				return rejectWithValue(errorData);
+			}
+			return petId;
+		} catch (error) {
+			return rejectWithValue({
+				server: 'Failed to delete pet. Please try again.',
+			});
 		}
 	}
 );
@@ -76,10 +121,34 @@ const petsSlice = createSlice({
 			.addCase(getPets.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.payload;
+			})
+			.addCase(updatePet.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(updatePet.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				const index = state.pets.findIndex((pet) => pet.id === action.payload.id);
+				if (index !== -1) {
+					state.pets[index] = action.payload;
+				}
+			})
+			.addCase(updatePet.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.payload;
+			})
+			.addCase(deletePet.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(deletePet.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				state.pets = state.pets.filter((pet) => pet.id !== action.payload);
+			})
+			.addCase(deletePet.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.payload;
 			});
 	},
 });
 
-// 🔹 Export Actions & Reducer
-export const { setPets, clearPets } = petsSlice.actions;
+
 export default petsSlice.reducer;

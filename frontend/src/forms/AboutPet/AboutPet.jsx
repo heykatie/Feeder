@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
 import './AboutPet.css';
 
-const AboutPet = ({ onUpdate, selectedSpecies, initialData }) => {
+const AboutPet = ({
+	onUpdate,
+	selectedSpecies,
+	initialData = null,
+	mode = 'onboarding',
+}) => {
+	const isEditMode = mode === 'edit';
+	const isAddMode = mode === 'add';
+
 	const [formData, setFormData] = useState({
 		petName: initialData?.petName || '',
 		species: selectedSpecies || initialData?.species || '',
@@ -20,28 +28,49 @@ const AboutPet = ({ onUpdate, selectedSpecies, initialData }) => {
 		onUpdate({ [name]: value });
 	};
 
-const handleFileChange = (e) => {
-	const file = e.target.files[0];
-	if (file) {
-		const imageUrl = URL.createObjectURL(file);
-		setFormData((prev) => ({ ...prev, image: imageUrl }));
-		onUpdate({ image: imageUrl, file });
-	}
-};
+	const handleFileChange = (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			const imageUrl = URL.createObjectURL(file);
+			setFormData((prev) => ({ ...prev, image: imageUrl }));
+			onUpdate({ image: imageUrl, file });
+		}
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (isEditMode) {
+			onUpdate({ ...formData, id: initialData?.id });
+		} else {
+			onUpdate(formData);
+		}
+	};
 
 	useEffect(() => {
-		if (formData.petName.trim() !== '' && formData.petName !== selectedSpecies) {
+		if (
+			formData.petName.trim() !== '' &&
+			formData.petName !== selectedSpecies
+		) {
 			onUpdate({ petName: formData.petName });
 		}
 	}, [formData.petName]);
 
 	return (
-		<div className='about-pet-container'>
-
+		<div
+			className={`about-pet-container ${
+				isEditMode ? 'edit-mode' : isAddMode ? 'add-mode' : ''
+			}`}>
 			<div className='about-pet-form'>
-				<h2>Tell us about your {formData.species || 'baby'}</h2>
+				<h2>
+					{isEditMode
+						? 'Edit Pet Details'
+						: isAddMode
+						? 'Add a New Pet'
+						: `Tell us about your ${formData.species || 'baby'}`}
+				</h2>
 
-				<form>
+				<form onSubmit={handleSubmit}>
 					<input
 						type='text'
 						name='petName'
@@ -90,7 +119,6 @@ const handleFileChange = (e) => {
 						value={formData.notes}
 						onChange={handleChange}></textarea>
 
-
 					<div className='file-upload-container'>
 						<input
 							type='file'
@@ -98,9 +126,14 @@ const handleFileChange = (e) => {
 							onChange={handleFileChange}
 						/>
 					</div>
+
+					{(isEditMode || isAddMode) && (
+						<button type='submit' className='save-btn'>
+							{isEditMode ? 'Save Changes' : 'Add Pet'}
+						</button>
+					)}
 				</form>
 			</div>
-
 
 			{formData.image && (
 				<div className='image-preview-container'>
@@ -110,5 +143,6 @@ const handleFileChange = (e) => {
 		</div>
 	);
 };
+
 
 export default AboutPet;

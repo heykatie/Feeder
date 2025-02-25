@@ -16,7 +16,7 @@
   width: 100%;
 }
 
-.pet-card {
+.species-card {
   background: #232946;
   padding: 10px;
   border-radius: 10px;
@@ -39,27 +39,27 @@
   object-fit: contain;
 }
 
-.pet-card p {
+.species-card p {
   margin-top: 10px;
   font-size: 1.2rem;
   font-weight: bold;
 }
 
-.pet-card:hover {
+.species-card:hover {
   transform: scale(1.1);
   box-shadow: 0px 4px 10px rgba(0, 198, 207, 0.5);
 }
 
-.pet-card.selected {
+.species-card.selected {
   transform: scale(1.2);
   box-shadow: 0px 6px 15px rgba(255, 184, 76, 0.7);
 }
 
-.pet-card:nth-child(2) {
+.species-card:nth-child(2) {
   align-self: flex-end;
 }
 
-.pet-card:nth-child(1) .pet-gif {
+.species-card:nth-child(1) .pet-gif {
   transform: scale(1.2);
 }
 

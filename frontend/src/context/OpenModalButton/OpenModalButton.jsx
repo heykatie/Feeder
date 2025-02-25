@@ -1,4 +1,4 @@
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '../ModalContext';
 
 function OpenModalButton({
 	modalComponent, // component to render inside the modal

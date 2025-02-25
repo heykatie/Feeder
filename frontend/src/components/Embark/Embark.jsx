@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import AboutPet from './pet/AboutPet';
-import ChooseSpecies from './pet/ChooseSpecies';
+import AboutPet from '../../forms/AboutPet';
+import ChooseSpecies from '../../forms/ChooseSpecies';
 import Signup from './Signup/Signup';
 import StartingChef from './StartingChef';
 import ConfirmExit from '../models/ConfirmExit';
@@ -298,7 +298,6 @@ const Embark = () => {
 			),
 		},
 	];
-
 
 	return (
 		<div className='embark-container'>

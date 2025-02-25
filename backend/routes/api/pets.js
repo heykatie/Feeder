@@ -3,7 +3,6 @@ const { requireAuth } = require('../../utils/auth');
 const { Pet } = require('../../db/models');
 const router = express.Router();
 
-// 🔹 Create a new pet
 router.post('/', requireAuth, async (req, res) => {
 	const {
 		name,
@@ -16,7 +15,7 @@ router.post('/', requireAuth, async (req, res) => {
 		notes,
 		image,
 	} = req.body;
-	const userId = req.user.id; // ✅ Get user ID from session
+	const userId = req.user.id;
 
 	try {
 		const pet = await Pet.create({
@@ -33,11 +32,10 @@ router.post('/', requireAuth, async (req, res) => {
 		});
 		return res.status(201).json(pet);
 	} catch (error) {
-		return res.status(500).json({ error: 'Failed to create pet' });
+		return res.status(500).json({ error: error.message });
 	}
 });
 
-// 🔹 Get all pets for logged-in user
 router.get('/', requireAuth, async (req, res) => {
 	try {
 		const pets = await Pet.findAll({
@@ -46,6 +44,24 @@ router.get('/', requireAuth, async (req, res) => {
 		return res.json({ pets });
 	} catch (error) {
 		return res.status(500).json({ error: 'Failed to fetch pets' });
+	}
+});
+
+router.delete('/:petId', requireAuth, async (req, res) => {
+	const { petId } = req.params;
+	const userId = req.user.id;
+
+	try {
+		const pet = await Pet.findOne({ where: { id: petId, userId } });
+
+		if (!pet) {
+			return res.status(404).json({ error: 'Pet not found' });
+		}
+
+		await pet.destroy();
+		return res.json({ message: 'Pet deleted successfully', petId });
+	} catch (error) {
+		return res.status(500).json({ error: 'Failed to delete pet' });
 	}
 });
 

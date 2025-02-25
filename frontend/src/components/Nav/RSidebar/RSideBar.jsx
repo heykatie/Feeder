@@ -81,7 +81,7 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 						onClick={toggleSidebar}
 						to='/pets'>
 						<i className='fas fa-paw'></i>
-						<span className='text'>Your Pets</span>
+						<span className='text'>My Pets</span>
 					</NavLink>
 				</li>
 				<li>

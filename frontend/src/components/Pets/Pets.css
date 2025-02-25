@@ -1,6 +1,32 @@
 .pets-container {
   text-align: center;
-  padding: 20px;
+  padding: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pets-container h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFD166;
+  margin-bottom: 20px;
+}
+
+.add-pet-btn {
+  background-color: #64CCC5;
+  color: #121212;
+  font-weight: 700;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 16px;
+}
+
+.add-pet-btn:hover {
+  background-color: #00C6CF;
+  transform: scale(1.05);
 }
 
 .pet-list {
@@ -10,30 +36,81 @@
   gap: 20px;
   list-style: none;
   padding: 0;
+  margin-top: 20px;
 }
 
 .pet-card {
-  background: #232946;
-  color: #fff;
-  padding: 15px;
-  border-radius: 10px;
-  width: 250px;
+  background: #1A1A2E;
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 350px;
   text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 2px solid #64CCC5;
+}
+
+.pet-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .pet-card img {
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   object-fit: cover;
+  border: 3px solid #FFD166;
+  margin-bottom: 10px;
+}
+
+.pet-card h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #FFD166;
+}
+
+.pet-card p {
+  font-size: 16px;
+  color: #FFB84C;
+  margin: 4px 0;
+}
+
+.pet-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.pet-actions button {
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.edit-btn {
+  background-color: #A379FF;
+  color: white;
+  border: none;
+}
+
+.edit-btn:hover {
+  background-color: #8F67E6;
 }
 
 .delete-btn {
-  background-color: #d32f2f;
+  background-color: #D32F2F;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #B71C1C;
+  transform: scale(1.05);
 }

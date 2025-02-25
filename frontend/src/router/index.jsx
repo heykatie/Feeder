@@ -3,13 +3,13 @@ import LoginModal from '../components/Auth/Modals/LoginModal';
 // import SignupFormPage from '../components/Auth/SignupFormPage';
 import Layout from './Layout';
 import Splash from '../components/Splash';
-import AboutPet from '../components/Embark/pet/AboutPet';
+import AboutPet from '../forms/AboutPet';
 import Embark from '../components/Embark';
-import ChooseSpecies from '../components/Embark/pet/ChooseSpecies';
+import ChooseSpecies from '../forms/ChooseSpecies';
 import StartingChef from '../components/Embark/StartingChef';
 import ProtectedRoute from '../context/ProtectedRoute';
 import Dash from '../components/Dash';
-import Pets from '../components/Dash';
+import Pets from '../components/Pets';
 
 export const router = createBrowserRouter([
 	{
