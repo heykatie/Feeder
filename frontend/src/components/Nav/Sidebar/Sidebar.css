@@ -1,0 +1,53 @@
+/* Expanded Sidebar */
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 200px;
+  height: 100vh;
+  background: rgba(26, 26, 46, 0.95);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: left 0.3s ease-in-out;
+  z-index: 100;
+}
+
+.sidebar-panel.expanded {
+  left: 0;
+}
+
+/* Sidebar Navigation (Expanded) */
+.sidebar-panel .sidebar-navLink {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 10px;
+  padding: 12px 0;
+  margin-left: 0.5rem;
+  width: 180px;
+}
+
+.sidebar-panel .sidebar-navLink .text {
+  display: none;
+}
+
+.sidebar-panel.expanded .sidebar-navLink .text {
+  display: inline-block;
+  font-size: 18px;
+}
+
+/* Close Button */
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  align-self: flex-end;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #FFB84C;
+}

@@ -1,0 +1,38 @@
+/* Menu Sidebar (Icon-Only) */
+.menu {
+  position: fixed;
+  top: 38%;
+  left: 1.1rem;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
+  background: #121212;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.menu.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Sidebar Navigation Icons */
+.menu-navLink {
+  color: white;
+  text-decoration: none;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.menu-navLink:hover {
+  transform: scale(1.15);
+}

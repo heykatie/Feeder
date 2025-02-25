@@ -1,58 +1,42 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/session';
+import RSidebar from './RSidebar';
 
 function AvatarButton() {
 	const dispatch = useDispatch();
-	const [showMenu, setShowMenu] = useState(false);
+	const [showSidebar, setShowSidebar] = useState(false);
 	const user = useSelector((store) => store.session.user);
 	const ulRef = useRef();
 
-	const toggleMenu = (e) => {
-		e.stopPropagation();
-		setShowMenu(!showMenu);
-	};
+	const toggleSidebar = (e) => {e.stopPropagation();setShowSidebar(!showSidebar)};
 
 	useEffect(() => {
-		if (!showMenu) return;
+		if (!showSidebar) return;
 
 		const closeMenu = (e) => {
 			if (ulRef.current && !ulRef.current.contains(e.target)) {
-				setShowMenu(false);
+				setShowSidebar(false);
 			}
 		};
 
 		document.addEventListener('click', closeMenu);
 
 		return () => document.removeEventListener('click', closeMenu);
-	}, [showMenu]);
+	}, [showSidebar]);
 
-	const closeMenu = () => setShowMenu(false);
-
-	const handleLogout = (e) => {
-		e.preventDefault();
-		dispatch(logout());
-		closeMenu();
-	};
+	const closeMenu = () => setShowSidebar(false);
 
 	return (
 		<>
-			<button onClick={toggleMenu} aria-label='profile menu'>
+			<button onClick={toggleSidebar} aria-label='profile menu'>
 				<i className='fas fa-user-circle' />
 			</button>
-			{showMenu && (
-				<ul className={'profile-dropdown'} ref={ulRef}>
-					{(
-						<>
-							<li>{user.username}</li>
-							<li>{user.email}</li>
-							<li>
-								<button onClick={handleLogout}>Log Out</button>
-							</li>
-						</>
-					)}
-				</ul>
-			)}
+
+			<RSidebar
+				showSidebar={showSidebar}
+				toggleSidebar={setShowSidebar}
+			/>
 		</>
 	);
 }
