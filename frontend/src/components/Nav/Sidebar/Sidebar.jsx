@@ -48,6 +48,11 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 				onClick={toggleExpand}>
 				<i className='fa-solid fa-xmark'></i>
 			</button>
+			<div className='sidebar-header'>
+				<NavLink to='/'>
+					<img src='/images/logo.png' className='logo' alt='SousChef Logo' />
+				</NavLink>
+			</div>
 			<ul className='sidebar-links'>
 				<li>
 					<NavLink

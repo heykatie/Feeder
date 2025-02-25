@@ -56,9 +56,6 @@ const Navbar = () => {
 						<i className='fa-solid fa-hamburger'></i>
 					</button>
 					<NavLink to='/' className='logo'>
-						<img src='/images/logo.png' alt='SousChef Logo' />
-					</NavLink>
-					<NavLink to='/' className='logo'>
 						SousChef
 					</NavLink>
 				</div>

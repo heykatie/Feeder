@@ -82,7 +82,7 @@
   font-size: 16px;
   cursor: pointer;
   transition: background 0.3s ease-in-out;
-  text-align: left;
+  align-items: center;
 }
 
 .rsidebar-links button:hover {
