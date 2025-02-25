@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AboutPet from './pet/AboutPet';
-import './Embark.css';
 import ChooseSpecies from './pet/ChooseSpecies';
 import Signup from './Signup/Signup';
 import StartingChef from './StartingChef';
@@ -11,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { signup } from '../../redux/users';
 import { createPet } from '../../redux/pets';
 import { updateSousChef } from '../../redux/souschefs';
+import './Embark.css';
 
 const Embark = () => {
 	const dispatch = useDispatch();
@@ -163,14 +163,13 @@ const Embark = () => {
 			if (selection.personality)
 				sousChefUpdates.personality = selection.personality;
 
-
 			if (Object.keys(sousChefUpdates).length > 0 && sousChefId) {
 				await dispatch(
 					updateSousChef({ sousChefId, sousChefData: sousChefUpdates })
 				);
 			}
 
-			navigate('/dashboard');
+			navigate('/dash');
 		} catch (error) {
 			console.error('Error:', error);
 			alert('Something went wrong! Please try again.');

@@ -1,11 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Sidebar.css';
 
 const Sidebar = ({ showMenu, toggleMenu }) => {
 	const userId = useSelector(state => state.session.userId);
 	const sidebarRef = useRef(null);
+	const [isExpanded, setIsExpanded] = useState(false);
+
+	const handleExpandToggle = () => {
+		setIsExpanded(!isExpanded);
+	};
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -37,10 +42,20 @@ const Sidebar = ({ showMenu, toggleMenu }) => {
 		};
 	}, [showMenu, toggleMenu]);
 
+
 	return (
 		<>
-			<div className={`sidebar ${showMenu ? 'hidden' : ''}`}>
-				<NavLink to='/dashboard' className='sidebar-navLink'>
+			<div
+				className={`sidebar ${showMenu ? '' : 'hidden'} ${
+					isExpanded ? 'hidden' : ''
+				}`}>
+				<button
+					className={`expand-arrow ${isExpanded ? 'rotated' : ''}`}
+					onClick={handleExpandToggle}
+					aria-label='Expand Sidebar'>
+					<i className='fa-solid fa-chevron-right'></i>
+				</button>
+				<NavLink to='/dash' className='sidebar-navLink'>
 					<i className='fa-solid fa-house'></i>
 				</NavLink>
 				<NavLink to='/recipes' className='sidebar-navLink'>
@@ -62,15 +77,15 @@ const Sidebar = ({ showMenu, toggleMenu }) => {
 
 			<div
 				ref={sidebarRef}
-				className={`sidebar-panel ${showMenu ? 'expanded' : ''}`}>
+				className={`sidebar-panel ${isExpanded ? 'expanded' : ''}`}>
 				<button
-					aria-label='close-btn'
+					aria-label='Collapse Sidebar'
 					className='close-btn'
-					onClick={toggleMenu}>
+					onClick={handleExpandToggle}>
 					<i className='fa-solid fa-xmark'></i>
 				</button>
 				<NavLink
-					to='/dashboard'
+					to='/dash'
 					onClick={toggleMenu}
 					className='sidebar-navLink'>
 					<i className='fa-solid fa-house'></i>{' '}

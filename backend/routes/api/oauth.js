@@ -36,7 +36,7 @@ router.get(
 			console.error('Discord OAuth failed');
 			return res.status(401).json({ error: 'Authentication failed' });
 		}
-		res.redirect('/dashboard'); // Redirect to dashboard after login
+		res.redirect('/dash'); // Redirect to dashboard after login
 	}
 );
 
@@ -53,7 +53,7 @@ router.get(
 	}),
 	(req, res) => {
 		// Successful login, redirect to the homepage or dashboard
-		res.redirect('/dashboard');
+		res.redirect('/dash');
 	}
 );
 

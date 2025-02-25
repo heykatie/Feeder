@@ -29,7 +29,7 @@ function LoginFormModal() {
 			setErrors(serverResponse);
 		} else {
 			closeModal();
-			navigate('/dashboard');
+			navigate('/dash');
 		}
 	};
 
@@ -41,7 +41,7 @@ function LoginFormModal() {
 			await dispatch(
 				login({ credential: demoCredential, password: demoPassword })
 			);
-			navigate('/dashboard');
+			navigate('/dash');
 			closeModal();
 		} catch (res) {
 			const data = await res.json();
