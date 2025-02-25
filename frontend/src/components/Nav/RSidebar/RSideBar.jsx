@@ -57,14 +57,14 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 				onClick={toggleSidebar}>
 				<i className='fa-solid fa-xmark'></i>
 			</button>
-			<div className='sidebar-header'>
+			{user && <div className='sidebar-header'>
 				<img
 					src={user.avatarUrl}
 					alt='User Avatar'
 					className='user-avatar'
 				/>
 				<span className='username'>{user.username}</span>
-			</div>
+			</div>}
 			<ul className='rsidebar-links'>
 				<li>
 					<NavLink
@@ -81,7 +81,7 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 						onClick={toggleSidebar}
 						to='/pets'>
 						<i className='fas fa-paw'></i>
-						<span className='text'>Pets</span>
+						<span className='text'>Your Pets</span>
 					</NavLink>
 				</li>
 				<li>

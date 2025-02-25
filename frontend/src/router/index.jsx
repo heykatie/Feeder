@@ -9,6 +9,7 @@ import ChooseSpecies from '../components/Embark/pet/ChooseSpecies';
 import StartingChef from '../components/Embark/StartingChef';
 import ProtectedRoute from '../context/ProtectedRoute';
 import Dash from '../components/Dash';
+import Pets from '../components/Dash';
 
 export const router = createBrowserRouter([
 	{
@@ -32,7 +33,11 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: 'pick-species',
-				element: <ChooseSpecies />,
+				element: (
+					<div style={{ display: 'flex', justifyContent: 'center' }}>
+						<ChooseSpecies />
+					</div>
+				),
 			},
 			{
 				path: 'about-pet',
@@ -40,11 +45,27 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: 'customize-souschef',
-				element: <StartingChef/>
+				element: (
+					<div style={{ textAlign: 'center' }}>
+						<StartingChef />
+					</div>
+				),
 			},
 			{
 				path: '/dash',
-				element: <ProtectedRoute><Dash /></ProtectedRoute>
+				element: (
+					<ProtectedRoute>
+						<Dash />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: '/pets',
+				element: (
+					<ProtectedRoute>
+						<Pets />
+					</ProtectedRoute>
+				),
 			},
 			{
 				path: '*',

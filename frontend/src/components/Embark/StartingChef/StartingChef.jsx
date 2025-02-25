@@ -12,12 +12,12 @@ const personalities = [
 
 const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 	const [sousChefName, setSousChefName] = useState(
-		initialData.sousChefName || ''
+		initialData?.sousChefName || ''
 	);
-	const [eyeShape, setEyeShape] = useState(initialData.eyeShape || 'cute');
-	const [color, setColor] = useState(initialData.color || '#ffcc00');
+	const [eyeShape, setEyeShape] = useState(initialData?.eyeShape || 'cute');
+	const [color, setColor] = useState(initialData?.color || '#ffcc00');
 	const [personality, setPersonality] = useState(
-		initialData.personality || 'Playful'
+		initialData?.personality || 'Playful'
 	);
 
 	const nameInputRef = useRef(null);
@@ -97,7 +97,7 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 		}
 	};
 
-	// Attach keydown listener
+
 	useEffect(() => {
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
@@ -115,7 +115,7 @@ const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
 				/>
 			</div>
 
-			{/* 🔹 Autofocus Input */}
+
 			<input
 				type='text'
 				ref={nameInputRef}

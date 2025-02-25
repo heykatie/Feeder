@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
-import AvatarButton from '../AvatarButton';
+import AvatarButton from './AvatarButton';
 import Menu from '../Menu';
 import Sidebar from '../Sidebar';
 import OpenModal from '../../../context/OpenModal';

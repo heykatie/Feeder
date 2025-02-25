@@ -3,19 +3,19 @@ import './AboutPet.css';
 
 const AboutPet = ({ onUpdate, selectedSpecies, initialData }) => {
 	const [formData, setFormData] = useState({
-		petName: initialData.petName || '',
-		species: selectedSpecies || initialData.species || '',
-		breed: initialData.breed || '',
-		age: initialData.age || '',
-		weight: initialData.weight || '',
-		allergies: initialData.allergies || '',
-		notes: initialData.notes || '',
-		image: initialData.image || '',
-		birthday: initialData.birthday || '',
+		petName: initialData?.petName || '',
+		species: selectedSpecies || initialData?.species || '',
+		breed: initialData?.breed || '',
+		age: initialData?.age || '',
+		weight: initialData?.weight || '',
+		allergies: initialData?.allergies || '',
+		notes: initialData?.notes || '',
+		image: initialData?.image || '',
+		birthday: initialData?.birthday || '',
 	});
 
 	const handleChange = (e) => {
-		const { name, value } = e.target; // ✅ Correct destructuring
+		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
 		onUpdate({ [name]: value });
 	};
@@ -37,7 +37,7 @@ const handleFileChange = (e) => {
 
 	return (
 		<div className='about-pet-container'>
-			{/* Form Section */}
+
 			<div className='about-pet-form'>
 				<h2>Tell us about your {formData.species || 'baby'}</h2>
 
@@ -90,7 +90,7 @@ const handleFileChange = (e) => {
 						value={formData.notes}
 						onChange={handleChange}></textarea>
 
-					{/* File Upload */}
+
 					<div className='file-upload-container'>
 						<input
 							type='file'
@@ -101,7 +101,7 @@ const handleFileChange = (e) => {
 				</form>
 			</div>
 
-			{/* Image Preview Section - Outside the Form */}
+
 			{formData.image && (
 				<div className='image-preview-container'>
 					<img src={formData.image} alt='Pet' className='preview-image' />

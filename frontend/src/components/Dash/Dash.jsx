@@ -7,21 +7,21 @@ import { FaCrown, FaList, FaBell, FaShoppingCart } from 'react-icons/fa';
 import './Dash.css';
 
 export default function Dash() {
-	const user = useSelector((state) => state.users.user);
+	const user = useSelector((state) => state.session.user);
 	const sousChef = useSelector((state) => state.sousChefs.sousChef);
 
 	const [greeting, setGreeting] = useState('');
 
 	useEffect(() => {
 		const hours = new Date().getHours();
-		if (hours < 12) setGreeting('Good morning, Chef! ☀️');
+		if (hours < 12) setGreeting(`Good morning, ${user?.firstName || user?.username}☀️`);
 		else if (hours < 18) setGreeting('Ready to cook something delicious? 🍳');
 		else setGreeting("Let's level up your meals! 🚀");
 	}, []);
 
 	return (
 		<div className='dash-container'>
-			{/* Header */}
+
 			<div className='dash-header'>
 				<h1>{greeting}</h1>
 				<Link to='/notifications'>
@@ -29,9 +29,9 @@ export default function Dash() {
 				</Link>
 			</div>
 
-			{/* Main Dashboard Grid */}
+
 			<div className='dash-grid'>
-				{/* Left Column: User Profile & SousChef */}
+
 				<div className='profile-card'>
 					<div className='profile-details'>
 						<motion.img
@@ -47,7 +47,7 @@ export default function Dash() {
 						</div>
 					</div>
 
-					{/* XP ProgressBar */}
+
 					<div className='xp-progress-container'>
 						<p className='xp-progress-label'>XP Progress</p>
 						<ProgressBar
@@ -56,7 +56,7 @@ export default function Dash() {
 						/>
 					</div>
 
-					{/* SousChef Widget */}
+
 					<motion.div
 						className='souschef-widget'
 						animate={{ scale: [1, 1.02, 1] }}
@@ -71,7 +71,7 @@ export default function Dash() {
 					</motion.div>
 				</div>
 
-				{/* Middle Column: Daily Challenge & Quick Actions */}
+
 				<div className='challenge-card'>
 					<h2 className='challenge-title'>🎯 Daily Challenge</h2>
 					<p className='challenge-text'>
@@ -90,7 +90,7 @@ export default function Dash() {
 					</div>
 				</div>
 
-				{/* Right Column: Leaderboard & Notifications */}
+
 				<div className='leaderboard-card'>
 					<h2 className='leaderboard-title'>🏆 Leaderboard</h2>
 					<div className='leaderboard-list'>
@@ -108,7 +108,7 @@ export default function Dash() {
 						</div>
 					</div>
 
-					{/* Notifications */}
+
 					<h2 className='notifications-title'>🔔 Recent Activity</h2>
 					<p className='notification-text'>
 						🎉 You earned a new achievement: "Iron Chef"! 🔥
