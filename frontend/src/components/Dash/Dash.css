@@ -1,0 +1,194 @@
+/* 📌 General Dashboard Layout */
+.dash-container {
+  min-height: 100vh;
+  background-color: #121212;
+  color: white;
+  padding: 1.5rem;
+}
+
+/* 📌 Dashboard Header */
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.dash-header h1 {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.dash-header .notification-icon {
+  font-size: 1.75rem;
+  color: #FFD166;
+  transition: color 0.3s ease;
+}
+
+.dash-header .notification-icon:hover {
+  color: #FFB84C;
+}
+
+/* 📌 Main Dashboard Grid */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .dash-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 📌 User Profile & SousChef Section */
+.profile-card {
+  background-color: #1A1A2E;
+  padding: 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 2px solid #A379FF;
+}
+
+.profile-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-info h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.profile-info p {
+  font-size: 0.875rem;
+  color: #aaa;
+}
+
+/* 📌 XP Progress Bar */
+.xp-progress-container {
+  margin-top: 1rem;
+}
+
+.xp-progress-label {
+  font-size: 0.875rem;
+  color: #aaa;
+}
+
+/* 📌 SousChef Widget */
+.souschef-widget {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #232946;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.souschef-widget img {
+  width: 6rem;
+  height: 6rem;
+}
+
+.souschef-evo-text {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #aaa;
+}
+
+/* 📌 Daily Challenge & Actions */
+.challenge-card {
+  background-color: #231E2E;
+  padding: 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.challenge-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.challenge-text {
+  color: #ddd;
+}
+
+.quick-action {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #00C6CF;
+  color: black;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.quick-action:hover {
+  background-color: #64CCC5;
+}
+
+.shopping-list-action {
+  background-color: #FFB84C;
+}
+
+.shopping-list-action:hover {
+  background-color: #FFD166;
+}
+
+/* 📌 Leaderboard */
+.leaderboard-card {
+  background-color: #462B55;
+  padding: 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.leaderboard-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.leaderboard-entry .rank-icon {
+  font-size: 1.25rem;
+}
+
+.rank-gold {
+  color: #FFD166;
+}
+
+.rank-silver {
+  color: #aaa;
+}
+
+.rank-bronze {
+  color: #888;
+}
+
+/* 📌 Notifications */
+.notifications-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+
+.notification-text {
+  font-size: 0.875rem;
+  color: #ddd;
+}
