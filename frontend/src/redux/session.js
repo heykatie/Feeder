@@ -6,7 +6,7 @@ export const restoreSession = createAsyncThunk(
 	'session/restore',
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await csrfFetch('/api/restore-user');
+			const response = await csrfFetch('/api/session');
 			if (!response.ok) {
 				return rejectWithValue('Failed to restore session.');
 			}
