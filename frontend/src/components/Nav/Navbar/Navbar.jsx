@@ -15,7 +15,7 @@ const Navbar = () => {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [showMenu, setShowMenu] = useState(false);
 
-	const toggleSidebar = () => {
+	const toggleExpand = () => {
 		setIsExpanded((prev) => !prev);
 	};
 
@@ -44,7 +44,7 @@ const Navbar = () => {
 					<button
 						aria-label='navbar-menu-btn'
 						className='navbar-menu-btn'
-						onClick={toggleSidebar}>
+						onClick={toggleExpand}>
 						<i className='fa-solid fa-hamburger'></i>
 					</button>
 					<NavLink to='/' className='logo'>
@@ -68,7 +68,7 @@ const Navbar = () => {
 					) : (
 						<OpenModal
 							itemText='Log In'
-							onItemClick={toggleSidebar}
+							// onItemClick={toggleSidebar}
 							modalComponent={<LoginModal />}
 						/>
 					)}
@@ -82,7 +82,7 @@ const Navbar = () => {
 				<i className='fa-solid fa-chevron-right'></i>
 			</button>
 
-			<Sidebar isExpanded={isExpanded} toggleSidebar={toggleSidebar} />
+			<Sidebar isExpanded={isExpanded} toggleExpand={toggleExpand} />
 			{showMenu && <Menu showMenu={showMenu} toggleMenu={toggleMenu} />}
 		</>
 	);

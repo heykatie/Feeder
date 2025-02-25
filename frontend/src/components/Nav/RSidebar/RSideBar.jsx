@@ -6,7 +6,7 @@ import './RSidebar.css';
 
 const RSidebar = ({ showSidebar, toggleSidebar }) => {
 	const dispatch = useDispatch();
-	const sidebarRef = useRef();
+	const rsidebarRef = useRef();
 	const user = useSelector((state) => state.session.user);
 
 	const handleLogout = (e) => {
@@ -15,28 +15,42 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 		toggleSidebar(false);
 	};
 
+
 	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === 'Escape') {
+				toggleSidebar();
+			}
+		};
+
 		const handleClickOutside = (e) => {
-			if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+			const avatarButton = document.querySelector('.navbar-right');
+
+			if (avatarButton && avatarButton.contains(e.target)) {
+				return;
+			}
+			if (rsidebarRef.current && !rsidebarRef.current.contains(e.target)) {
 				toggleSidebar(false);
 			}
 		};
 
 		if (showSidebar) {
+			document.addEventListener('keydown', handleKeyDown);
 			document.addEventListener('mousedown', handleClickOutside);
 		} else {
 			document.removeEventListener('mousedown', handleClickOutside);
 		}
 
-		return () =>
-			document.removeEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+			document.removeEventListener('mousedown', handleClickOutside);}
 	}, [showSidebar, toggleSidebar]);
 
 
 	return (
 		<div
 			className={`right-sidebar ${showSidebar ? 'open' : ''}`}
-			ref={sidebarRef}>
+			ref={rsidebarRef}>
 			<div className='sidebar-header'>
 				<img
 					src={user.avatarUrl}
@@ -47,37 +61,32 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 			</div>
 			<ul className='sidebar-links'>
 				<li>
-					<NavLink to='/profile'>
+					<NavLink onClick={toggleSidebar} to='/profile'>
 						<i className='fas fa-user'></i> Profile
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/pets'>
+					<NavLink onClick={toggleSidebar} to='/pets'>
 						<i className='fas fa-paw'></i> Pets
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/achievements'>
+					<NavLink onClick={toggleSidebar} to='/achievements'>
 						<i className='fas fa-trophy'></i> Achievements
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/leaderboards'>
+					<NavLink onClick={toggleSidebar} to='/leaderboards'>
 						<i className='fas fa-chart-line'></i> Leaderboards
 					</NavLink>
 				</li>
 				<li>
-					<NavLink to='/settings'>
+					<NavLink onClick={toggleSidebar} to='/settings'>
 						<i className='fas fa-cog'></i> Settings
 					</NavLink>
 				</li>
 				<li>
-					<button
-						onClick={(event) => {
-							{
-								handleLogout;
-							}
-						}}>
+					<button onClick={handleLogout}>
 						Log Out
 					</button>
 				</li>

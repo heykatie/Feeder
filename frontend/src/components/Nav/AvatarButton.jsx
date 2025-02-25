@@ -9,7 +9,7 @@ function AvatarButton() {
 	const user = useSelector((store) => store.session.user);
 	const ulRef = useRef();
 
-	const toggleSidebar = (e) => {e.stopPropagation();setShowSidebar(!showSidebar)};
+	const toggleSidebar = (e) => { setShowSidebar((prev) => !prev); };
 
 	useEffect(() => {
 		if (!showSidebar) return;
@@ -33,10 +33,7 @@ function AvatarButton() {
 				<i className='fas fa-user-circle' />
 			</button>
 
-			<RSidebar
-				showSidebar={showSidebar}
-				toggleSidebar={setShowSidebar}
-			/>
+			<RSidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
 		</>
 	);
 }
