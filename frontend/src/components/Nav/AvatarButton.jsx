@@ -1,39 +1,31 @@
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/session';
-import RSidebar from './RSidebar';
+import {useSelector } from 'react-redux';
+import {useEffect} from 'react';
 
-function AvatarButton() {
-	const dispatch = useDispatch();
-	const [showSidebar, setShowSidebar] = useState(false);
+
+function AvatarButton({toggleSidebar}) {
 	const user = useSelector((store) => store.session.user);
-	const ulRef = useRef();
+	// const ulRef = useRef();
+	// const closeMenu = () => setShowSidebar(false);
+	
+	// useEffect(() => {
+	// 	if (!showSidebar) return;
 
-	const toggleSidebar = (e) => { setShowSidebar((prev) => !prev); };
+	// 	const closeMenu = (e) => {
+	// 		if (ulRef.current && !ulRef.current.contains(e.target)) {
+	// 			setShowSidebar(false);
+	// 		}
+	// 	};
 
-	useEffect(() => {
-		if (!showSidebar) return;
+	// 	document.addEventListener('click', closeMenu);
 
-		const closeMenu = (e) => {
-			if (ulRef.current && !ulRef.current.contains(e.target)) {
-				setShowSidebar(false);
-			}
-		};
-
-		document.addEventListener('click', closeMenu);
-
-		return () => document.removeEventListener('click', closeMenu);
-	}, [showSidebar]);
-
-	const closeMenu = () => setShowSidebar(false);
+	// 	return () => document.removeEventListener('click', closeMenu);
+	// }, [showSidebar]);
 
 	return (
 		<>
 			<button onClick={toggleSidebar} aria-label='profile menu'>
 				<i className='fas fa-user-circle' />
 			</button>
-
-			<RSidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
 		</>
 	);
 }

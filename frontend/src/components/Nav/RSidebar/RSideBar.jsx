@@ -51,6 +51,12 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 		<div
 			className={`right-sidebar ${showSidebar ? 'open' : ''}`}
 			ref={rsidebarRef}>
+			<button
+				aria-label='Collapse Sidebar'
+				className='close-btn'
+				onClick={toggleSidebar}>
+				<i className='fa-solid fa-xmark'></i>
+			</button>
 			<div className='sidebar-header'>
 				<img
 					src={user.avatarUrl}
@@ -59,36 +65,54 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 				/>
 				<span className='username'>{user.username}</span>
 			</div>
-			<ul className='sidebar-links'>
+			<ul className='rsidebar-links'>
 				<li>
-					<NavLink onClick={toggleSidebar} to='/profile'>
-						<i className='fas fa-user'></i> Profile
+					<NavLink
+						className='rsidebar-navLink'
+						onClick={toggleSidebar}
+						to='/profile'>
+						<i className='fas fa-user'></i>
+						<span className='text'>Profile</span>
 					</NavLink>
 				</li>
 				<li>
-					<NavLink onClick={toggleSidebar} to='/pets'>
-						<i className='fas fa-paw'></i> Pets
+					<NavLink
+						className='rsidebar-navLink'
+						onClick={toggleSidebar}
+						to='/pets'>
+						<i className='fas fa-paw'></i>
+						<span className='text'>Pets</span>
 					</NavLink>
 				</li>
 				<li>
-					<NavLink onClick={toggleSidebar} to='/achievements'>
-						<i className='fas fa-trophy'></i> Achievements
+					<NavLink
+						className='rsidebar-navLink'
+						onClick={toggleSidebar}
+						to='/achievements'>
+						<i className='fas fa-trophy'></i>
+						<span className='text'>Achievements</span>
 					</NavLink>
 				</li>
 				<li>
-					<NavLink onClick={toggleSidebar} to='/leaderboards'>
-						<i className='fas fa-chart-line'></i> Leaderboards
+					<NavLink
+						className='rsidebar-navLink'
+						onClick={toggleSidebar}
+						to='/leaderboards'>
+						<i className='fas fa-chart-line'></i>
+						<span className='text'>Leaderboards</span>
 					</NavLink>
 				</li>
 				<li>
-					<NavLink onClick={toggleSidebar} to='/settings'>
-						<i className='fas fa-cog'></i> Settings
+					<NavLink
+						className='rsidebar-navLink'
+						onClick={toggleSidebar}
+						to='/settings'>
+						<i className='fas fa-cog'></i>
+						<span className='text'>Settings</span>
 					</NavLink>
 				</li>
 				<li>
-					<button onClick={handleLogout}>
-						Log Out
-					</button>
+					<button onClick={handleLogout}>Log Out</button>
 				</li>
 			</ul>
 		</div>

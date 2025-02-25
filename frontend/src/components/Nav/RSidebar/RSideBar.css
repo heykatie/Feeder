@@ -1,16 +1,16 @@
 .right-sidebar {
   position: fixed;
   top: 0;
-  right: -300px;
-  width: 200px;
+  right: -250px;
+  width: 220px;
   height: 100vh;
-  background-color: #1a1a2e;
+  background: rgba(26, 26, 46, 0.99);
   color: white;
+  padding: 20px;
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
   transition: right 0.3s ease-in-out;
   z-index: 100;
 }
@@ -23,47 +23,88 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .user-avatar {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 2px solid #ffb84c;
+  object-fit: cover;
+  border: 2px solid #64CCC5;
 }
 
 .username {
+  margin-top: 8px;
   font-size: 18px;
-  margin-top: 10px;
   font-weight: bold;
 }
 
-.sidebar-links {
+.rsidebar-links {
   list-style: none;
   padding: 0;
   width: 100%;
 }
 
-.sidebar-links li {
-  margin: 15px 0;
+.rsidebar-links li {
+  width: 100%;
 }
 
-.sidebar-links a {
-  color: white;
-  text-decoration: none;
+.right-sidebar .rsidebar-navLink {
   display: flex;
   align-items: center;
+  justify-content: left;
+  gap: 10px;
+  padding: 12px 15px;
+  width: 100%;
+  color: white;
+  text-decoration: none;
   font-size: 16px;
-  padding: 10px;
   border-radius: 5px;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease-in-out;
 }
 
-.sidebar-links a i {
-  margin-right: 10px;
+.rsidebar-navLink i {
+  font-size: 18px;
 }
 
-.sidebar-links a:hover {
+.rsidebar-navLink:hover {
   background: #232946;
+  transform: scale(1.01);
+}
+
+.rsidebar-links button {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  text-align: left;
+}
+
+.rsidebar-links button:hover {
+  background: #FFB84C;
+}
+
+.right-sidebar .text {
+  display: none;
+}
+
+.right-sidebar.open .text {
+  display: inline-block;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .right-sidebar {
+    width: 100%;
+    right: -100%;
+  }
+
+  .right-sidebar.open {
+    right: 0;
+  }
 }

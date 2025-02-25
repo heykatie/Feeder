@@ -6,14 +6,15 @@ import Menu from '../Menu';
 import Sidebar from '../Sidebar';
 import OpenModal from '../../../context/OpenModal';
 import LoginModal from '../../Auth/Modals/LoginModal';
+import RSidebar from '../RSidebar';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Navbar.css';
 
 const Navbar = () => {
-	const ulRef = useRef();
 	const user = useSelector((state) => state.session.user);
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [showMenu, setShowMenu] = useState(false);
+	const [showSidebar, setShowSidebar] = useState(false);
 
 	const toggleExpand = () => {
 		setIsExpanded((prev) => !prev);
@@ -24,6 +25,10 @@ const Navbar = () => {
 	const toggleMenu = () => {
 		if (isExpanded) setShowMenu(true);
 		setShowMenu((prev) => !prev);
+	};
+
+	const toggleSidebar = (e) => {
+		setShowSidebar((prev) => !prev);
 	};
 
 	// useEffect(() => {
@@ -67,7 +72,10 @@ const Navbar = () => {
 
 				<div className='navbar-right'>
 					{user ? (
-						<AvatarButton />
+						<AvatarButton
+							showSidebar={showSidebar}
+							toggleSidebar={toggleSidebar}
+						/>
 					) : (
 						<OpenModal
 							itemText='Log In'
@@ -87,6 +95,7 @@ const Navbar = () => {
 
 			<Sidebar isExpanded={isExpanded} toggleExpand={toggleExpand} />
 			{showMenu && <Menu showMenu={showMenu} toggleMenu={toggleMenu} />}
+			<RSidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
 		</>
 	);
 };

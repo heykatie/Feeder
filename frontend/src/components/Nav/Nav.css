@@ -1,4 +1,4 @@
-.sidebar {
+/* .sidebar {
   position: fixed;
   top: 38%;
   left: 1.1rem;
@@ -99,7 +99,6 @@
   color: #FFB84C;
 }
 
-/* Expand/Collapse Arrow */
 .expand-arrow {
   position: absolute;
   top: -50px;
@@ -137,7 +136,6 @@
   pointer-events: none;
 }
 
-/* Sidebar Navigation Icons */
 .sidebar-navLink {
   color: white;
   text-decoration: none;
@@ -155,7 +153,6 @@
   transform: scale(1.15);
 }
 
-/* Expanded Sidebar */
 .sidebar-panel {
   position: fixed;
   top: 0;
@@ -192,7 +189,6 @@
   font-size: 18px;
 }
 
-/* Close Button */
 .close-btn {
   background: none;
   border: none;
@@ -207,13 +203,11 @@
   color: #FFB84C;
 }
 
-/* Sidebar Hidden */
 .sidebar.hidden {
   opacity: 0;
   pointer-events: none;
 }
 
-/* Expand/Collapse Arrow */
 .expand-arrow {
   position: absolute;
   top: -45px;
@@ -231,7 +225,6 @@
   transform: translateX(-50%) rotate(180deg);
 }
 
-/* Sidebar Navigation */
 .sidebar {
   position: fixed;
   top: 38%;
@@ -261,7 +254,6 @@
   transform: scale(1.15);
 }
 
-/* Expanded Sidebar */
 .sidebar-panel {
   position: fixed;
   top: 0;
@@ -293,4 +285,4 @@
 .sidebar-panel.expanded .sidebar-navLink .text {
   display: inline-block;
   font-size: 18px;
-}
+} */
