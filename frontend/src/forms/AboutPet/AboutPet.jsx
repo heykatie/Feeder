@@ -131,6 +131,7 @@ const AboutPet = ({
 						placeholder='Weight (lbs)'
 						value={formData.weight}
 						onChange={handleChange}
+						step='0.1'
 						min='0'
 					/>
 					<input

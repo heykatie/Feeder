@@ -63,7 +63,7 @@ const Pets = () => {
 				<ul className='pet-list'>
 					{pets.map((pet) => (
 						<li key={pet.id} className='pet-card'>
-							<img src={pupGif || pet?.image} alt={pet.name} />
+							<img src={pet?.image || pupGif} alt={pet.name} />
 							<h3>{pet.name}</h3>
 							<p>
 								{pet.species} - {pet.breed}
