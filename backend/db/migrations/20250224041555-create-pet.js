@@ -29,7 +29,6 @@ module.exports = {
 				},
 				name: {
 					type: Sequelize.STRING(100),
-					allowNull: false,
 				},
 				species: {
 					type: Sequelize.ENUM('cat', 'dog'),

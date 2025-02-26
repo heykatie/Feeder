@@ -18,7 +18,7 @@ const Pets = () => {
 
 	const handleAddPet = async (petData) => {
 		await dispatch(createPet(petData));
-		dispatch(getPets());
+		dispatch(getPets()); // Refresh pets list
 	};
 
 	const handleDeletePet = async (petId) => {
@@ -28,10 +28,8 @@ const Pets = () => {
 
 	const handlePetUpdate = async (updatedPetData) => {
 		if (updatedPetData.id) {
-			const result = await dispatch(updatePet(updatedPetData));
-			if (!result.error) {
-				dispatch(getPets());
-			}
+			await dispatch(updatePet(updatedPetData));
+			dispatch(getPets());
 		}
 	};
 
@@ -50,10 +48,10 @@ const Pets = () => {
 				<p>No pets added yet.</p>
 			) : (
 				<ul className='pet-list'>
-					{pets?.map((pet) => (
+					{pets.map((pet) => (
 						<li key={pet.id} className='pet-card'>
-							<img src={pupGif || pet?.image} alt={pet?.name} />
-							<h3>{pet?.name}</h3>
+							<img src={pupGif || pet?.image} alt={pet.name} />
+							<h3>{pet.name}</h3>
 							<p>
 								{pet.species} - {pet.breed}
 							</p>
@@ -65,17 +63,13 @@ const Pets = () => {
 							<div className='pet-actions'>
 								<OpenModalButton
 									buttonText='Edit'
-									onClick={() => {
-										setPetToEdit({ ...pet }); // ✅ Ensure correct data before opening modal
-									}}
+									onClick={() => ({ ...pet })}
 									modalComponent={
 										<AboutPet
 											onUpdate={(updatedData) =>
 												handlePetUpdate(updatedData)
-											} // ✅ Ensure latest data is passed
-											initialData={petToEdit} // ✅ Uses up-to-date state
-											// formData={petToEdit} // ✅ Ensures form is editable
-											// setFormData={setPetToEdit} // ✅ Syncs changes
+											}
+											initialData={petToEdit}
 											mode='edit'
 										/>
 									}

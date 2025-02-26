@@ -19,7 +19,6 @@ const Embark = () => {
 	const sousChef = useSelector((state) => state.sousChefs.sousChef);
 
 	const [selection, setSelection] = useState({
-		companion: '',
 		name: '',
 		breed: '',
 		age: '',
@@ -31,6 +30,7 @@ const Embark = () => {
 		sousChefName: '',
 		email: '',
 		password: '',
+		species: '',
 	});
 
 	const [stepValid, setStepValid] = useState(false);
@@ -71,7 +71,7 @@ const Embark = () => {
 	const handleNext = async (skip = false) => {
 		if (!skip && !stepValid) return;
 
-		if (step === 0 && !selection.companion) {
+		if (step === 0 && !selection.species) {
 			setStep(2);
 		} else if (step < forms.length - 1) {
 			setStep((prev) => prev + 1);
@@ -81,12 +81,12 @@ const Embark = () => {
 	};
 
 	const handleBack = useCallback(() => {
-		if (step === 2 && !selection.companion) {
+		if (step === 2 && !selection.species) {
 			setStep(0);
 		} else if (step > 0) {
 			setStep((prev) => prev - 1);
 		}
-	}, [step, selection.companion]);
+	}, [step, selection.species]);
 
 	const handleExit = useCallback(() => {
 		// setSelection({
@@ -138,12 +138,12 @@ const Embark = () => {
 				return;
 			}
 
-			if (selection.name) {
+			if (selection.species) {
 				await dispatch(
 					createPet({
 						userId,
 						name: selection.name,
-						species: selection.companion,
+						species: selection.species,
 						breed: selection.breed,
 						age: selection.age,
 						weight: selection.weight,
@@ -217,14 +217,20 @@ const Embark = () => {
 		switch (currentStep) {
 			case 0:
 				return (
-					typeof selection.companion === 'string' &&
-					selection.companion.trim() !== ''
+					typeof selection.species === 'string' &&
+					selection.species.trim() !== ''
 				);
 			case 1:
-				return (
-					typeof selection.name === 'string' &&
-					selection.name.trim() !== ''
-				);
+				return Object.values({
+					name: selection.name,
+					breed: selection.breed,
+					age: selection.age,
+					weight: selection.weight,
+					birthday: selection.birthday,
+					allergies: selection.allergies,
+					notes: selection.notes,
+					image: selection.image,
+				}).some((value) => typeof value === 'string' ? value.trim() !== '' : value !== null && value !== undefined);
 			case 2:
 				return (
 					(selection.sousChefName?.trim() !== '' &&
@@ -255,9 +261,9 @@ const Embark = () => {
 			id: 0,
 			component: (
 				<ChooseSpecies
-					selectedSpecies={selection.companion}
-					onSelect={(companion) =>
-						setSelection((prev) => ({ ...prev, companion }))
+					selectedSpecies={selection.species}
+					onSelect={(species) =>
+						setSelection((prev) => ({ ...prev, species }))
 					}
 				/>
 			),
@@ -266,10 +272,11 @@ const Embark = () => {
 			id: 1,
 			component: (
 				<AboutPet
-					selectedSpecies={selection.companion}
-					formData={selection}
-					setFormData={setSelection}
-					mode='onboarding'
+					selectedSpecies={selection.species}
+					initialData={selection}
+					onUpdate={(petData) =>
+						setSelection((prev) => ({ ...prev, ...petData }))
+					}
 				/>
 			),
 		},

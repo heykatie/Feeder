@@ -17,16 +17,16 @@ router.post('/', requireAuth, async (req, res) => {
 	} = req.body;
 	const userId = req.user.id;
 
-	if (!name || !species || !userId) {
+	if (!species || !userId) {
 		return res.status(400).json({
-			message: 'Name and species are required.',
+			message: 'Species are required.',
 		});
 	}
 
 	try {
 		const pet = await Pet.create({
 			userId,
-			name: name,
+			name,
 			species,
 			breed,
 			age,
