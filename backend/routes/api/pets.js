@@ -87,7 +87,6 @@ router.put('/:petId', requireAuth, async (req, res) => {
 			return res.status(404).json({ message: 'Pet not found' });
 		}
 
-		// Update pet attributes
 		await pet.update({
 			name: name || pet?.name,
 			species: species || pet?.species,

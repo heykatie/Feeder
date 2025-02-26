@@ -36,13 +36,11 @@ const Pets = () => {
 	const handlePetUpdate = async (updatedPetData) => {
 		if (!updatedPetData.id) return;
 
-		console.log('Dispatching updatePet:', updatedPetData); // ✅ Debugging: Ensure correct data
-
 		const result = await dispatch(updatePet(updatedPetData));
 		if (result.error) {
 			console.error('Update failed:', result.error);
 		} else {
-			dispatch(getPets()); // ✅ Only refetch if update succeeds
+			dispatch(getPets());
 		}
 	};
 

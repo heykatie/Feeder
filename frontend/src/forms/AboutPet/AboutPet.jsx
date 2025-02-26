@@ -28,12 +28,6 @@ const AboutPet = ({
 		birthday: initialData?.birthday || '',
 	}));
 
-	// useEffect(() => {
-	// 	if (isEditMode && initialData) {
-	// 		setFormData((prev) => ({ ...prev, ...initialData }));
-	// 	}
-	// }, [isEditMode, initialData]);
-
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
@@ -53,27 +47,11 @@ const AboutPet = ({
 		}
 	};
 
-	// const handleSubmit = (e) => {
-	// 	e.preventDefault();
-	// 	onUpdate(formData);
-	// 	closeModal();
-	// };
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (isEditMode) {
-			console.log('Submitting edit:', formData); // ✅ Debugging: Ensure formData is correct
-		}
-		await onUpdate(formData); // ✅ Ensure update is triggered
+		await onUpdate(formData);
 		closeModal();
 	};
-	console.log('katie', initialData)
-
-	// useEffect(() => {
-	// 	if (formData.name.trim() !== '' && formData.name !== selectedSpecies) {
-	// 		onUpdate({ name: formData.name });
-	// 	}
-	// }, [formData.name]);
 
 	return (
 		<div
