@@ -15,7 +15,8 @@ const AboutPet = ({
 	const { pets, status, error } = useSelector((state) => state.pets);
 	const { closeModal } = useModal();
 
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState(() => ({
+		id: initialData?.id || '',
 		name: initialData?.name || '',
 		species: selectedSpecies || initialData?.species || '',
 		breed: initialData?.breed || '',
@@ -25,7 +26,13 @@ const AboutPet = ({
 		notes: initialData?.notes || '',
 		image: initialData?.image || '',
 		birthday: initialData?.birthday || '',
-	});
+	}));
+
+	// useEffect(() => {
+	// 	if (isEditMode && initialData) {
+	// 		setFormData((prev) => ({ ...prev, ...initialData }));
+	// 	}
+	// }, [isEditMode, initialData]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -46,11 +53,21 @@ const AboutPet = ({
 		}
 	};
 
-	const handleSubmit = (e) => {
+	// const handleSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	onUpdate(formData);
+	// 	closeModal();
+	// };
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		onUpdate(formData);
+		if (isEditMode) {
+			console.log('Submitting edit:', formData); // ✅ Debugging: Ensure formData is correct
+		}
+		await onUpdate(formData); // ✅ Ensure update is triggered
 		closeModal();
 	};
+	console.log('katie', initialData)
 
 	// useEffect(() => {
 	// 	if (formData.name.trim() !== '' && formData.name !== selectedSpecies) {

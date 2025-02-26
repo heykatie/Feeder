@@ -35,9 +35,9 @@ export const getPets = createAsyncThunk(
 
 export const updatePet = createAsyncThunk(
 	'pets/update',
-	async ({ petId, ...updatedData }, { rejectWithValue }) => {
+	async ({ id, ...updatedData }, { rejectWithValue }) => {
 		try {
-			const response = await csrfFetch(`/api/pets/${petId}`, {
+			const response = await csrfFetch(`/api/pets/${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(updatedData),
@@ -125,7 +125,7 @@ const petsSlice = createSlice({
 			})
 			.addCase(deletePet.pending, (state) => {
 				state.status = 'loading';
-				state.error = null; 
+				state.error = null;
 			})
 			.addCase(deletePet.fulfilled, (state, action) => {
 				state.status = 'succeeded';

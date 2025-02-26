@@ -18,7 +18,7 @@ const Pets = () => {
 
 	const handleAddPet = async (petData) => {
 		await dispatch(createPet(petData));
-		dispatch(getPets()); // Refresh pets list
+		dispatch(getPets());
 	};
 
 	const handleDeletePet = async (petId) => {
@@ -26,10 +26,23 @@ const Pets = () => {
 		dispatch(getPets());
 	};
 
+	// const handlePetUpdate = async (updatedPetData) => {
+	// 	if (updatedPetData.id) {
+	// 		await dispatch(updatePet(updatedPetData));
+	// 		dispatch(getPets());
+	// 	}
+	// };
+
 	const handlePetUpdate = async (updatedPetData) => {
-		if (updatedPetData.id) {
-			await dispatch(updatePet(updatedPetData));
-			dispatch(getPets());
+		if (!updatedPetData.id) return;
+
+		console.log('Dispatching updatePet:', updatedPetData); // ✅ Debugging: Ensure correct data
+
+		const result = await dispatch(updatePet(updatedPetData));
+		if (result.error) {
+			console.error('Update failed:', result.error);
+		} else {
+			dispatch(getPets()); // ✅ Only refetch if update succeeds
 		}
 	};
 
@@ -63,13 +76,15 @@ const Pets = () => {
 							<div className='pet-actions'>
 								<OpenModalButton
 									buttonText='Edit'
-									onClick={() => ({ ...pet })}
+									onClick={() => {
+										setPetToEdit(pet);
+									}}
 									modalComponent={
 										<AboutPet
 											onUpdate={(updatedData) =>
 												handlePetUpdate(updatedData)
 											}
-											initialData={petToEdit}
+											initialData={pet}
 											mode='edit'
 										/>
 									}
