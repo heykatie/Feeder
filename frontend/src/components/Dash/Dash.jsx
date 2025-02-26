@@ -17,7 +17,7 @@ export default function Dash() {
 		if (hours < 12) setGreeting(`Good morning, ${user?.firstName || user?.username}☀️`);
 		else if (hours < 18) setGreeting('Ready to cook something delicious? 🍳');
 		else setGreeting("Let's level up your meals! 🚀");
-	}, []);
+	}, [user]);
 
 	return (
 		<div className='dash-container'>

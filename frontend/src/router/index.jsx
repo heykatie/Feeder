@@ -10,6 +10,8 @@ import StartingChef from '../components/Embark/StartingChef';
 import ProtectedRoute from '../context/ProtectedRoute';
 import Dash from '../components/Dash';
 import Pets from '../components/Pets';
+import Recipes from '../components/Recipes';
+import Recipe from '../components/Recipe';
 
 export const router = createBrowserRouter([
 	{
@@ -66,6 +68,14 @@ export const router = createBrowserRouter([
 						<Pets />
 					</ProtectedRoute>
 				),
+			},
+			{
+				path: '/recipes',
+				element: <Recipes />
+			},
+			{
+				path: '/recipes/:id',
+				element: <Recipe />
 			},
 			{
 				path: '*',

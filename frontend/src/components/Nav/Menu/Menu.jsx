@@ -14,15 +14,15 @@ const Menu = ({ showMenu, toggleMenu }) => {
 			}
 		};
 
-		const handleClickOutside = (e) => {
-			const menuButton = document.querySelector('.navbar-menu-btn');
+		// const handleClickOutside = (e) => {
+		// 	const menuButton = document.querySelector('.navbar-menu-btn');
 
-			if (menuButton && menuButton.contains(e.target)) return;
+		// 	if (menuButton && menuButton.contains(e.target)) return;
 
-			if (menuRef.current && !menuRef.current.contains(e.target)) {
-				toggleMenu();
-			}
-		};
+		// 	if (menuRef.current && !menuRef.current.contains(e.target)) {
+		// 		toggleMenu();
+		// 	}
+		// };
 
 		if (showMenu) {
 			document.addEventListener('keydown', handleKeyDown);

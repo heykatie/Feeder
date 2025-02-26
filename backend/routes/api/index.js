@@ -10,6 +10,7 @@ const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const petsRouter = require('./pets');
 const sousChefsRouter = require('./souschefs.js')
+const recipesRouter = require('./recipes.js');
 
 router.use(restoreUser);
 router.use('/oauth', oauthRouter);
@@ -17,6 +18,7 @@ router.use('/session', sessionRouter);
 router.use('/users', usersRouter);
 router.use('/pets', petsRouter);
 router.use('/souschefs', sousChefsRouter);
+router.use('/recipes', recipesRouter);
 
 
 // GET /api/restore-user

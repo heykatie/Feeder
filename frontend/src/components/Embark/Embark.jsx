@@ -17,7 +17,7 @@ const Embark = () => {
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
 	const sousChef = useSelector((state) => state.sousChefs.sousChef);
-	const user = useSelector((state) => state.session.user);
+	// const user = useSelector((state) => state.session.user);
 	const [errors, setErrors] = useState({});
 	const [stepValid, setStepValid] = useState(false);
 	const [showExitModal, setShowExitModal] = useState(false);

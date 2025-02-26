@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signup } from '../../../redux/users';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OpenModal from '../../../context/OpenModal';
@@ -8,7 +8,7 @@ import { useModal } from '../../../context/ModalContext';
 import './Signup.css';
 import LoginModal from '../../Auth/Modals/LoginModal';
 
-const Signup = ({ mode, errors = {}, onNext, onUpdate, initialData, handleSubmit }) => {
+const Signup = ({ mode, errors = {}, onUpdate, initialData, handleSubmit }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { closeModal } = useModal();

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import AvatarButton from './AvatarButton';
 import Menu from '../Menu';
 import Sidebar from '../Sidebar';
@@ -27,7 +27,7 @@ const Navbar = () => {
 		setShowMenu((prev) => !prev);
 	};
 
-	const toggleSidebar = (e) => {
+	const toggleSidebar = () => {
 		setShowSidebar((prev) => !prev);
 	};
 

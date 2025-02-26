@@ -1,12 +1,11 @@
-import {useSelector } from 'react-redux';
-import {useEffect} from 'react';
+// import {useSelector } from 'react-redux';
 
 
 function AvatarButton({toggleSidebar}) {
-	const user = useSelector((store) => store.session.user);
+	// const user = useSelector((store) => store.session.user);
 	// const ulRef = useRef();
 	// const closeMenu = () => setShowSidebar(false);
-	
+
 	// useEffect(() => {
 	// 	if (!showSidebar) return;
 

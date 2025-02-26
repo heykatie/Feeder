@@ -10,7 +10,7 @@ const personalities = [
 	{ label: 'Calm', emoji: '🧘' },
 ];
 
-const StartingChef = ({ onNext, onBack, onUpdate, initialData }) => {
+const StartingChef = ({ onUpdate, initialData }) => {
 	const [sousChefName, setSousChefName] = useState(
 		initialData?.sousChefName || ''
 	);

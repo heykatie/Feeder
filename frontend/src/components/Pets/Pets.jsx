@@ -8,8 +8,8 @@ import './Pets.css';
 
 const Pets = () => {
 	const dispatch = useDispatch();
-	const { pets, status, error } = useSelector((state) => state.pets);
-	const user = useSelector((state) => state.session.user);
+	const { pets, status } = useSelector((state) => state.pets);
+	// const user = useSelector((state) => state.session.user);
 	const [petToEdit, setPetToEdit] = useState(null);
 
 	useEffect(() => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useModal } from '../../../context/ModalContext';
 import { useSelector } from 'react-redux';
 import './AboutPet.css';
@@ -12,7 +12,7 @@ const AboutPet = ({
 	const isEditMode = mode === 'edit';
 	const isOnboarding = mode === 'onboarding';
 	const isAddMode = mode === 'add';
-	const { pets, status, error } = useSelector((state) => state.pets);
+	const { error } = useSelector((state) => state.pets);
 	const { closeModal } = useModal();
 
 	const [formData, setFormData] = useState(() => ({
