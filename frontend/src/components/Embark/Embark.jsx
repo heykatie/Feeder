@@ -129,6 +129,7 @@ const Embark = () => {
 					updateSousChef({ sousChefId, sousChefData: sousChefUpdates })
 				);
 			}
+			navigate('/dash');
 		} catch (error) {
 			alert(`Something went wrong! ${error.message || 'Please try again.'}`);
 		} finally {
