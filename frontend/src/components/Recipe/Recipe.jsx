@@ -34,7 +34,7 @@ const Recipe = () => {
 				<ul className='recipe-ingredients'>
 					{recipe.ingredients?.map((ingredient, index) => (
 						<li key={index}>
-							{ingredient.amount} {ingredient.name}
+							{ingredient.quantity} {ingredient.name}
 						</li>
 					))}
 				</ul>

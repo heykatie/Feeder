@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 	const recipe = await Recipe.findByPk(req.params.id, {
-		include: [{ model: Ingredient, through: { attributes: ['amount'] } }],
+		include: [{ model: Ingredient, through: { attributes: ['quantity'] } }],
 	});
 
 	if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
 		...recipe.toJSON(),
 		ingredients: recipe.Ingredients.map((i) => ({
 			name: i.name,
-			amount: i.RecipeIngredient.amount,
+			quantity: i.RecipeIngredient.quantity,
 		})),
 	});
 });
