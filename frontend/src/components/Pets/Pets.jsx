@@ -26,13 +26,6 @@ const Pets = () => {
 		dispatch(getPets());
 	};
 
-	// const handlePetUpdate = async (updatedPetData) => {
-	// 	if (updatedPetData.id) {
-	// 		await dispatch(updatePet(updatedPetData));
-	// 		dispatch(getPets());
-	// 	}
-	// };
-
 	const handlePetUpdate = async (updatedPetData) => {
 		if (!updatedPetData.id) return;
 

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
 
-// 🔹 Async Thunk: Restore Session User
 export const restoreSession = createAsyncThunk(
 	'session/restore',
 	async (_, { rejectWithValue }) => {
@@ -18,7 +17,6 @@ export const restoreSession = createAsyncThunk(
 	}
 );
 
-// 🔹 Async Thunk: Login User
 export const login = createAsyncThunk(
 	'session/login',
 	async ({ credential, password }, { rejectWithValue }) => {
@@ -35,25 +33,25 @@ export const login = createAsyncThunk(
 			const data = await response.json();
 			return data.user;
 		} catch (error) {
-			return rejectWithValue({ server: 'Login failed. Please try again.' });
+			const err = await error.json();
+			return rejectWithValue(err || { message: 'Login failed. Please try again.' });
 		}
 	}
 );
 
-// 🔹 Async Thunk: Logout User
 export const logout = createAsyncThunk(
 	'session/logout',
 	async (_, { rejectWithValue }) => {
 		try {
 			await csrfFetch('/api/session', { method: 'DELETE' });
-			return null; // Clear user state
+			return null;
 		} catch (error) {
 			return rejectWithValue('Logout failed. Please try again.');
 		}
 	}
 );
 
-// 🔹 Session Slice
+
 const sessionSlice = createSlice({
 	name: 'session',
 	initialState: { user: null, status: 'idle', error: null },
@@ -103,6 +101,6 @@ const sessionSlice = createSlice({
 	},
 });
 
-// 🔹 Export Actions & Reducer
+
 export const { setUser, clearUser } = sessionSlice.actions;
 export default sessionSlice.reducer;

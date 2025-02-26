@@ -25,8 +25,8 @@ function LoginFormModal() {
 			})
 		);
 
-		if (serverResponse) {
-			setErrors(serverResponse);
+		if (serverResponse.payload?.errors) {
+			setErrors(serverResponse.payload.errors);
 		} else {
 			closeModal();
 			navigate('/dash');
@@ -58,6 +58,7 @@ function LoginFormModal() {
 			<img src='/images/assets/logo.png' alt='SousChef Logo' className='logo' />
 			<h2>Log in to SousChef</h2>
 
+				{errors && errors.credential}
 			<form onSubmit={handleLogin}>
 				<div className='input-container'>
 					<input
