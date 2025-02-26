@@ -4,6 +4,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../../../context/ModalContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import OpenModal from '../../../../context/OpenModal';
+// import LoginModal from '../../../Auth/Modals/LoginModal';
+import Signup from '../../../Embark/Signup';
 import './LoginModal.css';
 
 function LoginFormModal() {
@@ -55,10 +58,14 @@ function LoginFormModal() {
 
 	return (
 		<div className='login-modal'>
-			<img src='/images/assets/logo.png' alt='SousChef Logo' className='logo' />
+			<img
+				src='/images/assets/logo.png'
+				alt='SousChef Logo'
+				className='logo'
+			/>
 			<h2>Log in to SousChef</h2>
 
-				{errors && errors.credential}
+			{errors && errors.credential}
 			<form onSubmit={handleLogin}>
 				<div className='input-container'>
 					<input
@@ -111,17 +118,30 @@ function LoginFormModal() {
 					</a>
 				</div>
 
-				<p className='signup-text'>
+				<OpenModal
+					itemText={<p className='signup-text'>
+						Don’t have an account?{' '}
+						<span
+							className='signup-link'
+							onClick={() => {
+								closeModal();
+							}}>
+							Sign up
+						</span>
+					</p>}
+					modalComponent={<Signup mode='fast' />}
+				/>
+
+				{/* <p className='signup-text'>
 					Don’t have an account?{' '}
 					<span
 						className='signup-link'
 						onClick={() => {
 							closeModal();
-							navigate('/embark')
 						}}>
 						Sign up
 					</span>
-				</p>
+				</p> */}
 			</form>
 		</div>
 	);

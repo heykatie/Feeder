@@ -3,16 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../../redux/users';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import OpenModal from '../../../context/OpenModal';
+import { useModal } from '../../../context/ModalContext';
 import './Signup.css';
+import LoginModal from '../../Auth/Modals/LoginModal';
 
-const Signup = ({ errors, onNext, onUpdate, initialData, handleSubmit }) => {
+const Signup = ({ mode, errors, onNext, onUpdate, initialData, handleSubmit }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { closeModal } = useModal();
 
-	const [username, setUsername] = useState(initialData.username || '');
-	const [email, setEmail] = useState(initialData.email || '');
+	const [username, setUsername] = useState(initialData?.username || '');
+	const [email, setEmail] = useState(initialData?.email || '');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
+	const [errs, setErrs] = useState({});
 
 	const handleChange = (field, value) => {
 		if (field === 'username') setUsername(value);
@@ -26,25 +31,38 @@ const Signup = ({ errors, onNext, onUpdate, initialData, handleSubmit }) => {
 		});
 	};
 
-	// const handleSignup = async (e) => {
-	// 	e.preventDefault();
-	// 	const serverResponse = await dispatch(
-	// 		signup({ username, email, password })
-	// 	);
+	const handleSignup = async (e) => {
+		e.preventDefault();
 
-	// 	if (serverResponse) {
-	// 		setErrors(serverResponse);
-	// 	} else {
-	// 		onNext();
-	// 	}
-	// };
+		// Fast mode logic (opened from LoginModal)
+		if (mode === 'fast') {
+			const serverResponse = await dispatch(
+				signup({ username, email, password })
+			);
+
+			if (serverResponse.error) {
+				setErrs(
+					serverResponse.payload.errors || serverResponse.payload.message
+				);
+			} else {
+				closeModal();
+				navigate('/dash');
+			}
+			return;
+		}
+
+		handleSubmit(e);
+	};
 
 	const togglePasswordVisibility = () => {
 		setShowPassword((prev) => !prev);
 	};
 
 	return (
-		<div className='signup-form'>
+		<div
+			className={`signup-form ${
+				mode === 'fast' ? 'signup-modal show' : ''
+			}`}>
 			<img
 				src='/images/assets/logo.png'
 				alt='SousChef Logo'
@@ -67,8 +85,23 @@ const Signup = ({ errors, onNext, onUpdate, initialData, handleSubmit }) => {
 			) : (
 				<p className='error-message'>{errors}</p>
 			)}
+			{errs && Array.isArray(errs) ? (
+				errs?.map((err, index) => (
+					<p key={index} className='error-message'>
+						{err}
+					</p>
+				))
+			) : typeof errs === 'object' ? (
+				Object.values(errs).map((err, index) => (
+					<p key={index} className='error-message'>
+						{err}
+					</p>
+				))
+			) : (
+				<p className='error-message'>{errs}</p>
+			)}
 
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSignup}>
 				<div className='input-container'>
 					<input
 						type='text'
@@ -104,9 +137,11 @@ const Signup = ({ errors, onNext, onUpdate, initialData, handleSubmit }) => {
 					</span>
 				</div>
 
-				{/* <button type='submit' className='signup-button'>
-					Sign Up
-				</button> */}
+				{mode === 'fast' && (
+					<button type='submit' className='signup-button'>
+						Sign Up
+					</button>
+				)}
 
 				<div className='or-divider'>
 					<span>or Signup with</span>
@@ -120,6 +155,24 @@ const Signup = ({ errors, onNext, onUpdate, initialData, handleSubmit }) => {
 						<i className='fa-brands fa-discord'></i> Discord
 					</a>
 				</div>
+
+				{mode === 'fast' && (
+					<OpenModal
+						itemText={
+							<p className='signup-text'>
+								Have an account?{' '}
+								<span
+									className='signup-link'
+									onClick={() => {
+										closeModal();
+									}}>
+									Log in
+								</span>
+							</p>
+						}
+						modalComponent={<LoginModal />}
+					/>
+				)}
 			</form>
 		</div>
 	);
