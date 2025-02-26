@@ -17,6 +17,13 @@ const Embark = () => {
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
 	const sousChef = useSelector((state) => state.sousChefs.sousChef);
+	const user = useSelector((state) => state.session.user);
+	const [errors, setErrors] = useState({});
+	const [stepValid, setStepValid] = useState(false);
+	const [showExitModal, setShowExitModal] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [prevStepValid, setPrevStepValid] = useState(false);
+	const [buttonText, setButtonText] = useState('Skip →');
 
 	const [selection, setSelection] = useState({
 		name: '',
@@ -32,41 +39,6 @@ const Embark = () => {
 		password: '',
 		species: '',
 	});
-
-	const [stepValid, setStepValid] = useState(false);
-	const [showExitModal, setShowExitModal] = useState(false);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-
-	const [prevStepValid, setPrevStepValid] = useState(false);
-	const [buttonText, setButtonText] = useState('Skip →');
-
-	useEffect(() => {
-		if (stepValid !== prevStepValid || step === forms.length - 1) {
-			const newText =
-				step === forms.length - 1
-					? 'Level up now'
-					: stepValid
-					? 'Continue →'
-					: 'Skip →';
-
-			setButtonText(newText);
-
-			if (newText === 'Continue →' || newText === 'Level up now') {
-				const btn = document.querySelector('.embark-next-btn.continue');
-				if (btn) {
-					btn.classList.remove('animate');
-					void btn.offsetWidth;
-					btn.classList.add('animate');
-				}
-			}
-
-			setPrevStepValid(stepValid);
-		}
-	}, [stepValid, prevStepValid, step]);
-
-	useEffect(() => {
-		setStepValid(isStepValid(step));
-	}, [step, selection]);
 
 	const handleNext = async (skip = false) => {
 		if (!skip && !stepValid) return;
@@ -89,20 +61,6 @@ const Embark = () => {
 	}, [step, selection.species]);
 
 	const handleExit = useCallback(() => {
-		// setSelection({
-		// 	companion: '',
-		// 	name: '',
-		// 	breed: '',
-		// 	age: '',
-		// 	weight: '',
-		// 	birthday: '',
-		// 	allergies: '',
-		// 	notes: '',
-		// 	image: '',
-		// 	sousChefName: '',
-		// 	email: '',
-		// 	password: '',
-		// });
 		setShowExitModal(true);
 		setTimeout(() => {
 			navigate('/', { replace: true });
@@ -128,15 +86,18 @@ const Embark = () => {
 				throw new Error('User creation failed');
 			}
 
-			const userId = userResponse.payload.id;
-			const sousChefId = userResponse.payload.SousChef?.id || sousChef?.id;
+			if (userResponse.error) {
+				setErrors(
+					userResponse.payload.errors ||
+						userResponse.payload.message || {
+							message: 'Signup failed3. Please try again.',
+						}
+				);
+				return;
+			}
 
-			// if (!sousChefId) {
-			// 	console.error(
-			// 		'No sousChefId found, updateSousChef will not dispatch.'
-			// 	);
-			// 	return;
-			// }
+			const userId = userResponse?.payload?.id;
+			const sousChefId = userResponse?.payload.SousChef?.id || sousChef?.id;
 
 			if (selection.species) {
 				await dispatch(
@@ -168,11 +129,8 @@ const Embark = () => {
 					updateSousChef({ sousChefId, sousChefData: sousChefUpdates })
 				);
 			}
-
-			navigate('/dash');
 		} catch (error) {
-			console.error('Error:', error);
-			alert('Something went wrong! Please try again.');
+			alert(`Something went wrong! ${error.message || 'Please try again.'}`);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -212,6 +170,34 @@ const Embark = () => {
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
 	}, [handleNext, handleBack, step, stepValid]);
+
+		useEffect(() => {
+			if (stepValid !== prevStepValid || step === forms.length - 1) {
+				const newText =
+					step === forms.length - 1
+						? 'Level up now'
+						: stepValid
+						? 'Continue →'
+						: 'Skip →';
+
+				setButtonText(newText);
+
+				if (newText === 'Continue →' || newText === 'Level up now') {
+					const btn = document.querySelector('.embark-next-btn.continue');
+					if (btn) {
+						btn.classList.remove('animate');
+						void btn.offsetWidth;
+						btn.classList.add('animate');
+					}
+				}
+
+				setPrevStepValid(stepValid);
+			}
+		}, [stepValid, prevStepValid, step]);
+
+		useEffect(() => {
+			setStepValid(isStepValid(step));
+		}, [step, selection]);
 
 	const isStepValid = (currentStep) => {
 		switch (currentStep) {
@@ -296,6 +282,7 @@ const Embark = () => {
 			component: (
 				<Signup
 					handleSubmit={handleSubmit}
+					errors={errors || {}}
 					initialData={selection}
 					onUpdate={(userData) =>
 						setSelection((prev) => ({ ...prev, ...userData }))

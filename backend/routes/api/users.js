@@ -28,6 +28,29 @@ const validateSignup = [
 	handleValidationErrors,
 ];
 
+// Sign up
+router.post('/', validateSignup, async (req, res) => {
+	const { email, password, username } = req.body;
+
+	try {
+		const hashedPassword = bcrypt.hashSync(password);
+		const user = await User.create({ email, username, hashedPassword });
+
+		const responseUser = await User.findByPk(user.id, {
+			attributes: { exclude: ['hashedPassword'] },
+			include: [{ model: SousChef }],
+		});
+
+		await setTokenCookie(res, responseUser);
+
+		return res.status(201).json({ user: responseUser });
+	} catch (error) {
+		return res
+			.status(500)
+			.json({ message: error.errors[0].message || 'Error signing up' });
+	}
+});
+
 // Update user profile
 router.put('/:userId', requireAuth, async (req, res) => {
 	const { userId } = req.params;
@@ -39,22 +62,7 @@ router.put('/:userId', requireAuth, async (req, res) => {
 			return res.status(404).json({ message: 'User not found' });
 		}
 
-		// Update user details
 		await user.update({ firstName, lastName, phone, birthday, avatarUrl, bio, theme });
-
-		// Return updated user
-		// const safeUser = {
-		// 	id: user.id,
-		// 	email: user.email,
-		// 	username: user.username,
-		// 	firstName: user.firstName || null,
-		// 	lastName: user.lastName || null,
-		// 	phone: user.phone || null,
-		// 	birthday: user.birthday || null,
-		// 	avatarUrl: user.avatarUrl || null,
-		// 	bio: user.bio || null,
-		// 	theme: user.theme || null,
-		// };
 
 		const updatedUser = await User.findByPk(user.id, {
 			attributes: { exclude: ['hashedPassword'] },
@@ -68,58 +76,11 @@ router.put('/:userId', requireAuth, async (req, res) => {
 	}
 });
 
-// Sign up
-router.post('/', validateSignup, async (req, res) => {
-	const { email, password, username } = req.body;
-
-	const hashedPassword = bcrypt.hashSync(password);
-	const user = await User.create({ email, username, hashedPassword });
-
-	// const safeUser = {
-	// 	id: user.id,
-	// 	email: user.email,
-	// 	username: user.username,
-	// 	firstName: user.firstName || null,
-	// 	lastName: user.lastName || null,
-	// 	phone: user.phone || null,
-	// 	birthday: user.birthday || null,
-	// 	avatarUrl: user.avatarUrl || null,
-	// 	bio: user.bio || null,
-	// 	theme: user.theme || null,
-	// 	sousChef: user.SousChef || null,
-	// };
-
-	const responseUser = await User.findByPk(user.id, {
-		attributes: { exclude: ['hashedPassword'] },
-		include: [{ model: SousChef }],
-	});
-
-	await setTokenCookie(res, responseUser);
-
-	return res.json({
-		user: responseUser,
-	});
-});
-
 // Restore session user
 router.get(
 	'/', restoreUser, requireAuth, async (req, res) => {
 		const { user } = req;
 		if (user) {
-
-			// const safeUser = {
-			// 	id: user.id,
-			// 	email: user.email,
-			// 	username: user.username,
-			// 	firstName: user.firstName || null,
-			// 	lastName: user.lastName || null,
-			// 	phone: user.phone || null,
-			// 	birthday: user.birthday || null,
-			// 	avatarUrl: user.avatarUrl || null,
-			// 	bio: user.bio || null,
-			// 	theme: user.theme || null,
-			// 	sousChef: user.SousChef || null
-			// };
 
 			const restoredUser = await User.findByPk(user.id, {
 				attributes: { exclude: ['hashedPassword'] },

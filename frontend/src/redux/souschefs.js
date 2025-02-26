@@ -19,7 +19,7 @@ export const createSousChef = createAsyncThunk(
 			return data;
 		} catch (error) {
 			return rejectWithValue({
-				server: 'Failed to create SousChef. Please try again.',
+				message: 'Failed to create SousChef. Please try again.',
 			});
 		}
 	}
@@ -60,7 +60,7 @@ export const updateSousChef = createAsyncThunk(
 			return data;
 		} catch (error) {
 			return rejectWithValue({
-				server: 'Failed to update SousChef. Please try again.',
+				message: 'Failed to update SousChef. Please try again.',
 			});
 		}
 	}

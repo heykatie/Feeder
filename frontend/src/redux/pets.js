@@ -13,8 +13,19 @@ export const createPet = createAsyncThunk(
 			});
 			return await response.json();
 		} catch (error) {
-			const err = await error.json()
-			return rejectWithValue(err || 'Failed to create pet.');
+			if (error?.json) {
+				try {
+					const err = await error.json();
+					return rejectWithValue(
+						err || { message: 'Failed to create pet.' }
+					);
+				} catch (parseError) {
+					return rejectWithValue({
+						message: 'Failed to parse error response.',
+					});
+				}
+			}
+			return rejectWithValue({ message: 'Failed to create pet.' });
 		}
 	}
 );

@@ -13,8 +13,14 @@ export const signup = createAsyncThunk(
 				body: JSON.stringify(userData),
 			});
 			if (!response.ok) {
-				const errorData = await response.json();
-				return rejectWithValue(errorData);
+				try {
+					const errorData = await response.json();
+					return rejectWithValue(errorData);
+				} catch (parseError) {
+					return rejectWithValue({
+						message: 'Failed to parse error response.',
+					});
+				}
 			}
 			const data = await response.json();
 
@@ -33,7 +39,19 @@ export const signup = createAsyncThunk(
 
 			return data.user;
 		} catch (error) {
-			return rejectWithValue({ server: 'Signup failed. Please try again.' });
+			if (error?.json) {
+				try {
+					const err = await error.json();
+					return rejectWithValue(
+						err || { message: 'Signup failed1. Please try again.' }
+					);
+				} catch (parseError) {
+					return rejectWithValue({
+						message: 'Failed to parse error response.',
+					});
+				}
+			}
+			return rejectWithValue({ message: 'Signup failed2. Please try again.' });
 		}
 	}
 );
@@ -54,7 +72,7 @@ export const updateUser = createAsyncThunk(
 			const data = await response.json();
 			return data.user; // ✅ Updated user data
 		} catch (error) {
-			return rejectWithValue({ server: 'Update failed. Please try again.' });
+			return rejectWithValue({ message: 'Update failed. Please try again.' });
 		}
 	}
 );

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signup } from '../../../redux/users';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './Signup.css';
 
-const Signup = ({ onNext, onUpdate, initialData, handleSubmit }) => {
+const Signup = ({ errors, onNext, onUpdate, initialData, handleSubmit }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -13,7 +13,6 @@ const Signup = ({ onNext, onUpdate, initialData, handleSubmit }) => {
 	const [email, setEmail] = useState(initialData.email || '');
 	const [password, setPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
-	const [errors, setErrors] = useState({});
 
 	const handleChange = (field, value) => {
 		if (field === 'username') setUsername(value);
@@ -52,6 +51,23 @@ const Signup = ({ onNext, onUpdate, initialData, handleSubmit }) => {
 				className='page-logo'
 			/>
 			<h2>Begin Your Adventure</h2>
+
+			{errors && Array.isArray(errors) ? (
+				errors?.map((err, index) => (
+					<p key={index} className='error-message'>
+						{err}
+					</p>
+				))
+			) : typeof errors === 'object' ? (
+				Object.values(errors).map((err, index) => (
+					<p key={index} className='error-message'>
+						{err}
+					</p>
+				))
+			) : (
+				<p className='error-message'>{errors}</p>
+			)}
+
 			<form onSubmit={handleSubmit}>
 				<div className='input-container'>
 					<input
