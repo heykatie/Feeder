@@ -29,6 +29,21 @@ const Recipe = () => {
 			/>
 			<p className='recipe-category'>Category: {recipe.category}</p>
 			<p className='recipe-description'>{recipe.description}</p>
+			<div className='recipe-section'>
+				<h2>Ingredients</h2>
+				<ul className='recipe-ingredients'>
+					{recipe.ingredients?.map((ingredient, index) => (
+						<li key={index}>
+							{ingredient.amount} {ingredient.name}
+						</li>
+					))}
+				</ul>
+			</div>
+
+			<div className='recipe-section'>
+				<h2>Instructions</h2>
+				<p className='recipe-instructions'>{recipe.instructions}</p>
+			</div>
 		</div>
 	);
 };

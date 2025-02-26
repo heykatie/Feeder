@@ -1,5 +1,5 @@
 const express = require('express');
-const { Recipe } = require('../../db/models');
+const { Recipe, Ingredient, RecipeIngredient } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
@@ -9,11 +9,20 @@ router.get('/', async (req, res) => {
 	return res.json(recipes);
 });
 
-// GET a single recipe by ID
 router.get('/:id', async (req, res) => {
-	const recipe = await Recipe.findByPk(req.params.id);
+	const recipe = await Recipe.findByPk(req.params.id, {
+		include: [{ model: Ingredient, through: { attributes: ['amount'] } }],
+	});
+
 	if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
-	return res.json(recipe);
+
+	return res.json({
+		...recipe.toJSON(),
+		ingredients: recipe.Ingredients.map((i) => ({
+			name: i.name,
+			amount: i.RecipeIngredient.amount,
+		})),
+	});
 });
 
 // POST create a new recipe (requires authentication)

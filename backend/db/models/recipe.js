@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model, Ingredient, RecipeIngredient } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Recipe extends Model {
     /**
@@ -11,7 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Recipe.belongsTo(models.User, { foreignKey: 'userId' });
+			Recipe.belongsTo(models.User, { foreignKey: 'userId' });
+			Recipe.belongsToMany(models.Ingredient, {
+				through: models.RecipeIngredient,
+				foreignKey: 'recipeId',
+			});
     }
   }
   Recipe.init(
@@ -37,6 +39,11 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING(100),
 				allowNull: false,
 				defaultValue: 'Uncategorized',
+			},
+			instructions: {
+				type: DataTypes.TEXT,
+				allowNull: false,
+				defaultValue: '',
 			},
 		},
 		{

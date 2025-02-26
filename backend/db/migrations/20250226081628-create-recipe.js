@@ -41,6 +41,11 @@ module.exports = {
 					allowNull: false,
 					defaultValue: 'Uncategorized',
 				},
+				instructions: {
+					type: Sequelize.TEXT,
+					allowNull: false,
+					defaultValue: '',
+				},
 				createdAt: {
 					allowNull: false,
 					type: Sequelize.DATE,
