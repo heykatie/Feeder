@@ -83,8 +83,8 @@ const AboutPet = ({
 							onChange={handleChange}
 							required>
 							<option value=''>Select Species*</option>
-							<option value='Dog'>Dog</option>
-							<option value='Cat'>Cat</option>
+							<option value='dog'>Dog</option>
+							<option value='cat'>Cat</option>
 						</select>
 					)}
 
