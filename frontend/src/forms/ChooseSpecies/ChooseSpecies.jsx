@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './ChooseSpecies.css';
-import catGif from '/images/cat.apng';
-import dogGif from '/images/dog.apng';
+import catGif from '/images/forms/cat.apng';
+import dogGif from '/images/forms/dog.apng';
 
 const ChooseSpecies = ({ onSelect, selectedSpecies }) => {
 	const [selectedPet, setSelectedPet] = useState(selectedSpecies || null);

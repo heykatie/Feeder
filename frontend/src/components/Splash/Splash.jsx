@@ -22,7 +22,7 @@ const Splash = () => {
 			{/* Mascot with fun zoom effect */}
 			<div className={`mascot-wrapper ${loaded ? 'zoom-in' : 'hidden'}`}>
 				<img
-					src='/images/mascot.png'
+					src='/images/assets/mascot.png'
 					alt='SousChef Mascot'
 					className='mascot'
 				/>

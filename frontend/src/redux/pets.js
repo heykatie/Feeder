@@ -11,17 +11,10 @@ export const createPet = createAsyncThunk(
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(petData),
 			});
-			if (!response.ok) {
-				const errorData = await response.json();
-				return rejectWithValue(errorData);
-			}
-			const data = await response.json();
-			return data;
+			return await response.json();
 		} catch (error) {
-			const err = (await error.json() || JSON.stringify(error))
-			return rejectWithValue({
-				server: err || 'Failed to create pet. Please try again.',
-			});
+			const err = await error.json()
+			return rejectWithValue(err || 'Failed to create pet.');
 		}
 	}
 );
@@ -32,13 +25,10 @@ export const getPets = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch('/api/pets');
-			if (!response.ok) {
-				return rejectWithValue('Failed to fetch pets.');
-			}
-			const data = await response.json();
-			return data.pets;
+			return (await response.json()).pets;
 		} catch (error) {
-			return rejectWithValue('Failed to fetch pets.');
+			const err = await error.json();
+			return rejectWithValue(err || 'Failed to fetch pets.');
 		}
 	}
 );
@@ -52,39 +42,28 @@ export const updatePet = createAsyncThunk(
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(updatedData),
 			});
-			if (!response.ok) {
-				const errorData = await response.json();
-				return rejectWithValue(errorData);
-			}
-			const data = await response.json();
-			return data;
+			return await response.json();
 		} catch (error) {
-			return rejectWithValue({
-				server: 'Failed to update pet. Please try again.',
-			});
+			const err = await error.json();
+			return rejectWithValue(err || 'Failed to update pet.');
 		}
 	}
 );
 
 
 export const deletePet = createAsyncThunk(
-	'pets/delete',
-	async (petId, { rejectWithValue }) => {
-		try {
-			const response = await csrfFetch(`/api/pets/${petId}`, {
-				method: 'DELETE',
-			});
-			if (!response.ok) {
-				const errorData = await response.json();
-				return rejectWithValue(errorData);
-			}
-			return petId;
+  'pets/delete',
+  async (petId, { rejectWithValue }) => {
+    try {
+      const response = await csrfFetch(`/api/pets/${petId}`, {
+        method: 'DELETE',
+      });
+      return petId;
 		} catch (error) {
-			return rejectWithValue({
-				server: 'Failed to delete pet. Please try again.',
-			});
-		}
-	}
+			const err = await error.json();
+      return rejectWithValue(err || 'Failed to delete pet.');
+    }
+  }
 );
 
 const petsSlice = createSlice({

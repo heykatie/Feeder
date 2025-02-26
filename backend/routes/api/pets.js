@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', requireAuth, async (req, res) => {
 	const {
-		name,
+		petName,
 		species,
 		breed,
 		age,
@@ -17,10 +17,16 @@ router.post('/', requireAuth, async (req, res) => {
 	} = req.body;
 	const userId = req.user.id;
 
+	if (!petName || !species || !userId) {
+		return res.status(400).json({
+			message: 'Name and species are required.',
+		});
+	}
+
 	try {
 		const pet = await Pet.create({
 			userId,
-			name,
+			name: petName,
 			species,
 			breed,
 			age,
@@ -32,7 +38,13 @@ router.post('/', requireAuth, async (req, res) => {
 		});
 		return res.status(201).json(pet);
 	} catch (error) {
-		return res.status(500).json({ error: error.message });
+		if (error.name == 'SequelizeValidationError') {
+			return res
+				.status(500)
+				.json({ message: error.message || 'Failed to create pet' });
+		} else {
+			return res.status(500).json(error.errors || 'Failed to create pet');
+		}
 	}
 });
 
@@ -43,7 +55,13 @@ router.get('/', requireAuth, async (req, res) => {
 		});
 		return res.json({ pets });
 	} catch (error) {
-		return res.status(500).json({ error: 'Failed to fetch pets' });
+		if (error.name == 'SequelizeValidationError') {
+			return res
+				.status(500)
+				.json({ message: error.message || 'Failed to fetch pets' });
+		} else {
+			return res.status(500).json(error.errors || 'Failed to fetch pets');
+		}
 	}
 });
 
@@ -61,7 +79,9 @@ router.delete('/:petId', requireAuth, async (req, res) => {
 		await pet.destroy();
 		return res.json({ message: 'Pet deleted successfully', petId });
 	} catch (error) {
-		return res.status(500).json({ error: 'Failed to delete pet' });
+		return res
+			.status(500)
+			.json({ message: error.message || 'Failed to delete pet' });
 	}
 });
 

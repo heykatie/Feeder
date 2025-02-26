@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import {useSelector} from 'react-redux';
 import './AboutPet.css';
 
 const AboutPet = ({
@@ -9,6 +10,7 @@ const AboutPet = ({
 }) => {
 	const isEditMode = mode === 'edit';
 	const isAddMode = mode === 'add';
+	const { pets, status, error } = useSelector((state) => state.pets);
 
 	const [formData, setFormData] = useState({
 		petName: initialData?.petName || '',
@@ -22,39 +24,38 @@ const AboutPet = ({
 		birthday: initialData?.birthday || '',
 	});
 
+	const [debouncedFormData, setDebouncedFormData] = useState(formData);
+
+	// Debounce effect: Wait 500ms after typing stops before updating state
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setDebouncedFormData(formData);
+		}, 500);
+
+		return () => clearTimeout(timer); // Cleanup timer on every re-render
+	}, [formData]);
+
+	// This will fire only after the user has stopped typing for 500ms
+	useEffect(() => {
+		if (isEditMode && initialData?.id) {
+			onUpdate({ ...debouncedFormData, id: initialData.id });
+		}
+	}, [debouncedFormData, isEditMode, initialData, onUpdate]);
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
-		onUpdate({ [name]: value });
-	};
-
-	const handleFileChange = (e) => {
-		const file = e.target.files[0];
-		if (file) {
-			const imageUrl = URL.createObjectURL(file);
-			setFormData((prev) => ({ ...prev, image: imageUrl }));
-			onUpdate({ image: imageUrl, file });
-		}
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
+		console.log('Submitting form data:', formData); 
 		if (isEditMode) {
 			onUpdate({ ...formData, id: initialData?.id });
 		} else {
 			onUpdate(formData);
 		}
 	};
-
-	useEffect(() => {
-		if (
-			formData.petName.trim() !== '' &&
-			formData.petName !== selectedSpecies
-		) {
-			onUpdate({ petName: formData.petName });
-		}
-	}, [formData.petName]);
 
 	return (
 		<div
@@ -79,7 +80,18 @@ const AboutPet = ({
 						onChange={handleChange}
 						required
 					/>
-
+					{isAddMode && (
+						<select
+							name='species'
+							className='species-select'
+							value={formData.species}
+							onChange={handleChange}
+							required>
+							<option value=''>Select Species*</option>
+							<option value='dog'>Dog</option>
+							<option value='cat'>Cat</option>
+						</select>
+					)}
 					<input
 						type='text'
 						name='breed'
@@ -93,7 +105,6 @@ const AboutPet = ({
 						placeholder='Age'
 						value={formData.age}
 						onChange={handleChange}
-						required
 					/>
 					<input
 						type='number'
@@ -123,7 +134,12 @@ const AboutPet = ({
 						<input
 							type='file'
 							accept='image/*'
-							onChange={handleFileChange}
+							onChange={(e) =>
+								setFormData((prev) => ({
+									...prev,
+									image: URL.createObjectURL(e.target.files[0]),
+								}))
+							}
 						/>
 					</div>
 
@@ -133,6 +149,7 @@ const AboutPet = ({
 						</button>
 					)}
 				</form>
+				{error && error.message}
 			</div>
 
 			{formData.image && (
@@ -143,6 +160,5 @@ const AboutPet = ({
 		</div>
 	);
 };
-
 
 export default AboutPet;

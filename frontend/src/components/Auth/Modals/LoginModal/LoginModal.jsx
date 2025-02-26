@@ -55,7 +55,7 @@ function LoginFormModal() {
 
 	return (
 		<div className='login-modal'>
-			<img src='/images/logo.png' alt='SousChef Logo' className='logo' />
+			<img src='/images/assets/logo.png' alt='SousChef Logo' className='logo' />
 			<h2>Log in to SousChef</h2>
 
 			<form onSubmit={handleLogin}>

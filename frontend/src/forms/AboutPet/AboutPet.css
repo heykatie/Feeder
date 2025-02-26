@@ -2,17 +2,24 @@
   max-width: 700px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #1A1A2E;
+  background: linear-gradient(135deg, #1A1A2E, #0F0F1A);
   color: white;
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 198, 207, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  transition: all 0.3s ease-in-out;
 }
 
+/* Subtle glowing hover effect */
+.about-pet-container:hover {
+  box-shadow: 0 0 25px rgba(163, 121, 255, 0.9);
+}
+
+/* Form Container */
 .about-pet-form {
   display: flex;
   flex-direction: column;
@@ -20,19 +27,18 @@
   width: 400px;
 }
 
+/* Form Headings */
 .about-pet-container h2 {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   margin-bottom: 15px;
-  margin-top: auto;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00C6CF, #A379FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
 }
 
-.about-pet-container form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
+/* Input Fields */
 .about-pet-container form input,
 .about-pet-container form textarea,
 .about-pet-container form select {
@@ -40,115 +46,89 @@
   max-width: 400px;
   padding: 12px;
   margin: 6px 0;
-  border: none;
+  border: 2px solid #00C6CF;
   border-radius: 5px;
   background: #232946;
   color: white;
   font-size: 16px;
   text-align: left;
+  outline: none;
+  transition: all 0.3s ease-in-out;
 }
 
-.name-species-container {
-  display: flex;
+/* Hover effect on inputs */
+.about-pet-container form input:hover,
+.about-pet-container form textarea:hover,
+.about-pet-container form select:hover {
+  border-color: #A379FF;
+  box-shadow: 0px 0px 10px rgba(163, 121, 255, 0.7);
+}
+
+/* Glowing focus effect */
+.about-pet-container form input:focus,
+.about-pet-container form textarea:focus,
+.about-pet-container form select:focus {
+  border-color: #A379FF;
+  box-shadow: 0px 0px 15px rgba(0, 198, 207, 0.9);
+  transform: scale(1.02);
+}
+
+/* Flashy Dropdown */
+.about-pet-container form .species-select {
   width: 100%;
   max-width: 400px;
-  gap: 10px;
-}
-
-.save-btn {
-  background: #00C6CF;
-  color: white;
-  padding: 10px;
-  margin-top: 10px;
-  width: 70%;
-  border: none;
+  padding: 12px;
+  margin: 6px 0;
   border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.continue-btn:hover {
-  background: #A379FF;
-}
-
-.form-step {
-  width: 100%;
-  max-width: 500px;
-  min-height: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #1A1A2E;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease-in-out;
-}
-
-.nav-buttons {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 400px;
-  margin-top: 20px;
-  padding: 10px;
-}
-
-.back-btn,
-.next-btn {
-  padding: 10px 20px;
+  background: linear-gradient(135deg, #232946, #1A1A2E);
+  color: white;
   font-size: 16px;
-  font-weight: bold;
-  border-radius: 5px;
-  border: none;
+  text-align: left;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 0px 8px rgba(0, 198, 207, 0.4);
 }
 
-.back-btn {
-  background-color: #A379FF;
+.about-pet-container form .species-select:hover {
+  border-color: #00C6CF;
+  box-shadow: 0px 0px 10px rgba(0, 198, 207, 0.6), 0px 0px 15px rgba(163, 121, 255, 0.8);
+}
+
+/* Animated glowing submit button */
+.save-btn {
+  background: linear-gradient(90deg, #00C6CF, #A379FF);
   color: white;
+  padding: 12px;
+  margin-top: 10px;
+  width: 80%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 0px 15px rgba(0, 198, 207, 0.8);
 }
 
-.next-btn {
-  background-color: #00C6CF;
-  color: white;
+/* Hover and Active Effects */
+.save-btn:hover {
+  background: linear-gradient(90deg, #A379FF, #00C6CF);
+  box-shadow: 0px 0px 25px rgba(163, 121, 255, 1);
+  transform: scale(1.05);
 }
 
-.back-btn:hover {
-  background-color: #8F60FF;
+.save-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0px 0px 30px rgba(0, 198, 207, 1);
 }
 
-.next-btn:hover {
-  background-color: #00A4B2;
-}
-
-.image-preview-container {
-  position: absolute;
-  top: 50%;
-  right: -250px;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.preview-image {
-  max-width: 150px;
-  max-height: 150px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 198, 207, 0.8);
-  opacity: 0;
-  transform: scale(0.8);
-  animation: fadeScale 0.4s ease-out forwards;
-}
-
-.file-upload-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* Flashy File Upload */
 .file-upload-container input {
   width: 100%;
   max-width: 400px;
@@ -158,12 +138,81 @@
   padding: 10px;
   text-align: center;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
 .file-upload-container input:hover {
   border-color: #A379FF;
+  box-shadow: 0px 0px 10px rgba(163, 121, 255, 0.8);
 }
 
+.image-preview-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  width: 50%;
+}
+
+/* Ensure the image resizes properly */
+.preview-image {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 198, 207, 0.8);
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Subtle pulsing animation */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0px 0px 8px rgba(0, 198, 207, 0.4);
+  }
+
+  50% {
+    box-shadow: 0px 0px 12px rgba(0, 198, 207, 0.6);
+  }
+
+  100% {
+    box-shadow: 0px 0px 8px rgba(0, 198, 207, 0.4);
+  }
+}
+
+/* Apply glow animation */
+.about-pet-container form input:focus,
+.about-pet-container form textarea:focus,
+.about-pet-container form select:focus {
+  animation: glowPulse 1.5s infinite alternate;
+}
+
+
+.about-pet-container form input,
+.about-pet-container form textarea,
+.about-pet-container form select {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  padding: 12px;
+  margin: 6px 0;
+  border: 2px solid #00C6CF;
+  border-radius: 5px;
+  background: #232946;
+  color: white;
+  font-size: 16px;
+  text-align: left;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.about-pet-container form .species-select {
+  display: block;
+  width: 100%;
+}
+
+/* Subtle Fade-In Effect */
 @keyframes fadeScale {
   0% {
     opacity: 0;
@@ -178,11 +227,10 @@
 
 @media (max-width: 768px) {
   .image-preview-container {
+    right: 0;
     position: relative;
-    right: auto;
-    top: auto;
-    transform: none;
-    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .preview-image {
