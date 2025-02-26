@@ -76,11 +76,15 @@ const petsSlice = createSlice({
 		clearPets: (state) => {
 			state.pets = [];
 		},
+		clearErrors: (state) => {
+			state.error = null;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(createPet.pending, (state) => {
 				state.status = 'loading';
+				state.error = null;
 			})
 			.addCase(createPet.fulfilled, (state, action) => {
 				state.status = 'succeeded';
@@ -92,6 +96,7 @@ const petsSlice = createSlice({
 			})
 			.addCase(getPets.pending, (state) => {
 				state.status = 'loading';
+				state.error = null;
 			})
 			.addCase(getPets.fulfilled, (state, action) => {
 				state.status = 'succeeded';
@@ -103,10 +108,13 @@ const petsSlice = createSlice({
 			})
 			.addCase(updatePet.pending, (state) => {
 				state.status = 'loading';
+				state.error = null;
 			})
 			.addCase(updatePet.fulfilled, (state, action) => {
 				state.status = 'succeeded';
-				const index = state.pets.findIndex((pet) => pet.id === action.payload.id);
+				const index = state.pets.findIndex(
+					(pet) => pet.id === action.payload.id
+				);
 				if (index !== -1) {
 					state.pets[index] = action.payload;
 				}
@@ -117,6 +125,7 @@ const petsSlice = createSlice({
 			})
 			.addCase(deletePet.pending, (state) => {
 				state.status = 'loading';
+				state.error = null; 
 			})
 			.addCase(deletePet.fulfilled, (state, action) => {
 				state.status = 'succeeded';

@@ -20,7 +20,7 @@ const Embark = () => {
 
 	const [selection, setSelection] = useState({
 		companion: '',
-		petName: '',
+		name: '',
 		breed: '',
 		age: '',
 		weight: '',
@@ -138,11 +138,11 @@ const Embark = () => {
 				return;
 			}
 
-			if (selection.petName) {
+			if (selection.name) {
 				await dispatch(
 					createPet({
 						userId,
-						name: selection.petName,
+						name: selection.name,
 						species: selection.companion,
 						breed: selection.breed,
 						age: selection.age,
@@ -222,8 +222,8 @@ const Embark = () => {
 				);
 			case 1:
 				return (
-					typeof selection.petName === 'string' &&
-					selection.petName.trim() !== ''
+					typeof selection.name === 'string' &&
+					selection.name.trim() !== ''
 				);
 			case 2:
 				return (
@@ -267,10 +267,9 @@ const Embark = () => {
 			component: (
 				<AboutPet
 					selectedSpecies={selection.companion}
-					initialData={selection}
-					onUpdate={(petData) =>
-						setSelection((prev) => ({ ...prev, ...petData }))
-					}
+					formData={selection}
+					setFormData={setSelection}
+					mode='onboarding'
 				/>
 			),
 		},

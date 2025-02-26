@@ -35,7 +35,7 @@ export default function Dash() {
 				<div className='profile-card'>
 					<div className='profile-details'>
 						<motion.img
-							src={user?.avatarUrl || '/images/avatar.png'}
+							src={user?.avatarUrl || '/images/icons/avatar.png'}
 							alt='User Avatar'
 							className='profile-avatar'
 							animate={{ scale: [1, 1.05, 1] }}

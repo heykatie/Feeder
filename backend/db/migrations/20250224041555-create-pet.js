@@ -40,9 +40,15 @@ module.exports = {
 				},
 				age: {
 					type: Sequelize.INTEGER,
+					validate: {
+						min: 0,
+					},
 				},
 				weight: {
 					type: Sequelize.DECIMAL,
+					validate: {
+						min: 0,
+					},
 				},
 				allergies: {
 					type: Sequelize.TEXT,

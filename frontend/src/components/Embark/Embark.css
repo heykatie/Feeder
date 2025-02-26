@@ -6,7 +6,7 @@
   height: 100vh;
   background: #1a1a2e;
   color: white;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
 }
 

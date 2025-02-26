@@ -47,7 +47,7 @@ const Signup = ({ onNext, onUpdate, initialData, handleSubmit }) => {
 	return (
 		<div className='signup-form'>
 			<img
-				src='/images/logo.png'
+				src='/images/assets/logo.png'
 				alt='SousChef Logo'
 				className='page-logo'
 			/>

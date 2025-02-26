@@ -36,13 +36,19 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			age: {
 				type: DataTypes.INTEGER,
+				validate: {
+					min: 0,
+				},
 			},
 			weight: {
 				type: DataTypes.DECIMAL,
+				validate: {
+					min: 0,
+				},
 			},
-      allergies: {
-        type: DataTypes.TEXT,
-      },
+			allergies: {
+				type: DataTypes.TEXT,
+			},
 			notes: {
 				type: DataTypes.TEXT,
 			},

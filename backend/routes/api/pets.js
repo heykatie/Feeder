@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', requireAuth, async (req, res) => {
 	const {
-		petName,
+		name,
 		species,
 		breed,
 		age,
@@ -17,7 +17,7 @@ router.post('/', requireAuth, async (req, res) => {
 	} = req.body;
 	const userId = req.user.id;
 
-	if (!petName || !species || !userId) {
+	if (!name || !species || !userId) {
 		return res.status(400).json({
 			message: 'Name and species are required.',
 		});
@@ -26,7 +26,7 @@ router.post('/', requireAuth, async (req, res) => {
 	try {
 		const pet = await Pet.create({
 			userId,
-			name: petName,
+			name: name,
 			species,
 			breed,
 			age,
@@ -61,6 +61,53 @@ router.get('/', requireAuth, async (req, res) => {
 				.json({ message: error.message || 'Failed to fetch pets' });
 		} else {
 			return res.status(500).json(error.errors || 'Failed to fetch pets');
+		}
+	}
+});
+
+router.put('/:petId', requireAuth, async (req, res) => {
+	const { petId } = req.params;
+	const userId = req.user.id;
+	const {
+		name,
+		species,
+		breed,
+		age,
+		weight,
+		birthday,
+		allergies,
+		notes,
+		image,
+	} = req.body;
+
+	try {
+		const pet = await Pet.findOne({ where: { id: petId, userId } });
+
+		if (!pet) {
+			return res.status(404).json({ message: 'Pet not found' });
+		}
+
+		// Update pet attributes
+		await pet.update({
+			name: name || pet?.name,
+			species: species || pet?.species,
+			breed: breed || pet?.breed,
+			age: age !== undefined ? age : pet?.age,
+			weight: weight !== undefined ? weight : pet?.weight,
+			birthday: birthday || pet?.birthday,
+			allergies: allergies || pet?.allergies,
+			notes: notes || pet?.notes,
+			image: image || pet?.image,
+		});
+
+		return res.json(pet);
+	} catch (error) {
+		if (error.name == 'SequelizeValidationError') {
+			return res
+				.status(500)
+				.json({ message: error.message || 'Failed to update pet' });
+		} else {
+			return res.status(500).json(error.errors || 'Failed to update pet');
 		}
 	}
 });
