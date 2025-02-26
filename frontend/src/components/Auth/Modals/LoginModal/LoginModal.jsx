@@ -65,7 +65,7 @@ function LoginFormModal() {
 			/>
 			<h2>Log in to SousChef</h2>
 
-			{errors && errors.credential}
+			{errors.credential && <p className='error-message'>{errors.credential}</p>}
 			<form onSubmit={handleLogin}>
 				<div className='input-container'>
 					<input
@@ -119,16 +119,18 @@ function LoginFormModal() {
 				</div>
 
 				<OpenModal
-					itemText={<p className='signup-text'>
-						Don’t have an account?{' '}
-						<span
-							className='signup-link'
-							onClick={() => {
-								closeModal();
-							}}>
-							Sign up
-						</span>
-					</p>}
+					itemText={
+						<p className='signup-text'>
+							Don’t have an account?{' '}
+							<span
+								className='signup-link'
+								onClick={() => {
+									closeModal();
+								}}>
+								Sign up
+							</span>
+						</p>
+					}
 					modalComponent={<Signup mode='fast' />}
 				/>
 

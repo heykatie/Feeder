@@ -283,7 +283,7 @@ const Embark = () => {
 			component: (
 				<Signup
 					handleSubmit={handleSubmit}
-					errors={errors || {}}
+					errors={errors}
 					initialData={selection}
 					onUpdate={(userData) =>
 						setSelection((prev) => ({ ...prev, ...userData }))

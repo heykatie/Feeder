@@ -8,7 +8,7 @@ import { useModal } from '../../../context/ModalContext';
 import './Signup.css';
 import LoginModal from '../../Auth/Modals/LoginModal';
 
-const Signup = ({ mode, errors, onNext, onUpdate, initialData, handleSubmit }) => {
+const Signup = ({ mode, errors = {}, onNext, onUpdate, initialData, handleSubmit }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { closeModal } = useModal();
