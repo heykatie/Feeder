@@ -10,6 +10,7 @@ const AboutPet = ({
 	mode = 'onboarding',
 }) => {
 	const isEditMode = mode === 'edit';
+	const isOnboarding = mode === 'onboarding';
 	const isAddMode = mode === 'add';
 	const { pets, status, error } = useSelector((state) => state.pets);
 	const { closeModal } = useModal();
@@ -29,7 +30,11 @@ const AboutPet = ({
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
-		onUpdate({ [name]: value });
+		if (isOnboarding) {
+			onUpdate({ [name]: value });
+		} else {
+			return;
+		}
 	};
 
 	const handleFileChange = (e) => {
@@ -47,11 +52,11 @@ const AboutPet = ({
 		closeModal();
 	};
 
-	useEffect(() => {
-		if (formData.name.trim() !== '' && formData.name !== selectedSpecies) {
-			onUpdate({ name: formData.name });
-		}
-	}, [formData.name]);
+	// useEffect(() => {
+	// 	if (formData.name.trim() !== '' && formData.name !== selectedSpecies) {
+	// 		onUpdate({ name: formData.name });
+	// 	}
+	// }, [formData.name]);
 
 	return (
 		<div
