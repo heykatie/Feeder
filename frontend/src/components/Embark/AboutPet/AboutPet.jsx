@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../../context/ModalContext';
 import { useSelector } from 'react-redux';
 import './AboutPet.css';
 

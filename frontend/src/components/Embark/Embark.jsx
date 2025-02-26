@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import AboutPet from '../../forms/AboutPet';
-import ChooseSpecies from '../../forms/ChooseSpecies';
+import AboutPet from './AboutPet';
+import ChooseSpecies from './ChooseSpecies';
 import Signup from './Signup/Signup';
 import StartingChef from './StartingChef';
 import ConfirmExit from '../models/ConfirmExit';
@@ -131,12 +131,12 @@ const Embark = () => {
 			const userId = userResponse.payload.id;
 			const sousChefId = userResponse.payload.SousChef?.id || sousChef?.id;
 
-			if (!sousChefId) {
-				console.error(
-					'No sousChefId found, updateSousChef will not dispatch.'
-				);
-				return;
-			}
+			// if (!sousChefId) {
+			// 	console.error(
+			// 		'No sousChefId found, updateSousChef will not dispatch.'
+			// 	);
+			// 	return;
+			// }
 
 			if (selection.species) {
 				await dispatch(
@@ -201,7 +201,7 @@ const Embark = () => {
 						activeElement.tagName === 'INPUT')
 				) {
 					activeElement.click();
-				} else if (!stepValid) {
+				} else if (!stepValid && step !== 3) {
 					handleNext(true);
 				}
 			} else if (e.key === 'Backspace' && !isInputField) {

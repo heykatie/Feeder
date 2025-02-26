@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPets, createPet, deletePet, updatePet } from '../../redux/pets';
-import AboutPet from '../../forms/AboutPet';
+import AboutPet from '../Embark/AboutPet';
 import OpenModalButton from '../../context/OpenModalButton';
 import pupGif from '/images/icons/pup.gif';
 import './Pets.css';
