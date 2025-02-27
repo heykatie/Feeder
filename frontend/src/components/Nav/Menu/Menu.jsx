@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import './Menu.css';
 
 const Menu = ({ showMenu, toggleMenu }) => {
-	const userId = useSelector(state => state.session.userId);
+	const userId = useSelector(state => state.session.user.id);
 	const menuRef = useRef(null);
 
 	useEffect(() => {

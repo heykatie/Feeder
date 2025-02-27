@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import {logout} from '../../../redux/session';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { logout } from '../../../redux/session';
 import './RSidebar.css';
 
 const RSidebar = ({ showSidebar, toggleSidebar }) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const rsidebarRef = useRef();
 	const user = useSelector((state) => state.session.user);
 
@@ -13,6 +14,7 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 		e.preventDefault();
 		dispatch(logout());
 		toggleSidebar(false);
+		navigate('/')
 	};
 
 

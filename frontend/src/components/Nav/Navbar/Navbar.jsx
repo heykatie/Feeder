@@ -55,9 +55,12 @@ const Navbar = () => {
 						onClick={toggleExpand}>
 						<i className='fa-solid fa-hamburger'></i>
 					</button>
-					<NavLink to='/' className='logo'>
-						SousChef
-					</NavLink>
+					{user ? (<NavLink to='/recipes' className='logo'>
+							SousChef
+						</NavLink>) : (<NavLink to='/' className='logo'>
+							SousChef
+						</NavLink>)
+					}
 				</div>
 
 				<div className='navbar-center'>

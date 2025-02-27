@@ -18,7 +18,7 @@ export const signup = createAsyncThunk(
 					return rejectWithValue(errorData);
 				} catch (parseError) {
 					return rejectWithValue({
-						message: 'Failed to parse error response.',
+						message: response || 'Failed to parse error response.',
 					});
 				}
 			}
@@ -47,7 +47,7 @@ export const signup = createAsyncThunk(
 					);
 				} catch (parseError) {
 					return rejectWithValue({
-						message: 'Failed to parse error response.',
+						message: error || 'Failed to parse error response.',
 					});
 				}
 			}
@@ -55,6 +55,18 @@ export const signup = createAsyncThunk(
 		}
 	}
 );
+
+export const fetchUser = createAsyncThunk('users/fetchUser', async () => {
+	try {
+		const response = await fetch('/api/users');
+		if (!response.ok) {
+			throw new Error('Failed to fetch user');
+		}
+		return await response.json();
+	} catch (error) {
+		return Promise.reject(error.message); // Ensure only a string or plain object
+	}
+});
 
 export const updateUser = createAsyncThunk(
 	'users/update',
@@ -101,6 +113,13 @@ const usersSlice = createSlice({
 			.addCase(signup.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.payload;
+			})
+			.addCase(fetchUser.fulfilled, (state, action) => {
+				state.user = action.payload;
+				state.error = null;
+			})
+			.addCase(fetchUser.rejected, (state, action) => {
+				state.error = action.payload || 'An error occurred';
 			});
 	},
 });

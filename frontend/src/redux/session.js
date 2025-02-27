@@ -74,7 +74,7 @@ const sessionSlice = createSlice({
 			})
 			.addCase(restoreSession.rejected, (state, action) => {
 				state.status = 'failed';
-				state.error = action.payload;
+				state.error = action.payload || 'An error occurred';
 			})
 			.addCase(login.pending, (state) => {
 				state.status = 'loading';

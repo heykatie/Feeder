@@ -27,7 +27,7 @@ const Recipes = () => {
 	return (
 		<div className='recipes-container'>
 			<div className='recipes-header'>
-				<h1>Recipes</h1>
+				{userId ? <h1>My Recipes</h1> : <h1>Explore Recipes</h1>}
 				<button
 					className='create-recipe-btn'
 					onClick={() => navigate('/recipes/new')}>

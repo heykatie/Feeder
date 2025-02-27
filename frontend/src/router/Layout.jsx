@@ -52,6 +52,7 @@ export default function Layout() {
 				pauseOnHover={true}
 				draggable={true}
 				closeOnEscape={true}
+				delay={30000}
 			/>
 			<ModalProvider>
 				{location.pathname !== '/embark' && <Navbar />}

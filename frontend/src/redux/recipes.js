@@ -129,7 +129,7 @@ const recipesSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchRecipes.fulfilled, (state, action) => {
-				state.list = action.payload;
+				state.list = Array.isArray(action.payload) ? action.payload : [];
 				state.error = null; // Reset error on success
 			})
 			.addCase(fetchRecipe.fulfilled, (state, action) => {
@@ -155,6 +155,7 @@ const recipesSlice = createSlice({
 			})
 			.addCase(fetchRecipes.rejected, (state, action) => {
 				state.error = action.payload || 'Failed to fetch recipes';
+				state.list = [];
 			})
 			.addCase(deleteRecipe.rejected, (state, action) => {
 				state.error = action.payload || 'Failed to delete recipe';
