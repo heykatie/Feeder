@@ -121,7 +121,6 @@ const NewRecipe = () => {
 			})),
 		};
 
-		console.error('KATIE', recipeData);
 
 		let response;
 		if (id) {

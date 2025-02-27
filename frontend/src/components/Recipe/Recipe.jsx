@@ -2,10 +2,14 @@ import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipe, deleteRecipe } from '../../redux/recipes';
+import { useModal } from '../../context/ModalContext';
+import OpenModalButton from '../../context/OpenModalButton/OpenModalButton';
+import ConfirmDelete from '../modals/ConfirmDelete';
 import './Recipe.css';
 
 const Recipe = () => {
 	const { id } = useParams();
+	const { closeModal } = useModal();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.session.user);
@@ -16,10 +20,9 @@ const Recipe = () => {
 	}, [dispatch, id]);
 
 	const handleDelete = async () => {
-		if (window.confirm('Are you sure you want to delete this recipe?')) {
-			await dispatch(deleteRecipe(id));
-			navigate('/recipes');
-		}
+		await dispatch(deleteRecipe(id));
+		closeModal();
+		navigate('/recipes');
 	};
 
 	if (!recipe) return <p className='no-recipe'>Recipe not found.</p>;
@@ -36,9 +39,11 @@ const Recipe = () => {
 						onClick={() => navigate(`/recipes/${id}/edit`)}>
 						Edit Recipe
 					</button>
-					<button className='delete-btn' onClick={handleDelete}>
-						Delete Recipe
-					</button>
+					<OpenModalButton
+						buttonText='Delete Recipe'
+						className='delete-btn'
+						modalComponent={<ConfirmDelete onConfirm={handleDelete} />}
+					/>
 				</div>
 			)}
 			<h1 className='recipe-title'>{recipe.title}</h1>
