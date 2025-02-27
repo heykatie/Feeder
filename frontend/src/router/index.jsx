@@ -1,12 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginModal from '../components/Auth/LoginModal';
-// import SignupFormPage from '../components/Auth/SignupFormPage';
+// import LoginModal from '../components/Auth/LoginModal';
 import Layout from './Layout';
 import Splash from '../components/Splash';
-import AboutPet from '../components/Embark/AboutPet';
 import Embark from '../components/Embark';
-import ChooseSpecies from '../components/Embark/ChooseSpecies';
-import StartingChef from '../components/Embark/StartingChef';
+// import AboutPet from '../components/Embark/AboutPet';
+// import ChooseSpecies from '../components/Embark/ChooseSpecies';
+// import StartingChef from '../components/Embark/StartingChef';
 import ProtectedRoute from '../context/ProtectedRoute';
 import Dash from '../components/Dash';
 import Pets from '../components/Pets';

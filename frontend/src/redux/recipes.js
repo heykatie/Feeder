@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 
 export const fetchRecipes = createAsyncThunk(
 	'recipes/fetchRecipes',

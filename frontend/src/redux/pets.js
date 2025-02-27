@@ -69,7 +69,7 @@ export const deletePet = createAsyncThunk(
       const response = await csrfFetch(`/api/pets/${petId}`, {
         method: 'DELETE',
       });
-      return petId;
+			return  await response.json() || petId ;
 		} catch (error) {
 			const err = await error.json();
       return rejectWithValue(err || 'Failed to delete pet.');

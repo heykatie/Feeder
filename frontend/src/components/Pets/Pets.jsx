@@ -74,7 +74,7 @@ const Pets = () => {
 											onUpdate={(updatedData) =>
 												handlePetUpdate(updatedData)
 											}
-											initialData={pet}
+											initialData={petToEdit || pet}
 											mode='edit'
 										/>
 									}

@@ -21,7 +21,6 @@ export default function Dash() {
 
 	return (
 		<div className='dash-container'>
-
 			<div className='dash-header'>
 				<h1>{greeting}</h1>
 				<Link to='/notifications'>
@@ -29,9 +28,7 @@ export default function Dash() {
 				</Link>
 			</div>
 
-
 			<div className='dash-grid'>
-
 				<div className='profile-card'>
 					<div className='profile-details'>
 						<motion.img
@@ -47,7 +44,6 @@ export default function Dash() {
 						</div>
 					</div>
 
-
 					<div className='xp-progress-container'>
 						<p className='xp-progress-label'>XP Progress</p>
 						<ProgressBar
@@ -55,7 +51,6 @@ export default function Dash() {
 							className='xp-progress-bar'
 						/>
 					</div>
-
 
 					<motion.div
 						className='souschef-widget'
@@ -70,7 +65,6 @@ export default function Dash() {
 						</p>
 					</motion.div>
 				</div>
-
 
 				<div className='challenge-card'>
 					<h2 className='challenge-title'>🎯 Daily Challenge</h2>
@@ -90,7 +84,6 @@ export default function Dash() {
 					</div>
 				</div>
 
-
 				<div className='leaderboard-card'>
 					<h2 className='leaderboard-title'>🏆 Leaderboard</h2>
 					<div className='leaderboard-list'>
@@ -108,10 +101,9 @@ export default function Dash() {
 						</div>
 					</div>
 
-
 					<h2 className='notifications-title'>🔔 Recent Activity</h2>
 					<p className='notification-text'>
-						🎉 You earned a new achievement: "Iron Chef"! 🔥
+						🎉 You earned a new achievement: &quot;Iron Chef&quot;! 🔥
 					</p>
 				</div>
 			</div>
