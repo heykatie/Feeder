@@ -9,6 +9,7 @@
 }
 
 .form-title {
+  margin: auto;
   text-align: center;
   color: var(--primary-accent);
 }
@@ -87,4 +88,54 @@
 
 .error-container>ul {
   padding-left: 0px
+}
+
+
+/* Adjust spacing for time input fields */
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure consistency for time input fields */
+.form-input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+/* Style for the auto-calculated total time */
+.form-input[readonly] {
+  background-color: var(--input-bg-disabled);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* Improve spacing for time labels */
+.form-label {
+  margin-top: 10px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* Make form more responsive */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.form-group {
+  margin-top: 20px;
 }

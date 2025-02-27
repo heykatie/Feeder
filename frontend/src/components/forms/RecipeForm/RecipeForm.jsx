@@ -12,9 +12,9 @@ import IngredientModal from '../../modals/IngredientModal';
 import OpenModalButton from '../../../context/OpenModalButton';
 import Ingredients from '../../Ingredients';
 import Instructions from '../../Instructions';
-import './NewRecipe.css';
+import './RecipeForm.css';
 
-const NewRecipe = () => {
+const RecipeForm = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { id } = useParams();
@@ -33,15 +33,30 @@ const NewRecipe = () => {
 	const [servings, setServings] = useState(1);
 	const [prepTime, setPrepTime] = useState(0);
 	const [cookTime, setCookTime] = useState(0);
+	const [totalTime, setTotalTime] = useState(0);
 	const [instructions, setInstructions] = useState([]);
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
 	const [ingredientQuantities, setIngredientQuantities] = useState({});
+	const [isPublic, setIsPublic] = useState(true);
+	const [notes, setNotes] = useState('');
 	const [errors, setErrors] = useState([]);
 
 	useEffect(() => {
 		if (!ingredients.length) dispatch(fetchIngredients());
 		if (id && !recipe) dispatch(fetchRecipe(id));
 	}, [dispatch, id, recipe, ingredients.length]);
+
+	useEffect(() => {
+		if (recipe && recipe.id === Number(id)) {
+			setPrepTime(recipe.prepTime || 0);
+			setCookTime(recipe.cookTime || 0);
+			setTotalTime((recipe.prepTime || 0) + (recipe.cookTime || 0));
+		}
+	}, [recipe, id]);
+
+	useEffect(() => {
+		setTotalTime(prepTime + cookTime);
+	}, [prepTime, cookTime]);
 
 	useEffect(() => {
 		if (id) {
@@ -59,10 +74,12 @@ const NewRecipe = () => {
 			setServings(recipe.servings || 1);
 			setPrepTime(recipe.prepTime || 0);
 			setCookTime(recipe.cookTime || 0);
+			setTotalTime(recipe.totalTime || 0);
+			setIsPublic(recipe.isPublic ?? true);
+			setNotes(recipe.notes || '');
 			setInstructions(
 				recipe.instructions ? JSON.parse(recipe.instructions) : []
 			);
-			// ✅ Ensure Ingredients are mapped correctly
 			setSelectedIngredients(recipe.Ingredients?.map((ing) => ing.id) || []);
 			setIngredientQuantities(
 				recipe.Ingredients?.reduce((acc, ing) => {
@@ -114,13 +131,15 @@ const NewRecipe = () => {
 			servings,
 			prepTime,
 			cookTime,
+			totalTime: prepTime + cookTime,
+			isPublic,
+			notes,
 			instructions: JSON.stringify(validInstructions),
 			ingredients: selectedIngredients.map((id) => ({
 				id,
 				quantity: ingredientQuantities[id] || '1 unit',
 			})),
 		};
-
 
 		let response;
 		if (id) {
@@ -164,7 +183,6 @@ const NewRecipe = () => {
 				Please log in to create or edit a recipe.
 			</p>
 		);
-
 
 	return (
 		<div className='new-recipe-container'>
@@ -257,12 +275,53 @@ const NewRecipe = () => {
 					</div>
 				</div>
 
+				<div className='form-row'>
+					<div className='form-group'>
+						<label className='form-label'>Prep Time (min):</label>
+						<input
+							type='number'
+							className='form-input'
+							value={prepTime}
+							onChange={(e) => setPrepTime(Number(e.target.value))}
+							min='0'
+						/>
+					</div>
+
+					<div className='form-group'>
+						<label className='form-label'>Cook Time (min):</label>
+						<input
+							type='number'
+							className='form-input'
+							value={cookTime}
+							onChange={(e) => setCookTime(Number(e.target.value))}
+							min='0'
+						/>
+					</div>
+
+					<div className='form-group'>
+						<label className='form-label'>Total Time (min):</label>
+						<input
+							type='number'
+							className='form-input'
+							value={totalTime}
+							readOnly
+						/>
+					</div>
+				</div>
+
+				<label className='form-label'>Notes:</label>
+				<textarea
+					className='form-textarea'
+					value={notes}
+					onChange={(e) => setNotes(e.target.value)}
+				/>
+
 				<div
 					className='recipe-add-btns'
 					onClick={(e) => e.preventDefault()}>
 					<OpenModalButton
 						className='add-ingredients-btn'
-						buttonText={id ? 'Edit Ingredients' : '+ Add Ingredients'}
+						buttonText={id ? 'Edit Ingredients' : '+ Add Ingredients*'}
 						modalComponent={
 							<IngredientModal
 								ingredients={ingredients}
@@ -275,7 +334,7 @@ const NewRecipe = () => {
 					/>
 					<OpenModalButton
 						className='add-step-btn'
-						buttonText={id ? 'Edit Instructions' : '+ Add Instructions'}
+						buttonText={id ? 'Edit Instructions' : '+ Add Instructions*'}
 						modalComponent={
 							<InstructionModal
 								instructions={instructions}
@@ -297,6 +356,15 @@ const NewRecipe = () => {
 					<Instructions instructions={instructions} />
 				)}
 
+				<div className='form-group'>
+					<label className='form-label'>Make Recipe Public:</label>
+					<input
+						type='checkbox'
+						checked={isPublic}
+						onChange={() => setIsPublic(!isPublic)}
+					/>
+				</div>
+
 				<button type='submit' className='submit-btn'>
 					{id ? 'Update Recipe' : 'Create Recipe'}
 				</button>
@@ -305,4 +373,4 @@ const NewRecipe = () => {
 	);
 };
 
-export default NewRecipe;
+export default RecipeForm;

@@ -12,7 +12,7 @@ import Dash from '../components/Dash';
 import Pets from '../components/Pets';
 import Recipes from '../components/Recipes';
 import Recipe from '../components/Recipe';
-import NewRecipe from '../components/forms/NewRecipe';
+import RecipeForm from '../components/forms/RecipeForm';
 
 export const router = createBrowserRouter([
 	{
@@ -72,19 +72,19 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: '/recipes',
-				element: <Recipes />
+				element: <Recipes />,
 			},
 			{
 				path: '/recipes/:id',
-				element: <Recipe />
+				element: <Recipe />,
 			},
 			{
 				path: '/recipe',
-				element: <NewRecipe />
+				element: <RecipeForm />,
 			},
 			{
 				path: '/recipes/:id/edit',
-				element: <NewRecipe />
+				element: <RecipeForm />,
 			},
 			{
 				path: '*',
