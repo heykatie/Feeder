@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { useModal } from '../../../context/ModalContext';
-import './Instructions.css';
+import './InstructionModal.css';
 
 const InstructionModal = ({ instructions, setInstructions }) => {
 	const { closeModal } = useModal();
-	const [newInstructions, setNewInstructions] = useState([...instructions]);
+
+	// Ensure at least one input field is present initially
+	const [newInstructions, setNewInstructions] = useState(
+		instructions.length > 0 ? [...instructions] : ['']
+	);
 
 	const handleInstructionChange = (index, value) => {
 		const updatedInstructions = [...newInstructions];
@@ -24,20 +28,29 @@ const InstructionModal = ({ instructions, setInstructions }) => {
 	return (
 		<div className='instruction-modal'>
 			<h2>Add Instructions</h2>
-			{newInstructions.map((step, index) => (
-				<input
-					key={index}
-					type='text'
-					className='instruction-modal-input'
-					value={step}
-					onChange={(e) => handleInstructionChange(index, e.target.value)}
-					placeholder={`Step ${index + 1}`}
-					required
-				/>
-			))}
+
+			<div className='instruction-list'>
+				{newInstructions.map((step, index) => (
+					<div key={index} className='instruction-step'>
+						<span className='step-number'>{index + 1}.</span>
+						<input
+							type='text'
+							className='instruction-modal-input'
+							value={step}
+							onChange={(e) =>
+								handleInstructionChange(index, e.target.value)
+							}
+							placeholder={`Step ${index + 1}`}
+							required
+						/>
+					</div>
+				))}
+			</div>
+
 			<button className='add-step-btn' onClick={handleAddStep}>
 				+ Add Step
 			</button>
+
 			<div className='instruction-modal-actions'>
 				<button className='save-btn' onClick={handleSave}>
 					Save Instructions

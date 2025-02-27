@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); */
 }
 
 #modal-background {
@@ -22,13 +22,12 @@
 }
 
 #modal-content {
-  position: absolute;
-  /* background-color: #1A1A2E; */
+  align-items: center;
   border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-  padding: 25px;
-  background-color: var(--panel-bg);
+  overflow: auto;
+  padding: 20px;
+  background: linear-gradient(#1A1A2E, #1A1A2E);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
   z-index: 1;
 }
 
@@ -37,7 +36,7 @@
   border: none;
   color: white;
   font-size: 20px;
-  align-self: flex-end;
+  align-self: flex-start;
   cursor: pointer;
   padding-bottom: 0px;
   margin-bottom: 0px;

@@ -1,0 +1,49 @@
+/* 📌 Ingredients Preview Container */
+.ingredients-preview {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: var(--panel-bg);
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 📌 Ingredients Preview Title */
+.ingredients-preview h3 {
+  color: var(--primary-accent);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* 📌 Ingredient List */
+.ingredients-preview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 📌 Individual Ingredient Item */
+.ingredient-preview-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ingredient-preview-item:last-child {
+  border-bottom: none;
+}
+
+/* 📌 Ingredient Name */
+.ingredient-name {
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+/* 📌 Ingredient Quantity */
+.ingredient-quantity {
+  font-size: 0.9rem;
+  color: var(--secondary-accent);
+  font-weight: bold;
+}

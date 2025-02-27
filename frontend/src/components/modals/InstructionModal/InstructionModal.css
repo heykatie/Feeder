@@ -1,0 +1,122 @@
+/* 📌 Modal Container */
+.instruction-modal {
+  background-color: var(--panel-bg);
+  padding: 0px 20px 20px;
+  border-radius: 12px;
+  /* box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.4); */
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: space-evenly;
+  justify-content: space-evenly;
+  min-width: 450px;
+}
+
+/* 📌 Modal Title */
+.instruction-modal h2 {
+  color: var(--primary-accent);
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* 📌 Instruction List (Scrollable) */
+.instruction-list {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+/* 📌 Individual Step Container */
+.instruction-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* ✅ Adds spacing between number and input */
+  margin-bottom: 8px;
+}
+
+/* 📌 Step Number */
+.step-number {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--primary-accent);
+}
+
+/* 📌 Instruction Input Fields */
+.instruction-modal-input {
+  flex: 1;
+  /* ✅ Allows input to take full remaining space */
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* 📌 Add Step Button */
+.add-step-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--secondary-accent);
+  color: var(--text-color);
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  margin-top: 10px;
+}
+
+.add-step-btn:hover {
+  background-color: var(--primary-accent);
+}
+
+/* 📌 Modal Actions: Save & Cancel Buttons */
+.instruction-modal-actions {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+}
+
+/* 📌 Save Button */
+.save-btn {
+  background-color: var(--primary-accent);
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.2s ease-in-out;
+  width: 55%;
+}
+
+.save-btn:hover {
+  background-color: var(--secondary-accent);
+}
+
+/* 📌 Cancel Button */
+.instruction-cancel-btn {
+  background-color: transparent;
+  color: var(--text-color);
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+  width: 40%;
+}
+
+.instruction-cancel-btn:hover {
+  opacity: 0.7;
+}
