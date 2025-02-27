@@ -45,6 +45,52 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: '',
 			},
+			servings: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 1,
+			},
+			prepTime: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			cookTime: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			totalTime: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			difficulty: {
+				type: DataTypes.ENUM('Easy', 'Medium', 'Hard'),
+				allowNull: false,
+				defaultValue: 'Easy',
+			},
+			likesCount: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				defaultValue: 0,
+			},
+			rating: {
+				type: DataTypes.INTEGER,
+				validate: {
+					min: 0,
+					max: 5
+				}
+			},
+			isPublic: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: true,
+			},
+			notes: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
 		},
 		{
 			sequelize,

@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 20px;
   text-align: center;
+  background-color: var(--panel-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .back-btn {
@@ -35,7 +38,16 @@
   margin-bottom: 15px;
 }
 
-.recipe-category {
+.recipe-likes,
+.recipe-rating {
+  font-size: 1rem;
+  color: var(--primary-accent);
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.recipe-category,
+.recipe-difficulty {
   font-size: 1rem;
   color: var(--muted-text);
   font-weight: bold;
@@ -48,9 +60,121 @@
   line-height: 1.5;
 }
 
+.recipe-servings,
+.recipe-time {
+  font-size: 1rem;
+  color: var(--text-color);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.recipe-section {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.recipe-section h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--primary-accent);
+  margin-bottom: 8px;
+}
+
+.recipe-ingredients {
+  list-style: none;
+  padding: 0;
+}
+
+.recipe-ingredients li {
+  font-size: 1rem;
+  color: var(--text-color);
+  padding: 5px 0;
+}
+
+.recipe-instructions {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.recipe-instructions li {
+  font-size: 1rem;
+  color: var(--text-color);
+  padding: 5px 0;
+}
+
+.recipe-notes {
+  font-size: 1rem;
+  color: var(--muted-text);
+  background-color: var(--alt-bg);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.recipe-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.edit-btn {
+  background-color: var(--primary-accent);
+  color: var(--text-color);
+}
+
+.edit-btn:hover {
+  background-color: var(--secondary-accent);
+}
+
+.delete-btn {
+  background-color: var(--error-color);
+  color: var(--text-color);
+}
+
+.delete-btn:hover {
+  background-color: #b71c1c;
+}
+
+.recipe-visibility {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 10px;
+  color: var(--primary-accent);
+}
+
 .no-recipe {
   text-align: center;
   color: var(--muted-text);
   font-size: 1.2rem;
   margin-top: 20px;
+}
+
+.recipe-nutrition {
+  list-style: none;
+  padding: 0;
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--alt-bg);
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.recipe-nutrition li {
+  padding: 5px 0;
+  border-bottom: 1px solid var(--panel-bg);
+}
+
+.recipe-nutrition li:last-child {
+  border-bottom: none;
 }

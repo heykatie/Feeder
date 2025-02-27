@@ -26,6 +26,15 @@ module.exports = {
 						'Shred chicken and mix with rice.',
 						'Let cool before serving to your dog.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 1,
@@ -40,6 +49,15 @@ module.exports = {
 						'Spoon mixture into silicone molds.',
 						'Freeze for at least 2 hours before serving.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 1,
@@ -55,6 +73,15 @@ module.exports = {
 						'Simmer until potatoes are soft and well mixed with beef.',
 						'Cool before serving to your dog.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 1,
@@ -69,9 +96,16 @@ module.exports = {
 						'Flake salmon and mix with quinoa.',
 						'Let cool before serving to your dog.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
-
-				// Recipes by User 2
 				{
 					userId: 2,
 					title: 'Turkey & Pumpkin Mash',
@@ -84,6 +118,15 @@ module.exports = {
 						'Mix in plain canned pumpkin and stir.',
 						'Let cool before serving to your dog.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 2,
@@ -99,6 +142,15 @@ module.exports = {
 						'Bake for 15-20 minutes or until golden brown.',
 						'Let cool before serving.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 2,
@@ -112,6 +164,15 @@ module.exports = {
 						'Cook brown rice separately according to package instructions.',
 						'Mix lamb with brown rice and let cool before serving.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 2,
@@ -127,9 +188,16 @@ module.exports = {
 						'Pour mixture into mini cupcake tins.',
 						'Bake for 20 minutes and let cool before serving.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
-
-				// Recipes by User 3
 				{
 					userId: 3,
 					title: 'Chicken Liver Training Treats',
@@ -142,6 +210,15 @@ module.exports = {
 						'Spread onto a baking sheet and bake at 350°F (175°C) for 15 minutes.',
 						'Let cool, then cut into small training-sized pieces.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 3,
@@ -156,6 +233,15 @@ module.exports = {
 						'Roll into small meatballs and place on a baking sheet.',
 						'Bake for 15-20 minutes, let cool before serving.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 3,
@@ -169,6 +255,15 @@ module.exports = {
 						'Pour mixture into silicone molds or an ice cube tray.',
 						'Freeze for at least 3 hours before serving.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 				{
 					userId: 3,
@@ -181,6 +276,15 @@ module.exports = {
 						'Simmer chopped carrots, celery, and parsley in water for 1 hour.',
 						'Strain the broth and let cool completely before serving.',
 					]),
+					servings: 3,
+					prepTime: 30,
+					cookTime: 15,
+					totalTime: 45,
+					difficulty: 'Medium',
+					likesCount: 10,
+					rating: 4,
+					isPublic: true,
+					notes: 'give em a boop for me'
 				},
 			],
 			{ validate: true }

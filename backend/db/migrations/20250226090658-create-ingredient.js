@@ -24,6 +24,46 @@ module.exports = {
 					allowNull: false,
 					unique: true,
 				},
+				calories: {
+					type: Sequelize.INTEGER,
+					allowNull: true,
+				},
+				carbohydrates: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
+				protein: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
+				fats: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
+				fiber: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
+				sodium: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
+				sugar: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
+				calcium: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
+				iron: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
+				moisture: {
+					type: Sequelize.FLOAT,
+					allowNull: true,
+				},
 				createdAt: {
 					allowNull: false,
 					type: Sequelize.DATE,

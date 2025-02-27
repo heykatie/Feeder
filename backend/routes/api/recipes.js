@@ -2,6 +2,7 @@ const express = require('express');
 const { Recipe, Ingredient, RecipeIngredient } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
+const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 
 // GET all recipes
 router.get('/', async (req, res) => {
@@ -9,20 +10,62 @@ router.get('/', async (req, res) => {
 	return res.json(recipes);
 });
 
+
 router.get('/:id', async (req, res) => {
-	const recipe = await Recipe.findByPk(req.params.id, {
-		include: [{ model: Ingredient, through: { attributes: ['quantity'] } }],
-	});
+	try {
+		const recipe = await Recipe.findByPk(req.params.id, {
+			include: [
+				{
+					model: Ingredient,
+					through: { attributes: ['quantity'] }, // Include quantity from join table
+				},
+			],
+		});
 
-	if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
+		if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
 
-	return res.json({
-		...recipe.toJSON(),
-		ingredients: recipe.Ingredients.map((i) => ({
-			name: i.name,
-			quantity: i.RecipeIngredient.quantity,
-		})),
-	});
+		// Calculate total nutrition values
+		const nutritionTotals = {
+			calories: 0,
+			carbohydrates: 0,
+			protein: 0,
+			fats: 0,
+			fiber: 0,
+			sodium: 0,
+			sugar: 0,
+			calcium: 0,
+			iron: 0,
+			moisture: 0,
+		};
+
+		recipe.Ingredients.forEach((ingredient) => {
+			nutritionTotals.calories += ingredient.calories || 0;
+			nutritionTotals.carbohydrates += ingredient.carbohydrates || 0;
+			nutritionTotals.protein += ingredient.protein || 0;
+			nutritionTotals.fats += ingredient.fats || 0;
+			nutritionTotals.fiber += ingredient.fiber || 0;
+			nutritionTotals.sodium += ingredient.sodium || 0;
+			nutritionTotals.sugar += ingredient.sugar || 0;
+			nutritionTotals.calcium += ingredient.calcium || 0;
+			nutritionTotals.iron += ingredient.iron || 0;
+			nutritionTotals.moisture += ingredient.moisture || 0;
+		});
+
+		const roundedTotals = Object.fromEntries(
+			Object.entries(nutritionTotals).map(([key, value]) => [
+				key,
+				round(value),
+			])
+		);
+
+		return res.json({
+			...recipe.toJSON(),
+			nutritionTotals: roundedTotals,
+		});
+	} catch (error) {
+		console.error('Error fetching recipe:', error);
+		return res.status(500).json({ error: 'Internal server error' });
+	}
 });
 
 // POST create a new recipe (requires authentication)

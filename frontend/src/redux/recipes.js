@@ -16,6 +16,21 @@ export const fetchRecipe = createAsyncThunk(
 	}
 );
 
+export const deleteRecipe = createAsyncThunk(
+	'recipes/deleteRecipe',
+	async (id, { rejectWithValue }) => {
+		try {
+			const response = await fetch(`/api/recipes/${id}`, {
+				method: 'DELETE',
+			});
+			if (!response.ok) throw new Error('Failed to delete recipe');
+			return id;
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 const recipesSlice = createSlice({
 	name: 'recipes',
 	initialState: { list: [], selectedRecipe: null },
@@ -27,6 +42,12 @@ const recipesSlice = createSlice({
 			})
 			.addCase(fetchRecipe.fulfilled, (state, action) => {
 				state.selectedRecipe = action.payload;
+			})
+			.addCase(deleteRecipe.fulfilled, (state, action) => {
+				state.list = state.list.filter(
+					(recipe) => recipe.id !== action.payload
+				);
+				state.selectedRecipe = null;
 			});
 	},
 });

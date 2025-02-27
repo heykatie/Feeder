@@ -46,6 +46,48 @@ module.exports = {
 					allowNull: false,
 					defaultValue: '',
 				},
+				servings: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 1,
+				},
+				prepTime: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0,
+				},
+				cookTime: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0,
+				},
+				totalTime: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0,
+				},
+				difficulty: {
+					type: Sequelize.ENUM('Easy', 'Medium', 'Hard'),
+					allowNull: false,
+					defaultValue: 'Easy',
+				},
+				likesCount: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0,
+				},
+				rating: {
+					type: Sequelize.INTEGER,
+				},
+				isPublic: {
+					type: Sequelize.BOOLEAN,
+					allowNull: false,
+					defaultValue: true,
+				},
+				notes: {
+					type: Sequelize.TEXT,
+					allowNull: true,
+				},
 				createdAt: {
 					allowNull: false,
 					type: Sequelize.DATE,
