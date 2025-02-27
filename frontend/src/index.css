@@ -338,3 +338,7 @@ button:hover {
 .error-message {
   animation: fadeInError 0.3s ease-in-out;
 }
+
+.main-content > *:not(.main-content>.embark-container) {
+  margin: 0 5vw;
+}

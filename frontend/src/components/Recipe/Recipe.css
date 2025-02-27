@@ -8,7 +8,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.back-btn {
+.recipe-container .back-btn {
   background-color: var(--primary-accent);
   color: var(--text-color);
   border: none;
@@ -19,7 +19,7 @@
   margin-bottom: 10px;
 }
 
-.back-btn:hover {
+.recipe-container .back-btn:hover {
   background-color: var(--secondary-accent);
 }
 

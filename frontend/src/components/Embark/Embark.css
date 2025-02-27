@@ -35,7 +35,7 @@
   transform: translateX(-200%);
 }
 
-.nav-buttons {
+.embark-container .nav-buttons {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -43,7 +43,7 @@
   margin-top: 20px;
 }
 
-.back-btn,
+.embark-container .back-btn,
 .embark-next-btn {
   background: #00c6cf;
   color: white;
@@ -55,11 +55,11 @@
   transition: background 0.3s;
 }
 
-.back-btn {
+.embark-container .back-btn {
   background: #a379ff;
 }
 
-.back-btn:hover,
+.embark-container .back-btn:hover,
 .embark-next-btn:hover {
   background: #ffb84c;
 }

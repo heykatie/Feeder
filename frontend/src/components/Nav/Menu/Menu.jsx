@@ -9,7 +9,7 @@ const Menu = ({
 	toggleMenu,
 	handleMouseLeave,
 }) => {
-	const userId = useSelector((state) => state.session.user.id);
+	const userId = useSelector((state) => state.session?.user?.id);
 	const menuRef = useRef(null);
 
 	useEffect(() => {
