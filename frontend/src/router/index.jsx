@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import LoginModal from '../components/Auth/Modals/LoginModal';
+import LoginModal from '../components/Auth/LoginModal';
 // import SignupFormPage from '../components/Auth/SignupFormPage';
 import Layout from './Layout';
 import Splash from '../components/Splash';

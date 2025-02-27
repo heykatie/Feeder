@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { login } from '../../../../redux/session';
+import { login } from '../../../redux/session';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useModal } from '../../../../context/ModalContext';
+import { useModal } from '../../../context/ModalContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import OpenModal from '../../../../context/OpenModal';
+import OpenModal from '../../../context/OpenModal';
 // import LoginModal from '../../../Auth/Modals/LoginModal';
-import Signup from '../../../Embark/Signup';
+import Signup from '../../Embark/Signup';
 import './LoginModal.css';
 
 function LoginFormModal() {

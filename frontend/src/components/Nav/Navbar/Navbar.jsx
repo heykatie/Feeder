@@ -5,7 +5,7 @@ import AvatarButton from './AvatarButton';
 import Menu from '../Menu';
 import Sidebar from '../Sidebar';
 import OpenModal from '../../../context/OpenModal';
-import LoginModal from '../../Auth/Modals/LoginModal';
+import LoginModal from '../../Auth/LoginModal';
 import RSidebar from '../RSidebar';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Navbar.css';
