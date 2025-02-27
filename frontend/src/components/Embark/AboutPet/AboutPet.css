@@ -13,12 +13,10 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Subtle glowing hover effect */
 .about-pet-container:hover {
   box-shadow: 0 0 25px rgba(163, 121, 255, 0.9);
 }
 
-/* Form Container */
 .about-pet-form {
   display: flex;
   flex-direction: column;
@@ -26,7 +24,6 @@
   width: 400px;
 }
 
-/* Form Headings */
 .about-pet-container h2 {
   font-size: 1.7rem;
   margin-bottom: 15px;
@@ -37,7 +34,6 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Input Fields */
 .about-pet-container form input,
 .about-pet-container form textarea,
 .about-pet-container form select {
@@ -55,7 +51,6 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Hover effect on inputs */
 .about-pet-container form input:hover,
 .about-pet-container form textarea:hover,
 .about-pet-container form select:hover {
@@ -63,7 +58,6 @@
   box-shadow: 0px 0px 10px rgba(163, 121, 255, 0.7);
 }
 
-/* Glowing focus effect */
 .about-pet-container form input:focus,
 .about-pet-container form textarea:focus,
 .about-pet-container form select:focus {
@@ -72,7 +66,6 @@
   transform: scale(1.02);
 }
 
-/* Flashy Dropdown */
 .about-pet-container form .species-select {
   width: 100%;
   max-width: 400px;
@@ -98,7 +91,6 @@
   box-shadow: 0px 0px 10px rgba(0, 198, 207, 0.6), 0px 0px 15px rgba(163, 121, 255, 0.8);
 }
 
-/* Animated glowing submit button */
 .save-btn {
   background: linear-gradient(90deg, #00C6CF, #A379FF);
   color: white;
@@ -115,7 +107,6 @@
   box-shadow: 0px 0px 15px rgba(0, 198, 207, 0.8);
 }
 
-/* Hover and Active Effects */
 .save-btn:hover {
   background: linear-gradient(90deg, #A379FF, #00C6CF);
   box-shadow: 0px 0px 25px rgba(163, 121, 255, 1);
@@ -127,7 +118,6 @@
   box-shadow: 0px 0px 30px rgba(0, 198, 207, 1);
 }
 
-/* Flashy File Upload */
 .file-upload-container input {
   width: 100%;
   max-width: 400px;
@@ -154,7 +144,6 @@
   width: 50%;
 }
 
-/* Ensure the image resizes properly */
 .preview-image {
   max-width: 200px;
   max-height: 200px;
@@ -165,7 +154,6 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Subtle pulsing animation */
 @keyframes glowPulse {
   0% {
     box-shadow: 0px 0px 8px rgba(0, 198, 207, 0.4);
@@ -180,7 +168,6 @@
   }
 }
 
-/* Apply glow animation */
 .about-pet-container form input:focus,
 .about-pet-container form textarea:focus,
 .about-pet-container form select:focus {
@@ -212,7 +199,6 @@
   width: 100%;
 }
 
-/* Subtle Fade-In Effect */
 @keyframes fadeScale {
   0% {
     opacity: 0;
