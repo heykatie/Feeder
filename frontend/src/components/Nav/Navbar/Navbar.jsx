@@ -14,12 +14,15 @@ const Navbar = () => {
 	const user = useSelector((state) => state.session.user);
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [showMenu, setShowMenu] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
 	const [showSidebar, setShowSidebar] = useState(false);
 
+	const handleMouseEnter = () => setIsHovered(true);
+	const handleMouseLeave = () => setTimeout(() => setIsHovered(false), 1000);
+
 	const toggleExpand = () => {
-		setIsExpanded((prev) => !prev);
 		if (!isExpanded) setShowMenu(false);
-		if (isExpanded) setShowMenu((prev) => !prev);
+		setIsExpanded((prev) => !prev);
 	};
 
 	const toggleMenu = () => {
@@ -55,12 +58,15 @@ const Navbar = () => {
 						onClick={toggleExpand}>
 						<i className='fa-solid fa-hamburger'></i>
 					</button>
-					{user ? (<NavLink to='/recipes' className='logo'>
+					{user ? (
+						<NavLink to='/recipes' className='logo'>
 							SousChef
-						</NavLink>) : (<NavLink to='/' className='logo'>
+						</NavLink>
+					) : (
+						<NavLink to='/' className='logo'>
 							SousChef
-						</NavLink>)
-					}
+						</NavLink>
+					)}
 				</div>
 
 				<div className='navbar-center'>
@@ -89,12 +95,22 @@ const Navbar = () => {
 			<button
 				className={`expand-arrow ${showMenu ? 'rotated' : ''}`}
 				onClick={toggleMenu}
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
 				aria-label='Toggle Sidebar'>
 				<i className='fa-solid fa-chevron-right'></i>
 			</button>
 
 			<Sidebar isExpanded={isExpanded} toggleExpand={toggleExpand} />
-			{showMenu && <Menu showMenu={showMenu} toggleMenu={toggleMenu} />}
+			{(showMenu || isHovered) && (
+				<Menu
+					showMenu={showMenu}
+					handleMouseEnter={handleMouseEnter}
+					isHovered={isHovered}
+					toggleMenu={toggleMenu}
+					handleMouseLeave={handleMouseLeave}
+				/>
+			)}
 			<RSidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
 		</>
 	);

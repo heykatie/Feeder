@@ -3,8 +3,13 @@ import { useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import './Menu.css';
 
-const Menu = ({ showMenu, toggleMenu }) => {
-	const userId = useSelector(state => state.session.user.id);
+const Menu = ({
+	showMenu,
+	handleMouseEnter, isHovered,
+	toggleMenu,
+	handleMouseLeave,
+}) => {
+	const userId = useSelector((state) => state.session.user.id);
 	const menuRef = useRef(null);
 
 	useEffect(() => {
@@ -35,9 +40,12 @@ const Menu = ({ showMenu, toggleMenu }) => {
 		};
 	}, [showMenu, toggleMenu]);
 
-
 	return (
-		<div ref={menuRef} className={`menu ${showMenu ? '' : 'hidden'} `}>
+		<div
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
+			ref={menuRef}
+			className={`menu ${isHovered || showMenu ? '' : 'hidden'} `}>
 			<NavLink to='/dash' className='menu-navLink'>
 				<i className='fa-solid fa-house'></i>
 			</NavLink>

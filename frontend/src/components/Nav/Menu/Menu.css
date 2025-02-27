@@ -9,9 +9,10 @@
   gap: 20px;
   z-index: 1000;
   transition: opacity 0.3s ease-in-out;
-  background: #121212;
+  /* background: #121212; */
   border: none !important;
   box-shadow: none !important;
+  transition: color 0.3s ease;
 }
 
 .menu.hidden {
@@ -31,6 +32,8 @@
   height: 45px;
   border-radius: 50%;
   transition: transform 0.2s ease-in-out;
+  background: linear-gradient(#1A1A2E, #1A1A2E);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .menu-navLink:hover {

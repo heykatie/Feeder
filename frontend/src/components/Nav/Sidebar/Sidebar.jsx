@@ -4,7 +4,7 @@ import {useEffect, useRef} from 'react';
 import './Sidebar.css';
 
 export default function Sidebar({ isExpanded, toggleExpand }) {
-	const userId = useSelector((state) => state.session.user.id);
+	const userId = useSelector((state) => state.session.user?.id);
 	const sidebarRef = useRef(null);
 
   useEffect(() => {
