@@ -21,7 +21,7 @@ const Recipe = () => {
 
 	const handleDelete = async () => {
 		await dispatch(deleteRecipe(id));
-		closeModal();
+			closeModal();
 		navigate('/recipes');
 	};
 

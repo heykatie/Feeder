@@ -3,8 +3,16 @@ import { useSelector } from 'react-redux';
 
 export const fetchRecipes = createAsyncThunk(
 	'recipes/fetchRecipes',
-	async () => {
-		const response = await fetch('/api/recipes');
+	async ({ userId, isLoggedInUser } = {}) => {
+		let url = '/api/recipes';
+
+		if (userId) {
+			url = isLoggedInUser
+				? `/api/recipes/public/${userId}`
+				: `/api/recipes/all/${userId}`;
+		}
+
+		const response = await fetch(url);
 		return response.json();
 	}
 );

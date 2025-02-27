@@ -47,7 +47,7 @@ const Menu = ({ showMenu, toggleMenu }) => {
 			<NavLink to={`/favorites`} className='menu-navLink'>
 				<i className='fa-solid fa-heart'></i>
 			</NavLink>
-			<NavLink to='/recipe' className='menu-navLink'>
+			<NavLink to='/recipes/new' className='menu-navLink'>
 				<i className='fa-solid fa-pen'></i>
 			</NavLink>
 			<NavLink to={`/${userId}/recipes`} className='menu-navLink'>

@@ -22,38 +22,38 @@ export const router = createBrowserRouter([
 				path: '/',
 				element: <Splash />,
 			},
-			{
-				path: 'login',
-				element: (
-					<div style={{ display: 'flex', justifyContent: 'center' }}>
-						<LoginModal />
-					</div>
-				),
-			},
+			// {
+			// 	path: 'login',
+			// 	element: (
+			// 		<div style={{ display: 'flex', justifyContent: 'center' }}>
+			// 			<LoginModal />
+			// 		</div>
+			// 	),
+			// },
 			{
 				path: 'embark',
 				element: <Embark />,
 			},
-			{
-				path: 'pick-species',
-				element: (
-					<div style={{ display: 'flex', justifyContent: 'center' }}>
-						<ChooseSpecies />
-					</div>
-				),
-			},
-			{
-				path: 'about-pet',
-				element: <AboutPet />,
-			},
-			{
-				path: 'customize-souschef',
-				element: (
-					<div style={{ textAlign: 'center' }}>
-						<StartingChef />
-					</div>
-				),
-			},
+			// {
+			// 	path: 'pick-species',
+			// 	element: (
+			// 		<div style={{ display: 'flex', justifyContent: 'center' }}>
+			// 			<ChooseSpecies />
+			// 		</div>
+			// 	),
+			// },
+			// {
+			// 	path: 'about-pet',
+			// 	element: <AboutPet />,
+			// },
+			// {
+			// 	path: 'customize-souschef',
+			// 	element: (
+			// 		<div style={{ textAlign: 'center' }}>
+			// 			<StartingChef />
+			// 		</div>
+			// 	),
+			// },
 			{
 				path: '/dash',
 				element: (
@@ -79,12 +79,24 @@ export const router = createBrowserRouter([
 				element: <Recipe />,
 			},
 			{
-				path: '/recipe',
+				path: '/recipes/new',
 				element: <RecipeForm />,
 			},
 			{
 				path: '/recipes/:id/edit',
-				element: <RecipeForm />,
+				element: (
+					<ProtectedRoute>
+						<RecipeForm />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: '/:userId/recipes',
+				element: (
+					<ProtectedRoute>
+						<Recipes />
+					</ProtectedRoute>
+				),
 			},
 			{
 				path: '*',

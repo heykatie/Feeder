@@ -3,6 +3,8 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { ModalProvider, Modal } from '../context/ModalProvider';
 import { restoreSession } from '../redux/session';
+import { ToastContainer } from 'react-toastify';
+import './toast.css';
 import Navbar from '../components/Nav';
 import Footer from '../components/Footer';
 
@@ -23,6 +25,7 @@ export default function Layout() {
 				<Modal />
 				{location.pathname !== '/embark' && <Footer />}
 			</ModalProvider>
+			<ToastContainer />
 		</>
 	);
 }

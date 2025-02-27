@@ -1,15 +1,47 @@
 const express = require('express');
-const { Recipe, Ingredient, RecipeIngredient } = require('../../db/models');
+const { Recipe, Ingredient, RecipeIngredient, User} = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
 
 const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 
-// GET all recipes
 router.get('/', async (req, res) => {
-	const recipes = await Recipe.findAll();
-	return res.json(recipes);
+	try {
+		const recipes = await Recipe.findAll({
+			where: { isPublic: true },
+			include: [{ model: User, attributes: ['username'] }],
+		});
+		res.json(recipes);
+	} catch (error) {
+		res.status(500).json({ error: 'Failed to fetch recipes' });
+	}
+});
+
+router.get('/public/:userId', async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const recipes = await Recipe.findAll({
+			where: { userId, isPublic: true },
+			include: [{ model: User, attributes: ['username'] }],
+		});
+		res.json(recipes);
+	} catch (error) {
+		res.status(500).json({ error: 'Failed to fetch user public recipes' });
+	}
+});
+
+router.get('/all/:userId', async (req, res) => {
+	try {
+		const { userId } = req.params;
+		const recipes = await Recipe.findAll({
+			where: { userId },
+			include: [{ model: User, attributes: ['username'] }],
+		});
+		res.json(recipes);
+	} catch (error) {
+		res.status(500).json({ error: 'Failed to fetch user recipes' });
+	}
 });
 
 router.get('/:id', async (req, res) => {

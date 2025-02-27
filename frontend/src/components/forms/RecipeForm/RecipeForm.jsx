@@ -131,7 +131,7 @@ const RecipeForm = () => {
 			servings,
 			prepTime,
 			cookTime,
-			totalTime: prepTime + cookTime,
+			totalTime,
 			isPublic,
 			notes,
 			instructions: JSON.stringify(validInstructions),
