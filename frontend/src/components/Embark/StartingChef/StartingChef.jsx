@@ -38,7 +38,6 @@ const StartingChef = ({ onUpdate, initialData }) => {
 		});
 	};
 
-	// **Keyboard Navigation**
 	const handleKeyDown = (e) => {
 		if (
 			document.activeElement.tagName === 'INPUT' &&
@@ -56,7 +55,6 @@ const StartingChef = ({ onUpdate, initialData }) => {
 
 			setSelectedSection(newIndex);
 
-			// Explicitly focus the corresponding field
 			setTimeout(() => {
 				if (sections[newIndex] === 'sousChefName' && nameInputRef.current) {
 					nameInputRef.current.focus();

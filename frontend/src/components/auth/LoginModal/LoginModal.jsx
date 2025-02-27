@@ -133,17 +133,6 @@ function LoginModal() {
 					}
 					modalComponent={<Signup mode='fast' />}
 				/>
-
-				{/* <p className='signup-text'>
-					Don’t have an account?{' '}
-					<span
-						className='signup-link'
-						onClick={() => {
-							closeModal();
-						}}>
-						Sign up
-					</span>
-				</p> */}
 			</form>
 		</div>
 	);

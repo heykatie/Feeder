@@ -6,7 +6,6 @@ const Splash = () => {
 	const navigate = useNavigate();
 	const [loaded, setLoaded] = useState(false);
 
-	// Fun effect: Slight delay before mascot appears
 	useEffect(() => {
 		setTimeout(() => setLoaded(true), 300);
 	}, []);
@@ -19,7 +18,6 @@ const Splash = () => {
 				shopping.
 			</p>
 
-			{/* Mascot with fun zoom effect */}
 			<div className={`mascot-wrapper ${loaded ? 'zoom-in' : 'hidden'}`}>
 				<img
 					src='/images/assets/mascot.png'
@@ -28,7 +26,6 @@ const Splash = () => {
 				/>
 			</div>
 
-			{/* CTA Buttons */}
 			<div className='button-group'>
 				<button className='cta-button' onClick={() => navigate('/recipes')}>
 					Explore Recipes

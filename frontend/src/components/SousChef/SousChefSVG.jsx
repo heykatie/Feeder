@@ -4,9 +4,8 @@ const SousChefSVG = ({
 	personality = 'Playful',
 	small = false,
 }) => {
-	const size = small ? 50 : 150; // Adjust size for preview thumbnails
+	const size = small ? 50 : 150;
 
-	// Define mouth expressions based on personality
 	const mouthPaths = {
 		Playful: 'M85,110 Q100,135 115,110', // Open smile 😀
 		Serious: 'M85,110 L115,110', // Straight line 😐
@@ -16,13 +15,11 @@ const SousChefSVG = ({
 
 	return (
 		<svg viewBox='0 0 200 200' width={size}>
-			{/* Head Shape (Blob instead of perfect circle) */}
 			<path
 				d='M60,110 C30,60 100,20 140,50 C170,80 150,140 100,150 C50,140 30,120 60,110 Z'
 				fill={color}
 			/>
 
-			{/* Eyes */}
 			{eyeShape === 'cute' && (
 				<>
 					<circle cx='80' cy='90' r='5' fill='black' />
@@ -51,7 +48,6 @@ const SousChefSVG = ({
 				</>
 			)}
 
-			{/* Mouth - Dynamic based on personality */}
 			<path
 				d={mouthPaths[personality]}
 				stroke='black'
@@ -59,7 +55,6 @@ const SousChefSVG = ({
 				fill='none'
 			/>
 
-			{/* Floating Chef Hat */}
 			<path
 				d='M70,50 Q80,20 120,30 Q140,10 150,50 Z'
 				fill='white'

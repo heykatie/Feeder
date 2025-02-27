@@ -34,7 +34,6 @@ const Signup = ({ mode, errors = {}, onUpdate, initialData, handleSubmit }) => {
 	const handleSignup = async (e) => {
 		e.preventDefault();
 
-		// Fast mode logic (opened from LoginModal)
 		if (mode === 'fast') {
 			const serverResponse = await dispatch(
 				signup({ username, email, password })

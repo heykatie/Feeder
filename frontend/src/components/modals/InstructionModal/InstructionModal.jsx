@@ -5,7 +5,6 @@ import './InstructionModal.css';
 const InstructionModal = ({ instructions, setInstructions }) => {
 	const { closeModal } = useModal();
 
-	// Ensure at least one input field is present initially
 	const [newInstructions, setNewInstructions] = useState(
 		instructions.length > 0 ? [...instructions] : ['']
 	);
