@@ -9,6 +9,8 @@
   overflow: auto;
   justify-content: center;
   width: 320px;
+  min-height: 500px;
+  border-radius: 10px;
 }
 
 .page-logo {
@@ -55,7 +57,7 @@
 .signup-form .password-toggle {
   position: absolute;
   right: 12px;
-  top: 50%;
+  top: 57%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #B3B3B3;
@@ -154,6 +156,7 @@
   max-width: 100%;
   text-align: center;
   z-index: 1000;
+  height: auto;
 }
 
 /* Ensure Modal is Displayed */
@@ -163,6 +166,7 @@
   align-items: center;
 }
 
+
 /* Signup Button should always be visible */
 .signup-modal .signup-button {
   display: block;
@@ -170,7 +174,7 @@
   width: 100%;
 }
 
-/* Dark overlay behind the modal */
+Dark overlay behind the modal
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -191,4 +195,73 @@
   color: #ffffff;
   background: transparent;
   border: none;
+}
+
+.embark-container .signup-form {
+  background: linear-gradient(135deg, #1A1A2E, #0F0F1A);
+  box-shadow: 0 0 15px rgba(0, 198, 207, 0.6);
+  transition: all 0.3s ease-in-out;
+}
+
+.embark-container .signup-form:hover {
+  box-shadow: 0 0 25px rgba(163, 121, 255, 0.9);
+}
+
+.embark-container .signup-form h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00C6CF, #A379FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.embark-container .signup-form form input,
+.embark-container .signup-form form textarea,
+.embark-container .signup-form form select {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #00C6CF;
+  background: #232946;
+  color: white;
+  font-size: 16px;
+  text-align: left;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  border-radius: 12px;
+}
+
+.embark-container .signup-form form input:focus,
+.embark-container .signup-form form textarea:focus,
+.embark-container .signup-form form select:focus {
+  animation: glowPulse 1.5s infinite alternate;
+  border-color: #A379FF;
+  box-shadow: 0px 0px 15px rgba(0, 198, 207, 0.9);
+  transform: scale(1.02);
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0px 0px 8px rgba(0, 198, 207, 0.4);
+  }
+
+  50% {
+    box-shadow: 0px 0px 12px rgba(0, 198, 207, 0.6);
+  }
+
+  100% {
+    box-shadow: 0px 0px 8px rgba(0, 198, 207, 0.4);
+  }
+}
+
+@keyframes fadeScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
