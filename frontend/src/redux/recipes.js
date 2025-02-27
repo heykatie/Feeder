@@ -16,6 +16,23 @@ export const fetchRecipe = createAsyncThunk(
 	}
 );
 
+export const createRecipe = createAsyncThunk(
+	'recipes/createRecipe',
+	async (recipeData, { rejectWithValue }) => {
+		try {
+			const response = await fetch('/api/recipes', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(recipeData),
+			});
+			if (!response.ok) throw new Error('Failed to create recipe');
+			return response.json();
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 export const deleteRecipe = createAsyncThunk(
 	'recipes/deleteRecipe',
 	async (id, { rejectWithValue }) => {
@@ -42,6 +59,9 @@ const recipesSlice = createSlice({
 			})
 			.addCase(fetchRecipe.fulfilled, (state, action) => {
 				state.selectedRecipe = action.payload;
+			})
+			.addCase(createRecipe.fulfilled, (state, action) => {
+				state.list.push(action.payload);
 			})
 			.addCase(deleteRecipe.fulfilled, (state, action) => {
 				state.list = state.list.filter(

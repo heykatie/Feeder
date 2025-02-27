@@ -11,6 +11,7 @@ const usersRouter = require('./users.js');
 const petsRouter = require('./pets');
 const sousChefsRouter = require('./souschefs.js')
 const recipesRouter = require('./recipes.js');
+const ingredientsRouter = require('./ingredients.js');
 
 router.use(restoreUser);
 router.use('/oauth', oauthRouter);
@@ -19,6 +20,7 @@ router.use('/users', usersRouter);
 router.use('/pets', petsRouter);
 router.use('/souschefs', sousChefsRouter);
 router.use('/recipes', recipesRouter);
+router.use('/ingredients', ingredientsRouter);
 
 
 // GET /api/restore-user

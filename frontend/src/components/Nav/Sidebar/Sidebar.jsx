@@ -83,7 +83,7 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 				</li>
 				<li>
 					<NavLink
-						to='/recipes/new'
+						to='/recipe'
 						onClick={toggleExpand}
 						className='sidebar-navLink'>
 						<i className='fa-solid fa-pen'></i>{' '}

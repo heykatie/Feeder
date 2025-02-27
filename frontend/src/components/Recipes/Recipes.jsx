@@ -21,7 +21,7 @@ const Recipes = () => {
 				<h1>Recipes</h1>
 				<button
 					className='create-recipe-btn'
-					onClick={() => navigate('/recipes/new')}>
+					onClick={() => navigate('/recipe')}>
 					Create New Recipe
 				</button>
 			</div>

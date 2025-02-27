@@ -68,20 +68,47 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-// POST create a new recipe (requires authentication)
-router.post("/", requireAuth, async (req, res) => {
-  const { title, description, imageUrl, category } = req.body;
-  const userId = req.user.id;
+router.post('/', requireAuth, async (req, res) => {
+	const {
+		title,
+		description,
+		imageUrl,
+		category,
+		difficulty,
+		servings,
+		prepTime,
+		cookTime,
+		instructions,
+		ingredients,
+	} = req.body;
+	const userId = req.user.id;
 
-  const newRecipe = await Recipe.create({
-    userId,
-    title,
-    description,
-    imageUrl,
-    category: category || "Uncategorized",
-  });
+	const newRecipe = await Recipe.create({
+		userId,
+		title,
+		description,
+		imageUrl,
+		category: category || 'Uncategorized',
+		difficulty,
+		servings,
+		prepTime,
+		cookTime,
+		instructions,
+	});
 
-  return res.status(201).json(newRecipe);
+	if (ingredients && ingredients.length > 0) {
+		await Promise.all(
+			ingredients.map(async (ingredient) => {
+				await RecipeIngredient.create({
+					recipeId: newRecipe.id,
+					ingredientId: ingredient.id,
+					quantity: ingredient.quantity,
+				});
+			})
+		);
+	}
+
+	return res.status(201).json(newRecipe);
 });
 
 // PUT update a recipe (requires authentication & ownership)

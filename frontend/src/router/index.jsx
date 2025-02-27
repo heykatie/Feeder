@@ -12,6 +12,7 @@ import Dash from '../components/Dash';
 import Pets from '../components/Pets';
 import Recipes from '../components/Recipes';
 import Recipe from '../components/Recipe';
+import NewRecipe from '../components/forms/NewRecipe';
 
 export const router = createBrowserRouter([
 	{
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
 			{
 				path: '/recipes/:id',
 				element: <Recipe />
+			},
+			{
+				path: '/recipe',
+				element: <NewRecipe />
 			},
 			{
 				path: '*',

@@ -5,7 +5,7 @@ import usersReducer from './users';
 import petsReducer from './pets';
 import sousChefsReducer from './souschefs';
 import recipesReducer from './recipes';
-
+import ingredientsReducer from './ingredients'
 
 const isProduction = import.meta.env.MODE === 'production';
 
@@ -18,6 +18,7 @@ const store = configureStore({
 		pets: petsReducer,
 		sousChefs: sousChefsReducer,
 		recipes: recipesReducer,
+		ingredients: ingredientsReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		isProduction

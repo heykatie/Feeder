@@ -5,7 +5,7 @@ import AboutPet from './AboutPet';
 import ChooseSpecies from './ChooseSpecies';
 import Signup from './Signup/Signup';
 import StartingChef from './StartingChef';
-import ConfirmExit from '../models/ConfirmExit';
+import ConfirmExit from '../modals/ConfirmExit';
 import { useDispatch } from 'react-redux';
 import { signup } from '../../redux/users';
 import { createPet } from '../../redux/pets';

@@ -9,7 +9,7 @@ import OpenModal from '../../../context/OpenModal';
 import Signup from '../../Embark/Signup';
 import './LoginModal.css';
 
-function LoginFormModal() {
+function LoginModal() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [credential, setCredential] = useState('');
@@ -149,4 +149,4 @@ function LoginFormModal() {
 	);
 }
 
-export default LoginFormModal;
+export default LoginModal;
