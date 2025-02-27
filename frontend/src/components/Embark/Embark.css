@@ -10,7 +10,6 @@
   position: relative;
 }
 
-/* Animations */
 .form-step {
   width: auto;
   max-width: 500px;
@@ -24,7 +23,6 @@
   transition: transform 0.5s ease-in-out;
 }
 
-/* Left & Right Scroll Animation */
 .step-0 {
   transform: translateX(0);
 }
@@ -37,7 +35,6 @@
   transform: translateX(-200%);
 }
 
-/* Navigation Buttons */
 .nav-buttons {
   display: flex;
   justify-content: space-between;
