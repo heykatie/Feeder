@@ -2,6 +2,8 @@ const express = require('express');
 const { Recipe, Ingredient, RecipeIngredient } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
+
+
 const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 
 // GET all recipes
@@ -10,14 +12,14 @@ router.get('/', async (req, res) => {
 	return res.json(recipes);
 });
 
-
 router.get('/:id', async (req, res) => {
 	try {
 		const recipe = await Recipe.findByPk(req.params.id, {
 			include: [
 				{
 					model: Ingredient,
-					through: { attributes: ['quantity'] }, // Include quantity from join table
+					as: 'Ingredients', // ✅ Alias to avoid ambiguity
+					through: { attributes: ['quantity'] }, // ✅ Include quantity from join table
 				},
 			],
 		});
@@ -68,47 +70,81 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-router.post('/', requireAuth, async (req, res) => {
-	const {
-		title,
-		description,
-		imageUrl,
-		category,
-		difficulty,
-		servings,
-		prepTime,
-		cookTime,
-		instructions,
-		ingredients,
-	} = req.body;
-	const userId = req.user.id;
+router.post('/', async (req, res) => {
+	try {
+		const {
+			userId,
+			title,
+			description,
+			imageUrl,
+			category,
+			difficulty,
+			servings,
+			prepTime,
+			cookTime,
+			instructions,
+			ingredients, // Expecting [{ id: 1, quantity: "2 cups" }]
+		} = req.body;
 
-	const newRecipe = await Recipe.create({
-		userId,
-		title,
-		description,
-		imageUrl,
-		category: category || 'Uncategorized',
-		difficulty,
-		servings,
-		prepTime,
-		cookTime,
-		instructions,
-	});
+		if (!userId || !title || !instructions || !ingredients || ingredients.length === 0) {
+			return res.status(400).json({ error: 'Missing required fields' });
+		}
 
-	if (ingredients && ingredients.length > 0) {
-		await Promise.all(
-			ingredients.map(async (ingredient) => {
-				await RecipeIngredient.create({
-					recipeId: newRecipe.id,
-					ingredientId: ingredient.id,
-					quantity: ingredient.quantity,
-				});
-			})
-		);
+		// Create the recipe
+		const newRecipe = await Recipe.create({
+			userId,
+			title,
+			description,
+			imageUrl,
+			category,
+			difficulty,
+			servings,
+			prepTime,
+			cookTime,
+			instructions,
+		});
+
+		// ✅ Debug: Log the received ingredients
+		console.log('Received Ingredients:', ingredients);
+
+		// ✅ Ensure ingredients are saved in the RecipeIngredient table
+		const ingredientPromises = ingredients.map(async (ingredient) => {
+			const existingIngredient = await Ingredient.findByPk(ingredient.id);
+			if (!existingIngredient) {
+				console.error(`Ingredient ID ${ingredient.id} not found`);
+				return null;
+			}
+
+			console.log(
+				`Associating Ingredient ${ingredient.id} with Recipe ${newRecipe.id}, Quantity: ${ingredient.quantity}`
+			);
+
+			return RecipeIngredient.create({
+				recipeId: newRecipe.id,
+				ingredientId: ingredient.id,
+				quantity: ingredient.quantity || '1 unit',
+			});
+		});
+
+		await Promise.all(ingredientPromises);
+
+		const createdRecipe = await Recipe.findByPk(newRecipe.id, {
+			include: [
+				{
+					model: Ingredient,
+					as: 'Ingredients', // ✅ Use the alias defined in the model
+					through: { attributes: ['quantity'] }, // ✅ Include quantity from join table
+				},
+			],
+		});
+
+		console.log('Final Created Recipe:', createdRecipe.toJSON());
+
+		return res.status(201).json(createdRecipe);
+	} catch (error) {
+		console.error('Error creating recipe:', error);
+		return res.status(500).json({ error: 'Internal server error' });
 	}
-
-	return res.status(201).json(newRecipe);
 });
 
 // PUT update a recipe (requires authentication & ownership)

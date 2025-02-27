@@ -83,6 +83,10 @@ export const router = createBrowserRouter([
 				element: <NewRecipe />
 			},
 			{
+				path: '/recipes/:id/edit',
+				element: <NewRecipe />
+			},
+			{
 				path: '*',
 				element: (
 					<h1 style={{ display: 'flex', justifyContent: 'center' }}>

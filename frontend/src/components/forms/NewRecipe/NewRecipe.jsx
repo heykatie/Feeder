@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchIngredients } from '../../../redux/ingredients';
-import { createRecipe } from '../../../redux/recipes';
+import {
+	createRecipe,
+	fetchRecipe,
+	updateRecipe,
+} from '../../../redux/recipes';
 import InstructionModal from '../../modals/InstructionModal';
 import IngredientModal from '../../modals/IngredientModal';
 import OpenModalButton from '../../../context/OpenModalButton';
@@ -13,7 +17,11 @@ import './NewRecipe.css';
 const NewRecipe = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { id } = useParams();
 	const ingredients = useSelector((state) => state.ingredients.list);
+	const recipe = useSelector((state) =>
+		state.recipes.list.find((r) => r.id === Number(id))
+	);
 	const user = useSelector((state) => state.session.user);
 
 	const [title, setTitle] = useState('');
@@ -28,11 +36,42 @@ const NewRecipe = () => {
 	const [instructions, setInstructions] = useState([]);
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
 	const [ingredientQuantities, setIngredientQuantities] = useState({});
-	const [errors, setErrors] = useState([]); // ✅ Store errors
+	const [errors, setErrors] = useState([]);
 
 	useEffect(() => {
 		if (!ingredients.length) dispatch(fetchIngredients());
-	}, [dispatch, ingredients.length]);
+		if (id && !recipe) dispatch(fetchRecipe(id));
+	}, [dispatch, id, recipe, ingredients.length]);
+
+	useEffect(() => {
+		if (id) {
+			dispatch(fetchRecipe(id));
+		}
+	}, [dispatch, id]);
+
+	useEffect(() => {
+		if (recipe && recipe.id === Number(id)) {
+			setTitle(recipe.title || '');
+			setDescription(recipe.description || '');
+			setImageUrl(recipe.imageUrl || '');
+			setCategory(recipe.category || '');
+			setDifficulty(recipe.difficulty || 'Easy');
+			setServings(recipe.servings || 1);
+			setPrepTime(recipe.prepTime || 0);
+			setCookTime(recipe.cookTime || 0);
+			setInstructions(
+				recipe.instructions ? JSON.parse(recipe.instructions) : []
+			);
+			// ✅ Ensure Ingredients are mapped correctly
+			setSelectedIngredients(recipe.Ingredients?.map((ing) => ing.id) || []);
+			setIngredientQuantities(
+				recipe.Ingredients?.reduce((acc, ing) => {
+					acc[ing.id] = ing.RecipeIngredient?.quantity || '1 unit';
+					return acc;
+				}, {}) || {}
+			);
+		}
+	}, [recipe, id]);
 
 	const handleCategoryChange = (e) => {
 		const value = e.target.value;
@@ -42,12 +81,11 @@ const NewRecipe = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setErrors([]); // ✅ Clear errors before submitting
+		setErrors([]);
 
 		const finalCategory =
 			category === 'Other' ? customCategory.trim() : category;
 
-		// ✅ Basic validation before making the request
 		const newErrors = [];
 		if (!title.trim()) newErrors.push('Title is required.');
 		if (!finalCategory.trim()) newErrors.push('Category is required.');
@@ -66,7 +104,8 @@ const NewRecipe = () => {
 			(step) => step.trim() !== ''
 		);
 
-		const newRecipe = {
+		const recipeData = {
+			userId: user.id,
 			title,
 			description,
 			imageUrl,
@@ -82,22 +121,39 @@ const NewRecipe = () => {
 			})),
 		};
 
-		// ✅ Attempt to create a recipe and handle errors from API
-		const response = await dispatch(createRecipe(newRecipe));
-		if (response?.error) {
-			setErrors([response.error]);
-			return;
+		let response;
+		if (id) {
+			// **Update existing recipe**
+			response = await dispatch(updateRecipe({ id, recipeData }));
+		} else {
+			// **Create new recipe**
+			response = await dispatch(createRecipe(recipeData));
 		}
 
-		navigate('/recipes');
+		if (response?.error) {
+			setErrors(
+				Array.isArray(response.payload)
+					? response.payload
+					: [response.payload]
+			);
+		} else {
+			navigate('/recipes');
+		}
 	};
 
 	if (!user)
-		return <p className='error-message'>Please log in to create a recipe.</p>;
+		return (
+			<p className='error-message'>
+				Please log in to create or edit a recipe.
+			</p>
+		);
+
 
 	return (
 		<div className='new-recipe-container'>
-			<h1 className='form-title'>Create a New Recipe</h1>
+			<h1 className='form-title'>
+				{id ? 'Edit Recipe' : 'Create a New Recipe'}
+			</h1>
 
 			{errors.length > 0 && (
 				<div className='error-container'>
@@ -222,7 +278,7 @@ const NewRecipe = () => {
 				)}
 
 				<button type='submit' className='submit-btn'>
-					Create Recipe
+					{id ? 'Update Recipe' : 'Create Recipe'}
 				</button>
 			</form>
 		</div>

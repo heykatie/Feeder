@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 			Recipe.belongsTo(models.User, { foreignKey: 'userId' });
 			Recipe.belongsToMany(models.Ingredient, {
 				through: models.RecipeIngredient,
+				as: 'Ingredients',
 				foreignKey: 'recipeId',
 			});
     }
@@ -79,8 +80,8 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.INTEGER,
 				validate: {
 					min: 0,
-					max: 5
-				}
+					max: 5,
+				},
 			},
 			isPublic: {
 				type: DataTypes.BOOLEAN,
@@ -95,6 +96,15 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			modelName: 'Recipe',
+			defaultScope: {
+				include: [
+					{
+						model: sequelize.models.Ingredient,
+						as: 'Ingredients', // Ensures ingredients are always included
+						through: { attributes: ['quantity'] }, // Include quantity from join table
+					},
+				],
+			},
 		}
   );
   return Recipe;

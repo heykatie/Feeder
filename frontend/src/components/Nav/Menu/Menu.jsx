@@ -50,7 +50,7 @@ const Menu = ({ showMenu, toggleMenu }) => {
 			<NavLink to='/recipe' className='menu-navLink'>
 				<i className='fa-solid fa-pen'></i>
 			</NavLink>
-			<NavLink to={`/recipes/${userId}`} className='menu-navLink'>
+			<NavLink to={`/${userId}/recipes`} className='menu-navLink'>
 				<i className='fa-solid fa-bookmark'></i>
 			</NavLink>
 			<NavLink to='/lists' className='menu-navLink'>

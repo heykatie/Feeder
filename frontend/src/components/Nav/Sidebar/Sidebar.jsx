@@ -50,7 +50,11 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 			</button>
 			<div className='sidebar-header'>
 				<NavLink to='/'>
-					<img src='/images/assets/logo.png' className='logo' alt='SousChef Logo' />
+					<img
+						src='/images/assets/logo.png'
+						className='logo'
+						alt='SousChef Logo'
+					/>
 				</NavLink>
 			</div>
 			<ul className='sidebar-links'>
@@ -92,7 +96,7 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 				</li>
 				<li>
 					<NavLink
-						to={`/recipes/${userId}`}
+						to={`/${userId}/recipes`}
 						onClick={toggleExpand}
 						className='sidebar-navLink'>
 						<i className='fa-solid fa-bookmark'></i>{' '}

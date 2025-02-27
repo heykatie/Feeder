@@ -56,9 +56,10 @@ const Recipe = () => {
 				<h2>Ingredients</h2>
 				<p className='recipe-servings'>Servings: {recipe.servings}</p>
 				<ul className='recipe-ingredients'>
-					{recipe.ingredients?.map((ingredient, index) => (
+					{recipe.Ingredients?.map((ingredient, index) => (
 						<li key={index}>
-							{ingredient.quantity} {ingredient.name}
+							{ingredient.RecipeIngredient?.quantity || '1 unit'}{' '}
+							{ingredient.name}
 						</li>
 					))}
 				</ul>
