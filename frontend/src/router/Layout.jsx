@@ -19,13 +19,13 @@ export default function Layout() {
 
 	return (
 		<>
+			<ToastContainer closeOnClick={true} />
 			<ModalProvider>
 				{location.pathname !== '/embark' && <Navbar />}
 				<div className='main-content'>{isLoaded && <Outlet />}</div>
 				<Modal />
 				{location.pathname !== '/embark' && <Footer />}
 			</ModalProvider>
-			<ToastContainer />
 		</>
 	);
 }

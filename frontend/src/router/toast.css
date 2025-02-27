@@ -24,7 +24,7 @@
 
 /* Error Notification */
 .Toastify__toast--error {
-  background: #d82929b0;
+  background: #d82929bc;
   /* Error Red */
   color: white;
 }

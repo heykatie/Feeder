@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
 				'This page is protected. Please log in or sign up to continue.',
 				{
 					position: 'top-center',
-					autoClose: 3000,
+					autoClose: 4500,
 				}
 			);
 		}

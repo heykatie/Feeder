@@ -12,6 +12,7 @@ import IngredientModal from '../../modals/IngredientModal';
 import OpenModalButton from '../../../context/OpenModalButton';
 import Ingredients from '../../Ingredients';
 import Instructions from '../../Instructions';
+import { toast } from 'react-toastify';
 import './RecipeForm.css';
 
 const RecipeForm = () => {
@@ -100,6 +101,13 @@ const RecipeForm = () => {
 		e.preventDefault();
 		setErrors([]);
 
+		if (!user)
+			toast.error('Please log in to create a recipe.', {
+				position: 'top-center',
+				autoClose: 4500,
+				closeOnClick: true,
+			});
+
 		const finalCategory =
 			category === 'Other' ? customCategory.trim() : category;
 
@@ -176,13 +184,6 @@ const RecipeForm = () => {
 			);
 		}
 	};
-
-	if (!user)
-		return (
-			<p className='error-message'>
-				Please log in to create or edit a recipe.
-			</p>
-		);
 
 	return (
 		<div className='new-recipe-container'>

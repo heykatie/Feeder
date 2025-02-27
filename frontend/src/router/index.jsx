@@ -92,11 +92,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: '/:userId/recipes',
-				element: (
-					<ProtectedRoute>
-						<Recipes />
-					</ProtectedRoute>
-				),
+				element: <Recipes />,
 			},
 			{
 				path: '*',
