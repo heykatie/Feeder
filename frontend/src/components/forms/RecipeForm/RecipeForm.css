@@ -44,6 +44,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 45%;
 }
 
 .submit-btn:hover {
@@ -142,18 +143,19 @@
 
 .form-actions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: space-evenly;
 }
 
 .cancel-btn {
+  width: 45%;
   background: #ccc;
   color: #333;
-  padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.2s ease;
+  margin-top: 15px;
+  padding: 10px;
 }
 
 .cancel-btn:hover {
