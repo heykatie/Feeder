@@ -17,7 +17,7 @@ const Recipes = () => {
 		if (location.pathname === '/recipes') {
 			dispatch(fetchRecipes());
 		} else if (userId) {
-			const isLoggedInUser = sessionUser?.id === Number(userId);
+			const isLoggedInUser = sessionUser?.id == Number(userId);
 			dispatch(fetchRecipes({ userId, isLoggedInUser }));
 		}
 	}, [dispatch, userId, sessionUser, location.pathname]);

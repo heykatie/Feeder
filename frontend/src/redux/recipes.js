@@ -8,8 +8,8 @@ export const fetchRecipes = createAsyncThunk(
 
 		if (userId) {
 			url = isLoggedInUser
-				? `/api/recipes/public/${userId}`
-				: `/api/recipes/all/${userId}`;
+				? `/api/recipes/all/${userId}`
+				: `/api/recipes/public/${userId}`;
 		}
 
 		const response = await fetch(url);

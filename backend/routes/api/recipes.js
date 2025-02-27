@@ -114,6 +114,8 @@ router.post('/', async (req, res) => {
 			servings,
 			prepTime,
 			cookTime,
+			totalTime,
+			isPublic,
 			instructions,
 			ingredients, // Expecting [{ id: 1, quantity: "2 cups" }]
 		} = req.body;
@@ -133,6 +135,8 @@ router.post('/', async (req, res) => {
 			servings,
 			prepTime,
 			cookTime,
+			totalTime,
+			isPublic,
 			instructions,
 		});
 
