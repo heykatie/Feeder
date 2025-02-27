@@ -38,7 +38,9 @@ export const createRecipe = createAsyncThunk(
 
 			if (!response.ok) {
 				console.error('Recipe Creation Failed:', data); // Debugging
-				return rejectWithValue(data.errors || 'Failed to create recipe');
+				return rejectWithValue(
+					data.errors || data.message || 'Failed to create recipe'
+				);
 			}
 
 			return data;
@@ -67,11 +69,15 @@ export const updateRecipe = createAsyncThunk(
 			const data = await response.json();
 
 			if (!response.ok) {
-				return rejectWithValue(data.error || 'Failed to update recipe');
+				console.error('Recipe Creation Failed:', data); // Debugging
+				return rejectWithValue(
+					data.errors || data.message || 'Failed to update recipe'
+				);
 			}
 
 			return data;
 		} catch (error) {
+			console.error('Request Error:', error);
 			return rejectWithValue(error.message);
 		}
 	}

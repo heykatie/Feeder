@@ -121,12 +121,12 @@ const NewRecipe = () => {
 			})),
 		};
 
+		console.error('KATIE', recipeData);
+
 		let response;
 		if (id) {
-			// **Update existing recipe**
 			response = await dispatch(updateRecipe({ id, recipeData }));
 		} else {
-			// **Create new recipe**
 			response = await dispatch(createRecipe(recipeData));
 		}
 
@@ -138,6 +138,24 @@ const NewRecipe = () => {
 			);
 		} else {
 			navigate('/recipes');
+		}
+	};
+
+	const handleSaveIngredients = (updatedIngredients, updatedQuantities) => {
+		setSelectedIngredients(updatedIngredients);
+		setIngredientQuantities(updatedQuantities);
+
+		if (id) {
+			dispatch(
+				updateRecipe({
+					id,
+					recipeData: {
+						...recipe,
+						ingredients: updatedIngredients,
+						ingredientQuantities: updatedQuantities,
+					},
+				})
+			);
 		}
 	};
 
@@ -160,7 +178,9 @@ const NewRecipe = () => {
 					<ul>
 						{errors.map((error, index) => (
 							<li key={index} className='error-message'>
-								{typeof error === 'object' ? error.message : error}{' '}
+								{typeof error === 'object' && error.message
+									? error.message
+									: error}
 							</li>
 						))}
 					</ul>
@@ -238,24 +258,25 @@ const NewRecipe = () => {
 					</div>
 				</div>
 
-				<div className='recipe-add-btns'>
+				<div
+					className='recipe-add-btns'
+					onClick={(e) => e.preventDefault()}>
 					<OpenModalButton
 						className='add-ingredients-btn'
-						buttonText='+ Add Ingredients'
+						buttonText={id ? 'Edit Ingredients' : '+ Add Ingredients'}
 						modalComponent={
 							<IngredientModal
 								ingredients={ingredients}
 								selectedIngredients={selectedIngredients}
-								setSelectedIngredients={setSelectedIngredients}
+								setSelectedIngredients={handleSaveIngredients}
 								ingredientQuantities={ingredientQuantities}
 								setIngredientQuantities={setIngredientQuantities}
 							/>
 						}
 					/>
-
 					<OpenModalButton
 						className='add-step-btn'
-						buttonText='+ Add Instructions'
+						buttonText={id ? 'Edit Instructions' : '+ Add Instructions'}
 						modalComponent={
 							<InstructionModal
 								instructions={instructions}

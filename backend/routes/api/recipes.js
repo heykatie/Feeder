@@ -147,33 +147,54 @@ router.post('/', async (req, res) => {
 	}
 });
 
-// PUT update a recipe (requires authentication & ownership)
-router.put("/:id", requireAuth, async (req, res) => {
-  const recipe = await Recipe.findByPk(req.params.id);
-  if (!recipe) return res.status(404).json({ error: "Recipe not found" });
+router.put('/:id', async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { ingredients, ...updatedData } = req.body;
 
-  if (recipe.userId !== req.user.id)
-    return res.status(403).json({ error: "Unauthorized" });
+		const recipe = await Recipe.findByPk(id);
+		if (!recipe) {
+			return res.status(404).json({ error: 'Recipe not found' });
+		}
 
-  const { title, description, imageUrl, category } = req.body;
-  await recipe.update({ title, description, imageUrl, category });
+		// ✅ Update recipe data (excluding ingredients)
+		await recipe.update(updatedData);
 
-  return res.json(recipe);
+		if (ingredients && ingredients.length > 0) {
+			// ✅ Clear existing ingredient associations
+			await RecipeIngredient.destroy({ where: { recipeId: id } });
+
+			// ✅ Re-add updated ingredients
+			const ingredientPromises = ingredients.map(async (ingredient) => {
+				const existingIngredient = await Ingredient.findByPk(ingredient.id);
+				if (!existingIngredient) {
+					console.error(`Ingredient ID ${ingredient.id} not found`);
+					return null;
+				}
+				return RecipeIngredient.create({
+					recipeId: id,
+					ingredientId: ingredient.id,
+					quantity: ingredient.quantity || '1 unit',
+				});
+			});
+
+			await Promise.all(ingredientPromises);
+		}
+
+		// ✅ Fetch updated recipe with ingredients
+		const updatedRecipe = await Recipe.findByPk(id, {
+			include: [
+				{ model: Ingredient, as: 'Ingredients', through: RecipeIngredient },
+			],
+		});
+
+		return res.json(updatedRecipe);
+	} catch (error) {
+		console.error('Error updating recipe:', error);
+		return res.status(500).json({ error: 'Internal server error' });
+	}
 });
 
-// PUT update a recipe (requires authentication & ownership)
-router.put('/:id', requireAuth, async (req, res) => {
-	const recipe = await Recipe.findByPk(req.params.id);
-	if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
-
-	if (recipe.userId !== req.user.id)
-		return res.status(403).json({ error: 'Unauthorized' });
-
-	const { title, description, imageUrl } = req.body;
-	await recipe.update({ title, description, imageUrl });
-
-	return res.json(recipe);
-});
 
 // DELETE a recipe (requires authentication & ownership)
 router.delete('/:id', requireAuth, async (req, res) => {
