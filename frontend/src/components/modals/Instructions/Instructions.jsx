@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useModal } from '../../../context/ModalContext';
-// import './InstructionModal.css';
+import './Instructions.css';
 
 const InstructionModal = ({ instructions, setInstructions }) => {
 	const { closeModal } = useModal();
