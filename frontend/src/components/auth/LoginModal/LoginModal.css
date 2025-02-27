@@ -4,7 +4,6 @@
   background: linear-gradient(#1A1A2E, #1A1A2E);
   /* Dark Indigo */
   color: white;
-  padding: 10px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -14,7 +13,9 @@
   text-align: center;
   overflow: hidden;
   border: 2px solid #1A1A2E;
+  padding: 10px;
   padding-top: 0px;
+  margin: 11px;
 }
 
 /* Logo */

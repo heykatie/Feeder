@@ -342,3 +342,10 @@ button:hover {
 .main-content > *:not(.main-content>.embark-container) {
   margin: 0 5vw;
 }
+
+.main-content:not(:has(> .embark-container)) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
