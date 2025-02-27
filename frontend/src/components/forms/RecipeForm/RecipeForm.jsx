@@ -186,6 +186,11 @@ const RecipeForm = () => {
 		}
 	};
 
+	const handleCancel = (e) => {
+		e.preventDefault();
+		navigate(-1);
+	};
+
 	return (
 		<div className='new-recipe-container'>
 			<h1 className='form-title'>
@@ -366,10 +371,14 @@ const RecipeForm = () => {
 						onChange={() => setIsPublic(!isPublic)}
 					/>
 				</div>
-
-				<button type='submit' className='submit-btn'>
-					{id ? 'Update Recipe' : 'Create Recipe'}
-				</button>
+				<div className='form-actions'>
+					<button type='submit' className='submit-btn'>
+						{id ? 'Update Recipe' : 'Create Recipe'}
+					</button>
+					<button type='button' className='cancel-btn' onClick={handleCancel}>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);
