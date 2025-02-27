@@ -21,7 +21,8 @@
 .signup-form h2 {
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  margin-top: 14px;
 }
 
 .signup-form .input-container {
@@ -144,7 +145,7 @@
 .signup-modal {
   position: relative;
   background: #1A1A2E;
-  width: 360px;
+  width: 340px;
   max-width: 100%;
   text-align: center;
   z-index: 1000;
@@ -253,4 +254,8 @@ Dark overlay behind the modal
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.signup-form>form {
+  width: 80%;
 }
