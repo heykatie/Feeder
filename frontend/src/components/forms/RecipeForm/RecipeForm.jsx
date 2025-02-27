@@ -106,6 +106,7 @@ const RecipeForm = () => {
 				position: 'top-center',
 				autoClose: 4500,
 				closeOnClick: true,
+				closeOnEscape: true,
 			});
 
 		const finalCategory =
