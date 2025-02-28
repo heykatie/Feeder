@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipe, deleteRecipe } from '../../redux/recipes';
 import { useModal } from '../../context/ModalContext';
 import OpenModalButton from '../../context/OpenModalButton/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
+import { toggleFavorite } from '../../redux/recipes';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import './Recipe.css';
 
 const Recipe = () => {
@@ -46,7 +48,14 @@ const Recipe = () => {
 					/>
 				</div>
 			)}
-			<h1 className='recipe-title'>{recipe.title}</h1>
+			<h1 className='recipe-title'>{recipe.title}</h1>{' '}
+			<button className='favorite-btn' >
+				{recipe.liked ? (
+					<FaHeart color='red' />
+				) : (
+					<FaRegHeart color='gray' />
+				)}
+			</button>
 			<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
 			<p className='recipe-rating'>Rating: {recipe.rating} / 5 ⭐</p>
 			<img

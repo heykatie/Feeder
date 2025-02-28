@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: 'userId',
 				onDelete: 'CASCADE',
 			});
+			User.belongsToMany(models.Recipe, {
+				through: models.Favorite,
+				foreignKey: 'userId',
+			});
     }
   }
   User.init(

@@ -1,5 +1,5 @@
 'use strict';
-const { Model, Ingredient, RecipeIngredient } = require('sequelize');
+const { Model, Ingredient, RecipeIngredient, Favorite } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Recipe extends Model {
     /**
@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
 			Recipe.belongsToMany(models.Ingredient, {
 				through: models.RecipeIngredient,
 				as: 'Ingredients',
+				foreignKey: 'recipeId',
+			});
+			Recipe.belongsToMany(models.User, {
+				through: models.Favorite,
 				foreignKey: 'recipeId',
 			});
     }
@@ -70,11 +74,6 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.ENUM('Easy', 'Medium', 'Hard'),
 				allowNull: false,
 				defaultValue: 'Easy',
-			},
-			likesCount: {
-				type: DataTypes.INTEGER,
-				allowNull: false,
-				defaultValue: 0,
 			},
 			rating: {
 				type: DataTypes.INTEGER,

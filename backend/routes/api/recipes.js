@@ -1,5 +1,11 @@
 const express = require('express');
-const { Recipe, Ingredient, RecipeIngredient, User} = require('../../db/models');
+const {
+	Recipe,
+	Ingredient,
+	RecipeIngredient,
+	User,
+	Favorite,
+} = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
@@ -15,6 +21,35 @@ router.get('/', async (req, res) => {
 		res.json(recipes);
 	} catch (error) {
 		res.status(500).json({ error: 'Failed to fetch recipes' });
+	}
+});
+
+router.get('/favorites/:userId', requireAuth, async (req, res) => {
+	try {
+		const { userId } = req.params;
+
+		// Find all favorite recipes for the user
+		const favorites = await Favorite.findAll({
+			where: { userId },
+			include: [
+				{
+					model: Recipe,
+					include: [{ model: User, attributes: ['username'] }],
+				},
+			],
+		});
+
+		if (!favorites.length) {
+			return res.json({ favorites: [] }); // Return an empty array if no favorites
+		}
+
+		// Extract recipes from the favorites
+		const favoriteRecipes = favorites.map((fav) => fav.Recipe);
+
+		res.json({ favorites: favoriteRecipes });
+	} catch (error) {
+		console.error('Error fetching favorites:', error);
+		res.status(500).json({ error: 'Internal server error' });
 	}
 });
 
@@ -50,15 +85,18 @@ router.get('/:id', async (req, res) => {
 			include: [
 				{
 					model: Ingredient,
-					as: 'Ingredients', // ✅ Alias to avoid ambiguity
-					through: { attributes: ['quantity'] }, // ✅ Include quantity from join table
+					as: 'Ingredients',
+					through: { attributes: ['quantity'] },
 				},
 			],
 		});
 
 		if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
 
-		// Calculate total nutrition values
+		const likesCount = await Favorite.count({
+			where: { recipeId: recipe.id },
+		});
+
 		const nutritionTotals = {
 			calories: 0,
 			carbohydrates: 0,
@@ -94,6 +132,7 @@ router.get('/:id', async (req, res) => {
 
 		return res.json({
 			...recipe.toJSON(),
+			likesCount,
 			nutritionTotals: roundedTotals,
 		});
 	} catch (error) {
@@ -231,6 +270,9 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
+router.post('/:id/favorite', requireAuth, async (req, res) => {
+
+});
 
 // DELETE a recipe (requires authentication & ownership)
 router.delete('/:id', requireAuth, async (req, res) => {

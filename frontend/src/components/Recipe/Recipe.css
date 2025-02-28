@@ -191,3 +191,14 @@
   max-width: 1200px;
 }
 
+.favorite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}

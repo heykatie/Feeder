@@ -71,11 +71,6 @@ module.exports = {
 					allowNull: false,
 					defaultValue: 'Easy',
 				},
-				likesCount: {
-					type: Sequelize.INTEGER,
-					allowNull: false,
-					defaultValue: 0,
-				},
 				rating: {
 					type: Sequelize.INTEGER,
 				},

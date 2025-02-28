@@ -16,6 +16,25 @@ export const fetchRecipes = createAsyncThunk(
 	}
 );
 
+export const fetchFavorites = createAsyncThunk(
+	'recipes/fetchFavorites',
+	async (_, { getState, rejectWithValue }) => {
+		try {
+			const userId = getState().session.user?.id;
+			if (!userId) return rejectWithValue('User not logged in');
+
+			const response = await fetch(`/api/recipes/favorites/${userId}`);
+			const data = await response.json();
+
+			if (!response.ok)
+				return rejectWithValue(data.error || 'Error fetching favorites');
+			return data.favorites;
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 export const fetchRecipe = createAsyncThunk(
 	'recipes/fetchRecipe',
 	async (id) => {
@@ -90,6 +109,13 @@ export const updateRecipe = createAsyncThunk(
 	}
 );
 
+export const toggleFavorite = createAsyncThunk(
+	'recipes/toggleFavorite',
+	async (recipeId, { rejectWithValue }) => {
+
+	}
+);
+
 export const deleteRecipe = createAsyncThunk(
 	'recipes/deleteRecipe',
 	async (id, { rejectWithValue }) => {
@@ -129,7 +155,10 @@ const recipesSlice = createSlice({
 		builder
 			.addCase(fetchRecipes.fulfilled, (state, action) => {
 				state.list = Array.isArray(action.payload) ? action.payload : [];
-				state.error = null; // Reset error on success
+				state.error = null;
+			})
+			.addCase(fetchFavorites.fulfilled, (state, action) => {
+				state.list = action.payload;
 			})
 			.addCase(fetchRecipe.fulfilled, (state, action) => {
 				state.selectedRecipe = action.payload;
@@ -144,7 +173,7 @@ const recipesSlice = createSlice({
 					(recipe) => recipe.id !== action.payload
 				);
 				state.selectedRecipe = null;
-				state.error = null; // Clear errors on success
+				state.error = null;
 			})
 			.addCase(createRecipe.rejected, (state, action) => {
 				state.error = action.payload || 'Failed to create recipe';
@@ -155,6 +184,9 @@ const recipesSlice = createSlice({
 			.addCase(fetchRecipes.rejected, (state, action) => {
 				state.error = action.payload || 'Failed to fetch recipes';
 				state.list = [];
+			})
+			.addCase(toggleFavorite.rejected, (state, action) => {
+				state.error = action.payload || 'Failed to favorite recipe';
 			})
 			.addCase(deleteRecipe.rejected, (state, action) => {
 				state.error = action.payload || 'Failed to delete recipe';

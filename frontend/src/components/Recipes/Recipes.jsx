@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipes } from '../../redux/recipes';
+import { fetchRecipes, fetchFavorites } from '../../redux/recipes';
 import { NavLink, useNavigate, useParams, useLocation } from 'react-router-dom';
 import './Recipes.css';
 
@@ -12,6 +12,16 @@ const Recipes = () => {
 	const sessionUser = useSelector((state) => state.session.user);
 	const recipes = useSelector((state) => state.recipes.list);
 
+	useEffect(() => {
+		if (location.pathname === '/recipes') {
+			dispatch(fetchRecipes());
+		} else if (location.pathname === '/favorites') {
+			dispatch(fetchFavorites());
+		} else if (userId) {
+			const isLoggedInUser = sessionUser?.id == Number(userId);
+			dispatch(fetchRecipes({ userId, isLoggedInUser }));
+		}
+	}, [dispatch, userId, sessionUser, location.pathname]);
 
 	useEffect(() => {
 		if (location.pathname === '/recipes') {
@@ -27,7 +37,13 @@ const Recipes = () => {
 	return (
 		<div className='recipes-container'>
 			<div className='recipes-header'>
-				{userId ? <h1>My Recipes</h1> : <h1>Explore Recipes</h1>}
+				{location.pathname === '/favorites' ? (
+					<h1>My Favorite Recipes</h1>
+				) : userId ? (
+					<h1>My Recipes</h1>
+				) : (
+					<h1>Explore Recipes</h1>
+				)}
 				<button
 					className='create-recipe-btn'
 					onClick={() => navigate('/recipes/new')}>

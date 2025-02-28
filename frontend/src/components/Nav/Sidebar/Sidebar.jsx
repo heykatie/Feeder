@@ -73,7 +73,7 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 						onClick={toggleExpand}
 						className='sidebar-navLink'>
 						<i className='fa-solid fa-book'></i>{' '}
-						<span className='text'>Explore</span>
+						<span className='text'>Explore Recipes</span>
 					</NavLink>
 				</li>
 				<li>

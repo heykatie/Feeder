@@ -31,7 +31,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -54,7 +53,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -78,7 +76,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -101,7 +98,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -123,7 +119,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -147,7 +142,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -169,7 +163,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -193,7 +186,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -215,7 +207,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -238,7 +229,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -260,7 +250,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'
@@ -281,7 +270,6 @@ module.exports = {
 					cookTime: 15,
 					totalTime: 45,
 					difficulty: 'Medium',
-					likesCount: 10,
 					rating: 4,
 					isPublic: true,
 					notes: 'give em a boop for me'

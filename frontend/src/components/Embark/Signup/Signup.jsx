@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OpenModal from '../../../context/OpenModal';
 import { useModal } from '../../../context/ModalContext';
 import './Signup.css';
-import LoginModal from '../../Auth/LoginModal';
+import LoginModal from '../../modals/LoginModal';
 
 const Signup = ({ mode, errors = {}, onUpdate, initialData, handleSubmit }) => {
 	const navigate = useNavigate();

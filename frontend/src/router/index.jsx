@@ -94,6 +94,14 @@ export const router = createBrowserRouter([
 				element: <Recipes />,
 			},
 			{
+				path: '/favorites',
+				element: (
+					<ProtectedRoute>
+						<Recipes />
+					</ProtectedRoute>
+				),
+			},
+			{
 				path: '*',
 				element: (
 					<h1 style={{ display: 'flex', justifyContent: 'center' }}>

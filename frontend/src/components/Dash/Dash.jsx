@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import ProgressBar from '../ui/ProgressBar';
-import { FaCrown, FaList, FaBell, FaShoppingCart } from 'react-icons/fa';
+import { FaCrown, FaList, FaBell, FaBookOpen, FaPen } from 'react-icons/fa';
 import './Dash.css';
 
 export default function Dash() {
@@ -23,9 +23,9 @@ export default function Dash() {
 		<div className='dash-container'>
 			<div className='dash-header'>
 				<h1>{greeting}</h1>
-				<Link to='/notifications'>
+				<NavLink to='/notifications'>
 					<FaBell className='notification-icon' />
-				</Link>
+				</NavLink>
 			</div>
 
 			<div className='dash-grid'>
@@ -57,7 +57,7 @@ export default function Dash() {
 						animate={{ scale: [1, 1.02, 1] }}
 						transition={{ repeat: Infinity, duration: 5 }}>
 						<img
-							src={sousChef?.imageUrl || '/images/mascot.png'}
+							src={'/images/assets/mascot.png' || sousChef?.imageUrl}
 							alt='SousChef'
 						/>
 						<p className='souschef-evo-text'>
@@ -73,14 +73,20 @@ export default function Dash() {
 					</p>
 
 					<div className='quick-actions'>
-						<Link to='/recipes' className='quick-action'>
-							<FaList /> Browse Recipes
-						</Link>
-						<Link
+						<NavLink to='/recipes' className='quick-action'>
+							<FaBookOpen /> Browse Recipes
+						</NavLink>
+						<NavLink
+							to='/recipes/new'
+							className='quick-action post-action'>
+							<FaPen />
+							Post a Recipe
+						</NavLink>
+						<NavLink
 							to='/lists'
 							className='quick-action shopping-list-action'>
-							<FaShoppingCart /> View Shopping Lists
-						</Link>
+							<FaList /> View Shopping Lists
+						</NavLink>
 					</div>
 				</div>
 
