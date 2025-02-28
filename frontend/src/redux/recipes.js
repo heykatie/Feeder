@@ -194,17 +194,23 @@ const recipesSlice = createSlice({
 			.addCase(toggleFavorite.fulfilled, (state, action) => {
 				const { recipeId, liked } = action.payload;
 
-				const updateRecipe = (recipe) => {
-					if (recipe) {
-						recipe.liked = liked;
-						recipe.likesCount = liked
-							? recipe.likesCount + 1
-							: Math.max(0, recipe.likesCount - 1);
-					}
-				};
+				if (window.location.pathname === '/favorites') {
+						if (!liked) {
+								state.list = state.list.filter((recipe) => recipe.id !== recipeId);
+						}
+				} else {
+						const updateRecipe = (recipe) => {
+								if (recipe) {
+										recipe.liked = liked;
+										recipe.likesCount = liked
+												? recipe.likesCount + 1
+												: Math.max(0, recipe.likesCount - 1);
+								}
+						};
 
-				updateRecipe(state.list.find((r) => r.id === recipeId));
-				updateRecipe(state.selectedRecipe);
+						updateRecipe(state.list.find((r) => r.id === recipeId));
+						updateRecipe(state.selectedRecipe);
+				}
 			})
 			.addCase(deleteRecipe.fulfilled, (state, action) => {
 				state.list = state.list.filter(
