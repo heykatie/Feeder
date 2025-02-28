@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,9 +19,11 @@ export default function List() {
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState(groceryList?.name || '');
 	const [checkedItems, setCheckedItems] = useState({});
-	const [editingIngredient, setEditingIngredient] = useState(null);
+	const [editingIngredientName, setEditingIngredientName] = useState(null);
+	const [editingIngredientQuantity, setEditingIngredientQuantity] = useState(null);
 	const [ingredientValues, setIngredientValues] = useState({});
 	const [loading, setLoading] = useState(true);
+	const inputRef = useRef(null);
 
 	useEffect(() => {
 		if (groceryList?.name) {
@@ -31,25 +33,31 @@ export default function List() {
 
 	useEffect(() => {
 		if (groceryList?.Ingredients) {
-			const initialCheckedState = groceryList.Ingredients.reduce(
-				(acc, item) => {
-					acc[item.id] = item.checked;
-					return acc;
-				},
-				{}
-			);
-			setCheckedItems(initialCheckedState);
+			const initialValues = groceryList.Ingredients.reduce((acc, item) => {
+				acc[item.id] = {
+					name: item.name ?? '', // Ensure it's always a string
+					quantity: item.quantity ?? '', // Ensure it's always a string
+				};
+				return acc;
+			}, {});
+			setIngredientValues(initialValues);
 		}
 	}, [groceryList]);
 
+	// useEffect(() => {
+	// 	if (listId) {
+	// 		dispatch(fetchGroceryList(listId))
+	// 			.unwrap()
+	// 			.then(() => setLoading(false))
+	// 			.catch(() => setLoading(false));
+	// 	}
+	// }, [dispatch, listId]);
 
 	useEffect(() => {
-		if (listId) {
-			dispatch(fetchGroceryList(listId))
-				.unwrap()
-				.then(() => setLoading(false))
-				.catch(() => setLoading(false));
-		}
+		setLoading(true);
+		dispatch(fetchGroceryList(listId))
+			.unwrap()
+			.finally(() => setLoading(false));
 	}, [dispatch, listId]);
 
 	const handleCheck = async (ingredientId) => {
@@ -119,25 +127,67 @@ export default function List() {
 		return () => window.removeEventListener('beforeunload', saveBeforeExit);
 	}, [checkedItems, listId]);
 
+	const saveList = async () => {};
 
-	const saveList = async () => {
-	};
+	// useEffect(() => {
+	// 	if (groceryList?.Ingredients) {
+	// 		const initialValues = groceryList.Ingredients.reduce((acc, item) => {
+	// 			acc[item.id] = { name: item.name, quantity: item.quantity };
+	// 			return acc;
+	// 		}, {});
+	// 		setIngredientValues(initialValues);
+	// 	}
+	// }, [groceryList]);
 
 	useEffect(() => {
-		if (groceryList?.Ingredients) {
-			const initialValues = groceryList.Ingredients.reduce((acc, item) => {
-				acc[item.id] = { name: item.name, quantity: item.quantity };
-				return acc;
-			}, {});
-			setIngredientValues(initialValues);
-		}
+		setIngredientValues((prev) => {
+			const updatedValues = { ...prev };
+			if (groceryList?.Ingredients) {
+				groceryList.Ingredients.forEach((item) => {
+					updatedValues[item.id] = {
+						name: item.name,
+						quantity: item.quantity,
+					};
+				});
+			}
+			return updatedValues;
+		});
 	}, [groceryList]);
+
+	useEffect(() => {
+		if (editingIngredientName === null && editingIngredientQuantity === null)
+			return;
+
+		const handleClickOutside = (event) => {
+			const nameInput = document.getElementById(
+				`ingredient-input-${editingIngredientName}`
+			);
+			const quantityInput = document.getElementById(
+				`quantity-input-${editingIngredientQuantity}`
+			);
+
+			// If neither input is clicked, exit edit mode
+			if (
+				nameInput &&
+				!nameInput.contains(event.target) &&
+				quantityInput &&
+				!quantityInput.contains(event.target)
+			) {
+				setEditingIngredientName(null);
+				setEditingIngredientQuantity(null);
+			}
+		};
+
+		document.addEventListener('click', handleClickOutside);
+		return () => document.removeEventListener('click', handleClickOutside);
+	}, [editingIngredientName, editingIngredientQuantity]);
 
 	if (loading) return <p>Loading grocery list...</p>;
 	if (!groceryList || !groceryList.id) {
 		console.error('❌ groceryList is undefined or missing ID:', groceryList);
 		return <p>Error loading grocery list. Try refreshing.</p>;
 	}
+
 	return (
 		<div className='list-container'>
 			<h1 onClick={() => setEditingName(true)}>
@@ -147,7 +197,9 @@ export default function List() {
 						value={listName}
 						onChange={(e) => setListName(e.target.value)}
 						onBlur={() => {
-							if (!listName) {setListName('Untitled List')}
+							if (!listName) {
+								setListName(groceryList?.name || 'Untitled List');
+							}
 							dispatch(
 								saveListName({
 									listId,
@@ -174,13 +226,22 @@ export default function List() {
 								/>
 								<span
 									onClick={() =>
-										setTimeout(() => setEditingIngredient(item.id), 0)
+										setTimeout(
+											() => setEditingIngredientName(item.id),
+											0
+										)
 									}>
-									{editingIngredient === item.id ? (
+									{editingIngredientName === item.id ? (
 										<input
+											ref={
+												editingIngredientName === item.id
+													? inputRef
+													: null
+											}
+											id={`ingredient-input-${item.id}`}
 											type='text'
 											value={
-												ingredientValues[item.id]?.name || item.name
+												ingredientValues[item.id]?.name
 											}
 											onChange={(e) =>
 												setIngredientValues((prev) => ({
@@ -203,24 +264,54 @@ export default function List() {
 															ingredientValues[item.id]
 																?.quantity || item.quantity,
 													})
-												);
+												)
+													.unwrap()
+													.then((updatedIngredient) => {
+														setIngredientValues((prev) => ({
+															...prev,
+															[updatedIngredient.ingredientId]: {
+																name: updatedIngredient.name,
+																quantity:
+																	updatedIngredient.quantity,
+															},
+														}));
+													})
+													.catch((error) => {
+														console.error(
+															'❌ Failed to update ingredient:',
+															error
+														);
+														alert(
+															error ||
+																'Error updating ingredient. Please try again.'
+														);
+													});
+												setEditingIngredientName(null);
 											}}
 											autoFocus
 										/>
 									) : (
-										item.name
+										item?.name
 									)}
 								</span>
 								<span
 									onClick={() =>
-										setTimeout(() => setEditingIngredient(item.id), 0)
+										setTimeout(
+											() => setEditingIngredientQuantity(item.id),
+											0
+										)
 									}>
-									{editingIngredient === item.id ? (
+									{editingIngredientQuantity === item.id ? (
 										<input
+											ref={
+												editingIngredientQuantity === item.id
+													? inputRef
+													: null
+											}
+											id={`quantity-input-${item.id}`}
 											type='text'
 											value={
-												ingredientValues[item.id]?.quantity ||
-												item.quantity
+												ingredientValues[item.id]?.quantity
 											}
 											onChange={(e) =>
 												setIngredientValues((prev) => ({
@@ -243,7 +334,29 @@ export default function List() {
 															ingredientValues[item.id]
 																?.quantity || item.quantity,
 													})
-												);
+												)
+													.unwrap()
+													.then((updatedIngredient) => {
+														setIngredientValues((prev) => ({
+															...prev,
+															[updatedIngredient.ingredientId]: {
+																name: updatedIngredient.name,
+																quantity:
+																	updatedIngredient.quantity,
+															},
+														}));
+													})
+													.catch((error) => {
+														console.error(
+															'❌ Failed to update ingredient:',
+															error
+														);
+														alert(
+															error ||
+																'Error updating ingredient. Please try again.'
+														);
+													});
+												setEditingIngredientQuantity(null);
 											}}
 											autoFocus
 										/>

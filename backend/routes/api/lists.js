@@ -123,10 +123,8 @@ router.put(
 			if (!groceryItem)
 				return res.status(404).json({ error: 'Item not found' });
 
-			// Update checked state
 			if (checked !== undefined) groceryItem.checked = checked;
 
-			// Update ingredient name
 			if (name) {
 				const ingredient = await Ingredient.findByPk(ingredientId);
 				if (ingredient) {
@@ -135,13 +133,12 @@ router.put(
 				}
 			}
 
-			// Update quantity
 			if (quantity) groceryItem.quantity = quantity;
 
 			await groceryItem.save();
 			res.json({ message: 'Updated successfully', groceryItem });
 		} catch (error) {
-			res.status(500).json({ error: 'Internal server error' });
+			res.status(500).json({ error: error.errors[0].message || 'Internal server error' });
 		}
 	}
 );

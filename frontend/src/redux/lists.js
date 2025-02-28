@@ -74,16 +74,26 @@ export const saveIngredient = createAsyncThunk(
 	'lists/saveIngredient',
 	async ({ listId, ingredientId, name, quantity }, { rejectWithValue }) => {
 		try {
-			await csrfFetch(`/api/lists/${listId}/ingredients/${ingredientId}`, {
+			const response = await csrfFetch(`/api/lists/${listId}/ingredients/${ingredientId}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ name, quantity }),
 			});
-			console.log(`✅ Ingredient ${ingredientId} updated`);
-			return { listId, ingredientId, name, quantity };
+
+			const data = await response.json(); // ✅ Ensure we get the updated ingredient data
+
+			console.log(`✅ Ingredient ${ingredientId} updated`, data);
+
+			return {
+				listId,
+				ingredientId,
+				name: data.ingredient.name, // ✅ Use API response name
+				quantity: data.ingredient.quantity // ✅ Use API response quantity
+			};
 		} catch (error) {
 			console.error('❌ Error updating ingredient:', error);
-			return rejectWithValue(error.message);
+			const err = await error.json()
+			return rejectWithValue(err.error);
 		}
 	}
 );
