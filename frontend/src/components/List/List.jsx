@@ -147,6 +147,7 @@ export default function List() {
 						value={listName}
 						onChange={(e) => setListName(e.target.value)}
 						onBlur={() => {
+							if (!listName) {setListName('Untitled List')}
 							dispatch(
 								saveListName({
 									listId,
@@ -191,18 +192,18 @@ export default function List() {
 												}))
 											}
 											onBlur={() => {
-													dispatch(
-														saveIngredient({
-															listId,
-															ingredientId: item.id,
-															name:
-																ingredientValues[item.id]
-																	?.name || item.name,
-															quantity:
-																ingredientValues[item.id]
-																	?.quantity || item.quantity,
-														})
-													)
+												dispatch(
+													saveIngredient({
+														listId,
+														ingredientId: item.id,
+														name:
+															ingredientValues[item.id]?.name ||
+															item.name,
+														quantity:
+															ingredientValues[item.id]
+																?.quantity || item.quantity,
+													})
+												);
 											}}
 											autoFocus
 										/>
@@ -231,18 +232,18 @@ export default function List() {
 												}))
 											}
 											onBlur={() => {
-													dispatch(
-														saveIngredient({
-															listId,
-															ingredientId: item.id,
-															name:
-																ingredientValues[item.id]
-																	?.name || item.name,
-															quantity:
-																ingredientValues[item.id]
-																	?.quantity || item.quantity,
-														})
-													)
+												dispatch(
+													saveIngredient({
+														listId,
+														ingredientId: item.id,
+														name:
+															ingredientValues[item.id]?.name ||
+															item.name,
+														quantity:
+															ingredientValues[item.id]
+																?.quantity || item.quantity,
+													})
+												);
 											}}
 											autoFocus
 										/>
