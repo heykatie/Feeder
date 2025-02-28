@@ -113,23 +113,55 @@ router.put(
 	async (req, res) => {
 		try {
 			const { listId, ingredientId } = req.params;
-			const { checked } = req.body;
+			const { name, quantity, checked } = req.body;
 
 			const groceryItem = await GroceryIngredient.findOne({
 				where: { listId, ingredientId },
+				include: [{ model: Ingredient }],
 			});
 
 			if (!groceryItem)
 				return res.status(404).json({ error: 'Item not found' });
 
-			groceryItem.checked = checked;
-			await groceryItem.save();
+			// Update checked state
+			if (checked !== undefined) groceryItem.checked = checked;
 
+			// Update ingredient name
+			if (name) {
+				const ingredient = await Ingredient.findByPk(ingredientId);
+				if (ingredient) {
+					ingredient.name = name;
+					await ingredient.save();
+				}
+			}
+
+			// Update quantity
+			if (quantity) groceryItem.quantity = quantity;
+
+			await groceryItem.save();
 			res.json({ message: 'Updated successfully', groceryItem });
 		} catch (error) {
 			res.status(500).json({ error: 'Internal server error' });
 		}
 	}
 );
+
+router.put('/:listId/update-name', requireAuth, async (req, res) => {
+	try {
+		const { listId } = req.params;
+		const { name } = req.body;
+
+		const list = await List.findByPk(listId);
+		if (!list) return res.status(404).json({ error: 'List not found' });
+
+		list.name = name;
+		await list.save();
+
+		res.json({ message: 'List name updated successfully' });
+	} catch (error) {
+		console.error('Error updating list name:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+});
 
 module.exports = router;

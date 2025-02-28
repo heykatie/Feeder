@@ -44,28 +44,75 @@ export const generateGroceryList = createAsyncThunk(
 			if (!response.ok)
 				return rejectWithValue(data.error || 'Failed to generate list');
 
-      // return data.list;
-      return { listId: data.list.id, list: data.list };
+			// return data.list;
+			return { listId: data.list.id, list: data.list };
 		} catch (error) {
 			return rejectWithValue(error.message);
 		}
 	}
 );
 
-export const toggleChecked = async (listId, ingredientId, checked) => {
-console.log('Updating checked status:', { listId, ingredientId });
+export const saveListName = createAsyncThunk(
+	'lists/saveListName',
+	async ({ listId, name }, { rejectWithValue }) => {
+		try {
+			await csrfFetch(`/api/lists/${listId}/update-name`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ name }),
+			});
+			console.log('✅ List name updated');
+			return { listId, name }; // Return updated data
+		} catch (error) {
+			console.error('❌ Error updating list name:', error);
+			return rejectWithValue(error.message);
+		}
+	}
+);
 
-await csrfFetch(`/api/lists/${listId}/ingredients/${ingredientId}`, {
-	method: 'PUT',
-	headers: { 'Content-Type': 'application/json' },
-	body: JSON.stringify({ checked }),
-});
+export const saveIngredient = createAsyncThunk(
+	'lists/saveIngredient',
+	async ({ listId, ingredientId, name, quantity }, { rejectWithValue }) => {
+		try {
+			await csrfFetch(`/api/lists/${listId}/ingredients/${ingredientId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ name, quantity }),
+			});
+			console.log(`✅ Ingredient ${ingredientId} updated`);
+			return { listId, ingredientId, name, quantity };
+		} catch (error) {
+			console.error('❌ Error updating ingredient:', error);
+			return rejectWithValue(error.message);
+		}
+	}
+);
 
-	// setCheckedItems((prev) => ({
-	// 	...prev,
-	// 	[ingredientId]: !checked,
-	// }));
-};
+export const toggleChecked = createAsyncThunk(
+	'lists/toggleChecked',
+	async ({ listId, ingredientId, checked }, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch(
+				`/api/lists/${listId}/ingredients/${ingredientId}`,
+				{
+					method: 'PUT',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ checked }),
+				}
+			);
+
+			const data = await response.json();
+			if (!response.ok)
+				return rejectWithValue(
+					data.error || 'Failed to toggle check state'
+				);
+
+			return { listId, ingredientId, checked };
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
 
 const listsSlice = createSlice({
 	name: 'lists',
@@ -76,12 +123,7 @@ const listsSlice = createSlice({
 	},
 	reducers: {},
 	extraReducers: (builder) => {
-    builder
-      .addCase(fetchGroceryList.fulfilled, (state, action) => {
-        const updatedList = action.payload;
-        state.allLists = state.allLists.filter((list) => list.id !== updatedList.id);
-        state.allLists.push(updatedList);
-      })
+		builder
 			.addCase(generateGroceryList.pending, (state) => {
 				state.loading = true;
 			})
@@ -92,6 +134,46 @@ const listsSlice = createSlice({
 			.addCase(generateGroceryList.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload || 'Failed to generate grocery list';
+			})
+			.addCase(fetchGroceryList.fulfilled, (state, action) => {
+				const updatedList = action.payload;
+				const index = state.allLists.findIndex(
+					(list) => list.id === updatedList.id
+				);
+
+				if (index !== -1) {
+					state.allLists[index] = updatedList;
+				} else {
+					state.allLists.push(updatedList);
+				}
+			})
+			.addCase(toggleChecked.fulfilled, (state, action) => {
+				const { listId, ingredientId, checked } = action.payload;
+				const list = state.allLists.find((list) => list.id === listId);
+				if (list) {
+					const ingredient = list.Ingredients.find(
+						(ing) => ing.id === ingredientId
+					);
+					if (ingredient) ingredient.checked = checked;
+				}
+			})
+			.addCase(saveListName.fulfilled, (state, action) => {
+				const { listId, name } = action.payload;
+				const list = state.allLists.find((list) => list.id === listId);
+				if (list) list.name = name;
+			})
+			.addCase(saveIngredient.fulfilled, (state, action) => {
+				const { listId, ingredientId, name, quantity } = action.payload;
+				const list = state.allLists.find((list) => list.id === listId);
+				if (list) {
+					const ingredient = list.Ingredients.find(
+						(ing) => ing.id === ingredientId
+					);
+					if (ingredient) {
+						ingredient.name = name;
+						ingredient.quantity = quantity;
+					}
+				}
 			});
 	},
 });
