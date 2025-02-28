@@ -1,4 +1,4 @@
-/* 📌 Modal Container */
+
 .instruction-modal {
   /* background-color: var(--panel-bg); */
   padding: 0px 20px 20px;
@@ -15,7 +15,7 @@
   min-width: 450px;
 }
 
-/* 📌 Modal Title */
+
 .instruction-modal h2 {
   color: var(--primary-accent);
   font-size: 1.6rem;
@@ -23,7 +23,7 @@
   margin-bottom: 15px;
 }
 
-/* 📌 Instruction List (Scrollable) */
+
 .instruction-list {
   max-height: 300px;
   overflow-y: auto;
@@ -31,7 +31,7 @@
   padding-right: 5px;
 }
 
-/* 📌 Individual Step Container */
+
 .instruction-step {
   display: flex;
   align-items: center;
@@ -40,14 +40,14 @@
   margin-bottom: 8px;
 }
 
-/* 📌 Step Number */
+
 .step-number {
   font-weight: bold;
   font-size: 1.1rem;
   color: var(--primary-accent);
 }
 
-/* 📌 Instruction Input Fields */
+
 .instruction-modal-input {
   flex: 1;
   /* ✅ Allows input to take full remaining space */
@@ -60,7 +60,7 @@
   box-sizing: border-box;
 }
 
-/* 📌 Add Step Button */
+
 .add-step-btn {
   width: 100%;
   padding: 12px;
@@ -78,7 +78,7 @@
   background-color: var(--primary-accent);
 }
 
-/* 📌 Modal Actions: Save & Cancel Buttons */
+
 .instruction-modal-actions {
   display: flex;
   justify-content: space-evenly;
@@ -86,8 +86,8 @@
   margin-top: 15px;
 }
 
-/* 📌 Save Button */
-.save-btn {
+
+.ingredient-modal .save-btn {
   background-color: var(--primary-accent);
   color: var(--text-color);
   font-size: 1rem;
@@ -101,11 +101,11 @@
   width: 55%;
 }
 
-.save-btn:hover {
+.ingredient-modal .save-btn:hover {
   background-color: var(--secondary-accent);
 }
 
-/* 📌 Cancel Button */
+
 .instruction-cancel-btn {
   background-color: transparent;
   color: var(--text-color);

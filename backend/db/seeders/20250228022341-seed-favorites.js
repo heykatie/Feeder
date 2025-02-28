@@ -21,8 +21,6 @@ module.exports = {
 				favorites.push({
 					userId,
 					recipeId: recipe.id,
-					createdAt: new Date(),
-					updatedAt: new Date(),
 				});
 			});
 		});

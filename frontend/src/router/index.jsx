@@ -12,6 +12,7 @@ import Pets from '../components/Pets';
 import Recipes from '../components/Recipes';
 import Recipe from '../components/Recipe';
 import RecipeForm from '../components/forms/RecipeForm';
+import List from '../components/List';
 
 export const router = createBrowserRouter([
 	{
@@ -98,6 +99,14 @@ export const router = createBrowserRouter([
 				element: (
 					<ProtectedRoute>
 						<Recipes />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: '/lists/:listId',
+				element: (
+					<ProtectedRoute>
+						<List />
 					</ProtectedRoute>
 				),
 			},

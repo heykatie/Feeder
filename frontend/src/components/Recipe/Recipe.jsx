@@ -7,6 +7,7 @@ import OpenModalButton from '../../context/OpenModalButton/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { toggleFavorite } from '../../redux/recipes';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import {generateGroceryList} from '../../redux/lists';
 import './Recipe.css';
 
 const Recipe = () => {
@@ -50,6 +51,17 @@ const Recipe = () => {
 	};
 
 	if (!recipe) return <p className='no-recipe'>Recipe not found.</p>;
+
+	const handleGenerateList = async () => {
+		if (!recipe) return;
+
+		const result = await dispatch(generateGroceryList(recipe.id));
+
+		if (generateGroceryList.fulfilled.match(result)) {
+			const listId = result.payload.listId;
+			navigate(`/lists/${listId}`);
+		}
+	};
 
 	return (
 		<div className='recipe-container'>
@@ -143,6 +155,9 @@ const Recipe = () => {
 					<p className='recipe-notes'>{recipe.notes}</p>
 				</div>
 			)}
+			<button className='grocery-btn' onClick={handleGenerateList}>
+				Generate Grocery List 🛒
+			</button>
 		</div>
 	);
 };
