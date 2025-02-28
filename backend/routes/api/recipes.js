@@ -5,6 +5,7 @@ const {
 	RecipeIngredient,
 	User,
 	Favorite,
+	Sequelize,
 } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
@@ -12,14 +13,32 @@ const router = express.Router();
 
 const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 
-router.get('/', async (req, res) => {
+router.get('/', requireAuth, async (req, res) => {
 	try {
+		const userId = req.user.id; // ✅ Get the logged-in user ID
+
 		const recipes = await Recipe.findAll({
 			where: { isPublic: true },
 			include: [{ model: User, attributes: ['username'] }],
 		});
-		res.json(recipes);
+
+		const userFavorites = await Favorite.findAll({
+			where: { userId },
+			attributes: ['recipeId'],
+		});
+
+		const favoriteRecipeIds = new Set(
+			userFavorites.map((fav) => fav.recipeId)
+		);
+
+		const updatedRecipes = recipes.map((recipe) => ({
+			...recipe.toJSON(),
+			liked: favoriteRecipeIds.has(recipe.id),
+		}));
+
+		res.json(updatedRecipes);
 	} catch (error) {
+		console.error('Error fetching recipes:', error);
 		res.status(500).json({ error: 'Failed to fetch recipes' });
 	}
 });
@@ -28,8 +47,10 @@ router.get('/favorites/:userId', requireAuth, async (req, res) => {
 	try {
 		const { userId } = req.params;
 
+		// ✅ Fetch all favorite entries for the user
 		const favorites = await Favorite.findAll({
 			where: { userId },
+			attributes: ['recipeId'],
 			include: [
 				{
 					model: Recipe,
@@ -42,11 +63,39 @@ router.get('/favorites/:userId', requireAuth, async (req, res) => {
 			return res.json({ favorites: [] });
 		}
 
-		const favoriteRecipes = favorites.map((fav) => fav.Recipe);
+		// ✅ Store recipe IDs that the user favorited
+		const favoriteRecipeIds = new Set(favorites.map((fav) => fav.recipeId));
+
+		// ✅ Fetch `likesCount` for each recipe in favorites
+		const recipeLikes = await Favorite.findAll({
+			attributes: [
+				'recipeId',
+				[Sequelize.fn('COUNT', Sequelize.col('recipeId')), 'likesCount'],
+			],
+			group: ['recipeId'],
+			raw: true,
+		});
+
+		// Convert `recipeLikes` array into a map for quick lookup
+		const likesMap = {};
+		recipeLikes.forEach((entry) => {
+			likesMap[entry.recipeId] = entry.likesCount;
+		});
+
+		// ✅ Format the favorite recipes list
+		const favoriteRecipes = favorites.map((fav) => {
+			const recipe = fav.Recipe.toJSON();
+			return {
+				...recipe,
+				liked: favoriteRecipeIds.has(recipe.id), // ✅ Correctly mark as liked
+				likesCount: likesMap[recipe.id] || 0, // ✅ Include likes count
+			};
+		});
 
 		res.json({ favorites: favoriteRecipes });
 	} catch (error) {
-		res.status(500).json({ error: error || 'Internal server error' });
+		console.error('Error fetching favorite recipes:', error);
+		res.status(500).json({ error: 'Internal server error' });
 	}
 });
 

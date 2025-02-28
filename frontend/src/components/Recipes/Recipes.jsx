@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipes, fetchFavorites } from '../../redux/recipes';
+import {
+	fetchRecipes,
+	fetchFavorites,
+	toggleFavorite,
+} from '../../redux/recipes';
 import { NavLink, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { FaHeart, FaRegHeart } from 'react-icons/fa'; // ✅ Import heart icons
 import './Recipes.css';
 
 const Recipes = () => {
@@ -34,6 +39,7 @@ const Recipes = () => {
 
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
 
+	
 	return (
 		<div className='recipes-container'>
 			<div className='recipes-header'>
@@ -52,18 +58,30 @@ const Recipes = () => {
 			</div>
 			<div className='recipes-grid'>
 				{recipes.map((recipe) => (
-					<NavLink
-						key={recipe.id}
-						to={`/recipes/${recipe.id}`}
-						className='recipe-card'>
-						<img
-							src={'/images/recipes/dogfood.jpeg' || recipe.imageUrl}
-							alt={recipe.title}
-							className='recipe-image'
-						/>
-						<h2>{recipe.title}</h2>
-						<p>{recipe.description}</p>
-					</NavLink>
+					<div key={recipe.id} className='recipe-card'>
+						<NavLink to={`/recipes/${recipe.id}`} className='recipe-link'>
+							<img
+								src={'/images/recipes/dogfood.jpeg' || recipe.imageUrl}
+								alt={recipe.title}
+								className='recipe-image'
+							/>
+							<h2>{recipe.title}</h2>
+							<p>{recipe.description}</p>
+						</NavLink>
+
+						<button
+							className='favorite-btn'
+							onClick={(e) => {
+								e.stopPropagation();
+								dispatch(toggleFavorite(recipe.id));
+							}}>
+							{recipe.liked ? (
+								<FaHeart color='red' />
+							) : (
+								<FaRegHeart color='gray' />
+							)}
+						</button>
+					</div>
 				))}
 			</div>
 		</div>

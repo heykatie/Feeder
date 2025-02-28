@@ -31,7 +31,7 @@ export const fetchFavorites = createAsyncThunk(
 				return rejectWithValue(data || 'Error fetching favorites');
 			return data.favorites;
 		} catch (error) {
-			const err = await error.json()
+			const err = await error.json();
 			return rejectWithValue(err.error || err);
 		}
 	}
@@ -137,8 +137,8 @@ export const deleteRecipe = createAsyncThunk(
 			const response = await csrfFetch(`/api/recipes/${id}`, {
 				method: 'DELETE',
 				// headers: {
-					// Authorization: `Bearer ${localStorage.getItem('token')}`,
-					// 'X-CSRF-Token': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1],
+				// Authorization: `Bearer ${localStorage.getItem('token')}`,
+				// 'X-CSRF-Token': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1],
 				// },
 				// credentials: 'include',
 			});
@@ -167,8 +167,17 @@ const recipesSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
+			// .addCase(fetchRecipes.fulfilled, (state, action) => {
+			// 	state.list = Array.isArray(action.payload) ? action.payload : [];
+			// 	state.error = null;
+			// })
 			.addCase(fetchRecipes.fulfilled, (state, action) => {
-				state.list = Array.isArray(action.payload) ? action.payload : [];
+				state.list = Array.isArray(action.payload)
+					? action.payload.map((recipe) => ({
+							...recipe,
+							liked: recipe.liked || false,
+					}))
+					: [];
 				state.error = null;
 			})
 			.addCase(fetchFavorites.fulfilled, (state, action) => {
@@ -186,10 +195,12 @@ const recipesSlice = createSlice({
 				const { recipeId, liked } = action.payload;
 
 				const updateRecipe = (recipe) => {
-						if (recipe) {
-								recipe.liked = liked;
-								recipe.likesCount = liked ? recipe.likesCount + 1 : Math.max(0, recipe.likesCount - 1);
-						}
+					if (recipe) {
+						recipe.liked = liked;
+						recipe.likesCount = liked
+							? recipe.likesCount + 1
+							: Math.max(0, recipe.likesCount - 1);
+					}
 				};
 
 				updateRecipe(state.list.find((r) => r.id === recipeId));
