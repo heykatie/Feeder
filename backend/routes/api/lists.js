@@ -72,6 +72,41 @@ router.post('/generate/:recipeId', requireAuth, async (req, res) => {
 	}
 });
 
+router.post('/:listId/bulk-update', requireAuth, async (req, res) => {
+	try {
+		const { listId } = req.params;
+		const { checkedItems } = req.body;
+
+		const updates = Object.entries(checkedItems).map(
+			([ingredientId, checked]) => ({
+				listId,
+				ingredientId,
+				checked,
+			})
+		);
+
+		await Promise.all(
+			updates.map(async (update) => {
+				const groceryItem = await GroceryIngredient.findOne({
+					where: {
+						listId: update.listId,
+						ingredientId: update.ingredientId,
+					},
+				});
+				if (groceryItem) {
+					groceryItem.checked = update.checked;
+					await groceryItem.save();
+				}
+			})
+		);
+
+		res.json({ message: 'Bulk update successful' });
+	} catch (error) {
+		console.error('Error bulk updating grocery list:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+});
+
 router.put(
 	'/:listId/ingredients/:ingredientId',
 	requireAuth,

@@ -32,12 +32,73 @@ export default function List() {
 		}
 	}, [dispatch, listId]);
 
-	const handleCheck = (ingredientId) => {
+	const handleCheck = async (ingredientId) => {
+		const newCheckedState = !checkedItems[ingredientId];
+
 		setCheckedItems((prev) => ({
 			...prev,
-			[ingredientId]: !prev[ingredientId],
+			[ingredientId]: newCheckedState,
 		}));
+
+		try {
+			await toggleChecked(listId, ingredientId, newCheckedState);
+			console.log(
+				`✅ Auto-saved ingredient ${ingredientId} with checked=${newCheckedState}`
+			);
+		} catch (error) {
+			console.error('❌ Error auto-saving ingredient:', error);
+		}
 	};
+
+	useEffect(() => {
+		const interval = setInterval(async () => {
+			try {
+				await Promise.all(
+					Object.entries(checkedItems).map(([ingredientId, checked]) =>
+						toggleChecked(listId, ingredientId, checked)
+					)
+				);
+				console.log('✅ Auto-saved all checked items');
+			} catch (error) {
+				console.error('❌ Error auto-saving list:', error);
+			}
+		}, 500000);
+
+		return () => clearInterval(interval);
+	}, [checkedItems, listId]);
+
+	useEffect(() => {
+		// const saveBeforeExit = async () => {
+		// 	try {
+		// 		await Promise.all(
+		// 			Object.entries(checkedItems).map(([ingredientId, checked]) =>
+		// 				toggleChecked(listId, ingredientId, checked)
+		// 			)
+		// 		);
+		// 		console.log('✅ Auto-saved before exit');
+		// 	} catch (error) {
+		// 		console.error('❌ Error saving before exit:', error);
+		// 	}
+		// };
+
+		// window.addEventListener('beforeunload', saveBeforeExit);
+		// return () => window.removeEventListener('beforeunload', saveBeforeExit);
+		const saveBeforeExit = () => {
+			try {
+				const url = `/api/lists/${listId}/bulk-update`;
+				const data = JSON.stringify({ checkedItems });
+
+				// Send data before page unloads
+				navigator.sendBeacon(url, data);
+				console.log('✅ Auto-saved before exit using sendBeacon');
+			} catch (error) {
+				console.error('❌ Error saving before exit:', error);
+			}
+		};
+
+		window.addEventListener('beforeunload', saveBeforeExit);
+		return () => window.removeEventListener('beforeunload', saveBeforeExit);
+	}, [checkedItems, listId]);
 
 	const navigate = useNavigate();
 
