@@ -16,6 +16,28 @@ const Recipe = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.session.user);
 	const recipe = useSelector((state) => state.recipes.selectedRecipe);
+	const [isFavorited, setIsFavorited] = useState(false);
+
+	useEffect(() => {
+		if (recipe) {
+			setIsFavorited(recipe.liked);
+		}
+	}, [recipe]);
+
+	const handleFavorite = () => {
+		if (!recipe) return;
+		dispatch(toggleFavorite(recipe.id));
+		setIsFavorited(!isFavorited);
+	};
+
+	// const handleFavorite = () => {
+	// 	if (!recipe) return;
+
+	// 	setIsFavorited(!isFavorited);
+	// 	setRecipeLikes(isFavorited ? recipeLikes - 1 : recipeLikes + 1);
+
+	// 	dispatch(toggleFavorite(recipe.id));
+	// };
 
 	useEffect(() => {
 		dispatch(fetchRecipe(id));
@@ -49,8 +71,8 @@ const Recipe = () => {
 				</div>
 			)}
 			<h1 className='recipe-title'>{recipe.title}</h1>{' '}
-			<button className='favorite-btn' >
-				{recipe.liked ? (
+			<button className='favorite-btn' onClick={handleFavorite}>
+				{isFavorited ? (
 					<FaHeart color='red' />
 				) : (
 					<FaRegHeart color='gray' />

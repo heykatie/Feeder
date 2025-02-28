@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
 				through: models.Favorite,
 				foreignKey: 'userId',
 			});
+			User.hasMany(models.Favorite, {
+					foreignKey: 'userId',
+					onDelete: 'CASCADE',
+			});
     }
   }
   User.init(

@@ -58,7 +58,7 @@ export const signup = createAsyncThunk(
 
 export const fetchUser = createAsyncThunk('users/fetchUser', async () => {
 	try {
-		const response = await fetch('/api/users');
+		const response = await csrfFetch('/api/users');
 		if (!response.ok) {
 			throw new Error('Failed to fetch user');
 		}

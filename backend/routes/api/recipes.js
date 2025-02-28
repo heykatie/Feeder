@@ -28,7 +28,6 @@ router.get('/favorites/:userId', requireAuth, async (req, res) => {
 	try {
 		const { userId } = req.params;
 
-		// Find all favorite recipes for the user
 		const favorites = await Favorite.findAll({
 			where: { userId },
 			include: [
@@ -40,16 +39,14 @@ router.get('/favorites/:userId', requireAuth, async (req, res) => {
 		});
 
 		if (!favorites.length) {
-			return res.json({ favorites: [] }); // Return an empty array if no favorites
+			return res.json({ favorites: [] });
 		}
 
-		// Extract recipes from the favorites
 		const favoriteRecipes = favorites.map((fav) => fav.Recipe);
 
 		res.json({ favorites: favoriteRecipes });
 	} catch (error) {
-		console.error('Error fetching favorites:', error);
-		res.status(500).json({ error: 'Internal server error' });
+		res.status(500).json({ error: error || 'Internal server error' });
 	}
 });
 
@@ -81,6 +78,7 @@ router.get('/all/:userId', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 	try {
+		const userId = req.user.id;
 		const recipe = await Recipe.findByPk(req.params.id, {
 			include: [
 				{
@@ -95,6 +93,10 @@ router.get('/:id', async (req, res) => {
 
 		const likesCount = await Favorite.count({
 			where: { recipeId: recipe.id },
+		});
+
+		const existingFavorite = await Favorite.findOne({
+			where: { userId, recipeId: recipe.id },
 		});
 
 		const nutritionTotals = {
@@ -133,6 +135,7 @@ router.get('/:id', async (req, res) => {
 		return res.json({
 			...recipe.toJSON(),
 			likesCount,
+			liked: !!existingFavorite,
 			nutritionTotals: roundedTotals,
 		});
 	} catch (error) {
@@ -232,14 +235,11 @@ router.put('/:id', async (req, res) => {
 			return res.status(404).json({ error: 'Recipe not found' });
 		}
 
-		// ✅ Update recipe data (excluding ingredients)
 		await recipe.update(updatedData);
 
 		if (ingredients && ingredients.length > 0) {
-			// ✅ Clear existing ingredient associations
 			await RecipeIngredient.destroy({ where: { recipeId: id } });
 
-			// ✅ Re-add updated ingredients
 			const ingredientPromises = ingredients.map(async (ingredient) => {
 				const existingIngredient = await Ingredient.findByPk(ingredient.id);
 				if (!existingIngredient) {
@@ -256,7 +256,6 @@ router.put('/:id', async (req, res) => {
 			await Promise.all(ingredientPromises);
 		}
 
-		// ✅ Fetch updated recipe with ingredients
 		const updatedRecipe = await Recipe.findByPk(id, {
 			include: [
 				{ model: Ingredient, as: 'Ingredients', through: RecipeIngredient },
@@ -271,10 +270,31 @@ router.put('/:id', async (req, res) => {
 });
 
 router.post('/:id/favorite', requireAuth, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const userId = req.user.id;
 
-});
+		const recipe = await Recipe.findByPk(id);
+		if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
 
-// DELETE a recipe (requires authentication & ownership)
+		const existingFavorite = await Favorite.findOne({
+			where: { userId, recipeId: id },
+		});
+
+		if (existingFavorite) {
+			await existingFavorite.destroy();
+			return res.json({ message: 'Removed from favorites', liked: false });
+		} else {
+			await Favorite.create({ userId, recipeId: id });
+			return res.json({ message: 'Added to favorites', liked: true });
+		}
+	} catch (error) {
+		console.error('Error toggling favorite:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+})
+
+
 router.delete('/:id', requireAuth, async (req, res) => {
 	const recipe = await Recipe.findByPk(req.params.id);
 	if (!recipe) return res.status(404).json({ error: 'Recipe not found' });

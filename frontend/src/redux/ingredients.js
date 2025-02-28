@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const fetchIngredients = createAsyncThunk(
 	'ingredients/fetchIngredients',
 	async () => {
-		const response = await fetch('/api/ingredients');
+		const response = await csrfFetch('/api/ingredients');
 		return response.json();
 	}
 );

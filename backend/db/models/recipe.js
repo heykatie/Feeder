@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
 				through: models.Favorite,
 				foreignKey: 'recipeId',
 			});
+			Recipe.hasMany(models.Favorite, {
+				foreignKey: 'recipeId',
+			});
     }
   }
   Recipe.init(
