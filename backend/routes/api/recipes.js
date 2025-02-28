@@ -15,7 +15,7 @@ const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 
 router.get('/', requireAuth, async (req, res) => {
 	try {
-		const userId = req.user.id; // ✅ Get the logged-in user ID
+		const userId = req.user.id;
 
 		const recipes = await Recipe.findAll({
 			where: { isPublic: true },
@@ -47,7 +47,6 @@ router.get('/favorites/:userId', requireAuth, async (req, res) => {
 	try {
 		const { userId } = req.params;
 
-		// ✅ Fetch all favorite entries for the user
 		const favorites = await Favorite.findAll({
 			where: { userId },
 			attributes: ['recipeId'],
@@ -63,10 +62,8 @@ router.get('/favorites/:userId', requireAuth, async (req, res) => {
 			return res.json({ favorites: [] });
 		}
 
-		// ✅ Store recipe IDs that the user favorited
 		const favoriteRecipeIds = new Set(favorites.map((fav) => fav.recipeId));
 
-		// ✅ Fetch `likesCount` for each recipe in favorites
 		const recipeLikes = await Favorite.findAll({
 			attributes: [
 				'recipeId',
@@ -76,19 +73,17 @@ router.get('/favorites/:userId', requireAuth, async (req, res) => {
 			raw: true,
 		});
 
-		// Convert `recipeLikes` array into a map for quick lookup
 		const likesMap = {};
 		recipeLikes.forEach((entry) => {
 			likesMap[entry.recipeId] = entry.likesCount;
 		});
 
-		// ✅ Format the favorite recipes list
 		const favoriteRecipes = favorites.map((fav) => {
 			const recipe = fav.Recipe.toJSON();
 			return {
 				...recipe,
-				liked: favoriteRecipeIds.has(recipe.id), // ✅ Correctly mark as liked
-				likesCount: likesMap[recipe.id] || 0, // ✅ Include likes count
+				liked: favoriteRecipeIds.has(recipe.id),
+				likesCount: likesMap[recipe.id] || 0,
 			};
 		});
 
@@ -208,14 +203,13 @@ router.post('/', async (req, res) => {
 			totalTime,
 			isPublic,
 			instructions,
-			ingredients, // Expecting [{ id: 1, quantity: "2 cups" }]
+			ingredients, // [{ id: 1, quantity: "2 cups" }]
 		} = req.body;
 
 		if (!userId || !title || !instructions || !ingredients || ingredients.length === 0) {
 			return res.status(400).json({ error: 'Missing required fields' });
 		}
 
-		// Create the recipe
 		const newRecipe = await Recipe.create({
 			userId,
 			title,
@@ -231,10 +225,8 @@ router.post('/', async (req, res) => {
 			instructions,
 		});
 
-		// ✅ Debug: Log the received ingredients
-		console.log('Received Ingredients:', ingredients);
+		// console.log('Received Ingredients:', ingredients);
 
-		// ✅ Ensure ingredients are saved in the RecipeIngredient table
 		const ingredientPromises = ingredients.map(async (ingredient) => {
 			const existingIngredient = await Ingredient.findByPk(ingredient.id);
 			if (!existingIngredient) {
@@ -242,9 +234,9 @@ router.post('/', async (req, res) => {
 				return null;
 			}
 
-			console.log(
-				`Associating Ingredient ${ingredient.id} with Recipe ${newRecipe.id}, Quantity: ${ingredient.quantity}`
-			);
+			// console.log(
+			// 	`Associating Ingredient ${ingredient.id} with Recipe ${newRecipe.id}, Quantity: ${ingredient.quantity}`
+			// );
 
 			return RecipeIngredient.create({
 				recipeId: newRecipe.id,
@@ -259,13 +251,13 @@ router.post('/', async (req, res) => {
 			include: [
 				{
 					model: Ingredient,
-					as: 'Ingredients', // ✅ Use the alias defined in the model
-					through: { attributes: ['quantity'] }, // ✅ Include quantity from join table
+					as: 'Ingredients',
+					through: { attributes: ['quantity'] },
 				},
 			],
 		});
 
-		console.log('Final Created Recipe:', createdRecipe.toJSON());
+		// console.log('Final Created Recipe:', createdRecipe.toJSON());
 
 		return res.status(201).json(createdRecipe);
 	} catch (error) {

@@ -2,7 +2,6 @@ const express = require('express');
 const { Ingredient } = require('../../db/models');
 const router = express.Router();
 
-// GET all ingredients
 router.get('/', async (req, res) => {
 	try {
 		const ingredients = await Ingredient.findAll();

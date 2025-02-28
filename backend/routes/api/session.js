@@ -8,7 +8,6 @@ const { User, SousChef } = require('../../db/models');
 
 const router = express.Router();
 
-// backend validation for login
 const validateLogin = [
 	check('credential')
 		.exists({ checkFalsy: true })
@@ -20,7 +19,6 @@ const validateLogin = [
 	handleValidationErrors,
 ];
 
-// Restore session user
 router.get('/', restoreUser, requireAuth, async (req, res) => {
 	const { user } = req;
 	if (!user) return res.json({ user: null });
@@ -47,7 +45,6 @@ router.get('/', restoreUser, requireAuth, async (req, res) => {
 	return res.json({ user: restoredUser });
 });
 
-// Log in
 router.post('/', validateLogin, async (req, res, next) => {
 	const { credential, password } = req.body;
 

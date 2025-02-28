@@ -7,7 +7,6 @@ const { User, SousChef } = require('../../db/models');
 
 const router = express.Router();
 
-//backend validation for signup
 const validateSignup = [
 	check('email')
 		.exists({ checkFalsy: true })
@@ -28,7 +27,6 @@ const validateSignup = [
 	handleValidationErrors,
 ];
 
-// Sign up
 router.post('/', validateSignup, async (req, res) => {
 	const { email, password, username } = req.body;
 
@@ -51,7 +49,6 @@ router.post('/', validateSignup, async (req, res) => {
 	}
 });
 
-// Update user profile
 router.put('/:userId', requireAuth, async (req, res) => {
 	const { userId } = req.params;
 	const { firstName, lastName, phone, birthday, avatarUrl, bio, theme } = req.body;
@@ -76,7 +73,6 @@ router.put('/:userId', requireAuth, async (req, res) => {
 	}
 });
 
-// Restore session user
 router.get(
 	'/', restoreUser, requireAuth, async (req, res) => {
 		const { user } = req;

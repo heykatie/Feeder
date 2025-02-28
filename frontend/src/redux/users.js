@@ -64,7 +64,7 @@ export const fetchUser = createAsyncThunk('users/fetchUser', async () => {
 		}
 		return await response.json();
 	} catch (error) {
-		return Promise.reject(error.message); // Ensure only a string or plain object
+		return Promise.reject(error.message);
 	}
 });
 
@@ -82,14 +82,13 @@ export const updateUser = createAsyncThunk(
 				return rejectWithValue(errorData);
 			}
 			const data = await response.json();
-			return data.user; // ✅ Updated user data
+			return data.user;
 		} catch (error) {
 			return rejectWithValue({ message: 'Update failed. Please try again.' });
 		}
 	}
 );
 
-// 🔹 User Slice
 const usersSlice = createSlice({
 	name: 'users',
 	initialState: { user: null, status: 'idle', error: null },
@@ -124,6 +123,5 @@ const usersSlice = createSlice({
 	},
 });
 
-// 🔹 Export Actions & Reducer
 export const { setUser, clearUser } = usersSlice.actions;
 export default usersSlice.reducer;

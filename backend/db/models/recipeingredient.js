@@ -3,7 +3,6 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class RecipeIngredient extends Model {
 		static associate(models) {
-			// No direct associations needed; belongs to both Recipe & Ingredient
 		}
 	}
 	RecipeIngredient.init(

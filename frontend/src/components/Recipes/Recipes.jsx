@@ -6,7 +6,7 @@ import {
 	toggleFavorite,
 } from '../../redux/recipes';
 import { NavLink, useNavigate, useParams, useLocation } from 'react-router-dom';
-import { FaHeart, FaRegHeart } from 'react-icons/fa'; // ✅ Import heart icons
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import './Recipes.css';
 
 const Recipes = () => {
@@ -39,7 +39,7 @@ const Recipes = () => {
 
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
 
-	
+
 	return (
 		<div className='recipes-container'>
 			<div className='recipes-header'>

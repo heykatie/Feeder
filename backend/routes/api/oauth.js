@@ -22,7 +22,6 @@ const router = express.Router();
 // );
 
 
-// Discord OAuth Routes
 router.get('/discord', passport.authenticate('discord'));
 
 router.get(
@@ -36,11 +35,11 @@ router.get(
 			console.error('Discord OAuth failed');
 			return res.status(401).json({ error: 'Authentication failed' });
 		}
-		res.redirect('/dash'); // Redirect to dashboard after login
+		res.redirect('/dash');
 	}
 );
 
-// Google Routes
+
 router.get(
 	'/google',
 	passport.authenticate('google', { scope: ['profile', 'email'] })
@@ -52,7 +51,6 @@ router.get(
 		session: true, // Enables session support for Google login
 	}),
 	(req, res) => {
-		// Successful login, redirect to the homepage or dashboard
 		res.redirect('/dash');
 	}
 );

@@ -80,7 +80,6 @@ passport.use(
 	)
 );
 
-// Google OAuth Strategy
 passport.use(
 	new GoogleStrategy(
 		{

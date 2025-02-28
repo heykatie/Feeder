@@ -35,7 +35,6 @@ if (isProduction) {
   sessionStore = new SequelizeStore({ db: sequelize });
 }
 
-// Set up Passport middleware
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,

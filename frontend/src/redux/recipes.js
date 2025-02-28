@@ -49,7 +49,7 @@ export const createRecipe = createAsyncThunk(
 	'recipes/createRecipe',
 	async (recipeData, { rejectWithValue }) => {
 		try {
-			console.log('Sending Recipe Data:', recipeData); // Debugging
+			// console.log('Sending Recipe Data:', recipeData);
 
 			const response = await csrfFetch('/api/recipes', {
 				method: 'POST',
@@ -58,14 +58,13 @@ export const createRecipe = createAsyncThunk(
 					// Authorization: `Bearer ${localStorage.getItem('token')}`,
 					// 'X-CSRF-Token': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1],
 				},
-				// credentials: 'include',
 				body: JSON.stringify(recipeData),
 			});
 
 			const data = await response.json();
 
 			if (!response.ok) {
-				console.error('Recipe Creation Failed:', data); // Debugging
+				console.error('Recipe Creation Failed:', data);
 				return rejectWithValue(
 					data.errors || data.message || 'Failed to create recipe'
 				);
@@ -90,14 +89,13 @@ export const updateRecipe = createAsyncThunk(
 					// Authorization: `Bearer ${localStorage.getItem('token')}`,
 					// 'X-CSRF-Token': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1],
 				},
-				// credentials: 'include',
 				body: JSON.stringify(recipeData),
 			});
 
 			const data = await response.json();
 
 			if (!response.ok) {
-				console.error('Recipe Creation Failed:', data); // Debugging
+				console.error('Recipe Creation Failed:', data);
 				return rejectWithValue(
 					data.errors || data.message || 'Failed to update recipe'
 				);
@@ -140,13 +138,11 @@ export const deleteRecipe = createAsyncThunk(
 				// Authorization: `Bearer ${localStorage.getItem('token')}`,
 				// 'X-CSRF-Token': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1],
 				// },
-				// credentials: 'include',
 			});
 
 			const data = await response.json();
 
 			if (!response.ok) {
-				// Return backend error message if available
 				return rejectWithValue(data.error || 'Failed to delete recipe');
 			}
 
@@ -162,7 +158,7 @@ const recipesSlice = createSlice({
 	initialState: { list: [], selectedRecipe: null, error: null },
 	reducers: {
 		clearRecipeErrors: (state) => {
-			state.error = null; // Clear errors when needed
+			state.error = null;
 		},
 	},
 	extraReducers: (builder) => {

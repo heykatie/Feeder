@@ -3,7 +3,6 @@ const { requireAuth } = require('../../utils/auth');
 const { SousChef } = require('../../db/models');
 const router = express.Router();
 
-// 🔹 Create a new SousChef
 router.post('/', requireAuth, async (req, res) => {
 	const { name, color, personality, eyeShape } = req.body;
 	const userId = req.user.id;
@@ -22,7 +21,6 @@ router.post('/', requireAuth, async (req, res) => {
 	}
 });
 
-// 🔹 Get current user's SousChef
 router.get('/', requireAuth, async (req, res) => {
 	try {
 		const sousChef = await SousChef.findOne({
@@ -34,7 +32,6 @@ router.get('/', requireAuth, async (req, res) => {
 	}
 });
 
-// 🔹 Update SousChef
 router.put('/:sousChefId', requireAuth, async (req, res) => {
 	const { sousChefId } = req.params;
 

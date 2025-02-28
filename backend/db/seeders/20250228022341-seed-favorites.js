@@ -10,12 +10,10 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		// Fetch all recipes
 		const recipes = await Recipe.findAll({ attributes: ['id'] });
 
 		const favorites = [];
 
-		// Assign each user (1, 2, 3) to like every recipe once
 		const userIds = [1, 2, 3];
 
 		recipes.forEach((recipe) => {
@@ -29,7 +27,6 @@ module.exports = {
 			});
 		});
 
-		// Insert into Favorites table
 		return queryInterface.bulkInsert(options, favorites, { validate: true });
 	},
 
