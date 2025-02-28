@@ -1,12 +1,12 @@
 .new-recipe-container {
-  max-width: 600px;
   margin: 20px auto;
   padding: 20px;
   background-color: var(--panel-bg);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 9;
-  align-items: center;
+  box-shadow: 0px 4px 15px rgba(0, 198, 207, 0.4);
+  min-width: 50%;
+  max-width: 75%;
+  min-height: max-content;
 }
 
 .new-recipe-container .form-title {
