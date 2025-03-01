@@ -6,6 +6,7 @@ const {
 	GroceryIngredient,
 	List,
 	Measurement,
+	RecipeIngredient,
 } = require('../../db/models');
 const router = express.Router();
 
@@ -19,10 +20,19 @@ router.get('/:listId', requireAuth, async (req, res) => {
 				{
 					model: GroceryIngredient,
 					as: 'Ingredients',
-					attributes: ['id', 'ingredientId', 'quantity', 'checked', 'measurementId'],
+					attributes: [
+						'id',
+						'ingredientId',
+						'quantity',
+						'checked',
+						'measurementId',
+					],
 					include: [
 						{ model: Ingredient, attributes: ['id', 'name'] },
-						{ model: Measurement, attributes: ['name', 'abbreviation'] },
+						{
+							model: Measurement,
+							attributes: ['id', 'name', 'abbreviation'],
+						},
 					],
 				},
 				{
@@ -35,6 +45,7 @@ router.get('/:listId', requireAuth, async (req, res) => {
 		if (!groceryList) {
 			return res.status(404).json({ error: 'Grocery list not found' });
 		}
+		console.error('katie', groceryList)
 
 
 		const servings = groceryList.Recipe?.servings || 1;
@@ -49,6 +60,7 @@ router.get('/:listId', requireAuth, async (req, res) => {
 			measurement: gi.Measurement ? gi.Measurement.name : null,
 			abbreviation: gi.Measurement ? gi.Measurement.abbreviation : null,
 		}));
+		console.error('katie', ingredients)
 
 		res.json({
 			list: { ...groceryList.toJSON(), Ingredients: ingredients },
@@ -70,7 +82,7 @@ router.post('/generate/:recipeId', requireAuth, async (req, res) => {
 				{
 					model: Ingredient,
 					as: 'Ingredients',
-					through: { attributes: ['quantity'] },
+					through: { attributes: ['quantity', 'measurementId'] },
 				},
 			],
 		});
@@ -87,8 +99,9 @@ router.post('/generate/:recipeId', requireAuth, async (req, res) => {
 		const groceryItems = recipe.Ingredients.map((ingredient) => ({
 			listId: groceryList.id,
 			ingredientId: ingredient.id,
-			quantity: ingredient.RecipeIngredient?.quantity || '1 unit',
+			quantity: ingredient.RecipeIngredient?.quantity || 1,
 			checked: false,
+			measurementId: ingredient.RecipeIngredient?.measurementId || 'cup',
 		}));
 
 		await GroceryIngredient.bulkCreate(groceryItems);
@@ -155,9 +168,7 @@ router.put(
 			if (!groceryItem)
 				return res.status(404).json({ error: 'Item not found' });
 
-			if (checked !== undefined) groceryItem.checked = checked;
 
-			// ✅ Only allow quantity updates
 			if (quantity) groceryItem.quantity = quantity;
 			if (measurementId) groceryItem.measurementId = measurementId;
 			if (checked !== undefined) groceryItem.checked = checked;
@@ -180,6 +191,7 @@ router.put(
 				},
 			});
 		} catch (error) {
+			console.error('katie', error)
 			res.status(500).json({
 				error:
 					error.errors?.[0]?.message ||

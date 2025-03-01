@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: 'recipeId',
 			});
 			Recipe.hasMany(models.List, { foreignKey: 'recipeId' });
+			Recipe.hasMany(models.RecipeIngredient, {
+				foreignKey: 'recipeId',
+				as: 'RecipeIngredients',
+				onDelete: 'CASCADE',
+			});
     }
   }
   Recipe.init(

@@ -39,11 +39,38 @@ export const fetchFavorites = createAsyncThunk(
 
 export const fetchRecipe = createAsyncThunk(
 	'recipes/fetchRecipe',
-	async (id) => {
-		const response = await csrfFetch(`/api/recipes/${id}`);
-		return response.json();
+	async (id, {rejectWithValue}) => {
+		try {
+			const response = await csrfFetch(`/api/recipes/${id}`);
+			return response.json();
+		} catch (error) {
+			const err = await error.json();
+			console.error('katie', err)
+			return rejectWithValue(err.error || err);
+		}
 	}
 );
+
+// export const fetchRecipe = createAsyncThunk(
+// 	'recipes/fetchRecipe',
+// 	async (id) => {
+// 		const response = await csrfFetch(`/api/recipes/${id}`);
+// 		const data = await response.json();
+
+// 		// ✅ Ensure ingredients include measurement details
+// 		const formattedRecipe = {
+// 			...data,
+// 			Ingredients: data.Ingredients.map((ingredient) => ({
+// 				...ingredient,
+// 				quantity: ingredient.quantity,
+// 				measurement: ingredient.measurement || '',
+// 				abbreviation: ingredient.abbreviation || '',
+// 			})),
+// 		};
+
+// 		return formattedRecipe;
+// 	}
+// );
 
 export const createRecipe = createAsyncThunk(
 	'recipes/createRecipe',

@@ -6,6 +6,7 @@ const {
 	User,
 	Favorite,
 	Sequelize,
+	Measurement,
 } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
@@ -128,7 +129,16 @@ router.get('/:id', async (req, res) => {
 				{
 					model: Ingredient,
 					as: 'Ingredients',
-					through: { attributes: ['quantity'] },
+					through: {
+						attributes: ['quantity', 'measurementId'],
+					},
+				},
+				{
+					model: RecipeIngredient,
+					as: 'RecipeIngredients',
+					include: [
+						{ model: Measurement, attributes: ['name', 'abbreviation'] },
+					],
 				},
 			],
 		});
@@ -176,15 +186,31 @@ router.get('/:id', async (req, res) => {
 			])
 		);
 
+		const formattedIngredients = recipe.Ingredients.map((ingredient) => {
+			const recipeIngredient = recipe.RecipeIngredients.find(
+				(ri) => ri.ingredientId === ingredient.id
+			);
+
+			return {
+				id: ingredient.id,
+				name: ingredient.name,
+				quantity: recipeIngredient?.quantity || 1,
+				measurement: recipeIngredient?.Measurement?.name || null,
+				abbreviation: recipeIngredient?.Measurement?.abbreviation || null,
+			};
+		});
+
+
 		return res.json({
 			...recipe.toJSON(),
 			likesCount,
 			liked: !!existingFavorite,
 			nutritionTotals: roundedTotals,
+			Ingredients: formattedIngredients,
 		});
 	} catch (error) {
 		console.error('Error fetching recipe:', error);
-		return res.status(500).json({ error: 'Internal server error' });
+		return res.status(500).json(error || { error: 'Internal server error' });
 	}
 });
 
@@ -252,7 +278,7 @@ router.post('/', async (req, res) => {
 				{
 					model: Ingredient,
 					as: 'Ingredients',
-					through: { attributes: ['quantity'] },
+					through: { attributes: ['quantity', 'measurementId'] },
 				},
 			],
 		});

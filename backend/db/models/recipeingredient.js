@@ -3,8 +3,17 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class RecipeIngredient extends Model {
 		static associate(models) {
+			RecipeIngredient.belongsTo(models.Recipe, {
+				foreignKey: 'recipeId',
+				as: 'Recipe',
+				onDelete: 'CASCADE',
+			});
 			RecipeIngredient.belongsTo(models.Measurement, {
 				foreignKey: 'measurementId',
+			});
+			RecipeIngredient.belongsTo(models.Ingredient, {
+				foreignKey: 'ingredientId',
+				as: 'Ingredient',
 			});
 		}
 	}

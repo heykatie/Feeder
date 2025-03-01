@@ -46,7 +46,12 @@ const Recipe = () => {
 	// };
 
 	useEffect(() => {
-		dispatch(fetchRecipe(id));
+		try {
+			dispatch(fetchRecipe(id))
+		} catch (error) {
+			console.error(error)
+		}
+
 	}, [dispatch, id]);
 
 	const handleDelete = async () => {
@@ -115,7 +120,8 @@ const Recipe = () => {
 				<ul className='recipe-ingredients'>
 					{recipe.Ingredients?.map((ingredient, index) => (
 						<li key={index}>
-							{ingredient.RecipeIngredient?.quantity || '1 unit'}{' '}
+							{ingredient.quantity}{' '}
+							{ingredient.measurement || ingredient.abbreviation || ''}{' '}
 							{ingredient.name}
 						</li>
 					))}

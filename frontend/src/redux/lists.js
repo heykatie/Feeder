@@ -22,8 +22,10 @@ export const fetchGroceryList = createAsyncThunk(
 					data.list.Ingredients?.map((gi, index) => ({
 						id: gi.Ingredient?.id || `temp-${index}`,
 						quantity: gi.quantity,
-						name: gi.Ingredient?.name || 'Mystery Item',
+						name: gi.name || 'Mystery Item',
 						checked: gi.checked || false,
+						measurement: gi.measurement || '',
+						abbreviation: gi.abbreviation || '',
 					})) || [],
 			};
 		} catch (error) {
@@ -43,10 +45,16 @@ export const generateGroceryList = createAsyncThunk(
 
 			const data = await response.json();
 			if (!response.ok)
-				return rejectWithValue(data.error || data || 'Failed to generate list');
+				return rejectWithValue(
+					data.error || data || 'Failed to generate list'
+				);
 
 			// return data.list;
-			return { listId: data.list.id, list: data.list, servings: data.servings };
+			return {
+				listId: data.list.id,
+				list: data.list,
+				servings: data.servings,
+			};
 		} catch (error) {
 			return rejectWithValue(error);
 		}
@@ -170,8 +178,26 @@ const listsSlice = createSlice({
 				state.loading = false;
 				state.error = action.payload;
 			})
+			// .addCase(toggleChecked.fulfilled, (state, action) => {
+			// 	const { listId, ingredientId, checked } = action.payload;
+			// 	const list = state.allLists.find((list) => list.id === listId);
+			// 	if (list) {
+			// 		const ingredient = list.Ingredients.find(
+			// 			(ing) => ing.id === ingredientId
+			// 		);
+			// 		if (ingredient) ingredient.checked = checked;
+			// 	}
+			// })
 			.addCase(toggleChecked.fulfilled, (state, action) => {
 				const { listId, ingredientId, checked } = action.payload;
+
+				if (state.currentList && state.currentList.id === listId) {
+					const ingredient = state.currentList.Ingredients.find(
+						(ing) => ing.id === ingredientId
+					);
+					if (ingredient) ingredient.checked = checked;
+				}
+
 				const list = state.allLists.find((list) => list.id === listId);
 				if (list) {
 					const ingredient = list.Ingredients.find(

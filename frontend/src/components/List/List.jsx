@@ -85,14 +85,13 @@ export default function List() {
 		setServings(newServings);
 	};
 
-	// const calculateQuantity = (quantity) => {
-	// 	const baseServings = groceryList?.servings || 1;
-	// 	const numericQuantity = parseFloat(quantity) || 1;
-	// 	const scaledQuantity = (numericQuantity * servings) / baseServings;
-	// 	return scaledQuantity % 1 === 0
-	// 		? scaledQuantity
-	// 		: scaledQuantity.toFixed(2);
-	// };
+	const calculateQuantity = (baseQuantity, baseServings, currentServings) => {
+		const numericQuantity = Number(baseQuantity) || 1;
+		const scaledQuantity = (numericQuantity * currentServings) / baseServings;
+		return scaledQuantity % 1 === 0
+			? scaledQuantity
+			: scaledQuantity.toFixed(2);
+	};
 
 	if (!groceryList) return <p>Loading grocery list...</p>;
 
@@ -138,19 +137,36 @@ export default function List() {
 								onChange={() => handleCheck(item.id)}
 							/>
 							<span>
-								{item.quantity}{' '}
-								<select
-									value={measurementId}
-									onChange={(e) =>
-										setMeasurementId(Number(e.target.value))
-									}>
-									<option value={true}>Select Measurement</option>
-									{measurements.map((m) => (
-										<option key={m.id} value={m.id}>
-											{m.name}{m.abbreviation}
-										</option>
-									))}
-								</select>
+								{calculateQuantity(
+									item.quantity,
+									groceryList.servings,
+									servings
+								)}
+								{item.measurement && ` ${item.measurement}`}{''}
+							</span>
+							<span>
+								{item.measurement ? (
+									<span> {item.measurement} </span>
+								) : (
+									<select
+										value={item.measurementId || ''}
+										onChange={(e) =>
+											setCheckedItems((prev) => ({
+												...prev,
+												[item.id]: {
+													...prev[item.id],
+													measurementId: Number(e.target.value),
+												},
+											}))
+										}>
+										<option value=''>Select Measurement</option>
+										{measurements.map((m) => (
+											<option key={m.id} value={m.id}>
+												{m.name}
+											</option>
+										))}
+									</select>
+								)}{' '}
 								- {item.name}
 							</span>
 						</label>
