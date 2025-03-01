@@ -1,23 +1,24 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class GroceryIngredient extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      GroceryIngredient.belongsTo(models.List, { foreignKey: 'listId' });
-      GroceryIngredient.belongsTo(models.Ingredient, {
-        foreignKey: 'ingredientId',
-      });
-    }
-  }
-  GroceryIngredient.init(
+	class GroceryIngredient extends Model {
+		/**
+		 * Helper method for defining associations.
+		 * This method is not a part of Sequelize lifecycle.
+		 * The `models/index` file will call this method automatically.
+		 */
+		static associate(models) {
+			// define association here
+			GroceryIngredient.belongsTo(models.List, { foreignKey: 'listId' });
+			GroceryIngredient.belongsTo(models.Ingredient, {
+				foreignKey: 'ingredientId',
+			});
+			GroceryIngredient.belongsTo(models.Measurement, {
+				foreignKey: 'measurementId',
+			});
+		}
+	}
+	GroceryIngredient.init(
 		{
 			listId: {
 				type: DataTypes.INTEGER,
@@ -32,8 +33,14 @@ module.exports = (sequelize, DataTypes) => {
 				onDelete: 'CASCADE',
 			},
 			quantity: {
-				type: DataTypes.STRING,
+				type: DataTypes.DECIMAL(10, 2),
+				defaultValue: 1,
+			},
+			measurementId: {
+				type: DataTypes.INTEGER,
 				allowNull: true,
+				references: { model: 'Measurements', key: 'id' },
+				onDelete: 'SET NULL',
 			},
 			checked: {
 				type: DataTypes.BOOLEAN,
@@ -45,6 +52,6 @@ module.exports = (sequelize, DataTypes) => {
 			sequelize,
 			modelName: 'GroceryIngredient',
 		}
-  );
-  return GroceryIngredient;
+	);
+	return GroceryIngredient;
 };

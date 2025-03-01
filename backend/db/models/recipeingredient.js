@@ -3,6 +3,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
 	class RecipeIngredient extends Model {
 		static associate(models) {
+			RecipeIngredient.belongsTo(models.Measurement, {
+				foreignKey: 'measurementId',
+			});
 		}
 	}
 	RecipeIngredient.init(
@@ -18,8 +21,14 @@ module.exports = (sequelize, DataTypes) => {
 				references: { model: 'Ingredients', key: 'id' },
 			},
 			quantity: {
-				type: DataTypes.STRING(100),
-				allowNull: false,
+				type: DataTypes.DECIMAL(10, 2),
+				defaultValue: 1,
+			},
+			measurementId: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+				references: { model: 'Measurements', key: 'id' },
+				onDelete: 'SET NULL',
 			},
 		},
 		{

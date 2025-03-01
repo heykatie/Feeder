@@ -104,7 +104,7 @@ module.exports = (sequelize, DataTypes) => {
 					{
 						model: sequelize.models.Ingredient,
 						as: 'Ingredients',
-						through: { attributes: ['quantity'] },
+						through: { attributes: ['quantity', 'measurementId'] },
 					},
 				],
 			},

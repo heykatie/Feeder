@@ -29,8 +29,14 @@ module.exports = {
 				onDelete: 'CASCADE',
 			},
 			quantity: {
-				type: Sequelize.STRING,
+				type: Sequelize.DECIMAL(10, 2),
+				defaultValue: 1,
+			},
+			measurementId: {
+				type: Sequelize.INTEGER,
 				allowNull: true,
+				references: { model: 'Measurements', key: 'id' },
+				onDelete: 'SET NULL',
 			},
 			checked: {
 				type: Sequelize.BOOLEAN,

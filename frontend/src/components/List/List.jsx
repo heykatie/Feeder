@@ -10,12 +10,21 @@ import {
 export default function List() {
 	const { listId } = useParams();
 	const dispatch = useDispatch();
-	const groceryList = useSelector((state) =>
-		state.lists.allLists.find((list) => list.id === Number(listId))
-	);
+	const groceryList = useSelector((state) => state.lists.currentList);
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState(groceryList?.name || '');
 	const [checkedItems, setCheckedItems] = useState({});
+	const [servings, setServings] = useState(groceryList?.servings || 1);
+	const [measurements, setMeasurements] = useState([]);
+
+	useEffect(() => {
+		async function fetchMeasurements() {
+			const response = await fetch('/api/measurements');
+			const data = await response.json();
+			setMeasurements(data);
+		}
+		fetchMeasurements();
+	}, []);
 
 	useEffect(() => {
 		dispatch(fetchGroceryList(listId));
@@ -40,7 +49,6 @@ export default function List() {
 		}
 	}, [groceryList]);
 
-	// Handle checkbox toggle
 	const handleCheck = async (ingredientId) => {
 		const newCheckedState = !checkedItems[ingredientId];
 		setCheckedItems((prev) => ({ ...prev, [ingredientId]: newCheckedState }));
@@ -54,7 +62,6 @@ export default function List() {
 			);
 	};
 
-	// Auto-save checked items before leaving
 	useEffect(() => {
 		const saveBeforeExit = () => {
 			if (Object.keys(checkedItems).length > 0) {
@@ -72,6 +79,20 @@ export default function List() {
 		window.addEventListener('beforeunload', saveBeforeExit);
 		return () => window.removeEventListener('beforeunload', saveBeforeExit);
 	}, [checkedItems, listId]);
+
+	const handleServingsChange = (e) => {
+		const newServings = Number(e.target.value);
+		setServings(newServings);
+	};
+
+	// const calculateQuantity = (quantity) => {
+	// 	const baseServings = groceryList?.servings || 1;
+	// 	const numericQuantity = parseFloat(quantity) || 1;
+	// 	const scaledQuantity = (numericQuantity * servings) / baseServings;
+	// 	return scaledQuantity % 1 === 0
+	// 		? scaledQuantity
+	// 		: scaledQuantity.toFixed(2);
+	// };
 
 	if (!groceryList) return <p>Loading grocery list...</p>;
 
@@ -98,7 +119,15 @@ export default function List() {
 					listName
 				)}
 			</h1>
-			Servings: {groceryList?.servings}
+			<label>
+				Servings:
+				<input
+					type='number'
+					min='1'
+					value={servings}
+					onChange={handleServingsChange}
+				/>
+			</label>
 			<ul>
 				{groceryList.Ingredients?.map((item) => (
 					<li key={item.id}>
@@ -109,7 +138,20 @@ export default function List() {
 								onChange={() => handleCheck(item.id)}
 							/>
 							<span>
-								{item.quantity} - {item.name}
+								{item.quantity}{' '}
+								<select
+									value={measurementId}
+									onChange={(e) =>
+										setMeasurementId(Number(e.target.value))
+									}>
+									<option value={true}>Select Measurement</option>
+									{measurements.map((m) => (
+										<option key={m.id} value={m.id}>
+											{m.name}{m.abbreviation}
+										</option>
+									))}
+								</select>
+								- {item.name}
 							</span>
 						</label>
 					</li>

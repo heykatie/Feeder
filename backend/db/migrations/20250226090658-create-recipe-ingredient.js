@@ -30,8 +30,14 @@ module.exports = {
 					onDelete: 'CASCADE',
 				},
 				quantity: {
-					type: Sequelize.STRING(100), // Example: "1 cup"
-					allowNull: false,
+					type: Sequelize.DECIMAL(10, 2),
+					defaultValue: 1,
+				},
+				measurementId: {
+					type: Sequelize.INTEGER,
+					allowNull: true,
+					references: { model: 'Measurements', key: 'id' },
+					onDelete: 'SET NULL',
 				},
 				createdAt: {
 					allowNull: false,

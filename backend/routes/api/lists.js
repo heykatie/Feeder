@@ -5,6 +5,7 @@ const {
 	Recipe,
 	GroceryIngredient,
 	List,
+	Measurement,
 } = require('../../db/models');
 const router = express.Router();
 
@@ -18,8 +19,11 @@ router.get('/:listId', requireAuth, async (req, res) => {
 				{
 					model: GroceryIngredient,
 					as: 'Ingredients',
-					attributes: ['id', 'ingredientId', 'quantity', 'checked'],
-					include: [{ model: Ingredient, attributes: ['id', 'name'] }],
+					attributes: ['id', 'ingredientId', 'quantity', 'checked', 'measurementId'],
+					include: [
+						{ model: Ingredient, attributes: ['id', 'name'] },
+						{ model: Measurement, attributes: ['name', 'abbreviation'] },
+					],
 				},
 				{
 					model: Recipe,
@@ -34,9 +38,22 @@ router.get('/:listId', requireAuth, async (req, res) => {
 
 
 		const servings = groceryList.Recipe?.servings || 1;
-		console.error('servings', groceryList.Recipe)
+		// console.error('servings', groceryList.Recipe)
 
-		res.json({ list: groceryList, servings });
+		const ingredients = groceryList.Ingredients.map((gi) => ({
+			id: gi.id,
+			ingredientId: gi.ingredientId,
+			quantity: Number(gi.quantity) || 1,
+			checked: gi.checked,
+			name: gi.Ingredient?.name || 'Unknown',
+			measurement: gi.Measurement ? gi.Measurement.name : null,
+			abbreviation: gi.Measurement ? gi.Measurement.abbreviation : null,
+		}));
+
+		res.json({
+			list: { ...groceryList.toJSON(), Ingredients: ingredients },
+			servings,
+		});
 	} catch (error) {
 		console.error('Error fetching grocery list:', error);
 		res.status(500).json({ error: 'Internal server error' });
@@ -128,7 +145,7 @@ router.put(
 	async (req, res) => {
 		try {
 			const { listId, ingredientId } = req.params;
-			const { name, quantity, checked } = req.body;
+			const { name, quantity, checked, measurementId } = req.body;
 
 			const groceryItem = await GroceryIngredient.findOne({
 				where: { listId, ingredientId },
@@ -142,6 +159,8 @@ router.put(
 
 			// ✅ Only allow quantity updates
 			if (quantity) groceryItem.quantity = quantity;
+			if (measurementId) groceryItem.measurementId = measurementId;
+			if (checked !== undefined) groceryItem.checked = checked;
 
 			await groceryItem.save();
 
@@ -155,7 +174,7 @@ router.put(
 					Ingredient: groceryItem.Ingredient
 						? {
 								id: groceryItem.Ingredient.id,
-								name: groceryItem.Ingredient.name, // ✅ Name remains unchanged
+								name: groceryItem.Ingredient.name,
 						}
 						: null,
 				},

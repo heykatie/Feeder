@@ -241,7 +241,7 @@ router.post('/', async (req, res) => {
 			return RecipeIngredient.create({
 				recipeId: newRecipe.id,
 				ingredientId: ingredient.id,
-				quantity: ingredient.quantity || '1 unit',
+				quantity: ingredient.quantity || 1,
 			});
 		});
 

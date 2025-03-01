@@ -17,7 +17,7 @@ export const fetchGroceryList = createAsyncThunk(
 			// };
 			return {
 				...data.list,
-				servings: data.list.Recipe?.servings || 1,
+				servings: data.servings || 1,
 				Ingredients:
 					data.list.Ingredients?.map((gi, index) => ({
 						id: gi.Ingredient?.id || `temp-${index}`,
@@ -129,6 +129,7 @@ const listsSlice = createSlice({
 	name: 'lists',
 	initialState: {
 		allLists: [],
+		currentList: null,
 		error: null,
 		loading: false,
 	},
@@ -141,22 +142,33 @@ const listsSlice = createSlice({
 			.addCase(generateGroceryList.fulfilled, (state, action) => {
 				state.loading = false;
 				state.allLists.push(action.payload);
+				state.currentList = action.payload;
 			})
 			.addCase(generateGroceryList.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload || 'Failed to generate grocery list';
 			})
+			.addCase(fetchGroceryList.pending, (state) => {
+				state.loading = true;
+			})
 			.addCase(fetchGroceryList.fulfilled, (state, action) => {
+				state.loading = false;
 				const updatedList = action.payload;
+
+				state.currentList = updatedList;
+
 				const index = state.allLists.findIndex(
 					(list) => list.id === updatedList.id
 				);
-
 				if (index !== -1) {
 					state.allLists[index] = updatedList;
 				} else {
 					state.allLists.push(updatedList);
 				}
+			})
+			.addCase(fetchGroceryList.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
 			})
 			.addCase(toggleChecked.fulfilled, (state, action) => {
 				const { listId, ingredientId, checked } = action.payload;
