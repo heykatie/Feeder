@@ -7,7 +7,7 @@ import OpenModalButton from '../../context/OpenModalButton/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { toggleFavorite } from '../../redux/recipes';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import {generateGroceryList} from '../../redux/lists';
+import { generateGroceryList } from '../../redux/lists';
 import './Recipe.css';
 
 const Recipe = () => {
@@ -19,6 +19,36 @@ const Recipe = () => {
 	const recipe = useSelector((state) => state.recipes.selectedRecipe);
 	const [isFavorited, setIsFavorited] = useState(false);
 	const [error, setError] = useState({});
+	const [servings, setServings] = useState(recipe?.servings || 1);
+	const [measurementMap, setMeasurementMap] = useState({});
+
+	const measurementConversions = {
+		cup: { next: 'tablespoon', prev: null, factor: 16 }, // 1 cup = 16 tbsp
+		tablespoon: { next: 'teaspoon', prev: 'cup', factor: 3 }, // 1 tbsp = 3 tsp
+		teaspoon: { next: null, prev: 'tablespoon', factor: 1 }, // Smallest unit for liquid
+		ounce: { next: 'gram', prev: 'pound', factor: 28.35 }, // 1 oz = 28.35 g
+		pound: { next: 'ounce', prev: null, factor: 16 }, // 1 lb = 16 oz
+		gram: { next: 'milligram', prev: 'ounce', factor: 1000 }, // 1 g = 1000 mg
+		kilogram: { next: 'gram', prev: null, factor: 1000 }, // 1 kg = 1000 g
+		liter: { next: 'milliliter', prev: null, factor: 1000 }, // 1 l = 1000 ml
+		milliliter: { next: null, prev: 'liter', factor: 1 }, // ml is smallest liquid unit
+		piece: { next: null, prev: null, factor: 1 }, // Non-convertible units
+		slice: { next: null, prev: null, factor: 1 },
+	};
+
+	useEffect(() => {
+		async function fetchMeasurements() {
+			const response = await fetch('/api/measurements');
+			const data = await response.json();
+			setMeasurements(data);
+		}
+		fetchMeasurements();
+	}, []);
+
+	const handleServingsChange = (e) => {
+		const newServings = Number(e.target.value);
+		setServings(newServings);
+	};
 
 	useEffect(() => {
 		if (recipe) {
@@ -36,27 +66,17 @@ const Recipe = () => {
 		}
 	};
 
-	// const handleFavorite = () => {
-	// 	if (!recipe) return;
-
-	// 	setIsFavorited(!isFavorited);
-	// 	setRecipeLikes(isFavorited ? recipeLikes - 1 : recipeLikes + 1);
-
-	// 	dispatch(toggleFavorite(recipe.id));
-	// };
-
 	useEffect(() => {
 		try {
-			dispatch(fetchRecipe(id))
+			dispatch(fetchRecipe(id));
 		} catch (error) {
-			console.error(error)
+			console.error(error);
 		}
-
 	}, [dispatch, id]);
 
 	const handleDelete = async () => {
 		await dispatch(deleteRecipe(id));
-			closeModal();
+		closeModal();
 		navigate('/recipes');
 	};
 
@@ -68,13 +88,69 @@ const Recipe = () => {
 		const result = await dispatch(generateGroceryList(recipe.id));
 
 		if (result.error) {
-			setError(error)
+			setError(error);
 		}
 
 		if (generateGroceryList.fulfilled.match(result)) {
 			const listId = result.payload.listId;
 			navigate(`/lists/${listId}`);
 		}
+	};
+
+	// const roundToNearest = (value) => {
+	// 	const roundedValues = [0.25, 0.5, 0.75, 1];
+	// 	return roundedValues.reduce((prev, curr) =>
+	// 		Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev
+	// 	);
+	// };
+
+	const convertMeasurement = (quantity, measurement) => {
+		if (!measurementConversions[measurement])
+			return { quantity, measurement }; // No conversion needed
+
+		let currentMeasurement = measurement;
+		let currentQuantity = quantity;
+
+		// ✅ Convert downward if the quantity is too small (e.g., 0.25 cup → tbsp)
+		while (
+			currentMeasurement &&
+			measurementConversions[currentMeasurement]?.next &&
+			currentQuantity < 0.5 // Convert down if less than 0.5 of current unit
+		) {
+			const conversion = measurementConversions[currentMeasurement];
+			currentQuantity *= conversion.factor;
+			currentMeasurement = conversion.next;
+		}
+
+		// ✅ Convert upward if the quantity is too large (e.g., 32 tbsp → 2 cups)
+		while (
+			currentMeasurement &&
+			measurementConversions[currentMeasurement]?.prev &&
+			currentQuantity >= measurementConversions[currentMeasurement].factor
+		) {
+			const conversion = measurementConversions[currentMeasurement];
+			currentQuantity /= conversion.factor;
+			currentMeasurement = conversion.prev;
+		}
+
+		return {
+			quantity:
+				currentQuantity % 1 === 0
+					? currentQuantity
+					: currentQuantity.toFixed(2),
+			measurement: currentMeasurement,
+		};
+	};
+
+	const calculateQuantity = (
+		baseQuantity,
+		baseServings,
+		currentServings,
+		measurement
+	) => {
+		const numericQuantity = Number(baseQuantity) || 1;
+		const scaledQuantity = (numericQuantity * currentServings) / baseServings;
+		return convertMeasurement(scaledQuantity, measurement);
 	};
 
 	return (
@@ -117,6 +193,34 @@ const Recipe = () => {
 			<div className='recipe-section'>
 				<h2>Ingredients</h2>
 				<p className='recipe-servings'>Servings: {recipe.servings}</p>
+				<p className='recipe-servings'>
+					Servings:
+					<input
+						type='number'
+						min='1'
+						value={servings}
+						onChange={handleServingsChange}
+					/>
+				</p>
+
+				<ul className='recipe-ingredients'>
+					{recipe.Ingredients?.map((ingredient, index) => {
+						const { quantity, measurement } = calculateQuantity(
+							ingredient.quantity,
+							recipe.servings,
+							servings,
+							ingredient.measurement,
+							measurementMap
+						);
+						return (
+							<li key={index}>
+								{quantity}{' '}
+								{measurement || ingredient.abbreviation || ''}{' '}
+								{ingredient.name}
+							</li>
+						);
+					})}
+				</ul>
 				<ul className='recipe-ingredients'>
 					{recipe.Ingredients?.map((ingredient, index) => (
 						<li key={index}>
