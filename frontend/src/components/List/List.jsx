@@ -241,7 +241,7 @@ export default function List() {
 											id={`ingredient-input-${item.id}`}
 											type='text'
 											value={
-												ingredientValues[item.id]?.name
+												ingredientValues[item.id]?.name ?? 'n/a'
 											}
 											onChange={(e) =>
 												setIngredientValues((prev) => ({
@@ -259,10 +259,10 @@ export default function List() {
 														ingredientId: item.id,
 														name:
 															ingredientValues[item.id]?.name ||
-															item.name,
+															item.name || 'n/a',
 														quantity:
 															ingredientValues[item.id]
-																?.quantity || item.quantity,
+																?.quantity || item.quantity || '0',
 													})
 												)
 													.unwrap()
@@ -340,7 +340,7 @@ export default function List() {
 														setIngredientValues((prev) => ({
 															...prev,
 															[updatedIngredient.ingredientId]: {
-																name: updatedIngredient.name,
+																name: updatedIngredient?.name,
 																quantity:
 																	updatedIngredient.quantity,
 															},
@@ -348,8 +348,7 @@ export default function List() {
 													})
 													.catch((error) => {
 														console.error(
-															'❌ Failed to update ingredient:',
-															error
+															`❌ Failed to update ingredient: ${error.message || error}`
 														);
 														alert(
 															error ||

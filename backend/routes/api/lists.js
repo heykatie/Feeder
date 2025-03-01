@@ -12,12 +12,12 @@ router.get('/:listId', requireAuth, async (req, res) => {
 	try {
 		const { listId } = req.params;
 
-    const groceryList = await List.findByPk(listId, {
+		const groceryList = await List.findByPk(listId, {
 			include: [
 				{
 					model: GroceryIngredient,
-          as: 'Ingredients',
-          attributes: ['id', 'ingredientId', 'quantity', 'checked'],
+					as: 'Ingredients',
+					attributes: ['id', 'ingredientId', 'quantity', 'checked'],
 					include: [{ model: Ingredient, attributes: ['id', 'name'] }],
 				},
 			],
@@ -136,9 +136,27 @@ router.put(
 			if (quantity) groceryItem.quantity = quantity;
 
 			await groceryItem.save();
-			res.json({ message: 'Updated successfully', groceryItem });
+
+
+			res.json({
+				message: 'Updated successfully',
+				groceryItem: {
+					id: groceryItem.id,
+					ingredientId: groceryItem.ingredientId,
+					quantity: groceryItem.quantity,
+					checked: groceryItem.checked,
+					Ingredient: groceryItem.Ingredient
+						? {
+								id: groceryItem.Ingredient.id,
+								name: groceryItem.Ingredient.name,
+						}
+						: null,
+				},
+			});
 		} catch (error) {
-			res.status(500).json({ error: error.errors[0].message || 'Internal server error' });
+			res.status(500).json({
+				error: error.errors[0]?.message || error || 'Internal server error',
+			});
 		}
 	}
 );

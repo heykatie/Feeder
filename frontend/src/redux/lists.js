@@ -62,7 +62,7 @@ export const saveListName = createAsyncThunk(
 				body: JSON.stringify({ name }),
 			});
 			console.log('✅ List name updated');
-			return { listId, name }; // Return updated data
+			return { listId, name };
 		} catch (error) {
 			console.error('❌ Error updating list name:', error);
 			return rejectWithValue(error.message);
@@ -74,26 +74,38 @@ export const saveIngredient = createAsyncThunk(
 	'lists/saveIngredient',
 	async ({ listId, ingredientId, name, quantity }, { rejectWithValue }) => {
 		try {
-			const response = await csrfFetch(`/api/lists/${listId}/ingredients/${ingredientId}`, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name, quantity }),
-			});
+			const response = await csrfFetch(
+				`/api/lists/${listId}/ingredients/${ingredientId}`,
+				{
+					method: 'PUT',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ name, quantity }),
+				}
+			);
 
-			const data = await response.json(); // ✅ Ensure we get the updated ingredient data
+			const data = await response.json();
 
-			console.log(`✅ Ingredient ${ingredientId} updated`, data);
 
 			return {
 				listId,
 				ingredientId,
-				name: data.ingredient.name, // ✅ Use API response name
-				quantity: data.ingredient.quantity // ✅ Use API response quantity
+				name:
+					data.groceryItem.Ingredient?.name ??
+					data?.ingredient.name ??
+					name,
+				quantity:
+					data.groceryItem.quantity ??
+					data?.ingredient.quantity ??
+					quantity,
 			};
 		} catch (error) {
 			console.error('❌ Error updating ingredient:', error);
-			const err = await error.json()
-			return rejectWithValue(err.error);
+			if (error?.json) {
+				const err = await error.json();
+				return rejectWithValue(err.error);
+			} else {
+				return rejectWithValue(error);
+			}
 		}
 	}
 );
