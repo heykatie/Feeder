@@ -37,13 +37,14 @@ export default function List() {
 			const response = await fetch('/api/measurements');
 			const data = await response.json();
 
-			// ✅ Dynamically build conversion relationships
 			const conversions = {};
-			data.forEach((m) => {
+			data.forEach((m, index) => {
 				conversions[m.name] = {
 					id: m.id,
 					abbreviation: m.abbreviation,
-					factor: m.conversionFactor || 1, // ✅ Use factor as base unit
+					conversionFactor: m.conversionFactor || 1,
+					next: index < data.length - 1 ? data[index + 1].name : null,
+					prev: index > 0 ? data[index - 1].name : null,
 				};
 			});
 
@@ -122,36 +123,41 @@ export default function List() {
 		setServings(newServings);
 	};
 
-	const roundToNearest = (value) => {
-		const roundedValues = [0.25, 0.5, 0.75, 1];
-		return roundedValues.reduce((prev, curr) =>
-			Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev
-		);
-	};
-
 	const convertMeasurement = (quantity, measurement) => {
-		if (!measurementMap[measurement]) return { quantity, measurement }; // No conversion needed
+		if (!measurementConversions[measurement])
+			return { quantity, measurement }; // No conversion needed
 
-		let bestQuantity = quantity;
-		let bestMeasurement = measurement;
+		let currentMeasurement = measurement;
+		let currentQuantity = quantity;
 
-		Object.keys(measurementMap).forEach((unit) => {
-			if (measurementMap[unit].factor) {
-				const convertedQuantity =
-					(quantity * measurementMap[measurement].factor) /
-					measurementMap[unit].factor;
+		// ✅ Convert downward if the quantity is too small (e.g., 0.25 cup → tbsp)
+		while (
+			currentMeasurement &&
+			measurementConversions[currentMeasurement]?.next &&
+			currentQuantity < 0.5 // Convert down if less than 0.5 of current unit
+		) {
+			const conversion = measurementConversions[currentMeasurement];
+			currentQuantity *= conversion.factor;
+			currentMeasurement = conversion.next;
+		}
 
-				// ✅ Choose the best unit based on readability
-				if (convertedQuantity >= 0.5 && convertedQuantity <= 10) {
-					bestQuantity = convertedQuantity;
-					bestMeasurement = unit;
-				}
-			}
-		});
+		// ✅ Convert upward if the quantity is too large (e.g., 32 tbsp → 2 cups)
+		while (
+			currentMeasurement &&
+			measurementConversions[currentMeasurement]?.prev &&
+			currentQuantity >= measurementConversions[currentMeasurement].factor
+		) {
+			const conversion = measurementConversions[currentMeasurement];
+			currentQuantity /= conversion.factor;
+			currentMeasurement = conversion.prev;
+		}
 
 		return {
-			quantity: roundToNearest(bestQuantity),
-			measurement: bestMeasurement,
+			quantity:
+				currentQuantity % 1 === 0
+					? currentQuantity
+					: currentQuantity.toFixed(2),
+			measurement: currentMeasurement,
 		};
 	};
 
