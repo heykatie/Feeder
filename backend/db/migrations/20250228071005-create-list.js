@@ -22,6 +22,12 @@ module.exports = {
 				references: { model: 'Users', key: 'id' },
 				onDelete: 'CASCADE',
 			},
+			recipeId: {
+				type: Sequelize.INTEGER,
+				allowNull: true,
+				references: { model: 'Recipes', key: 'id' },
+				onDelete: 'SET NULL',
+			},
 			name: {
 				type: Sequelize.STRING,
 				allowNull: false,
@@ -31,6 +37,9 @@ module.exports = {
 				type: Sequelize.ENUM('todo', 'shopping'),
 				allowNull: false,
 				defaultValue: 'shopping',
+			},
+			notes: {
+				type: Sequelize.TEXT,
 			},
 			createdAt: {
 				allowNull: false,

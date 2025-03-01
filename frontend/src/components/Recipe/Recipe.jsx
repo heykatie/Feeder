@@ -18,6 +18,7 @@ const Recipe = () => {
 	const user = useSelector((state) => state.session.user);
 	const recipe = useSelector((state) => state.recipes.selectedRecipe);
 	const [isFavorited, setIsFavorited] = useState(false);
+	const [error, setError] = useState({});
 
 	useEffect(() => {
 		if (recipe) {
@@ -27,8 +28,12 @@ const Recipe = () => {
 
 	const handleFavorite = () => {
 		if (!recipe) return;
-		dispatch(toggleFavorite(recipe.id));
-		setIsFavorited(!isFavorited);
+		try {
+			dispatch(toggleFavorite(recipe.id));
+			setIsFavorited(!isFavorited);
+		} catch (err) {
+			setError(err);
+		}
 	};
 
 	// const handleFavorite = () => {
@@ -56,6 +61,10 @@ const Recipe = () => {
 		if (!recipe) return;
 
 		const result = await dispatch(generateGroceryList(recipe.id));
+
+		if (result.error) {
+			setError(error)
+		}
 
 		if (generateGroceryList.fulfilled.match(result)) {
 			const listId = result.payload.listId;
@@ -158,6 +167,7 @@ const Recipe = () => {
 			<button className='grocery-btn' onClick={handleGenerateList}>
 				Generate Grocery List 🛒
 			</button>
+			{/* {error && error} */}
 		</div>
 	);
 };

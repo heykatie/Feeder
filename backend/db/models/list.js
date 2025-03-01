@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       List.hasMany(models.GroceryIngredient, {
 			foreignKey: 'listId',
 			as: 'Ingredients',
-		});
+			});
+			List.belongsTo(models.Recipe, { foreignKey: 'recipeId'});
     }
   }
   List.init(
@@ -26,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
 				references: { model: 'Users', key: 'id' },
 				onDelete: 'CASCADE',
 			},
+			recipeId: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+				references: { model: 'Recipes', key: 'id' },
+				onDelete: 'SET NULL',
+			},
 			name: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -35,7 +42,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.ENUM('todo', 'shopping'),
 				allowNull: false,
 				defaultValue: 'shopping',
-			}
+			},
+			notes: {
+				type: DataTypes.TEXT,
+			},
 		},
 		{
 			sequelize,

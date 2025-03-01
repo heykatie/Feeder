@@ -17,6 +17,7 @@ export const fetchGroceryList = createAsyncThunk(
 			// };
 			return {
 				...data.list,
+				servings: data.list.Recipe?.servings || 1,
 				Ingredients:
 					data.list.Ingredients?.map((gi, index) => ({
 						id: gi.Ingredient?.id || `temp-${index}`,
@@ -42,12 +43,12 @@ export const generateGroceryList = createAsyncThunk(
 
 			const data = await response.json();
 			if (!response.ok)
-				return rejectWithValue(data.error || 'Failed to generate list');
+				return rejectWithValue(data.error || data || 'Failed to generate list');
 
 			// return data.list;
-			return { listId: data.list.id, list: data.list };
+			return { listId: data.list.id, list: data.list, servings: data.servings };
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue(error);
 		}
 	}
 );
@@ -72,40 +73,28 @@ export const saveListName = createAsyncThunk(
 
 export const saveIngredient = createAsyncThunk(
 	'lists/saveIngredient',
-	async ({ listId, ingredientId, name, quantity }, { rejectWithValue }) => {
+	async ({ listId, ingredientId, quantity }, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch(
 				`/api/lists/${listId}/ingredients/${ingredientId}`,
 				{
 					method: 'PUT',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ name, quantity }),
+					body: JSON.stringify({ quantity }), // ✅ Only sending quantity update
 				}
 			);
 
 			const data = await response.json();
 
-
 			return {
 				listId,
 				ingredientId,
-				name:
-					data.groceryItem.Ingredient?.name ??
-					data?.ingredient.name ??
-					name,
-				quantity:
-					data.groceryItem.quantity ??
-					data?.ingredient.quantity ??
-					quantity,
+				quantity: data.groceryItem.quantity, // ✅ Use updated quantity from API
+				name: data.groceryItem.Ingredient?.name, // ✅ Keep name from DB (unchanged)
 			};
 		} catch (error) {
 			console.error('❌ Error updating ingredient:', error);
-			if (error?.json) {
-				const err = await error.json();
-				return rejectWithValue(err.error);
-			} else {
-				return rejectWithValue(error);
-			}
+			return rejectWithValue(error.message);
 		}
 	}
 );

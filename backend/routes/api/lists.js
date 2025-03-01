@@ -8,6 +8,7 @@ const {
 } = require('../../db/models');
 const router = express.Router();
 
+
 router.get('/:listId', requireAuth, async (req, res) => {
 	try {
 		const { listId } = req.params;
@@ -20,13 +21,22 @@ router.get('/:listId', requireAuth, async (req, res) => {
 					attributes: ['id', 'ingredientId', 'quantity', 'checked'],
 					include: [{ model: Ingredient, attributes: ['id', 'name'] }],
 				},
+				{
+					model: Recipe,
+					attributes: ['servings'],
+				},
 			],
 		});
 
 		if (!groceryList) {
 			return res.status(404).json({ error: 'Grocery list not found' });
 		}
-		res.json({ list: groceryList });
+
+
+		const servings = groceryList.Recipe?.servings || 1;
+		console.error('servings', groceryList.Recipe)
+
+		res.json({ list: groceryList, servings });
 	} catch (error) {
 		console.error('Error fetching grocery list:', error);
 		res.status(500).json({ error: 'Internal server error' });
@@ -54,6 +64,7 @@ router.post('/generate/:recipeId', requireAuth, async (req, res) => {
 			userId,
 			name: `Grocery List for ${recipe.title}`,
 			type: 'shopping',
+			recipeId: recipe.id
 		});
 
 		const groceryItems = recipe.Ingredients.map((ingredient) => ({
@@ -65,10 +76,14 @@ router.post('/generate/:recipeId', requireAuth, async (req, res) => {
 
 		await GroceryIngredient.bulkCreate(groceryItems);
 
-		res.json({ message: 'Grocery list generated!', list: groceryList });
+		res.json({
+			message: 'Grocery list generated!',
+			list: groceryList,
+			servings: recipe.servings,
+		});
 	} catch (error) {
 		console.error('Error generating grocery list:', error);
-		res.status(500).json({ error: 'Internal server error' });
+		res.status(500).json({ error: error || 'Internal server error' });
 	}
 });
 
@@ -125,18 +140,10 @@ router.put(
 
 			if (checked !== undefined) groceryItem.checked = checked;
 
-			if (name) {
-				const ingredient = await Ingredient.findByPk(ingredientId);
-				if (ingredient) {
-					ingredient.name = name;
-					await ingredient.save();
-				}
-			}
-
+			// ✅ Only allow quantity updates
 			if (quantity) groceryItem.quantity = quantity;
 
 			await groceryItem.save();
-
 
 			res.json({
 				message: 'Updated successfully',
@@ -148,14 +155,17 @@ router.put(
 					Ingredient: groceryItem.Ingredient
 						? {
 								id: groceryItem.Ingredient.id,
-								name: groceryItem.Ingredient.name,
+								name: groceryItem.Ingredient.name, // ✅ Name remains unchanged
 						}
 						: null,
 				},
 			});
 		} catch (error) {
 			res.status(500).json({
-				error: error.errors[0]?.message || error || 'Internal server error',
+				error:
+					error.errors?.[0]?.message ||
+					error.message ||
+					'Internal server error',
 			});
 		}
 	}

@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 			Recipe.hasMany(models.Favorite, {
 				foreignKey: 'recipeId',
 			});
+			Recipe.hasMany(models.List, { foreignKey: 'recipeId' });
     }
   }
   Recipe.init(
@@ -102,8 +103,8 @@ module.exports = (sequelize, DataTypes) => {
 				include: [
 					{
 						model: sequelize.models.Ingredient,
-						as: 'Ingredients', // Ensures ingredients are always included
-						through: { attributes: ['quantity'] }, // Include quantity from join table
+						as: 'Ingredients',
+						through: { attributes: ['quantity'] },
 					},
 				],
 			},

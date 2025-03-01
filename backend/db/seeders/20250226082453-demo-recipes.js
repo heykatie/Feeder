@@ -1,6 +1,6 @@
 'use strict';
 
-const { Sequelize } = require('../models');
+const { Sequelize, Recipe } = require('../models');
 
 let options = {};
 options.tableName = 'Recipes';
@@ -9,9 +9,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-	up: async (queryInterface, Sequelize) => {
-		await queryInterface.bulkInsert(
-			options,
+	async up(queryInterface, Sequelize) {
+		await Recipe.bulkCreate(
 			[
 				{
 					userId: 1,
@@ -33,7 +32,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 1,
@@ -55,7 +54,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 1,
@@ -78,7 +77,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 1,
@@ -100,7 +99,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 2,
@@ -121,7 +120,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 2,
@@ -144,7 +143,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 2,
@@ -165,7 +164,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 2,
@@ -188,7 +187,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 3,
@@ -209,7 +208,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 3,
@@ -231,7 +230,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 3,
@@ -252,7 +251,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 				{
 					userId: 3,
@@ -272,7 +271,7 @@ module.exports = {
 					difficulty: 'Medium',
 					rating: 4,
 					isPublic: true,
-					notes: 'give em a boop for me'
+					notes: 'give em a boop for me',
 				},
 			],
 			{ validate: true }
