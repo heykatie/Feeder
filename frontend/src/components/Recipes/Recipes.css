@@ -142,6 +142,29 @@
   scroll-snap-align: start;
 }
 
+.recipes-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 1rem;
+  padding: 10px;
+}
+
+.recipes-scroll-container::-webkit-scrollbar {
+  display: none;
+  /* Hide scrollbar */
+}
+
+.recipe-card {
+  min-width: 250px;
+  max-width: 300px;
+  flex: 0 0 auto;
+}
+
+.search-results {
+  margin-bottom: 2rem;
+}
+
 /* 📱 Responsive: Make cards smaller for mobile */
 @media (max-width: 768px) {
   .recipe-card {

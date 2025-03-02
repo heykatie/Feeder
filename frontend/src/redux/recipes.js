@@ -12,10 +12,9 @@ export const fetchRecipes = createAsyncThunk(
 				: `/api/recipes/public/${userId}`;
 		}
 
-		// Append search query if present
 		if (search) {
 			const separator = url.includes('?') ? '&' : '?';
-			url += `${separator}search=${encodeURIComponent(search)}`;
+			url += `${separator}search=${encodeURIComponent(search.trim())}`; // Trim search to prevent extra spaces
 		}
 
 		const response = await csrfFetch(url);
@@ -180,7 +179,7 @@ export const toggleFavorite = createAsyncThunk(
 			const data = await response.json();
 			if (!response.ok)
 				return rejectWithValue(data.error || 'Failed to favorite');
-
+			console.log('Toggle Favorite Response:', data);
 			return { recipeId, liked: data.liked };
 		} catch (error) {
 			return rejectWithValue(error.message);
@@ -286,7 +285,6 @@ const recipesSlice = createSlice({
 			.addCase(toggleFavorite.fulfilled, (state, action) => {
 				const { recipeId, liked } = action.payload;
 
-				// If on favorites page, remove the unfavorited recipe
 				if (window.location.pathname === '/favorites') {
 					if (!liked) {
 						state.favorites = state.favorites.filter(
@@ -294,15 +292,16 @@ const recipesSlice = createSlice({
 						);
 					}
 				} else {
-					// Update allRecipes
 					const updateRecipe = (recipes) => {
-						const recipe = recipes.find((r) => r.id === recipeId);
-						if (recipe) {
-							recipe.liked = liked;
-							recipe.likesCount = liked
-								? recipe.likesCount + 1
-								: Math.max(0, recipe.likesCount - 1);
-						}
+						if (!Array.isArray(recipes)) return; // Ensure `recipes` is valid
+
+						const recipe = recipes.find((r) => r?.id === recipeId);
+						if (!recipe) return; // Ensure the recipe exists
+
+						recipe.liked = liked;
+						recipe.likesCount = liked
+							? (recipe.likesCount || 0) + 1
+							: Math.max(0, (recipe.likesCount || 0) - 1);
 					};
 
 					updateRecipe(state.allRecipes);

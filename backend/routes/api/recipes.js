@@ -11,7 +11,6 @@ const {
 const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
-
 const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 
 router.get('/', requireAuth, async (req, res) => {
@@ -22,13 +21,47 @@ router.get('/', requireAuth, async (req, res) => {
 		let where = { isPublic: true };
 
 		if (search) {
-			where.title = { [Sequelize.Op.iLike]: `%${search}%` }; // Case-insensitive search
+			where = {
+				[Sequelize.Op.or]: [
+					{
+						title: {
+							[Sequelize.Op.iLike]: `${search}%`, // More strict matching (only from start)
+						},
+					},
+					{
+						description: {
+							[Sequelize.Op.iLike]: `%${search}%`,
+						},
+					},
+				],
+			};
 		}
 
 		// Fetch public recipes with user data
+		// const recipes = await Recipe.findAll({
+		// 	where,
+		// 	include: [
+		// 		{ model: User, attributes: ['username'] },
+		// 		{ model: Ingredient, as: 'Ingredients', attributes: ['name'] },
+		// 	],
+		// });
+
 		const recipes = await Recipe.findAll({
 			where,
-			include: [{ model: User, attributes: ['username'] }],
+			include: [
+				{
+					model: Ingredient,
+					as: 'Ingredients',
+					attributes: ['name'],
+					where: search
+						? {
+								name: { [Sequelize.Op.iLike]: `%${search}%` },
+						}
+						: undefined,
+					required: false, // Ensure recipes without matching ingredients aren't excluded
+				},
+				{ model: User, attributes: ['username'] },
+			],
 		});
 
 		// Fetch user's favorite recipes
@@ -247,7 +280,7 @@ router.get('/:id', async (req, res) => {
 			liked: !!existingFavorite,
 			nutritionTotals: roundedTotals,
 			Ingredients: formattedIngredients,
-		})
+		});
 		return res.json({
 			...recipe.toJSON(),
 			likesCount,
@@ -279,7 +312,13 @@ router.post('/', async (req, res) => {
 			ingredients, // [{ id: 1, quantity: "2 cups" }]
 		} = req.body;
 
-		if (!userId || !title || !instructions || !ingredients || ingredients.length === 0) {
+		if (
+			!userId ||
+			!title ||
+			!instructions ||
+			!ingredients ||
+			ingredients.length === 0
+		) {
 			return res.status(400).json({ error: 'Missing required fields' });
 		}
 
@@ -398,17 +437,16 @@ router.post('/:id/favorite', requireAuth, async (req, res) => {
 
 		if (existingFavorite) {
 			await existingFavorite.destroy();
-			return res.json({ message: 'Removed from favorites', liked: false });
+			return res.json({ message: 'Removed from favorites', liked: false, recipeId: id});
 		} else {
 			await Favorite.create({ userId, recipeId: id });
-			return res.json({ message: 'Added to favorites', liked: true });
+			return res.json({ message: 'Added to favorites', liked: true, recipeId: id });
 		}
 	} catch (error) {
 		console.error('Error toggling favorite:', error);
 		res.status(500).json({ error: 'Internal server error' });
 	}
-})
-
+});
 
 router.delete('/:id', requireAuth, async (req, res) => {
 	const recipe = await Recipe.findByPk(req.params.id);

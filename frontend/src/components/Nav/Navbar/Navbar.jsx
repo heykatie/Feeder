@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import AvatarButton from './AvatarButton';
@@ -16,6 +16,8 @@ const Navbar = () => {
 	const [showMenu, setShowMenu] = useState(false);
 	const [isHovered, setIsHovered] = useState(false);
 	const [showSidebar, setShowSidebar] = useState(false);
+	const [searchQuery, setSearchQuery] = useState('');
+	const navigate = useNavigate();
 
 	const handleMouseEnter = () => setIsHovered(true);
 	const handleMouseLeave = () => setTimeout(() => setIsHovered(false), 1500);
@@ -33,6 +35,14 @@ const Navbar = () => {
 	const toggleSidebar = () => {
 		setShowSidebar((prev) => !prev);
 	};
+
+		const handleSearch = (e) => {
+			console.log('handleSearch fired'); // ✅ Debug log
+			console.log('Current searchQuery:', searchQuery);
+			e.preventDefault(); // ❌ Try commenting this out
+			if (!searchQuery.trim()) return;
+			navigate(`/recipes?search=${encodeURIComponent(searchQuery)}`);
+		};
 
 	// useEffect(() => {
 	// 	if (!isExpanded) return;
@@ -69,12 +79,21 @@ const Navbar = () => {
 					)}
 				</div>
 
-				<div className='navbar-center'>
-					<input type='text' placeholder='Search' className='search-bar' />
-					<button aria-label='search-btn' className='search-btn'>
+				<form className='navbar-center' onSubmit={handleSearch}>
+					<input
+						type='text'
+						placeholder='Search recipes...'
+						className='search-bar'
+						value={searchQuery}
+						onChange={(e) => setSearchQuery(e.target.value)}
+					/>
+					<button
+						aria-label='search-btn'
+						className='search-btn'
+						type='submit'>
 						<i className='fas fa-search'></i>
 					</button>
-				</div>
+				</form>
 
 				<div className='navbar-right'>
 					{user ? (
