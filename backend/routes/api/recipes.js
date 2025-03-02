@@ -130,14 +130,17 @@ router.get('/:id', async (req, res) => {
 					model: Ingredient,
 					as: 'Ingredients',
 					through: {
-						attributes: ['quantity', 'measurementId'],
+						attributes: ['quantity', 'measurementId'], // Ensure measurementId is included
 					},
 				},
 				{
 					model: RecipeIngredient,
 					as: 'RecipeIngredients',
 					include: [
-						{ model: Measurement, attributes: ['name', 'abbreviation'] },
+						{
+							model: Measurement,
+							attributes: ['id', 'name', 'abbreviation'],
+						}, // Ensure measurement data is included
 					],
 				},
 			],
@@ -268,6 +271,7 @@ router.post('/', async (req, res) => {
 				recipeId: newRecipe.id,
 				ingredientId: ingredient.id,
 				quantity: ingredient.quantity || 1,
+				measurementId: ingredient.measurementId || null,
 			});
 		});
 

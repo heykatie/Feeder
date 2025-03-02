@@ -13,3 +13,19 @@
 .list-container .save-btn:hover {
   background-color: #0056b3;
 }
+
+.list-container .back-button {
+  background-color: #1E88E5;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.list-container .back-button:hover {
+  background-color: #1565C0;
+}

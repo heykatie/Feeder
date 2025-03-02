@@ -37,7 +37,8 @@ const RecipeForm = () => {
 	const [totalTime, setTotalTime] = useState(0);
 	const [instructions, setInstructions] = useState([]);
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
-	const [ingredientQuantities, setIngredientQuantities] = useState({});
+const [ingredientQuantities, setIngredientQuantities] = useState({});
+const [ingredientMeasurements, setIngredientMeasurements] = useState({});
 	const [isPublic, setIsPublic] = useState(true);
 	const [notes, setNotes] = useState('');
 	const [errors, setErrors] = useState([]);
@@ -49,9 +50,19 @@ const RecipeForm = () => {
 
 	useEffect(() => {
 		if (recipe && recipe.id === Number(id)) {
-			setPrepTime(recipe.prepTime || 0);
-			setCookTime(recipe.cookTime || 0);
-			setTotalTime((recipe.prepTime || 0) + (recipe.cookTime || 0));
+			setSelectedIngredients(recipe.Ingredients?.map((ing) => ing.id) || []);
+			setIngredientQuantities(
+				recipe.Ingredients?.reduce((acc, ing) => {
+					acc[ing.id] = ing.RecipeIngredient?.quantity || 1;
+					return acc;
+				}, {}) || {}
+			);
+			setIngredientMeasurements(
+				recipe.Ingredients?.reduce((acc, ing) => {
+					acc[ing.id] = ing.RecipeIngredient?.measurement || '';
+					return acc;
+				}, {}) || {}
+			);
 		}
 	}, [recipe, id]);
 
@@ -130,6 +141,7 @@ const RecipeForm = () => {
 			(step) => step.trim() !== ''
 		);
 
+		console.error('katie', ingredientMeasurements[id]?.id);
 		const recipeData = {
 			userId: user.id,
 			title,
@@ -146,7 +158,8 @@ const RecipeForm = () => {
 			instructions: JSON.stringify(validInstructions),
 			ingredients: selectedIngredients.map((id) => ({
 				id,
-				quantity: ingredientQuantities[id] || '1 unit',
+				quantity: ingredientQuantities[id] || 1,
+				measurementId: ingredientMeasurements[id] || null,
 			})),
 		};
 
@@ -168,9 +181,14 @@ const RecipeForm = () => {
 		}
 	};
 
-	const handleSaveIngredients = (updatedIngredients, updatedQuantities) => {
+	const handleSaveIngredients = (
+		updatedIngredients,
+		updatedQuantities,
+		updatedMeasurements
+	) => {
 		setSelectedIngredients(updatedIngredients);
 		setIngredientQuantities(updatedQuantities);
+		setIngredientMeasurements(updatedMeasurements);
 
 		if (id) {
 			dispatch(
@@ -180,6 +198,7 @@ const RecipeForm = () => {
 						...recipe,
 						ingredients: updatedIngredients,
 						ingredientQuantities: updatedQuantities,
+						ingredientMeasurements: updatedMeasurements,
 					},
 				})
 			);
@@ -333,9 +352,11 @@ const RecipeForm = () => {
 							<IngredientModal
 								ingredients={ingredients}
 								selectedIngredients={selectedIngredients}
-								setSelectedIngredients={handleSaveIngredients}
+								setSelectedIngredients={setSelectedIngredients}
 								ingredientQuantities={ingredientQuantities}
 								setIngredientQuantities={setIngredientQuantities}
+								ingredientMeasurements={ingredientMeasurements}
+								setIngredientMeasurements={setIngredientMeasurements}
 							/>
 						}
 					/>
@@ -355,6 +376,7 @@ const RecipeForm = () => {
 					<Ingredients
 						selectedIngredients={selectedIngredients}
 						ingredientQuantities={ingredientQuantities}
+						ingredientMeasurements={ingredientMeasurements}
 						ingredients={ingredients}
 					/>
 				)}
@@ -375,7 +397,10 @@ const RecipeForm = () => {
 					<button type='submit' className='submit-btn'>
 						{id ? 'Update Recipe' : 'Create Recipe'}
 					</button>
-					<button type='button' className='cancel-btn' onClick={handleCancel}>
+					<button
+						type='button'
+						className='cancel-btn'
+						onClick={handleCancel}>
 						Cancel
 					</button>
 				</div>

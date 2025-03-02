@@ -9,7 +9,7 @@ const Instructions = ({ instructions }) => {
 			<ol>
 				{instructions.map((step, index) => (
 					<li key={index} className='instruction-step-preview'>
-						{step}
+						{index+1}. {step}
 					</li>
 				))}
 			</ol>

@@ -10,6 +10,27 @@ const {
 } = require('../../db/models');
 const router = express.Router();
 
+router.get('/', requireAuth, async (req, res) => {
+	try {
+		const userId = req.user.id;
+
+		const lists = await List.findAll({
+			where: { userId },
+			include: [
+				{
+					model: GroceryIngredient,
+					as: 'Ingredients',
+					attributes: ['id'],
+				},
+			],
+		});
+
+		res.json({ lists });
+	} catch (error) {
+		console.error('Error fetching lists:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+});
 
 router.get('/:listId', requireAuth, async (req, res) => {
 	try {
@@ -68,6 +89,32 @@ router.get('/:listId', requireAuth, async (req, res) => {
 		});
 	} catch (error) {
 		console.error('Error fetching grocery list:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+});
+
+router.post('/', requireAuth, async (req, res) => {
+	try {
+		const { name, type } = req.body;
+		const userId = req.user.id;
+
+		if (!name.trim()) {
+			return res.status(400).json({ error: 'List name is required' });
+		}
+
+		if (!['shopping', 'todo'].includes(type)) {
+			return res.status(400).json({ error: 'Invalid list type' });
+		}
+
+		const newList = await List.create({
+			userId,
+			name,
+			type,
+		});
+
+		res.json({ message: 'List created successfully!', list: newList });
+	} catch (error) {
+		console.error('Error creating list:', error);
 		res.status(500).json({ error: 'Internal server error' });
 	}
 });
@@ -254,6 +301,27 @@ router.put('/:listId/update-name', requireAuth, async (req, res) => {
 		res.json({ message: 'List name updated successfully' });
 	} catch (error) {
 		console.error('Error updating list name:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+});
+
+router.delete('/:listId', requireAuth, async (req, res) => {
+	try {
+		const { listId } = req.params;
+		const userId = req.user.id;
+
+		const list = await List.findOne({ where: { id: listId, userId } });
+
+		if (!list) {
+			return res
+				.status(404)
+				.json({ error: 'List not found or unauthorized' });
+		}
+
+		await list.destroy();
+		res.json({ message: 'List deleted successfully', listId });
+	} catch (error) {
+		console.error('Error deleting list:', error);
 		res.status(500).json({ error: 'Internal server error' });
 	}
 });

@@ -86,7 +86,7 @@ const Recipe = () => {
 
 	const handleGenerateList = async () => {
 		if (!recipe) return;
-
+console.log('Recipe ID being passed to generateGroceryList:', recipe?.id);
 		const result = await dispatch(generateGroceryList(recipe.id));
 
 		if (result.error) {

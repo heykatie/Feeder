@@ -1,6 +1,44 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
 
+export const createList = createAsyncThunk(
+	'lists/createEmptyList',
+	async ({ name }, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch('/api/lists', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ name }), // ✅ Send list name
+			});
+
+			const data = await response.json();
+			if (!response.ok)
+				return rejectWithValue(data.error || 'Failed to create list');
+
+			return data.list;
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const fetchAllLists = createAsyncThunk(
+	'lists/fetchAllLists',
+	async (_, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch('/api/lists'); // ✅ Ensure this endpoint exists
+			const data = await response.json();
+
+			if (!response.ok)
+				return rejectWithValue(data.error || 'Failed to fetch lists');
+
+			return data.lists; // ✅ Expecting an array of lists
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 export const fetchGroceryList = createAsyncThunk(
 	'lists/fetchGroceryList',
 	async (listId, { rejectWithValue }) => {
@@ -33,6 +71,8 @@ export const generateGroceryList = createAsyncThunk(
 	'lists/generateGroceryList',
 	async (recipeId, { rejectWithValue }) => {
 		try {
+			if (!recipeId) throw new Error('Missing recipeId');
+
 			const response = await csrfFetch(`/api/lists/generate/${recipeId}`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -40,18 +80,16 @@ export const generateGroceryList = createAsyncThunk(
 
 			const data = await response.json();
 			if (!response.ok)
-				return rejectWithValue(
-					data.error || data || 'Failed to generate list'
-				);
+				return rejectWithValue(data.error || 'Failed to generate list');
 
-			// return data.list;
 			return {
 				listId: data.list.id,
 				list: data.list,
 				servings: data.servings,
 			};
 		} catch (error) {
-			return rejectWithValue(error);
+			console.error('❌ generateGroceryList error:', error);
+			return rejectWithValue(error.message || 'Internal server error');
 		}
 	}
 );
@@ -128,6 +166,23 @@ export const toggleChecked = createAsyncThunk(
 	}
 );
 
+export const deleteList = createAsyncThunk(
+	'lists/deleteList',
+	async (listId, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch(`/api/lists/${listId}`, {
+				method: 'DELETE',
+			});
+
+			if (!response.ok) return rejectWithValue('Failed to delete list');
+
+			return listId; // Return the deleted list ID
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 const listsSlice = createSlice({
 	name: 'lists',
 	initialState: {
@@ -139,6 +194,17 @@ const listsSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
+			.addCase(fetchAllLists.pending, (state) => {
+				state.loading = true;
+			})
+			.addCase(fetchAllLists.fulfilled, (state, action) => {
+				state.loading = false;
+				state.allLists = action.payload; // Update store with fetched lists
+			})
+			.addCase(fetchAllLists.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload || 'Failed to fetch lists';
+			})
 			.addCase(generateGroceryList.pending, (state) => {
 				state.loading = true;
 			})
@@ -217,6 +283,14 @@ const listsSlice = createSlice({
 						ingredient.name = name;
 						ingredient.quantity = quantity;
 					}
+				}
+			})
+			.addCase(deleteList.fulfilled, (state, action) => {
+				state.allLists = state.allLists.filter(
+					(list) => list.id !== action.payload
+				);
+				if (state.currentList?.id === action.payload) {
+					state.currentList = null;
 				}
 			});
 	},

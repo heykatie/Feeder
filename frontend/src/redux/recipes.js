@@ -39,13 +39,13 @@ export const fetchFavorites = createAsyncThunk(
 
 export const fetchRecipe = createAsyncThunk(
 	'recipes/fetchRecipe',
-	async (id, {rejectWithValue}) => {
+	async (id, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch(`/api/recipes/${id}`);
 			return response.json();
 		} catch (error) {
 			const err = await error.json();
-			console.error('katie', err)
+			// console.error('katie', err);
 			return rejectWithValue(err.error || err);
 		}
 	}
@@ -207,7 +207,15 @@ const recipesSlice = createSlice({
 				state.list = action.payload;
 			})
 			.addCase(fetchRecipe.fulfilled, (state, action) => {
-				state.selectedRecipe = action.payload;
+				state.selectedRecipe = {
+					...action.payload,
+					Ingredients: action.payload.Ingredients.map((ingredient) => ({
+						...ingredient,
+						measurementId: ingredient.measurementId || null,
+						measurement: ingredient.measurement || '',
+						abbreviation: ingredient.abbreviation || '',
+					})),
+				};
 				state.error = null;
 			})
 			.addCase(createRecipe.fulfilled, (state, action) => {
@@ -218,21 +226,23 @@ const recipesSlice = createSlice({
 				const { recipeId, liked } = action.payload;
 
 				if (window.location.pathname === '/favorites') {
-						if (!liked) {
-								state.list = state.list.filter((recipe) => recipe.id !== recipeId);
-						}
+					if (!liked) {
+						state.list = state.list.filter(
+							(recipe) => recipe.id !== recipeId
+						);
+					}
 				} else {
-						const updateRecipe = (recipe) => {
-								if (recipe) {
-										recipe.liked = liked;
-										recipe.likesCount = liked
-												? recipe.likesCount + 1
-												: Math.max(0, recipe.likesCount - 1);
-								}
-						};
+					const updateRecipe = (recipe) => {
+						if (recipe) {
+							recipe.liked = liked;
+							recipe.likesCount = liked
+								? recipe.likesCount + 1
+								: Math.max(0, recipe.likesCount - 1);
+						}
+					};
 
-						updateRecipe(state.list.find((r) => r.id === recipeId));
-						updateRecipe(state.selectedRecipe);
+					updateRecipe(state.list.find((r) => r.id === recipeId));
+					updateRecipe(state.selectedRecipe);
 				}
 			})
 			.addCase(deleteRecipe.fulfilled, (state, action) => {

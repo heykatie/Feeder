@@ -3,6 +3,7 @@ import './Ingredients.css';
 const Ingredients = ({
 	selectedIngredients,
 	ingredientQuantities,
+	ingredientMeasurements,
 	ingredients,
 }) => {
 	if (!selectedIngredients.length) return null;
@@ -16,10 +17,14 @@ const Ingredients = ({
 						(ing) => ing.id === ingredientId
 					);
 					const quantity = ingredientQuantities[ingredientId] || 'N/A';
+					const measurement = ingredientMeasurements[ingredientId];
 					return (
 						<li key={ingredientId} className='ingredient-preview-item'>
 							<span className='ingredient-name'>{ingredient?.name}</span>
 							<span className='ingredient-quantity'>{quantity}</span>
+							<span className='ingredient-measurement'>
+								{measurement}
+							</span>
 						</li>
 					);
 				})}

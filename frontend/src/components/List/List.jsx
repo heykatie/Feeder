@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	fetchGroceryList,
@@ -10,6 +10,7 @@ import {
 export default function List() {
 	const { listId } = useParams();
 	const dispatch = useDispatch();
+		const navigate = useNavigate();
 	const groceryList = useSelector((state) => state.lists.currentList);
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState(groceryList?.name || '');
@@ -82,6 +83,9 @@ export default function List() {
 
 	return (
 		<div className='list-container'>
+			<button onClick={() => navigate('/lists')} className='back-button'>
+				← See My Lists
+			</button>
 			<h1 onClick={() => setEditingName(true)}>
 				{editingName ? (
 					<input
@@ -104,20 +108,18 @@ export default function List() {
 				)}
 			</h1>
 			<ul>
-				{groceryList.Ingredients?.map((item) =>
+				{groceryList.Ingredients?.map((item) => (
 					<li key={item.id}>
 						<label>
 							<input
-								type="checkbox"
+								type='checkbox'
 								checked={checkedItems[item.id] || false}
 								onChange={() => handleCheck(item.id)}
 							/>
-							<span>
-								{item.name}
-							</span>
+							<span>{item.name}</span>
 						</label>
-					</li>)
-				}
+					</li>
+				))}
 			</ul>
 		</div>
 	);
