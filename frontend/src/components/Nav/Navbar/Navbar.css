@@ -106,6 +106,7 @@
   transform: translateX(-50%);
   transition: transform 0.3s ease-in-out;
   z-index: 1100;
+  max-width: fit-content;
 }
 
 .expand-arrow.rotated {

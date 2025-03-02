@@ -41,10 +41,8 @@
 .recipe-card {
   flex: 0 0 auto;
   width: 300px;
-  /* Fixed width for easy scrolling */
   scroll-snap-align: start;
   background-color: var(--panel-bg);
-  padding: 16px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
@@ -61,16 +59,88 @@
   height: 180px;
   object-fit: cover;
   border-radius: 5px;
+  padding: 0px;
 }
 
 /* 🏷️ Recipe Title */
 .recipe-card h2 {
   font-size: 1.4rem;
   font-weight: bold;
-  margin: 10px 0 5px;
+  margin: 10px 0px;
+  padding: 0px 12px;
   color: var(--text-color);
 }
 
+.recipe-card {
+  white-space: normal;
+}
+
+/* Ensure the description text wraps */
+.recipe-card p {
+  overflow: hidden;
+    padding: 0px 12px;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  max-width: 100%;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.recipe-card {
+  position: relative;
+  /* Ensure absolute positioning inside works */
+  flex: 0 0 auto;
+  width: 300px;
+  scroll-snap-align: start;
+  background-color: var(--panel-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.recipe-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none !important;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.2);
+}
+
+.recipes-scroll-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px;
+  padding: 10px 0;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  /* Enables smooth scrolling */
+  -webkit-overflow-scrolling: touch;
+  /* Enables momentum scrolling on mobile */
+}
+
+.recipe-card {
+  flex: 0 0 auto;
+  width: 300px;
+  /* Ensure cards don’t shrink */
+  scroll-snap-align: start;
+}
 
 /* 📱 Responsive: Make cards smaller for mobile */
 @media (max-width: 768px) {

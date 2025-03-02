@@ -230,7 +230,9 @@ export default function List() {
 						? 'Hide Ingredients'
 						: 'Show Ingredients to Add'}
 				</button>
-			) : <p>Add Feature Coming Soon...</p>}
+			) : (
+				<p>Add Feature Coming Soon...</p>
+			)}
 
 			<DragDropContext onDragEnd={onDragEnd}>
 				{groceryList.type === 'shopping' && showAvailableIngredients && (
@@ -271,7 +273,7 @@ export default function List() {
 						/>
 					</div>
 				)}
-				{groceryList.type === 'shopping' &&
+				{groceryList.type === 'shopping' && (
 					<Droppable droppableId='groceryList'>
 						{(provided) => (
 							<ul
@@ -292,7 +294,9 @@ export default function List() {
 												<label>
 													<input
 														type='checkbox'
-														checked={checkedItems[item.id] || false}
+														checked={
+															checkedItems[item.id] || false
+														}
 														onChange={() => handleCheck(item.id)}
 													/>
 													<span>{item.name}</span>
@@ -308,7 +312,9 @@ export default function List() {
 														)
 															.unwrap()
 															.then(() => {
-																dispatch(fetchGroceryList(listId)); // ✅ Ensure UI updates after delete
+																dispatch(
+																	fetchGroceryList(listId)
+																); // ✅ Ensure UI updates after delete
 															})
 															.catch((error) =>
 																console.error(
@@ -326,7 +332,8 @@ export default function List() {
 								{provided.placeholder}
 							</ul>
 						)}
-					</Droppable>}
+					</Droppable>
+				)}
 			</DragDropContext>
 			<OpenModalButton
 				modalComponent={
@@ -335,6 +342,28 @@ export default function List() {
 				buttonText='Delete List'
 				className='delete-button'
 			/>
+			<>
+				<p>
+					<strong>Created On:</strong>{' '}
+					{new Date(groceryList?.createdAt).toLocaleString('en-US', {
+						month: 'long',
+						day: 'numeric',
+						year: 'numeric',
+						hour: '2-digit',
+						minute: '2-digit',
+					})}
+				</p>
+				<p>
+					<strong>Last Updated:</strong>{' '}
+					{new Date(groceryList?.updatedAt).toLocaleString('en-US', {
+						month: 'long',
+						day: 'numeric',
+						year: 'numeric',
+						hour: '2-digit',
+						minute: '2-digit',
+					})}
+				</p>
+			</>
 		</div>
 	);
 }
