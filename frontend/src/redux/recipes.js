@@ -56,6 +56,7 @@ export const fetchRecipe = createAsyncThunk(
 
 				return {
 					...ingredient, // ✅ Now includes full details
+					id: ingredient.id,
 					quantity: recipeIngredient?.quantity || 1,
 					measurement: recipeIngredient?.Measurement?.name || '',
 					abbreviation: recipeIngredient?.Measurement?.abbreviation || '',

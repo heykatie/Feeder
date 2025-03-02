@@ -14,7 +14,7 @@ export default function List() {
 	const { listId } = useParams();
 	const dispatch = useDispatch();
 	const groceryList = useSelector((state) =>
-		state.lists.allLists.find((list) => list.id === Number(listId))
+		state.lists?.allLists?.find((list) => list.id === Number(listId))
 	);
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState(groceryList?.name || '');

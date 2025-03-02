@@ -133,22 +133,26 @@ const Recipe = () => {
 			</div>
 			<p className='recipe-description'>{recipe.description}</p>
 
-			<div className='recipe-servings-container'>
-				<label className='servings-label'>Servings:</label>
-				<input
-					type='number'
-					min='1'
-					value={servings}
-					onChange={handleServingsChange}
-					className='servings-input'
-				/>
-				{servings !== recipe?.servings && (
-					<button onClick={handleResetServings} className='reset-btn'>
-						Reset
-					</button>
-				)}
+			<div className='recipe-adjust'>
+				<div className='recipe-servings-container'>
+					<label className='servings-label'>Servings:</label>
+					<input
+						type='number'
+						min='1'
+						value={servings}
+						onChange={handleServingsChange}
+						className='servings-input'
+					/>
+					{servings !== recipe?.servings && (
+						<button onClick={handleResetServings} className='reset-btn'>
+							Reset
+						</button>
+					)}
+				</div>
+				<button className='grocery-btn' onClick={handleGenerateList}>
+					Generate Grocery List 🛒
+				</button>
 			</div>
-
 			<div
 				className={`recipe-section collapsible ${
 					showIngredients ? 'open' : ''
@@ -167,8 +171,7 @@ const Recipe = () => {
 										{adjustedIngredients[ingredient.id] ||
 											ingredient.quantity}
 									</span>{' '}
-									<span
-										className='ingredient-measurement'>
+									<span className='ingredient-measurement'>
 										{ingredient.measurement ||
 											ingredient.abbreviation ||
 											''}
@@ -243,10 +246,6 @@ const Recipe = () => {
 					{showNotes && <p className='recipe-notes'>{recipe.notes}</p>}
 				</div>
 			)}
-
-			<button className='grocery-btn' onClick={handleGenerateList}>
-				Generate Grocery List 🛒
-			</button>
 		</div>
 	);
 };

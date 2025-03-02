@@ -37,20 +37,20 @@ const IngredientModal = ({
 	const [updatedIngredientMeasurements, setUpdatedIngredientMeasurements] =
 		useState(ingredientMeasurements || {});
 
-	const handleIngredientChange = (ingredientId, checked) => {
+	const handleIngredientChange = (ingredient, checked) => {
 		setUpdatedSelectedIngredients((prev) =>
 			checked
-				? [...prev, ingredientId]
-				: prev.filter((id) => id !== ingredientId)
+				? [...prev, ingredient] // Store the whole object
+				: prev.filter((ing) => ing.id !== ingredient.id)
 		);
 		setUpdatedIngredientQuantities((prev) => {
 			const updated = { ...prev };
-			if (!checked) delete updated[ingredientId];
+			if (!checked) delete updated[ingredient.id];
 			return updated;
 		});
 		setUpdatedIngredientMeasurements((prev) => {
 			const updated = { ...prev };
-			if (!checked) delete updated[ingredientId];
+			if (!checked) delete updated[ingredient.id];
 			return updated;
 		});
 	};
@@ -111,7 +111,7 @@ const IngredientModal = ({
 								ingredient.id
 							)}
 							onChange={(e) =>
-								handleIngredientChange(ingredient.id, e.target.checked)
+								handleIngredientChange(ingredient, e.target.checked)
 							}
 						/>
 						{/* <label className='ingredient-label'>{ingredient.name}</label> */}

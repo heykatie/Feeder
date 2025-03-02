@@ -134,7 +134,7 @@
 }
 
 .recipe-container .grocery-btn {
-  margin-top: 10px;
+  min-width: fit-content;
 }
 
 .recipe-container .recipe-header {
@@ -212,6 +212,10 @@
   font-size: 1rem;
 }
 
+.recipe-adjust {
+  display: flex;
+  justify-content: space-between !important;
+}
 .recipe-servings-container {
   display: flex;
   align-items: left;

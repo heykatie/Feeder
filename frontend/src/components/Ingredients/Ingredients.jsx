@@ -16,23 +16,25 @@ const Ingredients = ({
 		<div className='ingredients-preview'>
 			<h3>Ingredients Preview</h3>
 			<ul>
-				{selectedIngredients.map((ingredientId) => {
-					const ingredient = ingredients.find(
-						(ing) => ing.id === ingredientId
-					);
-					const quantity = ingredientQuantities[ingredientId] || 'N/A';
-					const measurementId = ingredientMeasurements[ingredientId];
-					const measurement = measurements.find(
-						(m) => m.id === measurementId
-					);
-					const measurementName = measurement ? measurement.name : 'Unit';
+				{selectedIngredients.map((ingredient) => {
+					const quantity = ingredientQuantities?.[ingredient.id] ?? 'N/A';
+					const measurementId =
+						ingredientMeasurements?.[ingredient.id] ?? null;
+
+					const measurement = measurementId
+						? measurements?.find((m) => m.id === measurementId)
+						: null;
+
+					const measurementName =
+						measurement?.name || ingredient.measurement || 'Unit';
+
 					return (
-						<li key={ingredientId} className='ingredient-preview-item'>
-							<span className='ingredient-name'>{ingredient?.name}</span>
+						<li key={ingredient.id} className='ingredient-preview-item'>
 							<span className='ingredient-quantity'>{quantity}</span>
 							<span className='ingredient-measurement'>
 								{measurementName}
 							</span>
+							<span className='ingredient-name'>{ingredient.name}</span>
 						</li>
 					);
 				})}

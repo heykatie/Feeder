@@ -82,7 +82,7 @@ const StartingChef = ({ onUpdate, initialData }) => {
 						: (currentIndex - 1 + eyeShapes.length) % eyeShapes.length;
 				updateSelection('eyeShape', eyeShapes[newIndex]);
 			} else if (sections[selectedSection] === 'personality') {
-				const currentIndex = personalities.findIndex(
+				const currentIndex = personalities?.findIndex(
 					(p) => p.label === personality
 				);
 				const newIndex =

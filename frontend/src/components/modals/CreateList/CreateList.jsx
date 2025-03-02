@@ -41,7 +41,7 @@ const CreateListModal = () => {
 		const recipeId = e.target.value;
 		setSelectedRecipe(recipeId);
 
-		const selectedRecipeObj = recipes.find((recipe) => recipe.id == recipeId);
+		const selectedRecipeObj = recipes?.find((recipe) => recipe.id == recipeId);
 		if (selectedRecipeObj) {
 			setListName(`Grocery for ${selectedRecipeObj.title}`);
 		}

@@ -21,7 +21,7 @@ const RecipeForm = () => {
 	const { id } = useParams();
 	const ingredients = useSelector((state) => state.ingredients.allList);
 	const recipe = useSelector((state) =>
-		state.recipes.allRecipes.find((r) => r.id === Number(id))
+		state.recipes?.allRecipes?.find((r) => r.id === Number(id))
 	);
 	const user = useSelector((state) => state.session.user);
 
@@ -49,24 +49,6 @@ const RecipeForm = () => {
 	}, [dispatch, id, recipe, ingredients.length]);
 
 	useEffect(() => {
-		if (recipe && recipe.id === Number(id)) {
-			setSelectedIngredients(recipe.Ingredients?.map((ing) => ing.id) || []);
-			setIngredientQuantities(
-				recipe.Ingredients?.reduce((acc, ing) => {
-					acc[ing.id] = ing.RecipeIngredient?.quantity || 1;
-					return acc;
-				}, {}) || {}
-			);
-			setIngredientMeasurements(
-				recipe.Ingredients?.reduce((acc, ing) => {
-					acc[ing.id] = ing.RecipeIngredient?.measurement || '';
-					return acc;
-				}, {}) || {}
-			);
-		}
-	}, [recipe, id]);
-
-	useEffect(() => {
 		setTotalTime(prepTime + cookTime);
 	}, [prepTime, cookTime]);
 
@@ -92,15 +74,56 @@ const RecipeForm = () => {
 			setInstructions(
 				recipe.instructions ? JSON.parse(recipe.instructions) : []
 			);
-			setSelectedIngredients(recipe.Ingredients?.map((ing) => ing.id) || []);
-			setIngredientQuantities(
-				recipe.Ingredients?.reduce((acc, ing) => {
-					acc[ing.id] = ing.RecipeIngredient?.quantity || '1 unit';
-					return acc;
-				}, {}) || {}
-			);
+
+			// Ensure selectedIngredients is an array of objects, not IDs
+			setSelectedIngredients(recipe.Ingredients || []);
+
+			// Set ingredient quantities & measurements correctly
+			const updatedQuantities = {};
+			const updatedMeasurements = {};
+
+			recipe.Ingredients?.forEach((ing) => {
+				if (ing.RecipeIngredient) {
+					updatedQuantities[ing.id] = ing.RecipeIngredient.quantity ?? 1; // ID as key, quantity as value
+					updatedMeasurements[ing.id] =
+						ing.RecipeIngredient.measurementId ?? null; // ID as key, measurementId as value
+				} else {
+					updatedQuantities[ing.id] = 1;
+					updatedMeasurements[ing.id] = null;
+				}
+			});
+
+			setIngredientQuantities(updatedQuantities);
+			setIngredientMeasurements(updatedMeasurements);
 		}
 	}, [recipe, id]);
+
+
+	// useEffect(() => {
+	// 	if (recipe && recipe.id === Number(id)) {
+	// 		setTitle(recipe.title || '');
+	// 		setDescription(recipe.description || '');
+	// 		setImageUrl(recipe.imageUrl || '');
+	// 		setCategory(recipe.category || '');
+	// 		setDifficulty(recipe.difficulty || 'Easy');
+	// 		setServings(recipe.servings || 1);
+	// 		setPrepTime(recipe.prepTime || 0);
+	// 		setCookTime(recipe.cookTime || 0);
+	// 		setTotalTime(recipe.totalTime || 0);
+	// 		setIsPublic(recipe.isPublic ?? true);
+	// 		setNotes(recipe.notes || '');
+	// 		setInstructions(
+	// 			recipe.instructions ? JSON.parse(recipe.instructions) : []
+	// 		);
+	// 		setSelectedIngredients(recipe.Ingredients?.map((ing) => ing.id) || []);
+	// 		setIngredientQuantities(
+	// 			recipe.Ingredients?.reduce((acc, ing) => {
+	// 				acc[ing.id] = ing.RecipeIngredient?.quantity || '1 unit';
+	// 				return acc;
+	// 			}, {}) || {}
+	// 		);
+	// 	}
+	// }, [recipe, id]);
 
 	const handleCategoryChange = (e) => {
 		const value = e.target.value;
@@ -141,7 +164,7 @@ const RecipeForm = () => {
 			(step) => step.trim() !== ''
 		);
 
-		console.error('katie', ingredientMeasurements[id]?.id);
+		// console.error('katie', ingredientMeasurements[id]?.id);
 		const recipeData = {
 			userId: user.id,
 			title,
@@ -209,7 +232,7 @@ const RecipeForm = () => {
 		e.preventDefault();
 		navigate(-1);
 	};
-
+	
 	return (
 		<div className='new-recipe-container'>
 			<h1 className='form-title'>
@@ -239,14 +262,12 @@ const RecipeForm = () => {
 					onChange={(e) => setTitle(e.target.value)}
 					required
 				/>
-
 				<label className='form-label'>Description:</label>
 				<textarea
 					className='form-textarea'
 					value={description}
 					onChange={(e) => setDescription(e.target.value)}
 				/>
-
 				<div className='form-row'>
 					<div className='form-group'>
 						<label className='form-label'>Category:*</label>
@@ -300,7 +321,6 @@ const RecipeForm = () => {
 						</select>
 					</div>
 				</div>
-
 				<div className='form-row'>
 					<div className='form-group'>
 						<label className='form-label'>Prep Time (min):</label>
@@ -334,14 +354,12 @@ const RecipeForm = () => {
 						/>
 					</div>
 				</div>
-
 				<label className='form-label'>Notes:</label>
 				<textarea
 					className='form-textarea'
 					value={notes}
 					onChange={(e) => setNotes(e.target.value)}
 				/>
-
 				<div
 					className='recipe-add-btns'
 					onClick={(e) => e.preventDefault()}>
@@ -371,7 +389,10 @@ const RecipeForm = () => {
 						}
 					/>
 				</div>
-
+				{console.error(
+					'katie',
+					ingredientQuantities, ingredientMeasurements
+				)}
 				{selectedIngredients.length > 0 && (
 					<Ingredients
 						selectedIngredients={selectedIngredients}
@@ -380,11 +401,9 @@ const RecipeForm = () => {
 						ingredients={ingredients}
 					/>
 				)}
-
 				{instructions.length > 0 && (
 					<Instructions instructions={instructions} />
 				)}
-
 				<div className='form-group'>
 					<label className='form-label'>Make Recipe Public:</label>
 					<input

@@ -118,7 +118,7 @@ export default function List() {
 		if (!result.destination) return;
 		const { draggableId, source, destination } = result;
 		const draggedIngredientId = parseInt(result.draggableId, 10); // Convert ID to number
-		const newIngredient = availableIngredients.find(
+		const newIngredient = availableIngredients?.find(
 			(ing) => ing.id === draggedIngredientId
 		);
 
