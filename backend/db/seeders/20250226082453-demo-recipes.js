@@ -17,7 +17,8 @@ module.exports = {
 					title: 'Chicken & Rice Bowl',
 					description:
 						'A simple, balanced meal with lean chicken and brown rice for dogs.',
-					imageUrl: 'https://example.com/chicken-rice.jpg',
+					imageUrl:
+						'https://wearenotmartha.com/wp-content/uploads/chicken-and-rice-for-dogs-lead-683x1024.jpg',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Boil chicken breast until fully cooked.',
@@ -39,7 +40,8 @@ module.exports = {
 					title: 'Peanut Butter Banana Bites',
 					description:
 						'Frozen treats with peanut butter and banana, perfect for a snack.',
-					imageUrl: 'https://example.com/peanut-banana.jpg',
+					imageUrl:
+						'https://unconventionalcooks.com/wp-content/uploads/2016/03/edit-frozen-pb-chocolate-banana-bites-3.jpg',
 					category: 'Treats',
 					instructions: JSON.stringify([
 						'Mash bananas in a bowl until smooth.',
@@ -61,7 +63,8 @@ module.exports = {
 					title: 'Beef & Sweet Potato Stew',
 					description:
 						'A hearty beef stew with sweet potatoes, packed with nutrients.',
-					imageUrl: 'https://example.com/beef-stew.jpg',
+					imageUrl:
+						'https://images.getrecipekit.com/20241120105039-beef-20-26-20sp-20v1.jpeg?aspect_ratio=16:9&quality=90&',
 					category: 'Stew',
 					instructions: JSON.stringify([
 						'Brown the ground beef in a pan.',
@@ -84,7 +87,8 @@ module.exports = {
 					title: 'Salmon & Quinoa Bowl',
 					description:
 						'A protein-rich meal with omega-3 fatty acids for a shiny coat.',
-					imageUrl: 'https://example.com/salmon-quinoa.jpg',
+					imageUrl:
+						'https://www.eatingwell.com/thmb/sPPzfWwOr90AtwtLJENVgHAebVc=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/8110444-fe18d867dddf4b7ca90ac3c05dff42a0.jpg',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook quinoa according to package instructions.',
@@ -106,7 +110,8 @@ module.exports = {
 					title: 'Turkey & Pumpkin Mash',
 					description:
 						'A delicious and easy-to-digest turkey meal with pumpkin for gut health.',
-					imageUrl: 'https://example.com/turkey-pumpkin.jpg',
+					imageUrl:
+						'https://thecozyapron.com/wp-content/uploads/2022/11/turkey-meatballs-in-pumpkin-sage-sauce_thecozyapron_1.jpg',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook ground turkey in a pan until no longer pink.',
@@ -127,7 +132,8 @@ module.exports = {
 					title: 'Blueberry Oatmeal Cookies',
 					description:
 						'Crunchy, homemade dog cookies with blueberries and oats.',
-					imageUrl: 'https://example.com/blueberry-cookies.jpg',
+					imageUrl:
+						'https://www.thewhistlingkettle.com/cdn/shop/products/product-blueberries-and-cream-scones-with-sweet-glaze-the-whistling-kettle-15766113812535.jpg?v=1675791417&width=1024',
 					category: 'Treats',
 					instructions: JSON.stringify([
 						'Preheat oven to 350°F (175°C).',
@@ -150,7 +156,8 @@ module.exports = {
 					title: 'Lamb & Brown Rice Dinner',
 					description:
 						'A rich lamb dish with brown rice, great for sensitive stomachs.',
-					imageUrl: 'https://example.com/lamb-rice.jpg',
+					imageUrl:
+						'https://completelynourished.com/wp-content/uploads/2020/04/20200412_075928.jpg?w=1024',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook ground lamb in a pan until fully browned.',
@@ -171,7 +178,8 @@ module.exports = {
 					title: 'Apple Carrot Pupcakes',
 					description:
 						'Mini cupcakes made with apples and carrots for a vitamin boost.',
-					imageUrl: 'https://example.com/apple-carrot.jpg',
+					imageUrl:
+						'https://scontent-sjc3-1.xx.fbcdn.net/v/t39.30808-6/475786589_624014463514859_400421170891784191_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=aa7b47&_nc_ohc=zhCUe1wohd8Q7kNvgFGmtLf&_nc_oc=AdhtpxWzPpLq7cPLUj-tsSRuqFgd6cFyCuTHCxmToK2lH7Ww2YlcDQMuYENdXj5Rv3VT57ubmkqi3pMnyBVn-Mjk&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&_nc_gid=ArKLFykN5_wclQE-zkPD-YW&oh=00_AYBxuyDJ4leHJvCuoQJribW1fQ1djkzLT-NPaCqiWAXrKg&oe=67CA0053',
 					category: 'Treats',
 					instructions: JSON.stringify([
 						'Preheat oven to 350°F (175°C).',
@@ -194,7 +202,8 @@ module.exports = {
 					title: 'Chicken Liver Training Treats',
 					description:
 						'Soft and high-protein training treats made with chicken liver.',
-					imageUrl: 'https://example.com/liver-treats.jpg',
+					imageUrl:
+						'https://www.bdws.co.uk/wp-content/uploads/liver-treat-recipe-for-dogs.jpg',
 					category: 'Training Treats',
 					instructions: JSON.stringify([
 						'Blend chicken liver in a food processor until smooth.',
@@ -237,7 +246,8 @@ module.exports = {
 					title: 'Coconut Yogurt Bites',
 					description:
 						'Frozen coconut yogurt treats to cool your pup on hot days.',
-					imageUrl: 'https://example.com/coconut-yogurt.jpg',
+					imageUrl:
+						'https://www.pookspantry.com/wp-content/uploads/2022/05/meatballs-for-dogs.jpg',
 					category: 'Frozen Treats',
 					instructions: JSON.stringify([
 						'Mix unsweetened coconut yogurt with mashed banana.',
@@ -258,7 +268,8 @@ module.exports = {
 					title: 'Vegetable Broth for Hydration',
 					description:
 						'A nutrient-rich vegetable broth for hydration and gut health.',
-					imageUrl: 'https://example.com/veggie-broth.jpg',
+					imageUrl:
+						'https://nutritionfacts.org/app/uploads/2018/01/Veggie-Broth-NF-6-500x500.jpg',
 					category: 'Soup & Broth',
 					instructions: JSON.stringify([
 						'Simmer chopped carrots, celery, and parsley in water for 1 hour.',

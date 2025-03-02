@@ -23,6 +23,7 @@ module.exports = {
 					calcium: 5,
 					iron: 0.9,
 					moisture: 69,
+					image: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGoybGc2YWd5bW44bjJhZWFzbzJyN2k1N3NqZHhrMWs4bTFpazNpYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vZ4b5aFw6M6eesYMpe/giphy.gif',
 					servingSize: '100g', // Standard nutrition reference
 				},
 				{
@@ -37,6 +38,7 @@ module.exports = {
 					calcium: 10,
 					iron: 0.8,
 					moisture: 12,
+					image: 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGdybHMxdjVsdzNqeWI4Z3FuOWt5dTNlMXFqaWgxNWJ1aDV1MWpubyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/UXg5N4aA7xUeXUWIy8/giphy.gif',
 					servingSize: '1 cup cooked (195g)',
 				},
 				{
@@ -51,6 +53,7 @@ module.exports = {
 					calcium: 30,
 					iron: 0.6,
 					moisture: 77,
+					image: 'https://art.pixilart.com/dbeae09d1cae603.gif',
 					servingSize: '1 medium (114g)',
 				},
 				{
@@ -65,6 +68,7 @@ module.exports = {
 					calcium: 9,
 					iron: 0.5,
 					moisture: 64,
+					image: 'https://img1.picmix.com/output/stamp/normal/4/0/1/3/2613104_c30d0.gif',
 					servingSize: '100g fillet',
 				},
 				{
@@ -79,6 +83,7 @@ module.exports = {
 					calcium: 21,
 					iron: 0.8,
 					moisture: 92,
+					image: 'https://www.icegif.com/wp-content/uploads/2023/10/icegif-72.gif',
 					servingSize: '½ cup mashed (120g)',
 				},
 				{
@@ -93,6 +98,7 @@ module.exports = {
 					calcium: 6,
 					iron: 0.3,
 					moisture: 84,
+					image: 'https://i.pinimg.com/originals/1e/09/e7/1e09e7533262f2a6bf5badfe05c71c3e.gif',
 					servingSize: '½ cup (74g)',
 				},
 				{
@@ -107,6 +113,7 @@ module.exports = {
 					calcium: 21,
 					iron: 1.7,
 					moisture: 10,
+					image: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTh3MW41b3BmdzRiMm80NjVnY2VtaDZob3hmeW42dmF0cTN5NXk3cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/nrSRWL9TNU3LiSKznp/giphy.gif',
 					servingSize: '½ cup dry (40g)',
 				},
 				{
@@ -121,6 +128,7 @@ module.exports = {
 					calcium: 11,
 					iron: 9.2,
 					moisture: 68,
+					image: 'https://media.baamboozle.com/uploads/images/1148231/1680373007_183059_gif-url.gif',
 					servingSize: '40g',
 				},
 				{
@@ -135,6 +143,7 @@ module.exports = {
 					calcium: 33,
 					iron: 0.3,
 					moisture: 88,
+					image: 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGt6bTVlZnV6cmVtMjl4aGo4ZmZuMTl6cGsxY2xmc2djank4NG1lNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Pmj5hfzsgEZzJScmJQ/giphy.gif',
 					servingSize: '1 medium (61g)',
 				},
 				{
@@ -149,6 +158,7 @@ module.exports = {
 					calcium: 110,
 					iron: 0,
 					moisture: 85,
+					image: 'https://cdn.dribbble.com/userupload/21321693/file/original-8317b5963818a5710713c017c586df74.gif',
 					servingSize: '½ cup (113g)',
 				},
 				{
@@ -163,6 +173,7 @@ module.exports = {
 					calcium: 0,
 					iron: 0,
 					moisture: 0,
+					image: 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaThycnUyMmR3ZXplODk0OG00M2Q2d2gxcW1rYTFvYThtMmZ0ZjRqeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/U9Q3jbpsDcSz9BMQnS/giphy.gif',
 					servingSize: '1 tbsp (14g)',
 				},
 				{
@@ -177,6 +188,7 @@ module.exports = {
 					calcium: 15,
 					iron: 0.3,
 					moisture: 96,
+					image: 'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHJlbmZwdjdmMGhwbTlya3d6M290MjZvdHpyYzBhMG9lY3A1YTFqZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xUOrvYDUuRXnlhoVlm/giphy.gif',
 					servingSize: '1 cup (240ml)',
 				},
 			],

@@ -21,7 +21,7 @@ module.exports = {
 					weight: 10.5,
 					allergies: 'None',
 					notes: 'Loves fish-based meals.',
-					image: 'https://example.com/whiskers.jpg',
+					image: 'https://nftcalendar.io/storage/uploads/news/2022/1/jSvtcuMnmSCqFUMb8wvq8MbKtyq4crPL4kVGZ4EZ.gif',
 					birthday: '2021-02-14',
 				},
 				{
@@ -33,7 +33,7 @@ module.exports = {
 					weight: 65.2,
 					allergies: 'Peanuts',
 					notes: 'Very active and loves to play fetch.',
-					image: 'https://example.com/rex.jpg',
+					image: 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3ZnZHUwcmV6MW90bDh0N2xibnh5bGs1dG05bmtrMTJ2emE5Y284YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/o0EoFrYBqjtyV7Qpgq/giphy.gif',
 					birthday: '2019-08-25',
 				},
 				{
@@ -45,7 +45,7 @@ module.exports = {
 					weight: 12.3,
 					allergies: 'Dairy',
 					notes: 'Prefers warm meals and cozy naps.',
-					image: 'https://example.com/mittens.jpg',
+					image: 'https://nftcalendar.io/storage/uploads/news/2022/1/jSvtcuMnmSCqFUMb8wvq8MbKtyq4crPL4kVGZ4EZ.gif',
 					birthday: '2020-06-30',
 				},
 			],
