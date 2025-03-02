@@ -57,16 +57,18 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 				aria-label='Collapse Sidebar'
 				className='close-btn'
 				onClick={toggleSidebar}>
-				<i className='fa-solid fa-xmark'></i>
+				✖{/* <i className='fa-solid fa-xmark'></i> */}
 			</button>
-			{user && <div className='sidebar-header'>
-				<img
-					src={user.avatarUrl}
-					alt='User Avatar'
-					className='user-avatar'
-				/>
-				<span className='username'>{user.username}</span>
-			</div>}
+			{user && (
+				<div className='sidebar-header'>
+					<img
+						src={user.avatarUrl}
+						alt='User Avatar'
+						className='user-avatar'
+					/>
+					<span className='username'>{user.username}</span>
+				</div>
+			)}
 			<ul className='rsidebar-links'>
 				<li>
 					<NavLink

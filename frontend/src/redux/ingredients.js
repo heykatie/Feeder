@@ -31,6 +31,42 @@ export const fetchMeasurements = createAsyncThunk(
 	}
 );
 
+export const createIngredient = createAsyncThunk(
+	'ingredients/createIngredient',
+	async (ingredientData, { rejectWithValue }) => {
+		try {
+			console.log(`🍏 Creating new ingredient: ${ingredientData.name}`);
+
+			const response = await csrfFetch('/api/ingredients', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(ingredientData),
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to create ingredient');
+			}
+
+			console.log(`✅ Ingredient created: ${data.name}`);
+			return data;
+		} catch (error) {
+			if (error.json) {
+				const err = await error.json()
+				console.error('❌ Error in createIngredient thunk:', err);
+
+				if (err.error.includes('already exists')) {
+					return rejectWithValue(err.error);
+				}
+				return rejectWithValue(err);
+			}
+
+			return rejectWithValue(error || 'Something went wrong');
+		}
+	}
+);
+
 export const deleteIngredient = createAsyncThunk(
 	'lists/deleteIngredient',
 	async ({ listId, ingredientId }, { rejectWithValue }) => {
@@ -76,6 +112,12 @@ const ingredientsSlice = createSlice({
 		builder
 			.addCase(fetchIngredients.fulfilled, (state, action) => {
 				state.allList = action.payload;
+			})
+			.addCase(createIngredient.fulfilled, (state, action) => {
+				state.allList.push(action.payload); // Add new ingredient to state
+			})
+			.addCase(createIngredient.rejected, (state, action) => {
+				state.error = action.payload;
 			})
 			.addCase(fetchMeasurements.fulfilled, (state, action) => {
 				state.measurements = action.payload;

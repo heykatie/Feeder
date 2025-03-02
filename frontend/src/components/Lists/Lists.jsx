@@ -16,7 +16,7 @@ const Lists = () => {
 	const { closeModal } = useModal();
 
 	useEffect(() => {
-		if (user && allLists.length === 0) {
+		if (user) {
 			dispatch(fetchAllLists());
 		}
 	}, [dispatch, user, allLists.length]);

@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../../context/ModalContext';
 import { fetchMeasurements } from '../../../redux/ingredients';
+import IngredientInfo from '../IngredientInfo';
+import OpenModal from '../../../context/OpenModal';
 import './IngredientModal.css';
 
 const IngredientModal = ({
 	ingredients,
-	selectedIngredients,
+	selectedIngredients = [],
 	setSelectedIngredients,
 	ingredientQuantities,
 	setIngredientQuantities,
@@ -96,7 +98,13 @@ const IngredientModal = ({
 								handleIngredientChange(ingredient.id, e.target.checked)
 							}
 						/>
-						<label className='ingredient-label'>{ingredient.name}</label>
+						{/* <label className='ingredient-label'>{ingredient.name}</label> */}
+						<OpenModal
+							className='ingredient-label'
+							itemText={ingredient.name}
+							parentModal={<IngredientModal ingredients={ingredients} />}
+							modalComponent={<IngredientInfo ingredient={ingredient} />}
+						/>
 
 						<input
 							type='number'

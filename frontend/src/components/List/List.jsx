@@ -9,11 +9,15 @@ import {
 	fetchAllLists,
 	saveIngredient,
 } from '../../redux/lists';
-import { fetchIngredients, deleteIngredient } from '../../redux/ingredients';
+import {
+	fetchIngredients,
+	createIngredient, deleteIngredient,
+} from '../../redux/ingredients';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import OpenModalButton from '../../context/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { useModal } from '../../context/ModalContext';
+import NewIngredient from '../modals/NewIngredient'
 
 export default function List() {
 	const { closeModal } = useModal();
@@ -61,6 +65,20 @@ export default function List() {
 			setCheckedItems(initialCheckedState);
 		}
 	}, [groceryList]);
+
+	const handleCreateIngredient = async () => {
+		const newIngredientName = prompt('Enter new ingredient name:');
+		if (!newIngredientName) return;
+
+		dispatch(createIngredient({ name: newIngredientName }))
+			.unwrap()
+			.then(() => {
+				dispatch(fetchIngredients()); // Refresh ingredient list
+			})
+			.catch((error) =>
+				console.error('❌ Error creating ingredient:', error)
+			);
+	};
 
 	const handleCheck = async (groceryIngredientId) => {
 		const newCheckedState = !checkedItems[groceryIngredientId];
@@ -204,16 +222,18 @@ export default function List() {
 					</Link>
 				</p>
 			)}
-			<button
-				onClick={toggleAvailableIngredients}
-				className='toggle-ingredients-button'>
-				{showAvailableIngredients
-					? 'Hide Ingredients'
-					: 'Show Ingredients to Add'}
-			</button>
+			{groceryList.type === 'shopping' ? (
+				<button
+					onClick={toggleAvailableIngredients}
+					className='toggle-ingredients-button'>
+					{showAvailableIngredients
+						? 'Hide Ingredients'
+						: 'Show Ingredients to Add'}
+				</button>
+			) : <p>Add Feature Coming Soon...</p>}
 
 			<DragDropContext onDragEnd={onDragEnd}>
-				{showAvailableIngredients && (
+				{groceryList.type === 'shopping' && showAvailableIngredients && (
 					<div>
 						<Droppable droppableId='ingredients'>
 							{(provided) => (
@@ -244,67 +264,70 @@ export default function List() {
 								</div>
 							)}
 						</Droppable>
+						<OpenModalButton
+							buttonText='➕ Add New Ingredient'
+							className='create-ingredient-btn'
+							modalComponent={<NewIngredient />}
+						/>
 					</div>
 				)}
-
-				<Droppable droppableId='groceryList'>
-					{(provided) => (
-						<ul
-							ref={provided.innerRef}
-							{...provided.droppableProps}
-							className='grocery-list'>
-							<h3>My Grocery List:</h3>
-							{groceryList.Ingredients?.map((item, i) => (
-								<Draggable
-									key={item.id}
-									draggableId={item.id.toString()}
-									index={i}>
-									{(provided) => (
-										<li
-											ref={provided.innerRef}
-											{...provided.draggableProps}
-											{...provided.dragHandleProps}>
-											<label>
-												<input
-													type='checkbox'
-													checked={checkedItems[item.id] || false}
-													onChange={() => handleCheck(item.id)}
-												/>
-												<span>{item.name}</span>
-											</label>
-											<button
-												style={{ background: 'none' }}
-												onClick={() =>
-													dispatch(
-														deleteIngredient({
-															listId: groceryList.id,
-															ingredientId:
-																item.ingredientId,
-														})
-													)
-														.unwrap()
-														.then(() => {
-															dispatch(fetchGroceryList(listId)); // ✅ Ensure UI updates after delete
-														})
-														.catch((error) =>
-															console.error(
-																'❌ Error deleting ingredient:',
-																error
-															)
+				{groceryList.type === 'shopping' &&
+					<Droppable droppableId='groceryList'>
+						{(provided) => (
+							<ul
+								ref={provided.innerRef}
+								{...provided.droppableProps}
+								className='grocery-list'>
+								<h3>My Grocery List:</h3>
+								{groceryList.Ingredients?.map((item, i) => (
+									<Draggable
+										key={item.id}
+										draggableId={item.id.toString()}
+										index={i}>
+										{(provided) => (
+											<li
+												ref={provided.innerRef}
+												{...provided.draggableProps}
+												{...provided.dragHandleProps}>
+												<label>
+													<input
+														type='checkbox'
+														checked={checkedItems[item.id] || false}
+														onChange={() => handleCheck(item.id)}
+													/>
+													<span>{item.name}</span>
+												</label>
+												<button
+													style={{ background: 'none' }}
+													onClick={() =>
+														dispatch(
+															deleteIngredient({
+																listId: groceryList.id,
+																ingredientId: item.ingredientId,
+															})
 														)
-												}>
-												🗑
-											</button>
-										</li>
-									)}
-								</Draggable>
-							))}
-							{provided.placeholder}
-						</ul>
-					)}
-				</Droppable>
+															.unwrap()
+															.then(() => {
+																dispatch(fetchGroceryList(listId)); // ✅ Ensure UI updates after delete
+															})
+															.catch((error) =>
+																console.error(
+																	'❌ Error deleting ingredient:',
+																	error
+																)
+															)
+													}>
+													🗑
+												</button>
+											</li>
+										)}
+									</Draggable>
+								))}
+								{provided.placeholder}
+							</ul>
+						)}
+					</Droppable>}
 			</DragDropContext>
-
 			<OpenModalButton
 				modalComponent={
 					<ConfirmDelete onConfirm={handleDelete} itemType='list' />

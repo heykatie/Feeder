@@ -46,7 +46,7 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 				aria-label='Collapse Sidebar'
 				className='close-btn'
 				onClick={toggleExpand}>
-				<i className='fa-solid fa-xmark'></i>
+				✖{/* <i className='fa-solid fa-xmark'></i> */}
 			</button>
 			<div className='sidebar-header'>
 				<NavLink to='/'>

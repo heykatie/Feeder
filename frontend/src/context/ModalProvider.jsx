@@ -54,8 +54,11 @@ export function Modal() {
 		<div id='modal'>
 			<div id='modal-background' onClick={closeModal} />
 			<div id='modal-content'>
-				<button aria-label='close-btn' id='modal-close' onClick={closeModal}>
-					<i className='fa-solid fa-xmark'></i>
+				<button
+					aria-label='close-btn'
+					id='modal-close'
+					onClick={closeModal}>
+					{/* <i className='fa-solid fa-xmark'></i> */}✖
 				</button>
 				{modalContent}
 			</div>
