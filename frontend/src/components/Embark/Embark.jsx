@@ -62,10 +62,6 @@ const Embark = () => {
 
 	const handleExit = useCallback(() => {
 		setShowExitModal(true);
-		setTimeout(() => {
-			navigate('/', { replace: true });
-			setStep(0);
-		}, 0);
 	}, []);
 
 	const handleSubmit = async (e) => {
