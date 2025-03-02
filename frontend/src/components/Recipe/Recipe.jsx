@@ -8,6 +8,8 @@ import ConfirmDelete from '../modals/ConfirmDelete';
 import { toggleFavorite } from '../../redux/recipes';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { generateGroceryList } from '../../redux/lists';
+import IngredientInfo from '../modals/IngredientInfo';
+import OpenModal from '../../context/OpenModal';
 import './Recipe.css';
 
 const Recipe = () => {
@@ -39,7 +41,7 @@ const Recipe = () => {
 	useEffect(() => {
 		if (recipe) {
 			setIsFavorited(recipe.liked);
-			setServings(recipe.servings)
+			setServings(recipe.servings);
 		}
 	}, [recipe]);
 
@@ -53,20 +55,38 @@ const Recipe = () => {
 		}
 	};
 
+	// useEffect(() => {
+	// 	if (recipe?.Ingredients) {
+	// 		const newIngredients = recipe.Ingredients.map((ingredient) => {
+	// 			const scaledQuantity =
+	// 				(ingredient.quantity * servings) / recipe.servings;
+	// 			return {
+	// 				...ingredient,
+	// 				scaledQuantity: parseFloat(scaledQuantity.toFixed(2)),
+	// 			};
+	// 		});
+	// 		setAdjustedIngredients(newIngredients);
+	// 	}
+	// }, [servings, recipe]);
+
 	useEffect(() => {
-		if (recipe?.Ingredients) {
-			const newIngredients = recipe.Ingredients.map((ingredient) => {
-				const scaledQuantity =
-					(ingredient.quantity * servings) / recipe.servings;
-				return {
-					...ingredient,
-					scaledQuantity: parseFloat(scaledQuantity.toFixed(2)), // Avoid floating-point issues
-				};
-			});
-			setAdjustedIngredients(newIngredients);
+		if (recipe?.RecipeIngredients && recipe?.Ingredients) {
+			// Create a mapping of scaled quantities
+			const quantityMap = recipe.RecipeIngredients.reduce(
+				(acc, recipeIngredient) => {
+					const scaledQuantity =
+						(recipeIngredient.quantity * servings) / recipe.servings;
+					acc[recipeIngredient.ingredientId] = parseFloat(
+						scaledQuantity.toFixed(2)
+					);
+					return acc;
+				},
+				{}
+			);
+
+			setAdjustedIngredients(quantityMap);
 		}
 	}, [servings, recipe]);
-
 
 	useEffect(() => {
 		try {
@@ -86,7 +106,7 @@ const Recipe = () => {
 
 	const handleGenerateList = async () => {
 		if (!recipe) return;
-console.log('Recipe ID being passed to generateGroceryList:', recipe?.id);
+		console.log('Recipe ID being passed to generateGroceryList:', recipe?.id);
 		const result = await dispatch(generateGroceryList(recipe.id));
 
 		if (result.error) {
@@ -98,7 +118,6 @@ console.log('Recipe ID being passed to generateGroceryList:', recipe?.id);
 			navigate(`/lists/${listId}`);
 		}
 	};
-
 
 	return (
 		<div className='recipe-container'>
@@ -146,17 +165,23 @@ console.log('Recipe ID being passed to generateGroceryList:', recipe?.id);
 						value={servings}
 						onChange={handleServingsChange}
 					/>
-				<button onClick={handleResetServings} className='reset-btn'>
-					Reset
-				</button>
+					<button onClick={handleResetServings} className='reset-btn'>
+						Reset
+					</button>
 				</span>
 				<ul className='recipe-ingredients'>
 					<h2>Ingredients</h2>
-					{adjustedIngredients.map((ingredient, index) => (
-						<li key={index}>
-							{ingredient.scaledQuantity}{' '}
-							{ingredient.measurement || ingredient.abbreviation || ''}{' '}
-							{ingredient.name}
+					{recipe.Ingredients.map((ingredient) => (
+						<li key={ingredient.id}>
+							{adjustedIngredients[ingredient.id] || ingredient.quantity}{' '}
+							{ingredient.measurement || ingredient.abbreviation || ''}
+							<OpenModal
+								className='ingredient-label'
+								itemText={ingredient.name}
+								modalComponent={
+									<IngredientInfo ingredient={ingredient} />
+								}
+							/>
 						</li>
 					))}
 				</ul>

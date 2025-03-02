@@ -42,14 +42,41 @@ export const fetchRecipe = createAsyncThunk(
 	async (id, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch(`/api/recipes/${id}`);
-			return response.json();
-		} catch (error) {
-			const err = await error.json();
-			// console.error('katie', err);
-			return rejectWithValue(err.error || err);
+			const data = await response.json();
+
+			const ingredientsWithDetails = data.Ingredients.map((ingredient) => {
+				const recipeIngredient = data.RecipeIngredients.find(
+					(ri) => ri.ingredientId === ingredient.id
+				);
+
+				return {
+					...ingredient, // ✅ Now includes full details
+					quantity: recipeIngredient?.quantity || 1,
+					measurement: recipeIngredient?.Measurement?.name || '',
+					abbreviation: recipeIngredient?.Measurement?.abbreviation || '',
+				};
+			});
+
+			return { ...data, Ingredients: ingredientsWithDetails };
+		} catch (err) {
+			return rejectWithValue(err.message);
 		}
 	}
 );
+
+// export const fetchRecipe = createAsyncThunk(
+// 	'recipes/fetchRecipe',
+// 	async (id, { rejectWithValue }) => {
+// 		try {
+// 			const response = await csrfFetch(`/api/recipes/${id}`);
+// 			return response.json();
+// 		} catch (error) {
+// 			const err = await error.json();
+// 			// console.error('katie', err);
+// 			return rejectWithValue(err.error || err);
+// 		}
+// 	}
+// );
 
 // export const fetchRecipe = createAsyncThunk(
 // 	'recipes/fetchRecipe',

@@ -129,18 +129,29 @@ router.get('/:id', async (req, res) => {
 				{
 					model: Ingredient,
 					as: 'Ingredients',
-					through: {
-						attributes: ['quantity', 'measurementId'], // Ensure measurementId is included
-					},
+					attributes: [
+						'id',
+						'name',
+						'calories',
+						'protein',
+						'fats',
+						'carbohydrates',
+						'fiber',
+						'sodium',
+						'sugar',
+						'calcium',
+						'iron',
+						'moisture',
+						'servingSize',
+						'image',
+					],
+					through: { attributes: ['quantity', 'measurementId'] },
 				},
 				{
 					model: RecipeIngredient,
 					as: 'RecipeIngredients',
 					include: [
-						{
-							model: Measurement,
-							attributes: ['id', 'name', 'abbreviation'],
-						}, // Ensure measurement data is included
+						{ model: Measurement, attributes: ['name', 'abbreviation'] },
 					],
 				},
 			],
@@ -195,6 +206,7 @@ router.get('/:id', async (req, res) => {
 			);
 
 			return {
+				...ingredient.toJSON(),
 				id: ingredient.id,
 				name: ingredient.name,
 				quantity: recipeIngredient?.quantity || 1,
@@ -203,7 +215,13 @@ router.get('/:id', async (req, res) => {
 			};
 		});
 
-
+		console.error('katie', {
+			...recipe.toJSON(),
+			likesCount,
+			liked: !!existingFavorite,
+			nutritionTotals: roundedTotals,
+			Ingredients: formattedIngredients,
+		})
 		return res.json({
 			...recipe.toJSON(),
 			likesCount,

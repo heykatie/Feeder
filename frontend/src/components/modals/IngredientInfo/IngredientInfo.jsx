@@ -29,7 +29,10 @@ const IngredientInfo = ({ ingredient, onClose }) => {
 			</div>
 
 			<img
-				src={image || '/default-food.png'}
+				src={
+					image ||
+					'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXZ3aXBjZTc4bm5xemVwbHB6dzFmZXQ0OTBjOWpxaGZ4Z2tzY29hcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/dAQ0kcdNpnalaoZFgQ/giphy.gif'
+				}
 				alt={name}
 				className='ingredient-image'
 			/>
