@@ -21,7 +21,7 @@ const RecipeForm = () => {
 	const { id } = useParams();
 	const ingredients = useSelector((state) => state.ingredients.list);
 	const recipe = useSelector((state) =>
-		state.recipes.list.find((r) => r.id === Number(id))
+		state.recipes.allRecipes.find((r) => r.id === Number(id))
 	);
 	const user = useSelector((state) => state.session.user);
 
@@ -37,8 +37,8 @@ const RecipeForm = () => {
 	const [totalTime, setTotalTime] = useState(0);
 	const [instructions, setInstructions] = useState([]);
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
-const [ingredientQuantities, setIngredientQuantities] = useState({});
-const [ingredientMeasurements, setIngredientMeasurements] = useState({});
+	const [ingredientQuantities, setIngredientQuantities] = useState({});
+	const [ingredientMeasurements, setIngredientMeasurements] = useState({});
 	const [isPublic, setIsPublic] = useState(true);
 	const [notes, setNotes] = useState('');
 	const [errors, setErrors] = useState([]);

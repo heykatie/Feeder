@@ -15,7 +15,7 @@ const Recipes = () => {
 	const { userId } = useParams();
 	const location = useLocation();
 	const sessionUser = useSelector((state) => state.session.user);
-	const recipes = useSelector((state) => state.recipes.list);
+	const recipes = useSelector((state) => state.recipes.allRecipes);
 
 	useEffect(() => {
 		if (location.pathname === '/recipes') {
@@ -38,7 +38,6 @@ const Recipes = () => {
 	}, [dispatch, userId, sessionUser, location.pathname]);
 
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
-
 
 	return (
 		<div className='recipes-container'>

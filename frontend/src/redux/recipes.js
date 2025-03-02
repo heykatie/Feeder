@@ -182,7 +182,7 @@ export const deleteRecipe = createAsyncThunk(
 
 const recipesSlice = createSlice({
 	name: 'recipes',
-	initialState: { list: [], selectedRecipe: null, error: null },
+	initialState: { allRecipes: [], favorites: [], selectedRecipe: null, error: null },
 	reducers: {
 		clearRecipeErrors: (state) => {
 			state.error = null;
@@ -191,11 +191,11 @@ const recipesSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			// .addCase(fetchRecipes.fulfilled, (state, action) => {
-			// 	state.list = Array.isArray(action.payload) ? action.payload : [];
+			// 	state.allRecipes = Array.isArray(action.payload) ? action.payload : [];
 			// 	state.error = null;
 			// })
 			.addCase(fetchRecipes.fulfilled, (state, action) => {
-				state.list = Array.isArray(action.payload)
+				state.allRecipes = Array.isArray(action.payload)
 					? action.payload.map((recipe) => ({
 							...recipe,
 							liked: recipe.liked || false,
@@ -204,7 +204,7 @@ const recipesSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(fetchFavorites.fulfilled, (state, action) => {
-				state.list = action.payload;
+				state.favorites = action.payload;
 			})
 			.addCase(fetchRecipe.fulfilled, (state, action) => {
 				state.selectedRecipe = {
@@ -219,7 +219,7 @@ const recipesSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(createRecipe.fulfilled, (state, action) => {
-				state.list.push(action.payload);
+				state.allRecipes.push(action.payload);
 				state.error = null;
 			})
 			.addCase(toggleFavorite.fulfilled, (state, action) => {
@@ -227,7 +227,7 @@ const recipesSlice = createSlice({
 
 				if (window.location.pathname === '/favorites') {
 					if (!liked) {
-						state.list = state.list.filter(
+						state.allRecipes = state.allRecipes.filter(
 							(recipe) => recipe.id !== recipeId
 						);
 					}
@@ -241,12 +241,12 @@ const recipesSlice = createSlice({
 						}
 					};
 
-					updateRecipe(state.list.find((r) => r.id === recipeId));
+					updateRecipe(state.allRecipes.find((r) => r.id === recipeId));
 					updateRecipe(state.selectedRecipe);
 				}
 			})
 			.addCase(deleteRecipe.fulfilled, (state, action) => {
-				state.list = state.list.filter(
+				state.allRecipes = state.allRecipes.filter(
 					(recipe) => recipe.id !== action.payload
 				);
 				state.selectedRecipe = null;
@@ -263,7 +263,7 @@ const recipesSlice = createSlice({
 			})
 			.addCase(fetchRecipes.rejected, (state, action) => {
 				state.error = action.payload || 'Failed to fetch recipes';
-				state.list = [];
+				state.allRecipes = [];
 			})
 			.addCase(toggleFavorite.rejected, (state, action) => {
 				state.error = action.payload || 'Failed to favorite recipe';

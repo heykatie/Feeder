@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	fetchGroceryList,
@@ -10,7 +10,7 @@ import {
 export default function List() {
 	const { listId } = useParams();
 	const dispatch = useDispatch();
-		const navigate = useNavigate();
+	const navigate = useNavigate();
 	const groceryList = useSelector((state) => state.lists.currentList);
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState(groceryList?.name || '');
@@ -77,8 +77,6 @@ export default function List() {
 		return () => window.removeEventListener('beforeunload', saveBeforeExit);
 	}, [checkedItems, listId]);
 
-
-
 	if (!groceryList) return <p>Loading grocery list...</p>;
 
 	return (
@@ -86,6 +84,12 @@ export default function List() {
 			<button onClick={() => navigate('/lists')} className='back-button'>
 				← See My Lists
 			</button>
+			<p>
+				<strong>List Type:</strong>{' '}
+				{groceryList.type === 'shopping'
+					? 'Shopping List 🛒'
+					: 'To-Do List ✅'}
+			</p>
 			<h1 onClick={() => setEditingName(true)}>
 				{editingName ? (
 					<input
@@ -107,6 +111,19 @@ export default function List() {
 					listName
 				)}
 			</h1>
+
+
+			{groceryList.type === 'shopping' && groceryList.recipeId && (
+				<p>
+					<strong>Generated from Recipe:</strong>{' '}
+					<Link
+						to={`/recipes/${groceryList.recipeId}`}
+						className='recipe-link'>
+						View Recipe 🍽
+					</Link>
+				</p>
+			)}
+
 			<ul>
 				{groceryList.Ingredients?.map((item) => (
 					<li key={item.id}>
@@ -124,37 +141,3 @@ export default function List() {
 		</div>
 	);
 }
-
-							// <span>
-							// 	{calculateQuantity(
-							// 		item.quantity,
-							// 		groceryList.servings,
-							// 		servings
-							// 	)}
-							// 	{/* {item.measurement && ` ${item.measurement}`}{''} */}
-							// </span>
-							// <span>
-							// 	{item.measurement ? (
-							// 		<span> {item.measurement} </span>
-							// 	) : (
-							// 		<select
-							// 			value={item.measurementId || ''}
-							// 			onChange={(e) =>
-							// 				setCheckedItems((prev) => ({
-							// 					...prev,
-							// 					[item.id]: {
-							// 						...prev[item.id],
-							// 						measurementId: Number(e.target.value),
-							// 					},
-							// 				}))
-							// 			}>
-							// 			<option value=''>Select Measurement</option>
-							// 			{measurements.map((m) => (
-							// 				<option key={m.id} value={m.id}>
-							// 					{m.name}
-							// 				</option>
-							// 			))}
-							// 		</select>
-							// 	)}{' '}
-							// 	- {item.name}
-							// </span>

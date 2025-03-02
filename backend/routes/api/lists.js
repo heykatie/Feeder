@@ -144,7 +144,7 @@ router.post('/generate/:recipeId', requireAuth, async (req, res) => {
 
 		const groceryList = await List.create({
 			userId,
-			name: `Grocery List for ${recipe.title}`,
+			name: `Grocery for ${recipe.title}`,
 			type: 'shopping',
 			recipeId: recipe.id,
 		});

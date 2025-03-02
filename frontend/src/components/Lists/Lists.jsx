@@ -2,19 +2,18 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllLists, deleteList } from '../../redux/lists';
 import { useNavigate } from 'react-router-dom';
-import OpenModalButton from '../../context/OpenModalButton'
+import OpenModalButton from '../../context/OpenModalButton';
 import CreateListModal from '../modals/CreateList';
 import ConfirmDelete from '../modals/ConfirmDelete';
-import {useModal} from '../../context/ModalContext';
+import { useModal } from '../../context/ModalContext';
 import './Lists.css';
 
 const Lists = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.session.user);
-  const allLists = useSelector((state) => state.lists.allLists);
+	const allLists = useSelector((state) => state.lists.allLists);
 	const { closeModal } = useModal();
-
 
 	useEffect(() => {
 		if (user && allLists.length === 0) {
@@ -22,12 +21,17 @@ const Lists = () => {
 		}
 	}, [dispatch, user, allLists.length]);
 
-	const userLists = allLists.filter((list) => list.userId === user?.id);
+	// Separate shopping lists and todo lists
+	const shoppingLists = allLists.filter(
+		(list) => list.userId === user?.id && list.type === 'shopping'
+	);
+	const todoLists = allLists.filter(
+		(list) => list.userId === user?.id && list.type === 'todo'
+	);
 
 	const handleViewList = (listId) => {
 		navigate(`/lists/${listId}`);
-  };
-
+	};
 
 	const handleDeleteList = async (listId) => {
 		await dispatch(deleteList(listId));
@@ -36,43 +40,75 @@ const Lists = () => {
 
 	return (
 		<div className='lists-container'>
-			<h1>Your Grocery Lists</h1>
+			<h1>Your Lists</h1>
 
-			{/* ✅ Use OpenModalButton to open CreateListModal */}
 			<OpenModalButton
 				modalComponent={<CreateListModal />}
 				buttonText='+ Create List'
 				className='create-list-btn'
 			/>
 
-			{userLists.length === 0 ? (
-				<p>No lists found. Start by creating one!</p>
-			) : (
-				<ul className='lists'>
-					{userLists.map((list) => (
-						<li key={list.id} className='list-item'>
-							<h3>{list.name}</h3>
-							<p> {list.Ingredients?.length || 0} items</p>
-							<div className='list-actions'>
-								<button onClick={() => handleViewList(list.id)}>
-									View List
-								</button>
+			<div className='list-category'>
+				<h2>Shopping Lists</h2>
+				{shoppingLists.length === 0 ? (
+					<p>No shopping lists found. Start by creating one!</p>
+				) : (
+					<ul className='lists'>
+						{shoppingLists.map((list) => (
+							<li key={list.id} className='list-item'>
+								<h3>{list.name}</h3>
+								<p>{list.Ingredients?.length || 0} items</p>
+								<div className='list-actions'>
+									<button onClick={() => handleViewList(list.id)}>
+										View List
+									</button>
+									<OpenModalButton
+										modalComponent={
+											<ConfirmDelete
+												itemType='list'
+												onConfirm={() => handleDeleteList(list.id)}
+											/>
+										}
+										buttonText='Delete'
+										className='delete-list-btn'
+									/>
+								</div>
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
 
-								<OpenModalButton
-									modalComponent={
-										<ConfirmDelete
-											itemType='list'
-											onConfirm={() => handleDeleteList(list.id)}
-										/>
-									}
-									buttonText='Delete'
-									className='delete-list-btn'
-								/>
-							</div>
-						</li>
-					))}
-				</ul>
-			)}
+			<div className='list-category'>
+				<h2>To-Do Lists</h2>
+				{todoLists.length === 0 ? (
+					<p>No to-do lists found. Start by creating one!</p>
+				) : (
+					<ul className='lists'>
+						{todoLists.map((list) => (
+							<li key={list.id} className='list-item'>
+								<h3>{list.name}</h3>
+								<p>{list.Ingredients?.length || 0} items</p>
+								<div className='list-actions'>
+									<button onClick={() => handleViewList(list.id)}>
+										View List
+									</button>
+									<OpenModalButton
+										modalComponent={
+											<ConfirmDelete
+												itemType='list'
+												onConfirm={() => handleDeleteList(list.id)}
+											/>
+										}
+										buttonText='Delete'
+										className='delete-list-btn'
+									/>
+								</div>
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
 		</div>
 	);
 };
