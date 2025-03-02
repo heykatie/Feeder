@@ -19,7 +19,8 @@ const CreateListModal = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.session.user);
 	const recipes = useSelector((state) => state.recipes.favorites) || [];
-	const allIngredients = useSelector((state) => state.ingredients.list) || [];
+	const allIngredients =
+		useSelector((state) => state.ingredients.allList) || [];
 	const { closeModal } = useModal();
 
 	const [listName, setListName] = useState('');

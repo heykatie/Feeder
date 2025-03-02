@@ -205,6 +205,35 @@ router.post('/:listId/bulk-update', requireAuth, async (req, res) => {
 	}
 });
 
+router.post('/:listId/ingredients', async (req, res) => {
+	try {
+		const { listId } = req.params;
+		const { ingredientId, quantity, measurement } = req.body;
+
+		const list = await List.findByPk(listId);
+		if (!list) {
+			return res.status(404).json({ error: 'List not found' });
+		}
+
+		const ingredient = await Ingredient.findByPk(ingredientId);
+		if (!ingredient) {
+			return res.status(404).json({ error: 'Ingredient not found' });
+		}
+
+		const newIngredient = await GroceryIngredient.create({
+			listId,
+			ingredientId,
+			quantity,
+			measurement,
+		});
+
+		return res.json({ ingredient: newIngredient });
+	} catch (error) {
+		console.error('❌ Error adding ingredient:', error);
+		return res.status(500).json({ error: 'Internal server error' });
+	}
+});
+
 router.put(
 	'/:listId/ingredients/:ingredientId',
 	requireAuth,
@@ -238,7 +267,7 @@ router.put(
 						? {
 								id: groceryItem.Ingredient.id,
 								name: groceryItem.Ingredient.name,
-						  }
+						}
 						: null,
 				},
 			});

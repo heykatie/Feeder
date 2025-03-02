@@ -5,22 +5,42 @@ import {
 	fetchGroceryList,
 	saveListName,
 	toggleChecked,
-	deleteList, // ✅ Import deleteList thunk
+	deleteList,
+	fetchAllLists,
+	saveIngredient,
 } from '../../redux/lists';
+import { fetchIngredients, deleteIngredient } from '../../redux/ingredients';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import OpenModalButton from '../../context/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
+import { useModal } from '../../context/ModalContext';
 
 export default function List() {
+	const { closeModal } = useModal();
 	const { listId } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const groceryList = useSelector((state) => state.lists.currentList);
+	const ingredients = useSelector((state) => state.ingredients.allList);
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState(groceryList?.name || '');
 	const [checkedItems, setCheckedItems] = useState({});
+	const existingIngredientIds = new Set(
+		groceryList?.Ingredients?.map((item) => item.ingredientId) || []
+	);
+	const [showAvailableIngredients, setShowAvailableIngredients] =
+		useState(false);
+
+	const availableIngredients = ingredients.filter(
+		(ingredient) => !existingIngredientIds.has(ingredient.id)
+	);
+	const toggleAvailableIngredients = () => {
+		setShowAvailableIngredients((prev) => !prev);
+	};
 
 	useEffect(() => {
 		dispatch(fetchGroceryList(listId));
+		dispatch(fetchIngredients()); // Fetch available ingredients from DB
 	}, [dispatch, listId]);
 
 	useEffect(() => {
@@ -67,11 +87,74 @@ export default function List() {
 		dispatch(deleteList(listId))
 			.unwrap()
 			.then(() => {
-				navigate('/lists'); // ✅ Redirect after deletion
+				dispatch(fetchAllLists());
+				navigate('/lists');
 			})
 			.catch((error) => {
 				console.error('❌ Error deleting list:', error);
 			});
+		closeModal();
+	};
+
+	const onDragEnd = (result) => {
+		if (!result.destination) return;
+		const { draggableId, source, destination } = result;
+		const draggedIngredientId = parseInt(result.draggableId, 10); // Convert ID to number
+		const newIngredient = availableIngredients.find(
+			(ing) => ing.id === draggedIngredientId
+		);
+
+		if (!newIngredient) return;
+
+		// Optimistically update UI
+		const updatedIngredients = [
+			...groceryList.Ingredients,
+			{
+				id: draggedIngredientId,
+				name: newIngredient.name,
+				quantity: 1, // Default quantity
+				measurement: '', // Default measurement
+				checked: false,
+			},
+		];
+
+		dispatch({
+			type: 'lists/updateLocalList', // Custom reducer case
+			payload: {
+				listId,
+				ingredients: updatedIngredients,
+			},
+		});
+
+		// Dispatch Redux thunk to persist in backend
+		dispatch(
+			saveIngredient({
+				listId,
+				ingredientId: draggedIngredientId,
+				quantity: 1,
+				measurement: '',
+			})
+		)
+			.unwrap()
+			.then(() => {
+				dispatch(fetchGroceryList(listId)); // ✅ Ensure the full list updates correctly
+			})
+			.catch((error) => console.error('❌ Error adding ingredient:', error));
+
+		if (
+			source.droppableId === 'groceryList' &&
+			destination.droppableId === 'availableIngredients'
+		) {
+			console.log(
+				`🗑 Removing ingredient ${draggableId} from list ${groceryList.id}`
+			);
+			dispatch(
+				deleteIngredient({
+					listId: groceryList.id,
+					ingredientId: Number(draggableId),
+				})
+			);
+		}
 	};
 
 	if (!groceryList) return <p>Loading grocery list...</p>;
@@ -121,24 +204,111 @@ export default function List() {
 					</Link>
 				</p>
 			)}
+			<button
+				onClick={toggleAvailableIngredients}
+				className='toggle-ingredients-button'>
+				{showAvailableIngredients
+					? 'Hide Ingredients'
+					: 'Show Ingredients to Add'}
+			</button>
 
-			<ul>
-				{groceryList.Ingredients?.map((item) => (
-					<li key={item.id}>
-						<label>
-							<input
-								type='checkbox'
-								checked={checkedItems[item.id] || false}
-								onChange={() => handleCheck(item.id)}
-							/>
-							<span>{item.name}</span>
-						</label>
-					</li>
-				))}
-			</ul>
+			<DragDropContext onDragEnd={onDragEnd}>
+				{showAvailableIngredients && (
+					<div>
+						<Droppable droppableId='ingredients'>
+							{(provided) => (
+								<div
+									className='ingredient-pool'
+									ref={provided.innerRef}
+									{...provided.droppableProps}>
+									<h3>Drag Ingredients to List:</h3>
+									<ul>
+										{availableIngredients.map((ingredient, i) => (
+											<Draggable
+												key={ingredient.id}
+												draggableId={ingredient.id.toString()}
+												index={i}>
+												{(provided) => (
+													<li
+														ref={provided.innerRef}
+														{...provided.draggableProps}
+														{...provided.dragHandleProps}
+														className='ingredient-item'>
+														{ingredient.name}
+													</li>
+												)}
+											</Draggable>
+										))}
+									</ul>
+									{provided.placeholder}
+								</div>
+							)}
+						</Droppable>
+					</div>
+				)}
+
+				<Droppable droppableId='groceryList'>
+					{(provided) => (
+						<ul
+							ref={provided.innerRef}
+							{...provided.droppableProps}
+							className='grocery-list'>
+							<h3>My Grocery List:</h3>
+							{groceryList.Ingredients?.map((item, i) => (
+								<Draggable
+									key={item.id}
+									draggableId={item.id.toString()}
+									index={i}>
+									{(provided) => (
+										<li
+											ref={provided.innerRef}
+											{...provided.draggableProps}
+											{...provided.dragHandleProps}>
+											<label>
+												<input
+													type='checkbox'
+													checked={checkedItems[item.id] || false}
+													onChange={() => handleCheck(item.id)}
+												/>
+												<span>{item.name}</span>
+											</label>
+											<button
+												style={{ background: 'none' }}
+												onClick={() =>
+													dispatch(
+														deleteIngredient({
+															listId: groceryList.id,
+															ingredientId:
+																item.ingredientId,
+														})
+													)
+														.unwrap()
+														.then(() => {
+															dispatch(fetchGroceryList(listId)); // ✅ Ensure UI updates after delete
+														})
+														.catch((error) =>
+															console.error(
+																'❌ Error deleting ingredient:',
+																error
+															)
+														)
+												}>
+												🗑
+											</button>
+										</li>
+									)}
+								</Draggable>
+							))}
+							{provided.placeholder}
+						</ul>
+					)}
+				</Droppable>
+			</DragDropContext>
 
 			<OpenModalButton
-				modalComponent={<ConfirmDelete onConfirm={handleDelete} />}
+				modalComponent={
+					<ConfirmDelete onConfirm={handleDelete} itemType='list' />
+				}
 				buttonText='Delete List'
 				className='delete-button'
 			/>

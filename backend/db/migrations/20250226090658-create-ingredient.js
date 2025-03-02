@@ -65,6 +65,12 @@ module.exports = {
 				servingSize: {
 					type: Sequelize.STRING,
 				},
+				image: {
+					type: Sequelize.TEXT,
+					allowNull: true,
+					defaultValue:
+						process.env.DEFAULT_FOOD_IMAGE_URL
+				},
 				createdAt: {
 					allowNull: false,
 					type: Sequelize.DATE,

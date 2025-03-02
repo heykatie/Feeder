@@ -59,7 +59,12 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			servingSize: {
 				type: DataTypes.STRING,
-			}
+			},
+			image: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+				defaultValue: process.env.DEFAULT_FOOD_IMAGE_URL,
+			},
 		},
 		{
 			sequelize,

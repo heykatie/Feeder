@@ -19,7 +19,7 @@ const RecipeForm = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { id } = useParams();
-	const ingredients = useSelector((state) => state.ingredients.list);
+	const ingredients = useSelector((state) => state.ingredients.allList);
 	const recipe = useSelector((state) =>
 		state.recipes.allRecipes.find((r) => r.id === Number(id))
 	);

@@ -120,27 +120,39 @@ export const saveListName = createAsyncThunk(
 
 export const saveIngredient = createAsyncThunk(
 	'lists/saveIngredient',
-	async ({ listId, ingredientId, quantity }, { rejectWithValue }) => {
+	async (
+		{ listId, ingredientId, quantity, measurement },
+		{ rejectWithValue }
+	) => {
 		try {
-			const response = await csrfFetch(
-				`/api/lists/${listId}/ingredients/${ingredientId}`,
-				{
-					method: 'PUT',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ quantity }), // ✅ Only sending quantity update
-				}
+			if (!listId) throw new Error('❌ Missing listId in saveIngredient');
+			if (!ingredientId)
+				throw new Error('❌ Missing ingredientId in saveIngredient');
+
+			console.log(
+				`🛠 Adding ingredient: listId=${listId}, ingredientId=${ingredientId}`
 			);
 
+			const response = await csrfFetch(`/api/lists/${listId}/ingredients`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ ingredientId, quantity, measurement }),
+			});
+
 			const data = await response.json();
+			if (!response.ok) {
+				throw new Error(data.error || 'Failed to save ingredient');
+			}
 
 			return {
 				listId,
 				ingredientId,
-				quantity: data.groceryItem.quantity, // ✅ Use updated quantity from API
-				name: data.groceryItem.Ingredient?.name, // ✅ Keep name from DB (unchanged)
+				quantity: data.ingredient.quantity,
+				measurement: data.ingredient.measurement,
+				name: data.ingredient.Ingredient?.name,
 			};
 		} catch (error) {
-			console.error('❌ Error updating ingredient:', error);
+			console.error('❌ Error in saveIngredient thunk:', error);
 			return rejectWithValue(error.message);
 		}
 	}
@@ -197,15 +209,26 @@ const listsSlice = createSlice({
 		error: null,
 		loading: false,
 	},
-	reducers: {},
+	reducers: {
+		updateLocalList: (state, action) => {
+			const { listId, ingredients } = action.payload;
+			if (state.currentList && state.currentList.id === listId) {
+				state.currentList.Ingredients = ingredients;
+			}
+		},
+	},
 	extraReducers: (builder) => {
 		builder
+			.addCase(createList.fulfilled, (state, action) => {
+				state.loading = false;
+				state.allLists.push(action.payload);
+			})
 			.addCase(fetchAllLists.pending, (state) => {
 				state.loading = true;
 			})
 			.addCase(fetchAllLists.fulfilled, (state, action) => {
 				state.loading = false;
-				state.allLists = action.payload; // Update store with fetched lists
+				state.allLists = action.payload; 
 			})
 			.addCase(fetchAllLists.rejected, (state, action) => {
 				state.loading = false;
