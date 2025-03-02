@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipe, deleteRecipe } from '../../redux/recipes';
+import { fetchRecipe, deleteRecipe, toggleFavorite } from '../../redux/recipes';
 import { useModal } from '../../context/ModalContext';
 import OpenModalButton from '../../context/OpenModalButton/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
-import { toggleFavorite } from '../../redux/recipes';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { generateGroceryList } from '../../redux/lists';
 import IngredientInfo from '../modals/IngredientInfo';
@@ -23,20 +22,9 @@ const Recipe = () => {
 	const [error, setError] = useState({});
 	const [servings, setServings] = useState(recipe?.servings || 1);
 	const [adjustedIngredients, setAdjustedIngredients] = useState([]);
-
-	// const handleServingsChange = (e) => {
-	// 	const newServings = Number(e.target.value);
-	// 	setServings(newServings);
-	// };
-
-	const handleServingsChange = (e) => {
-		const newServings = Math.max(1, Number(e.target.value));
-		setServings(newServings);
-	};
-
-	const handleResetServings = () => {
-		setServings(recipe?.servings);
-	};
+	const [showNotes, setShowNotes] = useState(false); // Toggle for notes
+	const [showInstructions, setShowInstructions] = useState(true);
+	const [showIngredients, setShowIngredients] = useState(true);
 
 	useEffect(() => {
 		if (recipe) {
@@ -45,33 +33,8 @@ const Recipe = () => {
 		}
 	}, [recipe]);
 
-	const handleFavorite = () => {
-		if (!recipe) return;
-		try {
-			dispatch(toggleFavorite(recipe.id));
-			setIsFavorited(!isFavorited);
-		} catch (err) {
-			setError(err);
-		}
-	};
-
-	// useEffect(() => {
-	// 	if (recipe?.Ingredients) {
-	// 		const newIngredients = recipe.Ingredients.map((ingredient) => {
-	// 			const scaledQuantity =
-	// 				(ingredient.quantity * servings) / recipe.servings;
-	// 			return {
-	// 				...ingredient,
-	// 				scaledQuantity: parseFloat(scaledQuantity.toFixed(2)),
-	// 			};
-	// 		});
-	// 		setAdjustedIngredients(newIngredients);
-	// 	}
-	// }, [servings, recipe]);
-
 	useEffect(() => {
 		if (recipe?.RecipeIngredients && recipe?.Ingredients) {
-			// Create a mapping of scaled quantities
 			const quantityMap = recipe.RecipeIngredients.reduce(
 				(acc, recipeIngredient) => {
 					const scaledQuantity =
@@ -83,18 +46,27 @@ const Recipe = () => {
 				},
 				{}
 			);
-
 			setAdjustedIngredients(quantityMap);
 		}
 	}, [servings, recipe]);
 
 	useEffect(() => {
-		try {
-			dispatch(fetchRecipe(id));
-		} catch (error) {
-			console.error(error);
-		}
+		dispatch(fetchRecipe(id));
 	}, [dispatch, id]);
+
+	const handleFavorite = () => {
+		if (!recipe) return;
+		dispatch(toggleFavorite(recipe.id));
+		setIsFavorited(!isFavorited);
+	};
+
+	const handleServingsChange = (e) => {
+		setServings(Math.max(1, Number(e.target.value)));
+	};
+
+	const handleResetServings = () => {
+		setServings(recipe?.servings);
+	};
 
 	const handleDelete = async () => {
 		await dispatch(deleteRecipe(id));
@@ -102,28 +74,22 @@ const Recipe = () => {
 		navigate('/recipes');
 	};
 
-	if (!recipe) return <p className='no-recipe'>Recipe not found.</p>;
-
 	const handleGenerateList = async () => {
 		if (!recipe) return;
-		console.log('Recipe ID being passed to generateGroceryList:', recipe?.id);
 		const result = await dispatch(generateGroceryList(recipe.id));
-
-		if (result.error) {
-			setError(error);
-		}
-
 		if (generateGroceryList.fulfilled.match(result)) {
-			const listId = result.payload.listId;
-			navigate(`/lists/${listId}`);
+			navigate(`/lists/${result.payload.listId}`);
 		}
 	};
+
+	if (!recipe) return <p className='no-recipe'>Recipe not found.</p>;
 
 	return (
 		<div className='recipe-container'>
 			<button className='back-btn' onClick={() => navigate('/recipes')}>
 				← Back to Recipes
 			</button>
+
 			{user?.id === recipe.userId && (
 				<div className='recipe-actions'>
 					<button
@@ -138,101 +104,131 @@ const Recipe = () => {
 					/>
 				</div>
 			)}
-			<h1 className='recipe-title'>{recipe.title}</h1>{' '}
+
+			<h1 className='recipe-title'>{recipe.title}</h1>
+
 			<button className='favorite-btn' onClick={handleFavorite}>
 				{isFavorited ? (
-					<FaHeart color='red' />
+					<FaHeart className='heart-filled' />
 				) : (
-					<FaRegHeart color='gray' />
+					<FaRegHeart className='heart-empty' />
 				)}
 			</button>
 			<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
 			<p className='recipe-rating'>Rating: {recipe.rating} / 5 ⭐</p>
+
 			<img
-				src={'/images/recipes/dogfood.jpeg' || recipe.imageUrl}
+				src={recipe.imageUrl || '/images/recipes/dogfood.jpeg'}
 				alt={recipe.title}
 				className='recipe-image'
 			/>
+
 			<p className='recipe-category'>Category: {recipe.category}</p>
 			<p className='recipe-difficulty'>Difficulty: {recipe.difficulty}</p>
 			<p className='recipe-description'>{recipe.description}</p>
-			<div className='recipe-section'>
-				<span className='recipe-servings'>
-					Servings:
-					<input
-						type='number'
-						min='1'
-						value={servings}
-						onChange={handleServingsChange}
-					/>
-					<button onClick={handleResetServings} className='reset-btn'>
-						Reset
-					</button>
-				</span>
-				<ul className='recipe-ingredients'>
-					<h2>Ingredients</h2>
-					{recipe.Ingredients.map((ingredient) => (
-						<li key={ingredient.id}>
-							{adjustedIngredients[ingredient.id] || ingredient.quantity}{' '}
-							{ingredient.measurement || ingredient.abbreviation || ''}
-							<OpenModal
-								className='ingredient-label'
-								itemText={ingredient.name}
-								modalComponent={
-									<IngredientInfo ingredient={ingredient} />
-								}
-							/>
-						</li>
-					))}
-				</ul>
-			</div>
-			<div className='recipe-section'>
-				<p className='recipe-time'>
-					Prep: {recipe.prepTime} min | Cook: {recipe.cookTime} min |
-					Total: {recipe.totalTime} min
-				</p>
-				<h2>Instructions</h2>
-				<ol className='recipe-instructions'>
-					{(() => {
-						try {
-							const steps = Array.isArray(recipe.instructions)
-								? recipe.instructions
-								: JSON.parse(recipe.instructions);
 
-							return steps.map((step, index) => (
-								<li key={index}>{`${index + 1}. ${step}`}</li>
-							));
-						} catch (error) {
-							return <p>Error displaying instructions.</p>;
-						}
-					})()}
-				</ol>
+			<div className='recipe-servings-container'>
+				<label>Servings:</label>
+				<input
+					type='number'
+					min='1'
+					value={servings}
+					onChange={handleServingsChange}
+					className='servings-input'
+				/>
+				<button onClick={handleResetServings} className='reset-btn'>
+					Reset
+				</button>
 			</div>
+
+			<div
+				className={`recipe-section collapsible ${
+					showIngredients ? 'open' : ''
+				}`}>
+				<h2 onClick={() => setShowIngredients(!showIngredients)}>
+					Ingredients {showIngredients ? '▲' : '▼'}
+				</h2>
+				<div className='content'>
+					<ul className='recipe-ingredients'>
+						{recipe.Ingredients.map((ingredient, index) => (
+							<>
+								<li
+									key={`${ingredient.id}-${index}`}
+									className='ingredient-item'>
+									<span className='ingredient-quantity'>
+										{adjustedIngredients[ingredient.id] ||
+											ingredient.quantity}
+									</span>{' '}
+									{ingredient.measurement ||
+										ingredient.abbreviation ||
+										''}
+								</li>
+								<OpenModal
+									className='ingredient-label'
+									itemText={ingredient.name}
+									modalComponent={
+										<IngredientInfo ingredient={ingredient} />
+									}
+								/>
+							</>
+						))}
+					</ul>
+				</div>
+			</div>
+
+			{/* Instructions */}
+			<div
+				className={`recipe-section collapsible ${
+					showInstructions ? 'open' : ''
+				}`}>
+				<h2 onClick={() => setShowInstructions(!showInstructions)}>
+					Instructions {showInstructions ? '▲' : '▼'}
+				</h2>
+				<div className='content'>
+					<ol className='recipe-instructions'>
+						{(Array.isArray(recipe.instructions)
+							? recipe.instructions
+							: JSON.parse(recipe.instructions)
+						).map((step, index) => (
+							<li key={`${step}-${index}`}>
+								<input type='checkbox' className='step-checkbox' />{' '}
+								{index + 1}. {step}
+							</li>
+						))}
+					</ol>
+				</div>
+			</div>
+
+			{/* Nutrition */}
 			<div className='recipe-section'>
 				<h2>Nutrition Facts (Per Recipe)</h2>
 				<ul className='recipe-nutrition'>
-					<li>Calories: {recipe.nutritionTotals?.calories} kcal</li>
-					<li>Carbohydrates: {recipe.nutritionTotals?.carbohydrates} g</li>
-					<li>Protein: {recipe.nutritionTotals?.protein} g</li>
-					<li>Fats: {recipe.nutritionTotals?.fats} g</li>
-					<li>Fiber: {recipe.nutritionTotals?.fiber} g</li>
-					<li>Sodium: {recipe.nutritionTotals?.sodium} mg</li>
-					<li>Sugar: {recipe.nutritionTotals?.sugar} g</li>
-					<li>Calcium: {recipe.nutritionTotals?.calcium} mg</li>
-					<li>Iron: {recipe.nutritionTotals?.iron} mg</li>
-					<li>Moisture: {recipe.nutritionTotals?.moisture} %</li>
+					{Object.entries(recipe.nutritionTotals || {}).map(
+						([key, value]) => (
+							<li key={`${key}-${value}`}>
+								{key.charAt(0).toUpperCase() + key.slice(1)}: {value}{' '}
+								{key === 'calories' ? 'kcal' : 'g'}
+							</li>
+						)
+					)}
 				</ul>
 			</div>
+
+			{/* Notes */}
 			{recipe.notes && (
 				<div className='recipe-section'>
-					<h2>Notes</h2>
-					<p className='recipe-notes'>{recipe.notes}</p>
+					<h2
+						onClick={() => setShowNotes(!showNotes)}
+						className='toggle-notes'>
+						Notes {showNotes ? '▲' : '▼'}
+					</h2>
+					{showNotes && <p className='recipe-notes'>{recipe.notes}</p>}
 				</div>
 			)}
+
 			<button className='grocery-btn' onClick={handleGenerateList}>
 				Generate Grocery List 🛒
 			</button>
-			{/* {error && error} */}
 		</div>
 	);
 };
