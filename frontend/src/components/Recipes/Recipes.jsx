@@ -4,6 +4,7 @@ import {
 	fetchRecipes,
 	fetchFavorites,
 	toggleFavorite,
+	toggleRecipePrivacy,
 } from '../../redux/recipes';
 import {
 	NavLink,
@@ -22,6 +23,7 @@ const Recipes = () => {
 	const location = useLocation();
 	const sessionUser = useSelector((state) => state.session.user);
 	const allRecipes = useSelector((state) => state.recipes.allRecipes);
+	const [searchResults, setSearchResults] = useState([]);
 	const faves = useSelector((state) => state.recipes.favorites);
 	const [recipes, setRecipes] = useState([]);
 	const scrollContainerRef = useRef(null);
@@ -132,7 +134,7 @@ const Recipes = () => {
 			dispatch(fetchRecipes({ userId, isLoggedInUser }));
 		} else if (searchQuery) {
 			dispatch(fetchRecipes({ search: searchQuery })).then((res) => {
-				setRecipes(res.payload || []);
+				setSearchResults(res.payload || []);
 			});
 		} else {
 			dispatch(fetchRecipes()).then((res) => {
@@ -150,7 +152,7 @@ const Recipes = () => {
 	useEffect(() => {
 		if (location.pathname === '/favorites') {
 			setRecipes(faves);
-		} else {
+		} else if (!searchQuery) {
 			setRecipes(allRecipes)
 		}
 	},[faves, allRecipes])
@@ -163,7 +165,7 @@ const Recipes = () => {
 				<div className='search-results'>
 					<h2>Search Results for: "{searchQuery}"</h2>
 					<div className='recipes-scroll-container' ref={setScrollRef}>
-						{recipes.map((recipe) => (
+						{searchResults.map((recipe) => (
 							<div key={recipe.id} className='recipe-card'>
 								<NavLink
 									to={`/recipes/${recipe.id}`}
@@ -226,6 +228,19 @@ const Recipes = () => {
 							<h2>{recipe.title}</h2>
 							<p>{recipe.description}</p>
 						</NavLink>
+
+						{userId && sessionUser?.id == userId && (
+							<button
+								style={{background:'none', fontSize:'12px'}}
+								className={`privacy-toggle ${
+									recipe.isPublic ? 'public' : 'private'
+								}`}
+								onClick={() =>
+									dispatch(toggleRecipePrivacy(recipe.id))
+								}>
+								{recipe.isPublic ? '🔓 Public' : '🔒 Private'}
+							</button>
+						)}
 
 						<button
 							className='favorite-btn'

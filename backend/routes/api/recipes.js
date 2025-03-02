@@ -13,29 +13,43 @@ const router = express.Router();
 
 const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', async (req, res) => {
 	try {
 		const userId = req.user.id;
 		const { search } = req.query;
 
+		const isPostgres = process.env.NODE_ENV === 'production'; // Use Postgres in production
+
 		let where = { isPublic: true };
 
 		if (search) {
-			where = {
-				[Sequelize.Op.or]: [
-					{
-						title: {
-							[Sequelize.Op.iLike]: `${search}%`, // More strict matching (only from start)
-						},
+			where[Sequelize.Op.or] = [
+				{
+					title: {
+						[isPostgres
+							? Sequelize.Op.iLike
+							: Sequelize.Op.like]: `%${search}%`,
 					},
-					{
-						description: {
-							[Sequelize.Op.iLike]: `%${search}%`,
-						},
+				},
+				{
+					description: {
+						[isPostgres
+							? Sequelize.Op.iLike
+							: Sequelize.Op.like]: `%${search}%`,
 					},
-				],
-			};
+				},
+			];
 		}
+
+		const ingredientWhere = search
+			? {
+					name: {
+						[isPostgres
+							? Sequelize.Op.iLike
+							: Sequelize.Op.like]: `%${search}%`,
+					},
+			}
+			: undefined;
 
 		// Fetch public recipes with user data
 		// const recipes = await Recipe.findAll({
@@ -53,11 +67,7 @@ router.get('/', requireAuth, async (req, res) => {
 					model: Ingredient,
 					as: 'Ingredients',
 					attributes: ['name'],
-					where: search
-						? {
-								name: { [Sequelize.Op.iLike]: `%${search}%` },
-						}
-						: undefined,
+					where: ingredientWhere,
 					required: false, // Ensure recipes without matching ingredients aren't excluded
 				},
 				{ model: User, attributes: ['username'] },
@@ -437,10 +447,18 @@ router.post('/:id/favorite', requireAuth, async (req, res) => {
 
 		if (existingFavorite) {
 			await existingFavorite.destroy();
-			return res.json({ message: 'Removed from favorites', liked: false, recipeId: id});
+			return res.json({
+				message: 'Removed from favorites',
+				liked: false,
+				recipeId: id,
+			});
 		} else {
 			await Favorite.create({ userId, recipeId: id });
-			return res.json({ message: 'Added to favorites', liked: true, recipeId: id });
+			return res.json({
+				message: 'Added to favorites',
+				liked: true,
+				recipeId: id,
+			});
 		}
 	} catch (error) {
 		console.error('Error toggling favorite:', error);
@@ -457,6 +475,29 @@ router.delete('/:id', requireAuth, async (req, res) => {
 
 	await recipe.destroy();
 	return res.json({ message: 'Recipe deleted' });
+});
+
+router.patch('/:id/privacy', requireAuth, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const recipe = await Recipe.findByPk(id);
+
+		if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
+		if (recipe.userId !== req.user.id)
+			return res.status(403).json({ error: 'Unauthorized' });
+
+		// Toggle isPublic
+		recipe.isPublic = !recipe.isPublic;
+		await recipe.save();
+
+		return res.json({
+			message: 'Recipe privacy updated',
+			isPublic: recipe.isPublic,
+		});
+	} catch (error) {
+		console.error('Error toggling recipe privacy:', error);
+		return res.status(500).json({ error: 'Internal server error' });
+	}
 });
 
 module.exports = router;

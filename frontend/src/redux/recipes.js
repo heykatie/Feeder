@@ -167,6 +167,25 @@ export const updateRecipe = createAsyncThunk(
 	}
 );
 
+export const toggleRecipePrivacy = createAsyncThunk(
+	'recipes/toggleRecipePrivacy',
+	async (recipeId, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch(`/api/recipes/${recipeId}/privacy`, {
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+			});
+
+			const data = await response.json();
+			if (!response.ok)
+				return rejectWithValue(data.error || 'Failed to toggle privacy');
+			return { recipeId, isPublic: data.isPublic };
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
 export const toggleFavorite = createAsyncThunk(
 	'recipes/toggleFavorite',
 	async (recipeId, { getState, rejectWithValue }) => {
@@ -309,6 +328,14 @@ const recipesSlice = createSlice({
 					updateRecipe([state.selectedRecipe]); // If a single recipe is being viewed
 				}
 			})
+			.addCase(toggleRecipePrivacy.fulfilled, (state, action) => {
+	const { recipeId, isPublic } = action.payload;
+	const updateRecipe = (recipe) => {
+		if (recipe.id === recipeId) recipe.isPublic = isPublic;
+	};
+	state.allRecipes.forEach(updateRecipe);
+	state.selectedRecipe && updateRecipe(state.selectedRecipe);
+})
 			.addCase(deleteRecipe.fulfilled, (state, action) => {
 				state.allRecipes = state.allRecipes.filter(
 					(recipe) => recipe.id !== action.payload
