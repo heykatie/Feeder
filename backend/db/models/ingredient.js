@@ -57,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.FLOAT,
 				allowNull: true,
 			},
+			servingSize: {
+				type: DataTypes.STRING,
+			}
 		},
 		{
 			sequelize,

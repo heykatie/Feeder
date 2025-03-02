@@ -23,6 +23,7 @@ module.exports = {
 					calcium: 5,
 					iron: 0.9,
 					moisture: 69,
+					servingSize: '100g', // Standard nutrition reference
 				},
 				{
 					name: 'Brown Rice',
@@ -36,6 +37,7 @@ module.exports = {
 					calcium: 10,
 					iron: 0.8,
 					moisture: 12,
+					servingSize: '1 cup cooked (195g)',
 				},
 				{
 					name: 'Sweet Potato',
@@ -49,6 +51,7 @@ module.exports = {
 					calcium: 30,
 					iron: 0.6,
 					moisture: 77,
+					servingSize: '1 medium (114g)',
 				},
 				{
 					name: 'Salmon',
@@ -62,6 +65,7 @@ module.exports = {
 					calcium: 9,
 					iron: 0.5,
 					moisture: 64,
+					servingSize: '100g fillet',
 				},
 				{
 					name: 'Pumpkin',
@@ -75,6 +79,7 @@ module.exports = {
 					calcium: 21,
 					iron: 0.8,
 					moisture: 92,
+					servingSize: '½ cup mashed (120g)',
 				},
 				{
 					name: 'Blueberries',
@@ -88,6 +93,7 @@ module.exports = {
 					calcium: 6,
 					iron: 0.3,
 					moisture: 84,
+					servingSize: '½ cup (74g)',
 				},
 				{
 					name: 'Oatmeal',
@@ -101,19 +107,7 @@ module.exports = {
 					calcium: 21,
 					iron: 1.7,
 					moisture: 10,
-				},
-				{
-					name: 'Carrots',
-					calories: 41,
-					carbohydrates: 9.6,
-					protein: 0.9,
-					fats: 0.2,
-					fiber: 2.8,
-					sodium: 69,
-					sugar: 4.7,
-					calcium: 33,
-					iron: 0.3,
-					moisture: 88,
+					servingSize: '½ cup dry (40g)',
 				},
 				{
 					name: 'Chicken Liver',
@@ -127,6 +121,21 @@ module.exports = {
 					calcium: 11,
 					iron: 9.2,
 					moisture: 68,
+					servingSize: '40g',
+				},
+				{
+					name: 'Carrots',
+					calories: 41,
+					carbohydrates: 9.6,
+					protein: 0.9,
+					fats: 0.2,
+					fiber: 2.8,
+					sodium: 69,
+					sugar: 4.7,
+					calcium: 33,
+					iron: 0.3,
+					moisture: 88,
+					servingSize: '1 medium (61g)',
 				},
 				{
 					name: 'Greek Yogurt',
@@ -140,6 +149,7 @@ module.exports = {
 					calcium: 110,
 					iron: 0,
 					moisture: 85,
+					servingSize: '½ cup (113g)',
 				},
 				{
 					name: 'Coconut Oil',
@@ -153,6 +163,7 @@ module.exports = {
 					calcium: 0,
 					iron: 0,
 					moisture: 0,
+					servingSize: '1 tbsp (14g)',
 				},
 				{
 					name: 'Vegetable Broth',
@@ -166,6 +177,7 @@ module.exports = {
 					calcium: 15,
 					iron: 0.3,
 					moisture: 96,
+					servingSize: '1 cup (240ml)',
 				},
 			],
 			{ validate: true }

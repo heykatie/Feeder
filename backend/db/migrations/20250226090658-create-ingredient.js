@@ -1,12 +1,10 @@
 'use strict';
 
-
 let options = {};
 options.tableName = 'Ingredients';
 if (process.env.NODE_ENV === 'production') {
 	options.schema = process.env.SCHEMA;
 }
-
 
 module.exports = {
 	async up(queryInterface, Sequelize) {
@@ -63,6 +61,9 @@ module.exports = {
 				moisture: {
 					type: Sequelize.FLOAT,
 					allowNull: true,
+				},
+				servingSize: {
+					type: Sequelize.STRING,
 				},
 				createdAt: {
 					allowNull: false,
