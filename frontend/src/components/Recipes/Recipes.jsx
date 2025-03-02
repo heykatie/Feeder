@@ -5,7 +5,13 @@ import {
 	fetchFavorites,
 	toggleFavorite,
 } from '../../redux/recipes';
-import { NavLink, useNavigate, useParams, useLocation } from 'react-router-dom';
+import {
+	NavLink,
+	useNavigate,
+	useParams,
+	useLocation,
+	useSearchParams,
+} from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import './Recipes.css';
 
@@ -18,7 +24,9 @@ const Recipes = () => {
 	const allRecipes = useSelector((state) => state.recipes.allRecipes);
 	const faves = useSelector((state) => state.recipes.favorites);
 	const [recipes, setRecipes] = useState([]);
-	const scrollContainerRef = useRef(null); // Reference for scrolling container
+	const scrollContainerRef = useRef(null);
+		const [searchParams] = useSearchParams();
+		const searchQuery = searchParams.get('search');
 
 	const setScrollRef = useCallback((node) => {
 		if (node) {
@@ -122,10 +130,12 @@ const Recipes = () => {
 		} else if (userId) {
 			const isLoggedInUser = sessionUser?.id == Number(userId);
 			dispatch(fetchRecipes({ userId, isLoggedInUser }));
+		} else {
+			dispatch(fetchRecipes({ search: searchQuery }));
 		}
-	}, [dispatch, userId, sessionUser, location.pathname]);
+	}, [dispatch, userId, sessionUser, location.pathname, searchQuery]);
 
-	// Update recipes state
+
 	useEffect(() => {
 		if (location.pathname === '/recipes') {
 			setRecipes(allRecipes);
@@ -171,6 +181,22 @@ const Recipes = () => {
 							className='favorite-btn'
 							onClick={(e) => {
 								e.stopPropagation();
+
+								// Optimistically update UI
+								if (location.pathname === '/favorites') {
+									setRecipes((prevRecipes) =>
+										prevRecipes.filter((r) => r.id !== recipe.id)
+									);
+								} else {
+									setRecipes((prevRecipes) =>
+										prevRecipes.map((r) =>
+											r.id === recipe.id
+												? { ...r, liked: !r.liked }
+												: r
+										)
+									);
+								}
+
 								dispatch(toggleFavorite(recipe.id));
 							}}>
 							{recipe.liked ? (

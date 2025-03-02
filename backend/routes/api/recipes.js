@@ -17,12 +17,21 @@ const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 router.get('/', requireAuth, async (req, res) => {
 	try {
 		const userId = req.user.id;
+		const { search } = req.query;
 
+		let where = { isPublic: true };
+
+		if (search) {
+			where.title = { [Sequelize.Op.iLike]: `%${search}%` }; // Case-insensitive search
+		}
+
+		// Fetch public recipes with user data
 		const recipes = await Recipe.findAll({
-			where: { isPublic: true },
+			where,
 			include: [{ model: User, attributes: ['username'] }],
 		});
 
+		// Fetch user's favorite recipes
 		const userFavorites = await Favorite.findAll({
 			where: { userId },
 			attributes: ['recipeId'],
@@ -32,9 +41,26 @@ router.get('/', requireAuth, async (req, res) => {
 			userFavorites.map((fav) => fav.recipeId)
 		);
 
+		// Fetch likes count for each recipe
+		const recipeLikes = await Favorite.findAll({
+			attributes: [
+				'recipeId',
+				[Sequelize.fn('COUNT', Sequelize.col('recipeId')), 'likesCount'],
+			],
+			group: ['recipeId'],
+			raw: true,
+		});
+
+		const likesMap = {};
+		recipeLikes.forEach((entry) => {
+			likesMap[entry.recipeId] = entry.likesCount;
+		});
+
+		// Attach `liked` and `likesCount` to each recipe
 		const updatedRecipes = recipes.map((recipe) => ({
 			...recipe.toJSON(),
 			liked: favoriteRecipeIds.has(recipe.id),
+			likesCount: likesMap[recipe.id] || 0,
 		}));
 
 		res.json(updatedRecipes);

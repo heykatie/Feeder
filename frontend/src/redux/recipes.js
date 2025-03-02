@@ -3,13 +3,19 @@ import { csrfFetch } from './csrf';
 
 export const fetchRecipes = createAsyncThunk(
 	'recipes/fetchRecipes',
-	async ({ userId, isLoggedInUser } = {}) => {
+	async ({ userId, isLoggedInUser, search } = {}) => {
 		let url = '/api/recipes';
 
 		if (userId) {
 			url = isLoggedInUser
 				? `/api/recipes/all/${userId}`
 				: `/api/recipes/public/${userId}`;
+		}
+
+		// Append search query if present
+		if (search) {
+			const separator = url.includes('?') ? '&' : '?';
+			url += `${separator}search=${encodeURIComponent(search)}`;
 		}
 
 		const response = await csrfFetch(url);
@@ -209,7 +215,12 @@ export const deleteRecipe = createAsyncThunk(
 
 const recipesSlice = createSlice({
 	name: 'recipes',
-	initialState: { allRecipes: [], favorites: [], selectedRecipe: null, error: null },
+	initialState: {
+		allRecipes: [],
+		favorites: [],
+		selectedRecipe: null,
+		error: null,
+	},
 	reducers: {
 		clearRecipeErrors: (state) => {
 			state.error = null;
@@ -226,7 +237,7 @@ const recipesSlice = createSlice({
 					? action.payload.map((recipe) => ({
 							...recipe,
 							liked: recipe.liked || false,
-					}))
+					  }))
 					: [];
 				state.error = null;
 			})
@@ -249,17 +260,43 @@ const recipesSlice = createSlice({
 				state.allRecipes.push(action.payload);
 				state.error = null;
 			})
+			// .addCase(toggleFavorite.fulfilled, (state, action) => {
+			// 	const { recipeId, liked } = action.payload;
+
+			// 	if (window.location.pathname === '/favorites') {
+			// 		if (!liked) {
+			// 			state.allRecipes = state.allRecipes.filter(
+			// 				(recipe) => recipe.id !== recipeId
+			// 			);
+			// 		}
+			// 	} else {
+			// 		const updateRecipe = (recipe) => {
+			// 			if (recipe) {
+			// 				recipe.liked = liked;
+			// 				recipe.likesCount = liked
+			// 					? recipe.likesCount + 1
+			// 					: Math.max(0, recipe.likesCount - 1);
+			// 			}
+			// 		};
+
+			// 		updateRecipe(state.allRecipes.find((r) => r.id === recipeId));
+			// 		updateRecipe(state.selectedRecipe);
+			// 	}
+			// })
 			.addCase(toggleFavorite.fulfilled, (state, action) => {
 				const { recipeId, liked } = action.payload;
 
+				// If on favorites page, remove the unfavorited recipe
 				if (window.location.pathname === '/favorites') {
 					if (!liked) {
-						state.allRecipes = state.allRecipes.filter(
+						state.favorites = state.favorites.filter(
 							(recipe) => recipe.id !== recipeId
 						);
 					}
 				} else {
-					const updateRecipe = (recipe) => {
+					// Update allRecipes
+					const updateRecipe = (recipes) => {
+						const recipe = recipes.find((r) => r.id === recipeId);
 						if (recipe) {
 							recipe.liked = liked;
 							recipe.likesCount = liked
@@ -268,8 +305,9 @@ const recipesSlice = createSlice({
 						}
 					};
 
-					updateRecipe(state.allRecipes.find((r) => r.id === recipeId));
-					updateRecipe(state.selectedRecipe);
+					updateRecipe(state.allRecipes);
+					updateRecipe(state.favorites);
+					updateRecipe([state.selectedRecipe]); // If a single recipe is being viewed
 				}
 			})
 			.addCase(deleteRecipe.fulfilled, (state, action) => {

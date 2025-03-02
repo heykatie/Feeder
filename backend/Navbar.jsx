@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
 import AvatarButton from './AvatarButton';
@@ -15,6 +15,9 @@ const Navbar = () => {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [showMenu, setShowMenu] = useState(false);
 	const [showSidebar, setShowSidebar] = useState(false);
+		const [searchQuery, setSearchQuery] = useState('');
+		const navigate = useNavigate();
+
 
 	const toggleExpand = () => {
 		setIsExpanded((prev) => !prev);
@@ -30,6 +33,13 @@ const Navbar = () => {
 	const toggleSidebar = (e) => {
 		setShowSidebar((prev) => !prev);
 	};
+
+		const handleSearch = (e) => {
+			e.preventDefault();
+			if (!searchQuery.trim()) return; // Prevent empty searches
+			navigate(`/recipes?search=${encodeURIComponent(searchQuery)}`);
+		};
+
 
 	// useEffect(() => {
 	// 	if (!isExpanded) return;
@@ -60,12 +70,21 @@ const Navbar = () => {
 					</NavLink>
 				</div>
 
-				<div className='navbar-center'>
-					<input type='text' placeholder='Search' className='search-bar' />
-					<button aria-label='search-btn' className='search-btn'>
+				<form className='navbar-center' onSubmit={handleSearch}>
+					<input
+						type='text'
+						placeholder='Search recipes...'
+						className='search-bar'
+						value={searchQuery}
+						onChange={(e) => setSearchQuery(e.target.value)}
+					/>
+					<button
+						aria-label='search-btn'
+						className='search-btn'
+						type='submit'>
 						<i className='fas fa-search'></i>
 					</button>
-				</div>
+				</form>
 
 				<div className='navbar-right'>
 					{user ? (
