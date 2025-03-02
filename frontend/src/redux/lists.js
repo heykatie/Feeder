@@ -2,18 +2,24 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
 
 export const createList = createAsyncThunk(
-	'lists/createEmptyList',
-	async ({ name }, { rejectWithValue }) => {
+	'lists/createList',
+	async ({ name, type }, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch('/api/lists', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name }), // ✅ Send list name
+				body: JSON.stringify({ name, type }),
 			});
 
 			const data = await response.json();
+			console.log('🔍 API Response:', data); // Debugging log
+
 			if (!response.ok)
 				return rejectWithValue(data.error || 'Failed to create list');
+
+			if (!data.list || !data.list.id) {
+				throw new Error('Invalid list returned from API'); // Prevents silent failure
+			}
 
 			return data.list;
 		} catch (error) {

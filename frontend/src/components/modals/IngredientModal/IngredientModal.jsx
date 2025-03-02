@@ -12,20 +12,22 @@ const IngredientModal = ({
 	setIngredientQuantities,
 	ingredientMeasurements,
 	setIngredientMeasurements,
+	fromCreateList = false, // New prop to detect if used in CreateListModal
+	onBack, // New prop for back button action
+	handleSaveList, // New prop to trigger saving list
 }) => {
 	const dispatch = useDispatch();
 	const { closeModal } = useModal();
 	const measurements =
 		useSelector((state) => state.ingredients.measurements) || [];
+
 	const [updatedSelectedIngredients, setUpdatedSelectedIngredients] = useState(
 		[...selectedIngredients]
 	);
 	const [updatedIngredientQuantities, setUpdatedIngredientQuantities] =
 		useState({ ...ingredientQuantities });
 	const [updatedIngredientMeasurements, setUpdatedIngredientMeasurements] =
-		useState(
-			ingredientMeasurements || {} // Ensure it's at least an empty object
-		);
+		useState(ingredientMeasurements || {});
 
 	const handleIngredientChange = (ingredientId, checked) => {
 		setUpdatedSelectedIngredients((prev) =>
@@ -33,13 +35,11 @@ const IngredientModal = ({
 				? [...prev, ingredientId]
 				: prev.filter((id) => id !== ingredientId)
 		);
-
 		setUpdatedIngredientQuantities((prev) => {
 			const updated = { ...prev };
 			if (!checked) delete updated[ingredientId];
 			return updated;
 		});
-
 		setUpdatedIngredientMeasurements((prev) => {
 			const updated = { ...prev };
 			if (!checked) delete updated[ingredientId];
@@ -62,10 +62,15 @@ const IngredientModal = ({
 	};
 
 	const handleSave = () => {
-		setSelectedIngredients(updatedSelectedIngredients);
-		setIngredientQuantities(updatedIngredientQuantities);
-		setIngredientMeasurements(updatedIngredientMeasurements);
-		closeModal();
+		setSelectedIngredients([...updatedSelectedIngredients]);
+		setIngredientQuantities({ ...updatedIngredientQuantities });
+		setIngredientMeasurements({ ...updatedIngredientMeasurements });
+
+		if (fromCreateList) {
+			handleSaveList(); // Calls save list function if from CreateListModal
+		} else {
+			closeModal();
+		}
 	};
 
 	useEffect(() => {
@@ -74,7 +79,9 @@ const IngredientModal = ({
 
 	return (
 		<div className='ingredient-modal'>
-			<h2>Select Ingredients</h2>
+			<h2>
+				{fromCreateList ? 'Add Ingredients to List' : 'Select Ingredients'}
+			</h2>
 
 			<div className='ingredient-list'>
 				{ingredients.map((ingredient) => (
@@ -123,12 +130,27 @@ const IngredientModal = ({
 			</div>
 
 			<div className='ingredient-modal-actions'>
-				<button className='save-btn' onClick={handleSave}>
-					Save Ingredients
-				</button>
-				<button className='ingredient-cancel-btn' onClick={closeModal}>
-					Cancel
-				</button>
+				{fromCreateList ? (
+					<>
+						<button className='save-btn' onClick={handleSave}>
+							Save List
+						</button>
+						<button className='ingredient-back-btn' onClick={onBack}>
+							Back
+						</button>
+					</>
+				) : (
+					<>
+						<button className='save-btn' onClick={handleSave}>
+							Save Ingredients
+						</button>
+						<button
+							className='ingredient-cancel-btn'
+							onClick={closeModal}>
+							Cancel
+						</button>
+					</>
+				)}
 			</div>
 		</div>
 	);

@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './CreateList.css';
-import { createList, generateGroceryList } from '../../../redux/lists';
+import {
+	createList,
+	generateGroceryList,
+	saveListName,
+} from '../../../redux/lists';
 import { fetchFavorites, fetchRecipes } from '../../../redux/recipes';
 import OpenModalButton from '../../../context/OpenModalButton';
 import IngredientModal from '../../modals/IngredientModal/IngredientModal';
-import {useModal} from '../../../context/ModalContext';
-import {fetchIngredients} from '../../../redux/ingredients';
+import { useModal } from '../../../context/ModalContext';
+import { fetchIngredients } from '../../../redux/ingredients';
 
 const CreateListModal = () => {
 	const dispatch = useDispatch();
@@ -15,19 +19,21 @@ const CreateListModal = () => {
 	const user = useSelector((state) => state.session.user);
 	const recipes = useSelector((state) => state.recipes.list) || [];
 	const allIngredients = useSelector((state) => state.ingredients.list) || []; // Ensure ingredients exist in Redux
-  const { closeModal } = useModal();
+	const { closeModal } = useModal();
 
 	const [listName, setListName] = useState('');
 	const [listType, setListType] = useState('shopping'); // Default to shopping list
 	const [selectedRecipe, setSelectedRecipe] = useState('');
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
 	const [ingredientQuantities, setIngredientQuantities] = useState({});
+	const [ingredientMeasurements, setIngredientMeasurements] = useState({});
+
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		dispatch(fetchFavorites());
-    dispatch(fetchRecipes());
-    dispatch(fetchIngredients())
+		dispatch(fetchRecipes());
+		dispatch(fetchIngredients());
 	}, [dispatch]);
 
 	const handleRecipeChange = (e) => {
@@ -49,24 +55,45 @@ const CreateListModal = () => {
 		setIsLoading(true);
 		try {
 			let newList;
-			const listData = {
-				name: listName,
-				type: listType,
-				userId: user.id,
-				ingredients: selectedIngredients.map((id) => ({
-					ingredientId: id,
-					quantity: ingredientQuantities[id] || '1 unit',
-				})), // ✅ Include selected ingredients
-			};
-
 			if (selectedRecipe) {
+				// Generate grocery list from recipe
 				const result = await dispatch(
-					generateGroceryList({ recipeId: selectedRecipe, ...listData })
+					generateGroceryList(selectedRecipe)
 				).unwrap();
-				newList = result.list;
+				newList = { ...result.list }; // ✅ Create a new object reference
+
+				// If the user manually entered a custom name, update it after creation
+				if (
+					listName.trim() &&
+					listName !== `Grocery for ${result.list.name}`
+				) {
+					await dispatch(
+						saveListName({ listId: newList.id, name: listName })
+					);
+
+					// ✅ Instead of modifying the original object, use a new reference
+					newList = { ...newList, name: listName };
+				}
 			} else {
+				// Manually create a list with ingredients
+				const listData = {
+					name: listName,
+					type: listType,
+					userId: user.id,
+					ingredients: selectedIngredients.map((id) => ({
+						ingredientId: id,
+						quantity: ingredientQuantities[id] || 1,
+						measurementId: ingredientMeasurements[id] || null,
+					})),
+				};
 				const result = await dispatch(createList(listData)).unwrap();
-				newList = result.list;
+				newList = { ...result }; // ✅ Ensure a new object reference
+			}
+
+			console.log('✅ Created List:', newList);
+
+			if (!newList?.id) {
+				throw new Error('New list was not created correctly.');
 			}
 
 			closeModal();
@@ -126,6 +153,11 @@ const CreateListModal = () => {
 						setSelectedIngredients={setSelectedIngredients}
 						ingredientQuantities={ingredientQuantities}
 						setIngredientQuantities={setIngredientQuantities}
+						ingredientMeasurements={ingredientMeasurements}
+						setIngredientMeasurements={setIngredientMeasurements}
+						fromCreateList={true} // Pass this flag
+						onBack={closeModal} // Close modal to return to CreateList
+						handleSaveList={handleSaveList} // Pass function to save list
 					/>
 				}
 				buttonText='Add Ingredients Manually'

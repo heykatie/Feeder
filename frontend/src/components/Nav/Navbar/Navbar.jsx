@@ -18,7 +18,7 @@ const Navbar = () => {
 	const [showSidebar, setShowSidebar] = useState(false);
 
 	const handleMouseEnter = () => setIsHovered(true);
-	const handleMouseLeave = () => setTimeout(() => setIsHovered(false), 1000);
+	const handleMouseLeave = () => setTimeout(() => setIsHovered(false), 1500);
 
 	const toggleExpand = () => {
 		if (!isExpanded) setShowMenu(false);

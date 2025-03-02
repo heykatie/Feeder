@@ -68,7 +68,6 @@ router.get('/:listId', requireAuth, async (req, res) => {
 		}
 		// console.error('katie', groceryList)
 
-
 		const servings = groceryList.Recipe?.servings || 1;
 		// console.error('servings', groceryList.Recipe)
 
@@ -96,6 +95,12 @@ router.get('/:listId', requireAuth, async (req, res) => {
 router.post('/', requireAuth, async (req, res) => {
 	try {
 		const { name, type } = req.body;
+		if (!name.trim()) {
+			return res.status(400).json({ error: 'List name is required' });
+		}
+		if (!['shopping', 'todo'].includes(type)) {
+			return res.status(400).json({ error: 'Invalid list type' });
+		}
 		const userId = req.user.id;
 
 		if (!name.trim()) {
@@ -112,6 +117,7 @@ router.post('/', requireAuth, async (req, res) => {
 			type,
 		});
 
+		console.log('✅ New list created:', newList);
 		res.json({ message: 'List created successfully!', list: newList });
 	} catch (error) {
 		console.error('Error creating list:', error);
@@ -140,7 +146,7 @@ router.post('/generate/:recipeId', requireAuth, async (req, res) => {
 			userId,
 			name: `Grocery List for ${recipe.title}`,
 			type: 'shopping',
-			recipeId: recipe.id
+			recipeId: recipe.id,
 		});
 
 		const groceryItems = recipe.Ingredients.map((ingredient) => ({
@@ -148,7 +154,7 @@ router.post('/generate/:recipeId', requireAuth, async (req, res) => {
 			ingredientId: ingredient.id,
 			quantity: ingredient.RecipeIngredient?.quantity || 1,
 			checked: false,
-			measurementId: ingredient.RecipeIngredient?.measurementId || 'cup',
+			measurementId: ingredient.RecipeIngredient?.measurementId || null,
 		}));
 
 		await GroceryIngredient.bulkCreate(groceryItems);
@@ -215,7 +221,6 @@ router.put(
 			if (!groceryItem)
 				return res.status(404).json({ error: 'Item not found' });
 
-
 			if (quantity) groceryItem.quantity = quantity;
 			if (measurementId) groceryItem.measurementId = measurementId;
 			if (checked !== undefined) groceryItem.checked = checked;
@@ -233,12 +238,12 @@ router.put(
 						? {
 								id: groceryItem.Ingredient.id,
 								name: groceryItem.Ingredient.name,
-						}
+						  }
 						: null,
 				},
 			});
 		} catch (error) {
-			console.error('katie', error)
+			console.error('katie', error);
 			res.status(500).json({
 				error:
 					error.errors?.[0]?.message ||

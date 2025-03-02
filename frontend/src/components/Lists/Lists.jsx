@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import OpenModalButton from '../../context/OpenModalButton'
 import CreateListModal from '../modals/CreateList';
 import ConfirmDelete from '../modals/ConfirmDelete';
+import {useModal} from '../../context/ModalContext';
 import './Lists.css';
 
 const Lists = () => {
@@ -12,6 +13,7 @@ const Lists = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.session.user);
   const allLists = useSelector((state) => state.lists.allLists);
+	const { closeModal } = useModal();
 
 
 	useEffect(() => {
@@ -28,7 +30,8 @@ const Lists = () => {
 
 
 	const handleDeleteList = async (listId) => {
-    await dispatch(deleteList(listId));
+		await dispatch(deleteList(listId));
+		closeModal();
 	};
 
 	return (
