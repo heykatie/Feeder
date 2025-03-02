@@ -25,6 +25,7 @@ const Recipe = () => {
 	const [showNotes, setShowNotes] = useState(false); // Toggle for notes
 	const [showInstructions, setShowInstructions] = useState(true);
 	const [showIngredients, setShowIngredients] = useState(true);
+	const [showNutrition, setShowNutrition] = useState(false);
 
 	useEffect(() => {
 		if (recipe) {
@@ -86,24 +87,26 @@ const Recipe = () => {
 
 	return (
 		<div className='recipe-container'>
-			<button className='back-btn' onClick={() => navigate('/recipes')}>
-				← Back to Recipes
-			</button>
+			<div className='recipe-header'>
+				<button className='back-btn' onClick={() => navigate('/recipes')}>
+					← Back to Recipes
+				</button>
 
-			{user?.id === recipe.userId && (
-				<div className='recipe-actions'>
-					<button
-						className='edit-btn'
-						onClick={() => navigate(`/recipes/${id}/edit`)}>
-						Edit Recipe
-					</button>
-					<OpenModalButton
-						buttonText='Delete Recipe'
-						className='delete-btn'
-						modalComponent={<ConfirmDelete onConfirm={handleDelete} />}
-					/>
-				</div>
-			)}
+				{user?.id === recipe.userId && (
+					<div className='recipe-actions'>
+						<button
+							className='edit-btn'
+							onClick={() => navigate(`/recipes/${id}/edit`)}>
+							Edit Recipe
+						</button>
+						<OpenModalButton
+							buttonText='Delete Recipe'
+							className='delete-btn'
+							modalComponent={<ConfirmDelete onConfirm={handleDelete} />}
+						/>
+					</div>
+				)}
+			</div>
 
 			<h1 className='recipe-title'>{recipe.title}</h1>
 
@@ -114,21 +117,24 @@ const Recipe = () => {
 					<FaRegHeart className='heart-empty' />
 				)}
 			</button>
-			<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
-			<p className='recipe-rating'>Rating: {recipe.rating} / 5 ⭐</p>
 
+			<div className='recipe-info'>
+				<p className='recipe-category'>Category: {recipe.category}</p>
+				<p className='recipe-difficulty'>Difficulty: {recipe.difficulty}</p>
+			</div>
 			<img
 				src={recipe.imageUrl || '/images/recipes/dogfood.jpeg'}
 				alt={recipe.title}
 				className='recipe-image'
 			/>
-
-			<p className='recipe-category'>Category: {recipe.category}</p>
-			<p className='recipe-difficulty'>Difficulty: {recipe.difficulty}</p>
+			<div className='recipe-meta'>
+				<p className='recipe-rating'>Rating: {recipe.rating} / 5 ⭐</p>
+				<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
+			</div>
 			<p className='recipe-description'>{recipe.description}</p>
 
 			<div className='recipe-servings-container'>
-				<label>Servings:</label>
+				<label className='servings-label'>Servings:</label>
 				<input
 					type='number'
 					min='1'
@@ -136,9 +142,11 @@ const Recipe = () => {
 					onChange={handleServingsChange}
 					className='servings-input'
 				/>
-				<button onClick={handleResetServings} className='reset-btn'>
-					Reset
-				</button>
+				{servings !== recipe?.servings && (
+					<button onClick={handleResetServings} className='reset-btn'>
+						Reset
+					</button>
+				)}
 			</div>
 
 			<div
@@ -159,9 +167,12 @@ const Recipe = () => {
 										{adjustedIngredients[ingredient.id] ||
 											ingredient.quantity}
 									</span>{' '}
-									{ingredient.measurement ||
-										ingredient.abbreviation ||
-										''}
+									<span
+										className='ingredient-measurement'>
+										{ingredient.measurement ||
+											ingredient.abbreviation ||
+											''}
+									</span>
 								</li>
 								<OpenModal
 									className='ingredient-label'
@@ -200,18 +211,25 @@ const Recipe = () => {
 			</div>
 
 			{/* Nutrition */}
-			<div className='recipe-section'>
-				<h2>Nutrition Facts (Per Recipe)</h2>
-				<ul className='recipe-nutrition'>
-					{Object.entries(recipe.nutritionTotals || {}).map(
-						([key, value]) => (
-							<li key={`${key}-${value}`}>
-								{key.charAt(0).toUpperCase() + key.slice(1)}: {value}{' '}
-								{key === 'calories' ? 'kcal' : 'g'}
-							</li>
-						)
-					)}
-				</ul>
+			<div
+				className={`recipe-section collapsible ${
+					showNutrition ? 'open' : ''
+				}`}>
+				<h2 onClick={() => setShowNutrition(!showNutrition)}>
+					Nutrition Facts (Per Recipe) {showNutrition ? '▲' : '▼'}
+				</h2>
+				<div className='content'>
+					<ul className='recipe-nutrition'>
+						{Object.entries(recipe.nutritionTotals || {}).map(
+							([key, value]) => (
+								<li key={`${key}-${value}`}>
+									{key.charAt(0).toUpperCase() + key.slice(1)}: {value}{' '}
+									{key === 'calories' ? 'kcal' : 'g'}
+								</li>
+							)
+						)}
+					</ul>
+				</div>
 			</div>
 
 			{/* Notes */}
