@@ -1,13 +1,16 @@
+/* 🍽️ Recipes Page Layout */
 .recipes-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 100%;
   padding: 20px;
+  overflow: hidden;
 }
 
+/* 📝 Header */
 .recipes-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
@@ -17,35 +20,34 @@
   color: var(--text-color);
 }
 
-.create-recipe-btn {
-  background-color: var(--primary-accent);
-  color: var(--text-color);
-  padding: 10px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.create-recipe-btn:hover {
-  background-color: var(--secondary-accent);
-}
-
-.recipes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+/* 🎠 Carousel Scroll */
+.recipes-scroll-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   gap: 20px;
+  padding: 10px 0;
+  white-space: nowrap;
+  /* Prevents wrapping */
 }
 
+/* Hide scrollbar */
+.recipes-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 🎴 Recipe Card */
 .recipe-card {
+  flex: 0 0 auto;
+  width: 300px;
+  /* Fixed width for easy scrolling */
+  scroll-snap-align: start;
   background-color: var(--panel-bg);
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
-  text-decoration: none;
-  color: var(--text-color);
 }
 
 .recipe-card:hover {
@@ -53,35 +55,30 @@
   transform: translateY(-3px);
 }
 
+/* 🖼️ Recipe Image */
 .recipe-image {
   width: 100%;
-  height: 150px;
+  height: 180px;
   object-fit: cover;
   border-radius: 5px;
-  margin-bottom: 10px;
 }
 
+/* 🏷️ Recipe Title */
 .recipe-card h2 {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  margin: 5px 0;
+  margin: 10px 0 5px;
   color: var(--text-color);
 }
 
-.recipe-card p {
-  font-size: 0.9rem;
-  color: var(--muted-text);
-}
 
-.no-recipes {
-  text-align: center;
-  color: var(--muted-text);
-  font-size: 1.2rem;
-  margin-top: 20px;
-}
+/* 📱 Responsive: Make cards smaller for mobile */
+@media (max-width: 768px) {
+  .recipe-card {
+    width: 240px;
+  }
 
-@media (max-width: 600px) {
-  .recipes-grid {
-    gap: 20px;
+  .recipe-image {
+    height: 150px;
   }
 }

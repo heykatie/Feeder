@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	fetchRecipes,
@@ -18,7 +18,9 @@ const Recipes = () => {
 	const allRecipes = useSelector((state) => state.recipes.allRecipes);
 	const faves = useSelector((state) => state.recipes.favorites);
 	const [recipes, setRecipes] = useState([]);
+	const scrollContainerRef = useRef(null); // Reference for scrolling container
 
+	// Fetch recipes based on location
 	useEffect(() => {
 		if (location.pathname === '/recipes') {
 			dispatch(fetchRecipes());
@@ -30,7 +32,7 @@ const Recipes = () => {
 		}
 	}, [dispatch, userId, sessionUser, location.pathname]);
 
-
+	// Update recipes state
 	useEffect(() => {
 		if (location.pathname === '/recipes') {
 			setRecipes(allRecipes);
@@ -38,6 +40,37 @@ const Recipes = () => {
 			setRecipes(faves);
 		}
 	}, [allRecipes, faves, location.pathname]);
+
+	// Mouse wheel scroll (horizontal scroll on wheel)
+	useEffect(() => {
+		const scrollContainer = scrollContainerRef.current;
+
+		const handleScroll = (event) => {
+			if (scrollContainer) {
+				event.preventDefault();
+				scrollContainer.scrollLeft += event.deltaY * 2; // Speed multiplier
+			}
+		};
+
+		scrollContainer?.addEventListener('wheel', handleScroll);
+		return () => scrollContainer?.removeEventListener('wheel', handleScroll);
+	}, []);
+
+	// Keyboard arrow navigation
+	useEffect(() => {
+		const scrollContainer = scrollContainerRef.current;
+
+		const handleKeyDown = (event) => {
+			if (event.key === 'ArrowLeft') {
+				scrollContainer.scrollLeft -= 200; // Scroll left
+			} else if (event.key === 'ArrowRight') {
+				scrollContainer.scrollLeft += 200; // Scroll right
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, []);
 
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
 
@@ -57,7 +90,9 @@ const Recipes = () => {
 					Create New Recipe
 				</button>
 			</div>
-			<div className='recipes-grid'>
+
+			{/* 📌 Scrollable Container with Mouse & Keyboard Support */}
+			<div className='recipes-scroll-container' ref={scrollContainerRef}>
 				{recipes.map((recipe) => (
 					<div key={recipe.id} className='recipe-card'>
 						<NavLink to={`/recipes/${recipe.id}`} className='recipe-link'>
