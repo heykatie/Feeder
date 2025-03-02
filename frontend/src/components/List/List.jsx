@@ -14,18 +14,6 @@ export default function List() {
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState(groceryList?.name || '');
 	const [checkedItems, setCheckedItems] = useState({});
-	const [servings, setServings] = useState(groceryList?.servings || 1);
-	const [measurements, setMeasurements] = useState([]);
-	const [measurementMap, setMeasurementMap] = useState({});
-
-	useEffect(() => {
-		async function fetchMeasurements() {
-			const response = await fetch('/api/measurements');
-			const data = await response.json();
-			setMeasurements(data);
-		}
-		fetchMeasurements();
-	}, []);
 
 	useEffect(() => {
 		dispatch(fetchGroceryList(listId));
@@ -50,17 +38,24 @@ export default function List() {
 		}
 	}, [groceryList]);
 
-	const handleCheck = async (ingredientId) => {
-		const newCheckedState = !checkedItems[ingredientId];
-		setCheckedItems((prev) => ({ ...prev, [ingredientId]: newCheckedState }));
+	const handleCheck = async (groceryIngredientId) => {
+		const newCheckedState = !checkedItems[groceryIngredientId];
+		setCheckedItems((prev) => ({
+			...prev,
+			[groceryIngredientId]: newCheckedState,
+		}));
 
 		dispatch(
-			toggleChecked({ listId, ingredientId, checked: newCheckedState })
+			toggleChecked({
+				listId,
+				groceryIngredientId,
+				checked: newCheckedState,
+			})
 		)
 			.unwrap()
-			.catch((error) =>
-				console.error('❌ Error updating checked state:', error)
-			);
+			.catch((error) => {
+				console.error('❌ Error updating checked state:', error);
+			});
 	};
 
 	useEffect(() => {
@@ -81,10 +76,6 @@ export default function List() {
 		return () => window.removeEventListener('beforeunload', saveBeforeExit);
 	}, [checkedItems, listId]);
 
-	const handleServingsChange = (e) => {
-		const newServings = Number(e.target.value);
-		setServings(newServings);
-	};
 
 
 	if (!groceryList) return <p>Loading grocery list...</p>;
@@ -112,9 +103,6 @@ export default function List() {
 					listName
 				)}
 			</h1>
-			<label>
-				Servings: {groceryList.servings}
-			</label>
 			<ul>
 				{groceryList.Ingredients?.map((item) =>
 					<li key={item.id}>
@@ -125,7 +113,7 @@ export default function List() {
 								onChange={() => handleCheck(item.id)}
 							/>
 							<span>
-								{item.quantity} {item.measurement || 'unit'} - {item.name}
+								{item.name}
 							</span>
 						</label>
 					</li>)

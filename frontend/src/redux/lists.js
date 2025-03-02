@@ -6,27 +6,22 @@ export const fetchGroceryList = createAsyncThunk(
 	async (listId, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch(`/api/lists/${listId}`);
-
 			const data = await response.json();
-			if (!response.ok)
-				return rejectWithValue(data.error || 'Failed to fetch list');
 
-			// return {
-			// 	...data.list,
-			// 	Ingredients: data.list.Ingredients || [],
-			// };
+			if (!response.ok) return rejectWithValue(data.error || 'Failed to fetch list');
+
 			return {
 				...data.list,
 				servings: data.servings || 1,
-				Ingredients:
-					data.list.Ingredients?.map((gi, index) => ({
-						id: gi.Ingredient?.id || `temp-${index}`,
-						quantity: gi.quantity,
-						name: gi.name || 'Mystery Item',
-						checked: gi.checked || false,
-						measurement: gi.measurement || '',
-						abbreviation: gi.abbreviation || '',
-					})) || [],
+				Ingredients: data.list.Ingredients?.map((gi) => ({
+					id: gi.id,
+					ingredientId: gi.ingredientId,
+					quantity: gi.quantity,
+					name: gi.name || 'Mystery Item',
+					checked: gi.checked || false,
+					measurement: gi.measurement || '',
+					abbreviation: gi.abbreviation || '',
+				})) || [],
 			};
 		} catch (error) {
 			return rejectWithValue(error.message);
@@ -109,10 +104,10 @@ export const saveIngredient = createAsyncThunk(
 
 export const toggleChecked = createAsyncThunk(
 	'lists/toggleChecked',
-	async ({ listId, ingredientId, checked }, { rejectWithValue }) => {
+	async ({ listId, groceryIngredientId, checked }, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch(
-				`/api/lists/${listId}/ingredients/${ingredientId}`,
+				`/api/lists/${listId}/grocery-ingredients/${groceryIngredientId}/toggle`,
 				{
 					method: 'PUT',
 					headers: { 'Content-Type': 'application/json' },
@@ -126,9 +121,9 @@ export const toggleChecked = createAsyncThunk(
 					data.error || 'Failed to toggle check state'
 				);
 
-			return { listId, ingredientId, checked };
+			return { listId, groceryIngredientId, checked };
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.message || 'Internal server error');
 		}
 	}
 );
@@ -189,11 +184,11 @@ const listsSlice = createSlice({
 			// 	}
 			// })
 			.addCase(toggleChecked.fulfilled, (state, action) => {
-				const { listId, ingredientId, checked } = action.payload;
+				const { listId, groceryIngredientId, checked } = action.payload;
 
 				if (state.currentList && state.currentList.id === listId) {
 					const ingredient = state.currentList.Ingredients.find(
-						(ing) => ing.id === ingredientId
+						(ing) => ing.id === groceryIngredientId
 					);
 					if (ingredient) ingredient.checked = checked;
 				}
@@ -201,7 +196,7 @@ const listsSlice = createSlice({
 				const list = state.allLists.find((list) => list.id === listId);
 				if (list) {
 					const ingredient = list.Ingredients.find(
-						(ing) => ing.id === ingredientId
+						(ing) => ing.id === groceryIngredientId
 					);
 					if (ingredient) ingredient.checked = checked;
 				}

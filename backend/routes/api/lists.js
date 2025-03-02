@@ -45,7 +45,7 @@ router.get('/:listId', requireAuth, async (req, res) => {
 		if (!groceryList) {
 			return res.status(404).json({ error: 'Grocery list not found' });
 		}
-		console.error('katie', groceryList)
+		// console.error('katie', groceryList)
 
 
 		const servings = groceryList.Recipe?.servings || 1;
@@ -60,7 +60,7 @@ router.get('/:listId', requireAuth, async (req, res) => {
 			measurement: gi.Measurement ? gi.Measurement.name : null,
 			abbreviation: gi.Measurement ? gi.Measurement.abbreviation : null,
 		}));
-		console.error('katie', ingredients)
+		// console.error('katie', ingredients)
 
 		res.json({
 			list: { ...groceryList.toJSON(), Ingredients: ingredients },
@@ -198,6 +198,44 @@ router.put(
 					error.message ||
 					'Internal server error',
 			});
+		}
+	}
+);
+
+router.put(
+	'/:listId/grocery-ingredients/:groceryIngredientId/toggle',
+	requireAuth,
+	async (req, res) => {
+		try {
+			const { listId, groceryIngredientId } = req.params;
+			const { checked } = req.body;
+
+			if (!groceryIngredientId || isNaN(groceryIngredientId)) {
+				return res
+					.status(400)
+					.json({ error: 'Invalid groceryIngredientId' });
+			}
+
+			const groceryItem = await GroceryIngredient.findOne({
+				where: { id: groceryIngredientId, listId },
+			});
+
+			if (!groceryItem) {
+				return res.status(404).json({ error: 'Grocery item not found' });
+			}
+
+			groceryItem.checked = checked;
+			await groceryItem.save();
+
+			res.json({
+				message: 'Checked state updated successfully',
+				listId,
+				groceryIngredientId,
+				checked,
+			});
+		} catch (error) {
+			console.error('❌ Error toggling checked state:', error);
+			res.status(500).json({ error: 'Internal server error' });
 		}
 	}
 );
