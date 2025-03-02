@@ -4,7 +4,7 @@ import { createIngredient } from '../../../redux/ingredients';
 import {useModal} from '../../../context/ModalContext';
 import './NewIngredient.css';
 
-const NewIngredient = ({ onClose }) => {
+const NewIngredient = ({ fetchIngredients }) => {
 	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({
 		name: '',
@@ -74,7 +74,10 @@ const NewIngredient = ({ onClose }) => {
 				image: '',
 			});
 			setSelectedFields([]);
-			closeModal()
+			setTimeout(() => {
+				closeModal();
+			}, 1000);
+			dispatch(fetchIngredients());
 		} catch (err) {
 			setError(err || 'Failed to create ingredient');
 		}
@@ -163,7 +166,7 @@ const NewIngredient = ({ onClose }) => {
 				))}
 
 				<button type='submit'>Create Ingredient</button>
-				<button type='button' onClick={onClose}>
+				<button type='button' onClick={closeModal}>
 					Cancel
 				</button>
 			</form>

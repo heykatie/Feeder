@@ -224,7 +224,8 @@ module.exports = {
 					title: 'Puppy Meatballs',
 					description:
 						'Soft, bite-sized meatballs perfect for young or senior dogs.',
-					imageUrl: 'https://example.com/puppy-meatballs.jpg',
+					imageUrl:
+						'https://www.pookspantry.com/wp-content/uploads/2022/05/meatballs-for-dogs.jpg',
 					category: 'Soft Food',
 					instructions: JSON.stringify([
 						'Preheat oven to 350°F (175°C).',
@@ -247,7 +248,7 @@ module.exports = {
 					description:
 						'Frozen coconut yogurt treats to cool your pup on hot days.',
 					imageUrl:
-						'https://www.pookspantry.com/wp-content/uploads/2022/05/meatballs-for-dogs.jpg',
+						'https://images.squarespace-cdn.com/content/v1/5e74d0b0ec99d437dda01b4d/e906d2cb-ed32-44a6-ac49-b68ee1a090b7/DSCF9846.jpg?format=2500w',
 					category: 'Frozen Treats',
 					instructions: JSON.stringify([
 						'Mix unsweetened coconut yogurt with mashed banana.',

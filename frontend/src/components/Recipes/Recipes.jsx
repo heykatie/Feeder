@@ -62,7 +62,7 @@ const Recipes = () => {
 					<div key={recipe.id} className='recipe-card'>
 						<NavLink to={`/recipes/${recipe.id}`} className='recipe-link'>
 							<img
-								src={'/images/recipes/dogfood.jpeg' || recipe.imageUrl}
+								src={recipe.imageUrl || '/images/recipes/dogfood.jpeg'}
 								alt={recipe.title}
 								className='recipe-image'
 							/>

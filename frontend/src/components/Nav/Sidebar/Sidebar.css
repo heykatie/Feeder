@@ -1,7 +1,7 @@
 .sidebar-panel {
   position: fixed;
   top: 0;
-  left: -250px;
+  left: -300px;
   width: 220px;
   height: 100vh;
   background: rgba(26, 26, 46, 0.99);
@@ -94,8 +94,8 @@
 
 @media (max-width: 768px) {
   .sidebar-panel {
-    width: 100%;
-    left: -100%;
+    width: 35%;
+    left: -120%;
   }
 
   .sidebar-panel.open {

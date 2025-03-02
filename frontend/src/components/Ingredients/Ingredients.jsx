@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import './Ingredients.css';
 
 const Ingredients = ({
@@ -7,6 +8,9 @@ const Ingredients = ({
 	ingredients,
 }) => {
 	if (!selectedIngredients.length) return null;
+		const measurements = useSelector(
+			(state) => state.ingredients.measurements
+		);
 
 	return (
 		<div className='ingredients-preview'>
@@ -17,13 +21,17 @@ const Ingredients = ({
 						(ing) => ing.id === ingredientId
 					);
 					const quantity = ingredientQuantities[ingredientId] || 'N/A';
-					const measurement = ingredientMeasurements[ingredientId];
+					const measurementId = ingredientMeasurements[ingredientId];
+					const measurement = measurements.find(
+						(m) => m.id === measurementId
+					);
+					const measurementName = measurement ? measurement.name : 'Unit';
 					return (
 						<li key={ingredientId} className='ingredient-preview-item'>
 							<span className='ingredient-name'>{ingredient?.name}</span>
 							<span className='ingredient-quantity'>{quantity}</span>
 							<span className='ingredient-measurement'>
-								{measurement}
+								{measurementName}
 							</span>
 						</li>
 					);

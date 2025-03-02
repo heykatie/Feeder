@@ -17,7 +17,6 @@ import { useModal } from '../ModalContext';
 // 	return <li onClick={onClick}>{itemText}</li>;
 // }
 
-// export default OpenModal;
 
 
 function OpenModal({

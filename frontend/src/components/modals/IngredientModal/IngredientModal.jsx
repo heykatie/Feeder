@@ -1,28 +1,34 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../../context/ModalContext';
-import { fetchMeasurements } from '../../../redux/ingredients';
+import {
+	fetchMeasurements,
+	fetchIngredients,
+} from '../../../redux/ingredients';
 import IngredientInfo from '../IngredientInfo';
 import OpenModal from '../../../context/OpenModal';
+import NewIngredient from '../NewIngredient';
+import OpenModalButton from '../../../context/OpenModalButton';
 import './IngredientModal.css';
 
 const IngredientModal = ({
-	ingredients,
+	// ingredients,
 	selectedIngredients = [],
 	setSelectedIngredients,
 	ingredientQuantities,
 	setIngredientQuantities,
 	ingredientMeasurements,
 	setIngredientMeasurements,
-	fromCreateList = false, // New prop to detect if used in CreateListModal
-	onBack, // New prop for back button action
-	handleSaveList, // New prop to trigger saving list
+	fromCreateList = false,
+	onBack,
+	handleSaveList,
 }) => {
 	const dispatch = useDispatch();
 	const { closeModal } = useModal();
 	const measurements =
 		useSelector((state) => state.ingredients.measurements) || [];
-
+		const ingredients =
+			useSelector((state) => state.ingredients.allList) || [];
 	const [updatedSelectedIngredients, setUpdatedSelectedIngredients] = useState(
 		[...selectedIngredients]
 	);
@@ -48,6 +54,15 @@ const IngredientModal = ({
 			return updated;
 		});
 	};
+	console.log(
+		'setSelectedIngredients in IngredientModal:',
+		setSelectedIngredients
+	);
+
+	// const refreshIngredients = async () => {
+	// 	const updatedIngredients = await dispatch(fetchIngredients()).unwrap(); // 🔥 Fetch updated ingredients
+	// 	setIngredientList(updatedIngredients); // Update state
+	// };
 
 	const handleQuantityChange = (ingredientId, value) => {
 		setUpdatedIngredientQuantities({
@@ -76,6 +91,7 @@ const IngredientModal = ({
 	};
 
 	useEffect(() => {
+		dispatch(fetchIngredients());
 		dispatch(fetchMeasurements());
 	}, [dispatch]);
 
@@ -102,7 +118,20 @@ const IngredientModal = ({
 						<OpenModal
 							className='ingredient-label'
 							itemText={ingredient.name}
-							parentModal={<IngredientModal ingredients={ingredients} />}
+							parentModal={
+								<IngredientModal
+									ingredients={ingredients}
+									selectedIngredients={selectedIngredients}
+									setSelectedIngredients={setSelectedIngredients} // ✅ Ensure this is passed
+									ingredientQuantities={ingredientQuantities}
+									setIngredientQuantities={setIngredientQuantities}
+									ingredientMeasurements={ingredientMeasurements}
+									setIngredientMeasurements={setIngredientMeasurements}
+									fromCreateList={fromCreateList}
+									onBack={onBack}
+									handleSaveList={handleSaveList}
+								/>
+							}
 							modalComponent={<IngredientInfo ingredient={ingredient} />}
 						/>
 
@@ -135,6 +164,29 @@ const IngredientModal = ({
 						</select>
 					</div>
 				))}
+				<div>
+					<OpenModalButton
+						buttonText='➕ Add New Ingredient'
+						className='create-ingredient-btn'
+						parentModal={
+							<IngredientModal
+								ingredients={ingredients}
+								selectedIngredients={selectedIngredients}
+								setSelectedIngredients={setSelectedIngredients} // ✅ Ensure this is passed
+								ingredientQuantities={ingredientQuantities}
+								setIngredientQuantities={setIngredientQuantities}
+								ingredientMeasurements={ingredientMeasurements}
+								setIngredientMeasurements={setIngredientMeasurements}
+								fromCreateList={fromCreateList}
+								onBack={onBack}
+								handleSaveList={handleSaveList}
+							/>
+						}
+						modalComponent={
+							<NewIngredient fetchIngredients={fetchIngredients} />
+						}
+					/>
+				</div>
 			</div>
 
 			<div className='ingredient-modal-actions'>
