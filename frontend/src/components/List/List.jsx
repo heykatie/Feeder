@@ -5,7 +5,10 @@ import {
 	fetchGroceryList,
 	saveListName,
 	toggleChecked,
+	deleteList, // ✅ Import deleteList thunk
 } from '../../redux/lists';
+import OpenModalButton from '../../context/OpenModalButton';
+import ConfirmDelete from '../modals/ConfirmDelete';
 
 export default function List() {
 	const { listId } = useParams();
@@ -59,23 +62,17 @@ export default function List() {
 			});
 	};
 
-	useEffect(() => {
-		const saveBeforeExit = () => {
-			if (Object.keys(checkedItems).length > 0) {
-				try {
-					const url = `/api/lists/${listId}/bulk-update`;
-					const data = JSON.stringify({ checkedItems });
-					navigator.sendBeacon(url, data);
-					console.log('✅ Auto-saved before exit');
-				} catch (error) {
-					console.error('❌ Error saving before exit:', error);
-				}
-			}
-		};
-
-		window.addEventListener('beforeunload', saveBeforeExit);
-		return () => window.removeEventListener('beforeunload', saveBeforeExit);
-	}, [checkedItems, listId]);
+	// ✅ Handle List Deletion
+	const handleDelete = async () => {
+		dispatch(deleteList(listId))
+			.unwrap()
+			.then(() => {
+				navigate('/lists'); // ✅ Redirect after deletion
+			})
+			.catch((error) => {
+				console.error('❌ Error deleting list:', error);
+			});
+	};
 
 	if (!groceryList) return <p>Loading grocery list...</p>;
 
@@ -84,12 +81,14 @@ export default function List() {
 			<button onClick={() => navigate('/lists')} className='back-button'>
 				← See My Lists
 			</button>
+
 			<p>
 				<strong>List Type:</strong>{' '}
 				{groceryList.type === 'shopping'
 					? 'Shopping List 🛒'
 					: 'To-Do List ✅'}
 			</p>
+
 			<h1 onClick={() => setEditingName(true)}>
 				{editingName ? (
 					<input
@@ -111,7 +110,6 @@ export default function List() {
 					listName
 				)}
 			</h1>
-
 
 			{groceryList.type === 'shopping' && groceryList.recipeId && (
 				<p>
@@ -138,6 +136,12 @@ export default function List() {
 					</li>
 				))}
 			</ul>
+
+			<OpenModalButton
+				modalComponent={<ConfirmDelete onConfirm={handleDelete} />}
+				buttonText='Delete List'
+				className='delete-button'
+			/>
 		</div>
 	);
 }

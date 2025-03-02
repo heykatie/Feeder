@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	fetchRecipes,
@@ -15,7 +15,9 @@ const Recipes = () => {
 	const { userId } = useParams();
 	const location = useLocation();
 	const sessionUser = useSelector((state) => state.session.user);
-	const recipes = useSelector((state) => state.recipes.allRecipes);
+	const allRecipes = useSelector((state) => state.recipes.allRecipes);
+	const faves = useSelector((state) => state.recipes.favorites);
+	const [recipes, setRecipes] = useState([]);
 
 	useEffect(() => {
 		if (location.pathname === '/recipes') {
@@ -28,14 +30,14 @@ const Recipes = () => {
 		}
 	}, [dispatch, userId, sessionUser, location.pathname]);
 
+
 	useEffect(() => {
 		if (location.pathname === '/recipes') {
-			dispatch(fetchRecipes());
-		} else if (userId) {
-			const isLoggedInUser = sessionUser?.id == Number(userId);
-			dispatch(fetchRecipes({ userId, isLoggedInUser }));
+			setRecipes(allRecipes);
+		} else if (location.pathname === '/favorites') {
+			setRecipes(faves);
 		}
-	}, [dispatch, userId, sessionUser, location.pathname]);
+	}, [allRecipes, faves, location.pathname]);
 
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
 
