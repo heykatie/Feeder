@@ -346,8 +346,12 @@ button:hover {
 .main-content:not(:has(> .embark-container)) {
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   height: 100vh;
+  padding: 2px;
+  margin: 2px;
+  min-height: min-content;
+  margin-bottom: 4.5rem;
 }
 
 .future-feature {

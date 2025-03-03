@@ -76,7 +76,7 @@ const NewIngredient = ({ fetchIngredients }) => {
 			setSelectedFields([]);
 			setTimeout(() => {
 				closeModal();
-			}, 1000);
+			}, 600);
 			dispatch(fetchIngredients());
 		} catch (err) {
 			setError(err || 'Failed to create ingredient');

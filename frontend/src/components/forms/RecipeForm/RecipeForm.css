@@ -1,5 +1,4 @@
 .new-recipe-container {
-  margin: 20px auto;
   padding: 20px;
   background-color: var(--panel-bg);
   border-radius: 8px;
@@ -7,6 +6,8 @@
   min-width: 50%;
   max-width: 75%;
   min-height: max-content;
+  overflow: scroll !important;
+  max-height: 80vh;
 }
 
 .new-recipe-container .form-title {
