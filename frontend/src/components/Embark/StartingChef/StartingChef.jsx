@@ -99,7 +99,7 @@ const StartingChef = ({ onUpdate, initialData }) => {
 						e.key === 'ArrowRight'
 							? (currentIndex + 1) % personalities.length
 							: (currentIndex - 1 + personalities.length) %
-							  personalities.length;
+							personalities.length;
 					updateSelection('personality', personalities[newIndex].label);
 				}
 			}

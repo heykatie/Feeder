@@ -19,7 +19,7 @@ const validateLogin = [
 	handleValidationErrors,
 ];
 
-router.get('/', restoreUser, requireAuth, async (req, res) => {
+router.get('/', restoreUser, async (req, res) => {
 	const { user } = req;
 	if (!user) return res.json({ user: null });
 

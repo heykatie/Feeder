@@ -251,7 +251,7 @@ const recipesSlice = createSlice({
 					? action.payload.map((recipe) => ({
 							...recipe,
 							liked: recipe.liked || false,
-					  }))
+					}))
 					: [];
 				state.error = null;
 			})
