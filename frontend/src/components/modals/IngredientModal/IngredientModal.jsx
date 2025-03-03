@@ -42,38 +42,63 @@ const IngredientModal = ({
 		dispatch(fetchMeasurements());
 	}, [dispatch]);
 
+	// const handleIngredientChange = (ingredient, checked) => {
+	// 	if (checked) {
+	// 		setUpdatedSelectedIngredients((prev) => [...prev, ingredient]);
+
+	// 		setUpdatedIngredientQuantities((prev) => ({
+	// 			...prev,
+	// 			[ingredient.id]: ingredient.RecipeIngredient?.quantity ?? 1,
+	// 		}));
+
+	// 		setUpdatedIngredientMeasurements((prev) => ({
+	// 			...prev,
+	// 			[ingredient.id]: ingredient.RecipeIngredient?.measurementId ?? null,
+	// 		}));
+	// 	} else {
+	// 		setUpdatedSelectedIngredients((prev) =>
+	// 			prev.filter((ing) => ing.id !== ingredient.id)
+	// 		);
+
+	// 		setUpdatedIngredientQuantities((prev) => {
+	// 			const updated = { ...prev };
+	// 			delete updated[ingredient.id];
+	// 			return updated;
+	// 		});
+
+	// 		setUpdatedIngredientMeasurements((prev) => {
+	// 			const updated = { ...prev };
+	// 			delete updated[ingredient.id];
+	// 			return updated;
+	// 		});
+	// 	}
+	// };
+
 	const handleIngredientChange = (ingredient, checked) => {
-		if (checked) {
-			// Add full ingredient object instead of just the ID
-			setUpdatedSelectedIngredients((prev) => [...prev, ingredient]);
+		setUpdatedSelectedIngredients((prev) => {
+			// Only add if not already selected
+			if (checked && !prev.some((ing) => ing.id === ingredient.id)) {
+				return [...prev, ingredient];
+			}
+			if (!checked) {
+				return prev.filter((ing) => ing.id !== ingredient.id);
+			}
+			return prev;
+		});
 
-			// Set default quantity and measurement if not already set
-			setUpdatedIngredientQuantities((prev) => ({
-				...prev,
-				[ingredient.id]: ingredient.RecipeIngredient?.quantity ?? 1, // Default to 1 if no existing quantity
-			}));
+		setUpdatedIngredientQuantities((prev) => ({
+			...prev,
+			[ingredient.id]:
+				prev[ingredient.id] ?? ingredient.RecipeIngredient?.quantity ?? 1,
+		}));
 
-			setUpdatedIngredientMeasurements((prev) => ({
-				...prev,
-				[ingredient.id]: ingredient.RecipeIngredient?.measurementId ?? null,
-			}));
-		} else {
-			setUpdatedSelectedIngredients((prev) =>
-				prev.filter((ing) => ing.id !== ingredient.id)
-			);
-
-			setUpdatedIngredientQuantities((prev) => {
-				const updated = { ...prev };
-				delete updated[ingredient.id];
-				return updated;
-			});
-
-			setUpdatedIngredientMeasurements((prev) => {
-				const updated = { ...prev };
-				delete updated[ingredient.id];
-				return updated;
-			});
-		}
+		setUpdatedIngredientMeasurements((prev) => ({
+			...prev,
+			[ingredient.id]:
+				prev[ingredient.id] ??
+				ingredient.RecipeIngredient?.measurementId ??
+				null,
+		}));
 	};
 
 	// const refreshIngredients = async () => {
@@ -173,7 +198,8 @@ const IngredientModal = ({
 									handleQuantityChange(ingredient.id, e.target.value)
 								}
 								min='1'
-								disabled={!isChecked}
+								// disabled={!isChecked}
+								onFocus={() => handleIngredientChange(ingredient, true)}
 							/>
 
 							{/* Measurement dropdown */}
@@ -188,7 +214,10 @@ const IngredientModal = ({
 										e.target.value
 									)
 								}
-								disabled={!isChecked}>
+								// disabled={!isChecked}
+								onFocus={() =>
+									handleIngredientChange(ingredient, true)
+								}>
 								<option value='' disabled>
 									Select Unit
 								</option>
