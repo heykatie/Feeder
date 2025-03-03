@@ -44,7 +44,11 @@ function OpenModal({
 		if (typeof onItemClick === 'function') onItemClick();
 	};
 
-	return <li onClick={onClick}>{itemText}</li>;
+	return (
+		<li onClick={onClick} style={{ cursor: 'pointer' }}>
+			{itemText}
+		</li>
+	);
 }
 
 export default OpenModal;
