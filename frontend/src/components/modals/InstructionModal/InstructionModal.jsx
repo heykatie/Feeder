@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useModal } from '../../../context/ModalContext';
+import {FaTrash} from 'react-icons/fa';
 import './InstructionModal.css';
 
 const InstructionModal = ({ instructions, setInstructions }) => {
@@ -24,6 +25,12 @@ const InstructionModal = ({ instructions, setInstructions }) => {
 		closeModal();
 	};
 
+	const handleDeleteStep = (indexToDelete) => {
+		setNewInstructions((prevInstructions) =>
+			prevInstructions.filter((_, index) => index !== indexToDelete)
+		);
+	};
+
 	return (
 		<div className='instruction-modal'>
 			<h2>Add Instructions</h2>
@@ -42,6 +49,12 @@ const InstructionModal = ({ instructions, setInstructions }) => {
 							placeholder={`Step ${index + 1}`}
 							required
 						/>
+						<button
+							className='delete-step-btn'
+							onClick={() => handleDeleteStep(index)}
+							aria-label='Delete Step'>
+							<FaTrash />
+						</button>
 					</div>
 				))}
 			</div>

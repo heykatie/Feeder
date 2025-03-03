@@ -372,7 +372,10 @@ const RecipeForm = () => {
 				/>
 				<div
 					className='recipe-add-btns'
-					onClick={(e) => e.preventDefault()}>
+					onClick={(e) => {
+						e.preventDefault();
+						setErrors([]);
+					}}>
 					<OpenModalButton
 						className='add-ingredients-btn'
 						buttonText={id ? 'Edit Ingredients' : '+ Add Ingredients*'}
@@ -391,6 +394,7 @@ const RecipeForm = () => {
 					<OpenModalButton
 						className='add-step-btn'
 						buttonText={id ? 'Edit Instructions' : '+ Add Instructions*'}
+						onClick={() => setErrors([])}
 						modalComponent={
 							<InstructionModal
 								instructions={instructions}
@@ -412,7 +416,10 @@ const RecipeForm = () => {
 					/>
 				)}
 				{instructions.length > 0 && (
-					<Instructions instructions={instructions} />
+					<Instructions
+						instructions={instructions}
+						setInstructions={setInstructions}
+					/>
 				)}
 				<div className='form-group'>
 					<label className='form-label'>Make Recipe Public:</label>
