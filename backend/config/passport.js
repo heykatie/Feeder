@@ -67,10 +67,15 @@ passport.use(
 			try {
 				const email = profile.email || `${profile.id}@discord.com`;
 
-				const [user] = await User.findOrCreate({
-					where: { discordId: profile.id },
-					defaults: { username: profile.username, email },
-				});
+				let user = await User.findOne({ where: { discordId: profile.id } });
+
+				if (!user) {
+					user = await User.create({
+						username: profile.username,
+						email,
+						discordId: profile.id,
+					});
+				}
 
 				done(null, user);
 			} catch (err) {
@@ -91,13 +96,15 @@ passport.use(
 			try {
 				const email =
 					profile.emails?.[0]?.value || `${profile.id}@google.com`;
-				const [user] = await User.findOrCreate({
-					where: { googleId: profile.id },
-					defaults: {
+				let user = await User.findOne({ where: { googleId: profile.id } });
+
+				if (!user) {
+					user = await User.create({
 						username: profile.displayName,
 						email,
-					},
-				});
+						googleId: profile.id,
+					});
+				}
 				done(null, user);
 			} catch (err) {
 				done(err, null);

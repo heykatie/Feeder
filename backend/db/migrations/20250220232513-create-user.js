@@ -64,6 +64,14 @@ module.exports = {
 					allowNull: false,
 					defaultValue: 'dark',
 				},
+				googleId: {
+					type: Sequelize.STRING,
+					unique: true,
+				},
+				discordId: {
+					type: Sequelize.STRING,
+					unique: true,
+				},
 				createdAt: {
 					allowNull: false,
 					type: Sequelize.DATE,

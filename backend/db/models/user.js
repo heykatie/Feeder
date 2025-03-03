@@ -196,6 +196,14 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: process.env.DEFAULT_THEME || 'dark',
 			},
+			googleId: {
+				type: DataTypes.STRING,
+				unique: true,
+			},
+			discordId: {
+				type: DataTypes.STRING,
+				unique: true,
+			},
 		},
 		{
 			sequelize,
