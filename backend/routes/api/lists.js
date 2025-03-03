@@ -20,7 +20,20 @@ router.get('/', requireAuth, async (req, res) => {
 				{
 					model: GroceryIngredient,
 					as: 'Ingredients',
-					attributes: ['id'],
+					attributes: [
+						'id',
+						'ingredientId',
+						'quantity',
+						'checked',
+						'measurementId',
+					],
+					include: [
+						{ model: Ingredient, attributes: ['id', 'name'] },
+						{
+							model: Measurement,
+							attributes: ['id', 'name', 'abbreviation'],
+						},
+					],
 				},
 			],
 		});
@@ -75,7 +88,7 @@ router.get('/:listId', requireAuth, async (req, res) => {
 			id: gi.id,
 			ingredientId: gi.ingredientId,
 			quantity: Number(gi.quantity) || 1,
-			checked: gi.checked,
+			checked: gi.checked ?? false,
 			name: gi.Ingredient?.name || 'Unknown',
 			measurement: gi.Measurement ? gi.Measurement.name : null,
 			abbreviation: gi.Measurement ? gi.Measurement.abbreviation : null,

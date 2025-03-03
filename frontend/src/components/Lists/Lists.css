@@ -1,4 +1,4 @@
-/* 🔹 Main Container */
+
 .lists-container {
   max-width: 700px;
   margin: 40px auto;
@@ -12,7 +12,7 @@
   min-width: 70%;
 }
 
-/* 🔹 Section Headers */
+
 h1 {
   font-size: 24px;
   font-weight: bold;
@@ -27,14 +27,14 @@ h2 {
   margin-top: 20px;
 }
 
-/* 🔹 Lists */
+
 .lists {
   list-style: none;
   padding: 0;
   margin-top: 15px;
 }
 
-/* 🔹 List Items */
+
 .list-item {
   background: linear-gradient(135deg, #252040, #312a5d);
   border-radius: 10px;
@@ -54,7 +54,7 @@ h2 {
   transform: scale(1.02);
 }
 
-/* 🔹 List Titles */
+
 .list-item h3 {
   font-size: 18px;
   font-weight: bold;
@@ -62,13 +62,13 @@ h2 {
   margin: 0;
 }
 
-/* 🔹 Item Count */
+
 .list-item p {
   font-size: 14px;
   color: #f9f9f9;
 }
 
-/* 🔹 Buttons */
+
 button {
   background: linear-gradient(135deg, #1E88E5, #00C6CF);
   color: white;
@@ -85,7 +85,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* 🔹 Action Buttons Container */
+
 .list-actions {
   display: flex;
   justify-content: flex-start;
@@ -94,7 +94,7 @@ button:hover {
   margin-top: 10px;
 }
 
-/* 🔹 Delete Button */
+
 .delete-list-btn {
   background: linear-gradient(135deg, #D32F2F, #FF5F5F);
   color: white;
@@ -105,7 +105,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* 🔹 Create List Button */
+
 .create-list-btn {
   background: #FFCA28;
   color: black;
@@ -119,7 +119,7 @@ button:hover {
   background: #FFB300;
 }
 
-/* 🔹 Mobile Responsiveness */
+
 @media (max-width: 600px) {
   .lists-container {
     max-width: 95%;

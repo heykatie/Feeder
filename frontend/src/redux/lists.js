@@ -270,7 +270,18 @@ const listsSlice = createSlice({
 			})
 			.addCase(fetchAllLists.fulfilled, (state, action) => {
 				state.loading = false;
-				state.allLists = action.payload;
+				state.allLists = action.payload.map((list) => ({
+					...list,
+					Ingredients: list.Ingredients.map((gi) => ({
+						id: gi.id,
+						ingredientId: gi.ingredientId,
+						quantity: gi.quantity,
+						checked: gi.checked ?? false,
+						name: gi.Ingredient?.name || 'Unknown',
+						measurement: gi.Measurement?.name || '',
+						abbreviation: gi.Measurement?.abbreviation || '',
+					})),
+				}));
 			})
 			.addCase(fetchAllLists.rejected, (state, action) => {
 				state.loading = false;
@@ -291,19 +302,45 @@ const listsSlice = createSlice({
 			.addCase(fetchGroceryList.pending, (state) => {
 				state.loading = true;
 			})
+			// .addCase(fetchGroceryList.fulfilled, (state, action) => {
+			// 	state.loading = false;
+			// 	const updatedList = action.payload;
+
+			// 	state.currentList = updatedList;
+
+			// 	const index = state.allLists.findIndex(
+			// 		(list) => list.id === updatedList.id
+			// 	);
+			// 	if (index !== -1) {
+			// 		state.allLists[index] = updatedList;
+			// 	} else {
+			// 		state.allLists.push(updatedList);
+			// 	}
+			// })
 			.addCase(fetchGroceryList.fulfilled, (state, action) => {
 				state.loading = false;
 				const updatedList = action.payload;
 
-				state.currentList = updatedList;
+				state.currentList = {
+					...updatedList,
+					Ingredients: updatedList.Ingredients.map((gi) => ({
+						id: gi.id,
+						ingredientId: gi.ingredientId,
+						quantity: gi.quantity,
+						name: gi.name || 'Mystery Item',
+						checked: gi.checked ?? false,
+						measurement: gi.measurement || '',
+						abbreviation: gi.abbreviation || '',
+					})),
+				};
 
 				const index = state.allLists.findIndex(
 					(list) => list.id === updatedList.id
 				);
 				if (index !== -1) {
-					state.allLists[index] = updatedList;
+					state.allLists[index] = state.currentList;
 				} else {
-					state.allLists.push(updatedList);
+					state.allLists.push(state.currentList);
 				}
 			})
 			.addCase(fetchGroceryList.rejected, (state, action) => {
@@ -366,16 +403,12 @@ const listsSlice = createSlice({
 			})
 			.addCase(deleteIngredient.fulfilled, (state, action) => {
 				const { listId, ingredientId } = action.payload;
-
-				// ✅ Ensure `currentList` updates immediately
 				if (state.currentList?.id === listId) {
 					state.currentList.Ingredients =
 						state.currentList.Ingredients.filter(
-							(ing) => ing.ingredientId !== ingredientId // ✅ Ensure correct property name
+							(ing) => ing.ingredientId !== ingredientId
 						);
 				}
-
-				// ✅ Ensure `allLists` updates immediately
 				state.allLists = state.allLists.map((list) =>
 					list.id === listId
 						? {
@@ -383,7 +416,7 @@ const listsSlice = createSlice({
 								Ingredients: list.Ingredients.filter(
 									(ing) => ing.ingredientId !== ingredientId
 								),
-						}
+						  }
 						: list
 				);
 			})

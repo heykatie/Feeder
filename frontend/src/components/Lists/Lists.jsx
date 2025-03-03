@@ -56,9 +56,11 @@ const Lists = () => {
 					<ul className='lists'>
 						{shoppingLists.map((list) => {
 							const totalItems = list.Ingredients?.length || 0;
-							const checkedItems =
-								list.Ingredients?.filter((ing) => ing.checked).length ||
-								0;
+							const checkedItems = list.Ingredients?.reduce(
+								(count, ing) =>
+									ing.checked === true ? count + 1 : count,
+								0
+							);
 
 							return (
 								<li key={list.id} className='list-item'>
