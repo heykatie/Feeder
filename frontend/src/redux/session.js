@@ -10,6 +10,11 @@ export const restoreSession = createAsyncThunk(
 				return rejectWithValue('Failed to restore session.');
 			}
 			const data = await response.json();
+			if (!data.user) {
+				console.warn('🚨 No user found in session restore response:', data);
+				throw new Error('Session restore failed');
+			}
+			
 			return data.user || null;
 		} catch (error) {
 			return rejectWithValue('Failed to restore session.');

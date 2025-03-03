@@ -46,7 +46,7 @@ module.exports = {
 				},
 				hashedPassword: {
 					type: Sequelize.STRING(72),
-					allowNull: false,
+					allowNull: true,
 				},
 				avatarUrl: {
 					type: Sequelize.TEXT,

@@ -23,18 +23,19 @@ pass
 	.has()
 	.not()
 	.spaces();
+
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      User.hasOne(models.SousChef, {
-			foreignKey: 'userId',
-			onDelete: 'CASCADE',
+	class User extends Model {
+		/**
+		 * Helper method for defining associations.
+		 * This method is not a part of Sequelize lifecycle.
+		 * The `models/index` file will call this method automatically.
+		 */
+		static associate(models) {
+			// define association here
+			User.hasOne(models.SousChef, {
+				foreignKey: 'userId',
+				onDelete: 'CASCADE',
 			});
 			User.hasMany(models.Pet, {
 				foreignKey: 'userId',
@@ -45,12 +46,12 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: 'userId',
 			});
 			User.hasMany(models.Favorite, {
-					foreignKey: 'userId',
-					onDelete: 'CASCADE',
+				foreignKey: 'userId',
+				onDelete: 'CASCADE',
 			});
-    }
-  }
-  User.init(
+		}
+	}
+	User.init(
 		{
 			firstName: {
 				type: DataTypes.STRING,
@@ -155,9 +156,9 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.VIRTUAL,
 				validate: {
 					isStrongPassword(value) {
-						if (!pass.validate(value)) {
+						if (value && !pass.validate(value)) {
 							throw new Error(
-								'Password must meet strength requirements.'
+								'Password must be at least 8 characters with at least one uppercase, one lowercase, one number, and one symbol'
 							);
 						}
 					},
@@ -165,9 +166,34 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			hashedPassword: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				allowNull: true,
 				validate: {
-					len: [59, 72],
+					isRequiredForNonOAuth(value) {
+						if (!this.googleId && !this.discordId && !value) {
+							throw new Error(
+								'Password is required for non-OAuth users'
+							);
+						}
+					},
+					notEmpty(value) {
+						if (!this.googleId && !this.discordId && !value) {
+							throw new Error(
+								'Password cannot be empty for non-OAuth users'
+							);
+						}
+					},
+					len(value) {
+						if (
+							value &&
+							!this.googleId &&
+							!this.discordId &&
+							(value.length < 59 || value.length > 72)
+						) {
+							throw new Error(
+								'Hashed password must be a valid bcrypt hash'
+							);
+						}
+					},
 				},
 			},
 			avatarUrl: {
@@ -218,6 +244,8 @@ module.exports = (sequelize, DataTypes) => {
 				beforeCreate: async (user) => {
 					if (user.password) {
 						user.hashedPassword = await bcrypt.hash(user.password, 10);
+					} else if (!user.googleId && !user.discordId && !user.hashedPassword) {
+						throw new Error('Password is required for non-OAuth users');
 					}
 				},
 				beforeUpdate: async (user) => {
@@ -227,7 +255,7 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 		}
-  );
+	);
 	User.afterCreate(async (user, options) => {
 		await sequelize.models.SousChef.create({
 			userId: user.id,
@@ -242,5 +270,5 @@ module.exports = (sequelize, DataTypes) => {
 				'https://souschef-prj.s3.us-west-1.amazonaws.com/default-souschef-animation.json',
 		});
 	});
-  return User;
+	return User;
 };

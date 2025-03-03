@@ -4,24 +4,31 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const DiscordStrategy = require('passport-discord').Strategy;
 // const fs = require('fs');
 // const AppleStrategy = require('passport-apple').Strategy;
-const User = require('../db/models/user')
+const { User, SousChef } = require('../db/models');
 
 const callbackBaseUrl =
 	process.env.NODE_ENV === 'production'
 		? process.env.APP_PROD_URL
 		: process.env.APP_HOME_URL;
 
-// Serialize user for session
 passport.serializeUser((user, done) => {
+	console.log('🔐 Serializing User:', user.id);
 	done(null, user.id);
 });
 
-// Deserialize user
 passport.deserializeUser(async (id, done) => {
 	try {
-		const user = await User.findByPk(id);
+		const user = await User.findByPk(id, {
+			include: [{ model: SousChef }],
+		});
+		if (!user) {
+			console.error('❌ User Not Found in deserializeUser:', id);
+			return done(null, false);
+		}
+		console.log('✅ User Session Restored:', user.id);
 		done(null, user);
 	} catch (err) {
+		console.error('🚨 Deserialize Error:', err);
 		done(err, null);
 	}
 });
@@ -74,6 +81,7 @@ passport.use(
 						username: profile.username,
 						email,
 						discordId: profile.id,
+						hashedPassword: null,
 					});
 				}
 
@@ -103,6 +111,7 @@ passport.use(
 						username: profile.displayName,
 						email,
 						googleId: profile.id,
+						hashedPassword: null,
 					});
 				}
 				done(null, user);

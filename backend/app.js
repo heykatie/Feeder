@@ -45,8 +45,9 @@ app.use(
 			secure: isProduction, // Use secure cookies in production (requires HTTPS)
 			httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
 			maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: 'Lax',
+			sameSite: 'Lax',
 		},
+		rolling: true,
 	})
 );
 

@@ -19,31 +19,62 @@ const validateLogin = [
 	handleValidationErrors,
 ];
 
+// router.get('/', restoreUser, async (req, res) => {
+// 	const { user } = req;
+// 	if (!user) return res.json({ user: null });
+
+// 	const restoredUser = await User.findByPk(user.id, {
+// 		attributes: { exclude: ['hashedPassword'] },
+// 		include: [{ model: SousChef }],
+// 	});
+
+// 	// const safeUser = {
+// 	// 	id: user.id,
+// 	// 	email: user.email,
+// 	// 	username: user.username,
+// 	// 	firstName: user.firstName || null,
+// 	// 	lastName: user.lastName || null,
+// 	// 	phone: user.phone || null,
+// 	// 	birthday: user.birthday || null,
+// 	// 	avatarUrl: user.avatarUrl || null,
+// 	// 	bio: user.bio || null,
+// 	// 	theme: user.theme || null,
+// 	// 	sousChef: user.SousChef || null,
+// 	// };
+// 	if (!restoredUser) {
+// 		return res.status(404).json({ error: 'User not found' });
+// 	}
+
+// 	return res.json({ user: restoredUser });
+// });
+
 router.get('/', restoreUser, async (req, res) => {
-	const { user } = req;
-	if (!user) return res.json({ user: null });
+	console.log('🔍 Session Middleware Restoring User:', req.user);
 
-	const restoredUser = await User.findByPk(user.id, {
-		attributes: { exclude: ['hashedPassword'] },
-		include: [{ model: SousChef }],
-	});
+	if (!req.user) {
+		console.error('❌ No user found in session.');
+		return res.json({ user: null });
+	}
 
-	// const safeUser = {
-	// 	id: user.id,
-	// 	email: user.email,
-	// 	username: user.username,
-	// 	firstName: user.firstName || null,
-	// 	lastName: user.lastName || null,
-	// 	phone: user.phone || null,
-	// 	birthday: user.birthday || null,
-	// 	avatarUrl: user.avatarUrl || null,
-	// 	bio: user.bio || null,
-	// 	theme: user.theme || null,
-	// 	sousChef: user.SousChef || null,
-	// };
+	try {
+		const restoredUser = await User.findByPk(req.user.id, {
+			attributes: { exclude: ['hashedPassword'] },
+			include: [{ model: SousChef }],
+		});
 
-	return res.json({ user: restoredUser });
+		if (!restoredUser) {
+			console.error('❌ User not found in database.');
+			return res.status(404).json({ error: 'User not found' });
+		}
+
+		console.log('✅ Returning user from session:', restoredUser.toJSON());
+		return res.json({ user: restoredUser });
+	} catch (err) {
+		console.error('🚨 Error fetching user for session restore:', err);
+		return res.status(500).json({ error: 'Internal Server Error' });
+	}
 });
+
 
 router.post('/', validateLogin, async (req, res, next) => {
 	const { credential, password } = req.body;

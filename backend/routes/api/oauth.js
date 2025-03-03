@@ -31,11 +31,13 @@ router.get(
 		session: true,
 	}),
 	(req, res) => {
-		if (!req.user) {
-			console.error('Discord OAuth failed');
-			return res.status(401).json({ error: 'Authentication failed' });
-		}
-		res.redirect('/dash');
+		req.login(req.user, (err) => {
+			if (err) {
+				console.error('🚨 Error logging in OAuth user:', err);
+				return res.status(500).json({ error: 'OAuth login failed' });
+			}
+			res.redirect('/dash');
+		});
 	}
 );
 
@@ -51,7 +53,13 @@ router.get(
 		session: true, // Enables session support for Google login
 	}),
 	(req, res) => {
-		res.redirect('/dash');
+		req.login(req.user, (err) => {
+			if (err) {
+				console.error('🚨 Error logging in OAuth user:', err);
+				return res.status(500).json({ error: 'OAuth login failed' });
+			}
+			res.redirect('/dash?loggedIn=true');
+		});
 	}
 );
 

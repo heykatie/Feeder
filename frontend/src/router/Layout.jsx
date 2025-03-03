@@ -45,6 +45,13 @@ export default function Layout() {
 		};
 	}, []);
 
+	useEffect(() => {
+		const params = new URLSearchParams(window.location.search);
+		if (params.get('loggedIn') === 'true') {
+			window.location.replace('/dash');
+		}
+	}, []);
+
 	return (
 		<>
 			<ToastContainer
