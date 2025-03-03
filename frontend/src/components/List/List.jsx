@@ -32,7 +32,7 @@ export default function List() {
 		groceryList?.Ingredients?.map((item) => item.ingredientId) || []
 	);
 	const [showAvailableIngredients, setShowAvailableIngredients] =
-		useState(false);
+		useState(true);
 
 	const availableIngredients = ingredients.filter(
 		(ingredient) => !existingIngredientIds.has(ingredient.id)
@@ -179,14 +179,15 @@ export default function List() {
 				)}
 			</h1>
 
-			{groceryList.type === 'shopping' && (
-				<button
-					onClick={toggleAvailableIngredients}
-					className='toggle-ingredients-button'>
-					{showAvailableIngredients
-						? 'Hide Ingredients'
-						: 'Show Ingredients to Add'}
-				</button>
+			{groceryList.type === 'shopping' && groceryList.recipeId && (
+				<p className='recipe-info'>
+					<strong>Generated from Recipe:</strong>{' '}
+					<Link
+						to={`/recipes/${groceryList.recipeId}`}
+						className='recipe-link'>
+						View Recipe 🍽
+					</Link>
+				</p>
 			)}
 
 			<DragDropContext onDragEnd={onDragEnd}>
@@ -275,25 +276,14 @@ export default function List() {
 					)}
 				</Droppable>
 			</DragDropContext>
-			<div className='list-actions'>
-				{groceryList.type === 'shopping' && groceryList.recipeId && (
-					<p className='recipe-info'>
-						<strong>Generated from Recipe:</strong>{' '}
-						<Link
-							to={`/recipes/${groceryList.recipeId}`}
-							className='recipe-link'>
-							View Recipe 🍽
-						</Link>
-					</p>
-				)}
-				<OpenModalButton
-					modalComponent={
-						<ConfirmDelete onConfirm={handleDelete} itemType='list' />
-					}
-					buttonText='🗑 Delete List'
-					className='delete-button'
-				/>
-			</div>
+		{<div></div>}
+			<OpenModalButton
+				modalComponent={
+					<ConfirmDelete onConfirm={handleDelete} itemType='list' />
+				}
+				buttonText='🗑 Delete List'
+				className='delete-button'
+			/>
 		</div>
 	);
 }
