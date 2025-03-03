@@ -45,7 +45,7 @@ export default function List() {
 
 	useEffect(() => {
 		dispatch(fetchGroceryList(listId));
-		dispatch(fetchIngredients()); 
+		dispatch(fetchIngredients());
 	}, [dispatch, listId]);
 
 	useEffect(() => {
@@ -188,7 +188,7 @@ export default function List() {
 				<strong>List Type:</strong>{' '}
 				{groceryList.type === 'shopping'
 					? 'Shopping List 🛒'
-					: 'To-Do List  '}
+					: 'To-Do List ✅'}
 			</p>
 
 			<h1 onClick={() => setEditingName(true)}>
