@@ -14,6 +14,8 @@ import Recipe from '../components/Recipe';
 import RecipeForm from '../components/forms/RecipeForm';
 import List from '../components/List';
 import Lists from '../components/Lists';
+import '../index.css';
+
 
 export const router = createBrowserRouter([
 	{

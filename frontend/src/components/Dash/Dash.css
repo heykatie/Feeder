@@ -6,6 +6,7 @@
   padding: 1.5rem;
 }
 
+
 .dash-header {
   display: flex;
   justify-content: space-between;
@@ -28,6 +29,7 @@
   color: #FFB84C;
 }
 
+
 .dash-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -39,6 +41,7 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
 
 .profile-card {
   background-color: #1A1A2E;
@@ -70,6 +73,7 @@
   color: #aaa;
 }
 
+
 .xp-progress-container {
   margin-top: 1rem;
 }
@@ -78,6 +82,7 @@
   font-size: 0.875rem;
   color: #aaa;
 }
+
 
 .souschef-widget {
   margin-top: 1.5rem;
@@ -97,6 +102,7 @@
   font-size: 0.875rem;
   color: #aaa;
 }
+
 
 .challenge-card {
   background-color: #231E2E;
@@ -139,6 +145,7 @@
   background-color: #FFD166;
 }
 
+
 .leaderboard-card {
   background-color: #462B55;
   padding: 1.25rem;
@@ -173,6 +180,7 @@
 .rank-bronze {
   color: #888;
 }
+
 
 .notifications-title {
   font-size: 1.125rem;

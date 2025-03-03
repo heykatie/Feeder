@@ -1,3 +1,4 @@
+
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Rubik+Doodle+Shadow&display=swap');
@@ -5,23 +6,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Coiny&family=Press+Start+2P&family=Rubik+Doodle+Shadow&display=swap');
 
 :root {
+
   --bg-color: #121212;
+
   --alt-bg-color: #1A1A2E;
+
   --panel-bg: #232946;
+
+
+
   --highlight-color: #00C6CF;
+
   --active-color: #A379FF;
+
   --cta-color: #FFB84C;
+
+
+
   --veg-color: #2ECC71;
+
   --meat-color: #FF4D4D;
+
   --grain-color: #FFD166;
+
   --dairy-color: #4FC3F7;
+
+
+
   --text-color: #ffffff;
+
   --muted-text: #B3B3B3;
+
   --border-color: #333333;
+
 }
 
 body {
   font-family: "Baloo 2", serif;
+
+
+
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -73,6 +97,7 @@ input::placeholder {
 }
 
 button {
+
   color: var(--text-color);
   border: none;
   padding: 10px 15px;
@@ -83,6 +108,7 @@ button {
 }
 
 button:hover {
+
   color: #A379FF;
 }
 
@@ -122,19 +148,37 @@ li {
 }
 
 :root {
+
   --bg-color: #121212;
+
   --alt-bg-color: #1A1A2E;
+
   --panel-bg: #232946;
+
   --text-color: #ffffff;
+
   --secondary-text: #B3B3B3;
+
   --border-color: #333333;
+
+
+
   --primary-accent: #00C6CF;
+
   --secondary-accent: #A379FF;
+
   --cta-color: #FFB84C;
+
+
+
   --green: #2ECC71;
+
   --red: #FF4D4D;
+
   --yellow: #FFD166;
+
   --blue: #4FC3F7;
+
 }
 
 body {
@@ -199,6 +243,7 @@ button {
 }
 
 button:hover {
+
   color: #A379FF;
 }
 
@@ -261,8 +306,11 @@ button:hover {
 
 .error-message {
   color: #ff4d4d;
+
   background: rgba(255, 77, 77, 0.1);
+
   border-left: 4px solid #ff4d4d;
+
   padding: 8px 12px;
   margin: 5px 0;
   font-size: 14px;
@@ -273,6 +321,7 @@ button:hover {
   text-align: left;
   transition: all 0.3s ease-in-out;
 }
+
 
 @keyframes fadeInError {
   from {
@@ -297,6 +346,7 @@ button:hover {
 .main-content:not(:has(> .embark-container)) {
   display: flex;
   justify-content: center;
+
   height: 100vh;
   padding: 2px;
   margin: 2px;

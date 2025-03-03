@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import './toast.css';
 import Navbar from '../components/Nav';
 import Footer from '../components/Footer';
+import '../index.css';
+
 
 export default function Layout() {
 	const dispatch = useDispatch();
