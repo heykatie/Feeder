@@ -115,7 +115,7 @@ const Recipe = () => {
 
 	const handleBack = () => {
 		const prevPath = location.state?.from;
-		console.error('Previous Path:', prevPath);
+		// console.error('Previous Path:', prevPath);
 
 		if (prevPath?.includes('/edit') || prevPath?.includes('/new')) {
 			navigate(`/${user.id}/recipes`);

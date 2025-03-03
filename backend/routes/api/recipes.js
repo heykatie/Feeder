@@ -24,14 +24,9 @@ router.get('/', async (req, res) => {
 
 		if (!userId) {
 			const recipes = await Recipe.findAll({
-				include: [
-					{
-						model: Ingredient,
-						as: 'Ingredients',
-					},
-				],
+				include: [{ model: Ingredient, as: 'Ingredients' }],
 			});
-			res.json(recipes);
+			return res.json(recipes);
 		}
 
 		if (search) {
@@ -120,8 +115,9 @@ router.get('/', async (req, res) => {
 		if (error.json) {
 			const err = await error.json()
 			res.status(500).json({ error: err || 'Failed to fetch recipes' });
+		} else {
+			res.status(500).json({ error: error || 'Failed to fetch recipes' });
 		}
-		res.status(500).json({ error: error || 'Failed to fetch recipes' });
 	}
 });
 
@@ -311,7 +307,7 @@ router.get('/:id', async (req, res) => {
 			Ingredients: formattedIngredients,
 		});
 	} catch (error) {
-		console.error('Error fetching recipe:', error);
+		// console.error('Error fetching recipe:', error);
 		return res.status(500).json(error || { error: 'Internal server error' });
 	}
 });
@@ -396,7 +392,7 @@ router.post('/', async (req, res) => {
 
 		return res.status(201).json(createdRecipe);
 	} catch (error) {
-		console.error('Error creating recipe:', error);
+		// console.error('Error creating recipe:', error);
 		return res.status(500).json({ error: 'Internal server error' });
 	}
 });
@@ -475,7 +471,7 @@ router.post('/:id/favorite', requireAuth, async (req, res) => {
 			});
 		}
 	} catch (error) {
-		console.error('Error toggling favorite:', error);
+		// console.error('Error toggling favorite:', error);
 		res.status(500).json({ error: 'Internal server error' });
 	}
 });
