@@ -250,7 +250,7 @@ button:hover {
 .xp-bar {
   background: var(--panel-bg);
   border-radius: 5px;
-  overflow: hidden;
+  overflow: auto;
   height: 8px;
 }
 

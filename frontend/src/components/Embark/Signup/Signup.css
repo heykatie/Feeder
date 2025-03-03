@@ -23,7 +23,7 @@
 .signup-form h2 {
   font-size: 22px;
   font-weight: bold;
-  margin-bottom: 24px;
+  margin-bottom: auto;
   margin-top: 14px;
 }
 
@@ -260,4 +260,10 @@ Dark overlay behind the modal
 
 .signup-form>form {
   width: 80%;
+}
+
+.error-message {
+  margin: 4px;
+  padding: 2px 5px;
+  max-width: 74%;
 }
