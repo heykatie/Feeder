@@ -1,7 +1,7 @@
 
 .recipes-container {
   max-width: 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .recipes-container .recipes-header {
@@ -111,6 +111,13 @@
   color: rgb(182, 180, 180);
 }
 
+/* .privacy-toggle {
+  position: fixed;
+  top: 5px;
+  right: 3px;
+  width: 100px;
+} */
+
 .recipes-container .favorite-btn {
   position: absolute;
   top: 5px;
@@ -134,6 +141,7 @@
   justify-content: space-between;
   gap: 3px;
 }
+
 
 @media (max-width: 768px) {
   .recipes-container .recipe-card {

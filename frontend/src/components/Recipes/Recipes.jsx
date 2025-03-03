@@ -143,14 +143,6 @@ const Recipes = () => {
 		}
 	}, [dispatch, userId, sessionUser, location.pathname, searchQuery, faves]);
 
-	useEffect(() => {
-		if (location.pathname === '/favorites') {
-			setRecipes(faves);
-		} else if (!searchQuery) {
-			setRecipes(allRecipes);
-		}
-	}, [faves, allRecipes, location.pathname, searchQuery]);
-
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
 
 	return (
@@ -175,6 +167,19 @@ const Recipes = () => {
 									<h2>{recipe.title}</h2>
 									<p>{recipe.description}</p>
 								</NavLink>
+
+								{userId && sessionUser?.id == userId && (
+									<button
+										style={{ background: 'none', fontSize: '12px' }}
+										className={`privacy-toggle ${
+											recipe.isPublic ? 'public' : 'private'
+										}`}
+										onClick={() =>
+											dispatch(toggleRecipePrivacy(recipe.id))
+										}>
+										{recipe.isPublic ? '🔓 Public' : '🔒 Private'}
+									</button>
+								)}
 
 								<button
 									className='favorite-btn'
@@ -233,19 +238,6 @@ const Recipes = () => {
 								</p>
 							</div>
 						</NavLink>
-
-						{userId && sessionUser?.id == userId && (
-							<button
-								style={{ background: 'none', fontSize: '12px' }}
-								className={`privacy-toggle ${
-									recipe.isPublic ? 'public' : 'private'
-								}`}
-								onClick={() =>
-									dispatch(toggleRecipePrivacy(recipe.id))
-								}>
-								{recipe.isPublic ? '🔓 Public' : '🔒 Private'}
-							</button>
-						)}
 
 						<button
 							className='favorite-btn'
