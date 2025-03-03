@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../../../redux/session';
-import './RSidebar.css';
+import './RSideBar.css';
 
 const RSidebar = ({ showSidebar, toggleSidebar }) => {
 	const dispatch = useDispatch();
