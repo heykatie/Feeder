@@ -207,7 +207,7 @@ const Recipes = () => {
 			</div>
 
 			<div className='recipes-scroll-container' ref={setScrollRef}>
-				{recipes.map((recipe) => (
+				{[...recipes].reverse().map((recipe) => (
 					<div key={recipe.id} className='recipe-card'>
 						<NavLink to={`/recipes/${recipe.id}`} className='recipe-link'>
 							<img
