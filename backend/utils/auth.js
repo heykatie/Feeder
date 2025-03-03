@@ -32,33 +32,67 @@ const setTokenCookie = (res, user) => {
 };
 
 const restoreUser = async (req, res, next) => {
-	console.log('🛠 Checking session:', req.session);
-	console.log(
-		'🛠 Checking session passport.user:',
-		req.session?.passport?.user
-	);
-
-	if (!req.session?.passport?.user) {
-		console.error('❌ No user found in session.');
-		return next();
-	}
+	const { token } = req.cookies;
+	req.user = null;
 
 	try {
-		const user = await User.findByPk(req.session.passport.user, {
-			attributes: { exclude: ['hashedPassword'] },
-			include: [{ model: SousChef }],
-		});
+		// Check if the user is authenticated via session (OAuth users)
+		if (req.session?.passport?.user) {
+			console.log(
+				'🔍 Restoring OAuth user from session:',
+				req.session.passport.user
+			);
 
-		if (!user) {
-			console.error('❌ User not found in database.');
+			req.user = await User.findByPk(req.session.passport.user, {
+				attributes: { exclude: ['hashedPassword'] },
+				include: [{ model: SousChef }],
+			});
+
+			if (!req.user) {
+				console.error('❌ OAuth User not found in database.');
+				return next();
+			}
+
+			console.log('✅ OAuth User restored:', req.user.id);
 			return next();
 		}
 
-		console.log('✅ User restored from session:', user.toJSON());
-		req.user = user;
+		// Check if the user is authenticated via JWT (Regular users)
+		if (token) {
+			return jwt.verify(token, secret, null, async (err, jwtPayload) => {
+				if (err) {
+					console.error('❌ Invalid JWT token.');
+					res.clearCookie('token');
+					return next();
+				}
+
+				try {
+					const { id } = jwtPayload.data;
+					req.user = await User.findByPk(id, {
+						attributes: { exclude: ['hashedPassword'] },
+						include: [{ model: SousChef }],
+					});
+
+					if (!req.user) {
+						console.error('❌ Regular user not found in database.');
+						res.clearCookie('token');
+						return next();
+					}
+
+					console.log('✅ Regular User restored:', req.user.id);
+					return next();
+				} catch (err) {
+					console.error('🚨 Error restoring regular user:', err);
+					res.clearCookie('token');
+					return next();
+				}
+			});
+		}
+
+		console.warn('⚠️ No session or token found. User not authenticated.');
 		return next();
 	} catch (err) {
-		console.error('🚨 Error restoring user:', err);
+		console.error('🚨 Unexpected error in restoreUser:', err);
 		return next();
 	}
 };
