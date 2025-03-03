@@ -1,14 +1,20 @@
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import './Splash.css';
 
 const Splash = () => {
+	const user = useSelector(state => state.session.user)
 	const navigate = useNavigate();
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
 		setTimeout(() => setLoaded(true), 300);
 	}, []);
+
+	if (user) {
+		navigate('/dash')
+	}
 
 	return (
 		<div className='splash-container'>
