@@ -165,8 +165,8 @@ const Recipe = () => {
 						</button>
 					)}
 				</div>
-				<button className='grocery-btn' onClick={handleGenerateList}>
-					Auto-Generate Grocery List 🛒
+				<button style={ {background:'none', textDecoration:'underline'}} className='grocery-btn' onClick={handleGenerateList}>
+					Auto-Generate a Grocery List 🛒
 				</button>
 			</div>
 			<div
