@@ -24,11 +24,15 @@
 #modal-content {
   align-items: center;
   border-radius: 12px;
-  overflow: auto;
-  padding: 20px;
+  overflow: scroll;
+  padding: 0 20px;
   background: linear-gradient(#1A1A2E, #1A1A2E);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
   z-index: 1;
+  max-height: 99vh;
+  position: relative;
+  overflow: visible;
+  z-index: 1000;
 }
 
 #modal-close {
@@ -40,6 +44,17 @@
   cursor: pointer;
   padding-bottom: 0px;
   margin-bottom: 0px;
+  position: absolute;
+  top: 1rem;
+  left: 1.3rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0;
+  z-index: 1100;
 }
 
 #modal-close:hover {

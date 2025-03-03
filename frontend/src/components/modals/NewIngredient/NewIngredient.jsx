@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createIngredient } from '../../../redux/ingredients';
+import { createIngredient, fetchIngredients } from '../../../redux/ingredients';
 import {useModal} from '../../../context/ModalContext';
 import './NewIngredient.css';
 
-const NewIngredient = ({ fetchIngredients }) => {
+const NewIngredient = () => {
 	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({
 		name: '',
@@ -74,19 +74,22 @@ const NewIngredient = ({ fetchIngredients }) => {
 				image: '',
 			});
 			setSelectedFields([]);
-			setTimeout(() => {
-				closeModal();
-			}, 600);
-			dispatch(fetchIngredients());
+			if (success) {
+				setTimeout(() => {
+					closeModal();
+				}, 600);
+				dispatch(fetchIngredients());
+			}
 		} catch (err) {
-			setError(err || 'Failed to create ingredient');
+			setError(err ?? err.message ?? 'Failed to create ingredient');
 		}
 	};
 
 	return (
 		<div className='new-ingredient-modal'>
 			<h2>Add a New Ingredient</h2>
-			{error && <p className='error'>{error}</p>}
+			{/* {error && <p className='error'>{error}</p>} */}
+			{error && <p className='error'>{String(error)}</p>}
 			{success && (
 				<p className='success'>Ingredient created successfully!</p>
 			)}
