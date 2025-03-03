@@ -9,16 +9,13 @@ import {
 	fetchAllLists,
 	saveIngredient,
 } from '../../redux/lists';
-import {
-	fetchIngredients,
-	// createIngredient,
-	deleteIngredient,
-} from '../../redux/ingredients';
+import { fetchIngredients, deleteIngredient } from '../../redux/ingredients';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import OpenModalButton from '../../context/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { useModal } from '../../context/ModalContext';
 import NewIngredient from '../modals/NewIngredient';
+import './List.css'; // Make sure styles are imported
 
 export default function List() {
 	const { closeModal } = useModal();
@@ -39,6 +36,7 @@ export default function List() {
 	const availableIngredients = ingredients.filter(
 		(ingredient) => !existingIngredientIds.has(ingredient.id)
 	);
+
 	const toggleAvailableIngredients = () => {
 		setShowAvailableIngredients((prev) => !prev);
 	};
@@ -67,20 +65,6 @@ export default function List() {
 		}
 	}, [groceryList]);
 
-	// const handleCreateIngredient = async () => {
-	// 	const newIngredientName = prompt('Enter new ingredient name:');
-	// 	if (!newIngredientName) return;
-
-	// 	dispatch(createIngredient({ name: newIngredientName }))
-	// 		.unwrap()
-	// 		.then(() => {
-	// 			dispatch(fetchIngredients()); // Refresh ingredient list
-	// 		})
-	// 		.catch((error) =>
-	// 			console.error('  Error creating ingredient:', error)
-	// 		);
-	// };
-
 	const handleCheck = async (groceryIngredientId) => {
 		const newCheckedState = !checkedItems[groceryIngredientId];
 		setCheckedItems((prev) => ({
@@ -97,11 +81,10 @@ export default function List() {
 		)
 			.unwrap()
 			.catch((error) => {
-				console.error('  Error updating checked state:', error);
+				console.error('Error updating checked state:', error);
 			});
 	};
 
-	//   Handle List Deletion
 	const handleDelete = async () => {
 		dispatch(deleteList(listId))
 			.unwrap()
@@ -110,42 +93,39 @@ export default function List() {
 				navigate('/lists');
 			})
 			.catch((error) => {
-				console.error('  Error deleting list:', error);
+				console.error('Error deleting list:', error);
 			});
 		closeModal();
 	};
 
 	const onDragEnd = (result) => {
 		if (!result.destination) return;
-		const { draggableId, source, destination } = result;
-		const draggedIngredientId = parseInt(result.draggableId, 10); // Convert ID to number
+		const draggedIngredientId = parseInt(result.draggableId, 10);
 		const newIngredient = availableIngredients?.find(
 			(ing) => ing.id === draggedIngredientId
 		);
 
 		if (!newIngredient) return;
 
-		// Optimistically update UI
 		const updatedIngredients = [
 			...groceryList.Ingredients,
 			{
 				id: draggedIngredientId,
 				name: newIngredient.name,
-				quantity: 1, // Default quantity
-				measurement: '', // Default measurement
+				quantity: 1,
+				measurement: '',
 				checked: false,
 			},
 		];
 
 		dispatch({
-			type: 'lists/updateLocalList', // Custom reducer case
+			type: 'lists/updateLocalList',
 			payload: {
 				listId,
 				ingredients: updatedIngredients,
 			},
 		});
 
-		// Dispatch Redux thunk to persist in backend
 		dispatch(
 			saveIngredient({
 				listId,
@@ -158,22 +138,7 @@ export default function List() {
 			.then(() => {
 				dispatch(fetchGroceryList(listId));
 			})
-			.catch((error) => console.error('  Error adding ingredient:', error));
-
-		if (
-			source.droppableId === 'groceryList' &&
-			destination.droppableId === 'availableIngredients'
-		) {
-			// console.log(
-			// 	`Removing ingredient ${draggableId} from list ${groceryList.id}`
-			// );
-			dispatch(
-				deleteIngredient({
-					listId: groceryList.id,
-					ingredientId: Number(draggableId),
-				})
-			);
-		}
+			.catch((error) => console.error('Error adding ingredient:', error));
 	};
 
 	if (!groceryList) return <p>Loading grocery list...</p>;
@@ -184,14 +149,14 @@ export default function List() {
 				← See My Lists
 			</button>
 
-			<p>
+			<p className='list-type'>
 				<strong>List Type:</strong>{' '}
 				{groceryList.type === 'shopping'
-					? 'Shopping List 🛒'
-					: 'To-Do List ✅'}
+					? '🛒 Shopping List'
+					: '✅ To-Do List'}
 			</p>
 
-			<h1 onClick={() => setEditingName(true)}>
+			<h1 className='list-title' onClick={() => setEditingName(true)}>
 				{editingName ? (
 					<input
 						type='text'
@@ -214,7 +179,7 @@ export default function List() {
 			</h1>
 
 			{groceryList.type === 'shopping' && groceryList.recipeId && (
-				<p>
+				<p className='recipe-info'>
 					<strong>Generated from Recipe:</strong>{' '}
 					<Link
 						to={`/recipes/${groceryList.recipeId}`}
@@ -223,7 +188,8 @@ export default function List() {
 					</Link>
 				</p>
 			)}
-			{groceryList.type === 'shopping' ? (
+
+			{groceryList.type === 'shopping' && (
 				<button
 					onClick={toggleAvailableIngredients}
 					className='toggle-ingredients-button'>
@@ -231,140 +197,95 @@ export default function List() {
 						? 'Hide Ingredients'
 						: 'Show Ingredients to Add'}
 				</button>
-			) : (
-				<p>Add Feature Coming Soon...</p>
 			)}
 
 			<DragDropContext onDragEnd={onDragEnd}>
-				{groceryList.type === 'shopping' && showAvailableIngredients && (
-					<div>
-						<Droppable droppableId='ingredients'>
-							{(provided) => (
-								<div
-									className='ingredient-pool'
-									ref={provided.innerRef}
-									{...provided.droppableProps}>
-									<h3>Drag Ingredients to List:</h3>
-									<ul>
-										{availableIngredients.map((ingredient, i) => (
-											<Draggable
-												key={ingredient.id}
-												draggableId={ingredient.id.toString()}
-												index={i}>
-												{(provided) => (
-													<li
-														ref={provided.innerRef}
-														{...provided.draggableProps}
-														{...provided.dragHandleProps}
-														className='ingredient-item'>
-														{ingredient.name}
-													</li>
-												)}
-											</Draggable>
-										))}
-									</ul>
-									{provided.placeholder}
-								</div>
-							)}
-						</Droppable>
-						<OpenModalButton
-							buttonText='➕ Add New Ingredient'
-							className='create-ingredient-btn'
-							modalComponent={<NewIngredient />}
-						/>
-					</div>
-				)}
-				{groceryList.type === 'shopping' && (
-					<Droppable droppableId='groceryList'>
+				{showAvailableIngredients && (
+					<Droppable droppableId='ingredients'>
 						{(provided) => (
-							<ul
+							<div
+								className='ingredient-pool'
 								ref={provided.innerRef}
-								{...provided.droppableProps}
-								className='grocery-list'>
-								<h3>My Grocery List:</h3>
-								{groceryList.Ingredients?.map((item, i) => (
-									<Draggable
-										key={item.id}
-										draggableId={item.id.toString()}
-										index={i}>
-										{(provided) => (
-											<li
-												ref={provided.innerRef}
-												{...provided.draggableProps}
-												{...provided.dragHandleProps}>
-												<label>
-													<input
-														type='checkbox'
-														checked={
-															checkedItems[item.id] || false
-														}
-														onChange={() => handleCheck(item.id)}
-													/>
-													<span>{item.name}</span>
-												</label>
-												<button
-													style={{ background: 'none' }}
-													onClick={() =>
-														dispatch(
-															deleteIngredient({
-																listId: groceryList.id,
-																ingredientId: item.ingredientId,
-															})
-														)
-															.unwrap()
-															.then(() => {
-																dispatch(
-																	fetchGroceryList(listId)
-																);
-															})
-															.catch((error) =>
-																console.error(
-																	'  Error deleting ingredient:',
-																	error
-																)
-															)
-													}>
-													🗑
-												</button>
-											</li>
-										)}
-									</Draggable>
-								))}
+								{...provided.droppableProps}>
+								<h3>🛒 Drag Ingredients to List:</h3>
+								<ul>
+									{availableIngredients.map((ingredient, i) => (
+										<Draggable
+											key={ingredient.id}
+											draggableId={ingredient.id.toString()}
+											index={i}>
+											{(provided) => (
+												<li
+													ref={provided.innerRef}
+													{...provided.draggableProps}
+													{...provided.dragHandleProps}
+													className='ingredient-item'>
+													{ingredient.name}
+												</li>
+											)}
+										</Draggable>
+									))}
+								</ul>
 								{provided.placeholder}
-							</ul>
+							</div>
 						)}
 					</Droppable>
 				)}
+
+				<Droppable droppableId='groceryList'>
+					{(provided) => (
+						<ul
+							ref={provided.innerRef}
+							{...provided.droppableProps}
+							className='grocery-list'>
+							<h3>📋 My Grocery List:</h3>
+							{[...groceryList.Ingredients]?.reverse().map((item, i) => (
+								<Draggable
+									key={item.id}
+									draggableId={item.id.toString()}
+									index={i}>
+									{(provided) => (
+										<li
+											ref={provided.innerRef}
+											{...provided.draggableProps}
+											{...provided.dragHandleProps}>
+											<label>
+												<input
+													type='checkbox'
+													checked={checkedItems[item.id] || false}
+													onChange={() => handleCheck(item.id)}
+												/>
+												<span>{item.name}</span>
+											</label>
+											<button
+												className='delete-item'
+												onClick={() =>
+													dispatch(
+														deleteIngredient({
+															listId: groceryList.id,
+															ingredientId: item.ingredientId,
+														})
+													)
+												}>
+												🗑
+											</button>
+										</li>
+									)}
+								</Draggable>
+							))}
+							{provided.placeholder}
+						</ul>
+					)}
+				</Droppable>
 			</DragDropContext>
+
 			<OpenModalButton
 				modalComponent={
 					<ConfirmDelete onConfirm={handleDelete} itemType='list' />
 				}
-				buttonText='Delete List'
+				buttonText='🗑 Delete List'
 				className='delete-button'
 			/>
-			<>
-				<p>
-					<strong>Created On:</strong>{' '}
-					{new Date(groceryList?.createdAt).toLocaleString('en-US', {
-						month: 'long',
-						day: 'numeric',
-						year: 'numeric',
-						hour: '2-digit',
-						minute: '2-digit',
-					})}
-				</p>
-				<p>
-					<strong>Last Updated:</strong>{' '}
-					{new Date(groceryList?.updatedAt).toLocaleString('en-US', {
-						month: 'long',
-						day: 'numeric',
-						year: 'numeric',
-						hour: '2-digit',
-						minute: '2-digit',
-					})}
-				</p>
-			</>
 		</div>
 	);
 }
