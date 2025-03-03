@@ -21,7 +21,6 @@ const Lists = () => {
 		}
 	}, [dispatch, user, allLists.length]);
 
-	// Separate shopping lists and todo lists
 	const shoppingLists = allLists.filter(
 		(list) => list.userId === user?.id && list.type === 'shopping'
 	);

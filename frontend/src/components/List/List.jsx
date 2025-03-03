@@ -16,7 +16,7 @@ import OpenModalButton from '../../context/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { useModal } from '../../context/ModalContext';
 // import NewIngredient from '../modals/NewIngredient';
-import './List.css'; // Make sure styles are imported
+import './List.css';
 
 export default function List() {
 	const { closeModal } = useModal();
