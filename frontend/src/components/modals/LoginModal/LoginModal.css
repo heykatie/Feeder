@@ -28,7 +28,7 @@
 .login-modal h2 {
   font-size: 23px;
   font-weight: bold;
-  margin-bottom: 22px;
+  margin-bottom: auto;
 }
 
 .login-modal .input-container {
