@@ -1,289 +1,40 @@
-/* 🍽️ Recipes Page Layout */
+
 .recipes-container {
   max-width: 100%;
-  padding: 20px;
   overflow: hidden;
 }
 
-/* 📝 Header */
-.recipes-header {
+.recipes-container .recipes-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-.recipes-header h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--text-color);
-}
-
-/* 🎠 Carousel Scroll */
-.recipes-scroll-container {
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 20px;
-  padding: 10px 0;
-  white-space: nowrap;
-  /* Prevents wrapping */
-}
-
-/* Hide scrollbar */
-.recipes-scroll-container::-webkit-scrollbar {
-  display: none;
-}
-
-/* 🎴 Recipe Card */
-.recipe-card {
-  flex: 0 0 auto;
-  width: 300px;
-  scroll-snap-align: start;
-  background-color: var(--panel-bg);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.recipe-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  transform: translateY(-3px);
-}
-
-/* 🖼️ Recipe Image */
-.recipe-image {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 5px;
-  padding: 0px;
-}
-
-/* 🏷️ Recipe Title */
-.recipe-card h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin: 10px 0px;
-  padding: 0px 12px;
-  color: var(--text-color);
-}
-
-.recipe-card {
-  white-space: normal;
-}
-
-/* Ensure the description text wraps */
-.recipe-card p {
-  overflow: hidden;
-    padding: 0px 12px;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  /* Limit to 3 lines */
-  -webkit-box-orient: vertical;
-  max-width: 100%;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-.recipe-card {
-  position: relative;
-  /* Ensure absolute positioning inside works */
-  flex: 0 0 auto;
-  width: 300px;
-  scroll-snap-align: start;
-  background-color: var(--panel-bg);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.recipe-card {
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.favorite-btn {
-  position: absolute;
-  top: 5px;
-  right: 3px;
-  background: none !important;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-
-.favorite-btn:hover {
-  transform: scale(1.2);
-}
-
-.recipes-scroll-container {
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 20px;
-  padding: 10px 0;
-  white-space: nowrap;
-  scroll-behavior: smooth;
-  /* Enables smooth scrolling */
-  -webkit-overflow-scrolling: touch;
-  /* Enables momentum scrolling on mobile */
-}
-
-.recipe-card {
-  flex: 0 0 auto;
-  width: 300px;
-  /* Ensure cards don’t shrink */
-  scroll-snap-align: start;
-}
-
-.recipes-scroll-container {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  gap: 1rem;
-  padding: 10px;
-}
-
-.recipes-scroll-container::-webkit-scrollbar {
-  display: none;
-  /* Hide scrollbar */
-}
-
-.recipe-card {
-  min-width: 250px;
-  max-width: 300px;
-  flex: 0 0 auto;
-}
-
-.search-results {
+.recipes-container .search-results {
   margin-bottom: 2rem;
 }
 
-/* 📱 Responsive: Make cards smaller for mobile */
-@media (max-width: 768px) {
-  .recipe-card {
-    width: 240px;
-  }
-
-  .recipe-image {
-    height: 150px;
-  }
-}
-
-/* Ensure the recipe card has a structured layout */
-.recipe-card {
+.recipes-container .recipes-scroll-container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center; /* Center text properly */
-  padding-bottom: 15px;
-  text-align: center;
+  flex-direction: row;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 20px;
+  padding: 10px 0;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Keep the description properly aligned */
-.recipe-card p {
-  text-align: center;
-  max-width: 90%;
-  margin: 0 auto 10px; /* Ensure consistent spacing */
+.recipes-container .recipes-scroll-container::-webkit-scrollbar {
+  display: none;
 }
 
-/* Ensure rating, likes, and total time are evenly spaced */
-.recipe-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-  padding-top: 5px;
-}
-
-/* Make sure the total time is aligned consistently */
-.recipe-time {
-  font-weight: bold;
-  color: var(--text-color);
-  margin-bottom: 5px;
-}
-
-/* Space out the favorite button and rating */
-.favorite-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-
-.favorite-btn:hover {
-  transform: scale(1.2);
-}
-
-/* Ensure icons in meta are spaced out evenly */
-.recipe-meta p {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-/* Prevent overlap on mobile */
-@media (max-width: 768px) {
-  .recipe-meta {
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-}
-
-/* Ensure the recipe card is structured properly */
-.recipe-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  /* Ensures content is spaced out */
-  align-items: center;
-  padding-bottom: 15px;
-  text-align: center;
-  height: 100%;
-  /* Make sure it takes full height */
-}
-
-/* Keep the recipe-meta (rating & likes) at the bottom */
-.recipe-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: auto;
-  margin: 0px 0px;
-  padding: 0px 0px;
-}
-
-/* Ensure icons in meta are spaced out evenly */
-.recipe-meta p {
-  margin: 0px 1rem;
-  padding: 0px 5px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-/* Set a fixed height for all recipe cards */
-.recipe-card {
+.recipes-container .recipe-card {
   width: 300px;
-  /* Keep width consistent */
   height: 360px;
-  /* Set a fixed height to prevent uneven cards */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -295,30 +46,37 @@
   padding-bottom: 10px;
   text-align: center;
   overflow: hidden;
+  white-space: normal;
+  position: relative;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
 }
 
-/* Ensure image size remains consistent */
-.recipe-image {
+.recipes-container .recipe-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transform: translateY(-3px);
+}
+
+.recipes-container .recipe-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 5px;
 }
 
-/* Limit title height to prevent overflow */
-.recipe-card h2 {
-  font-size: 1.2rem;
+.recipes-container .recipe-card h2 {
+  font-size: 1.3rem;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 10px 0px 0px;
   max-height: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 0px 12px;
+  color: var(--text-color);
 }
 
-/* Ensure the description is consistent */
-.recipe-card p {
+.recipes-container .recipe-card p {
   font-size: 0.9rem;
   max-height: 50px;
   overflow: hidden;
@@ -329,30 +87,65 @@
   padding: 0px 12px;
 }
 
-/* Keep rating & likes at the bottom */
-.recipe-meta {
+.recipes-container .recipe-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 100%;
   padding-top: 10px;
-  margin-top: auto;
 }
 
-/* Ensure rating & likes are properly spaced */
-.recipe-meta p {
+.recipes-container .recipe-meta p {
   display: flex;
   align-items: center;
   gap: 5px;
   font-weight: bold;
   font-size: 14px;
   margin: 0px 1rem;
+  padding: 0px 5px;
 }
 
-.recipe-card .recipe-link {
+.recipes-container .recipe-time {
+  padding: 0;
+  margin: 0;
+}
+
+.recipes-container .favorite-btn {
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  background: none !important;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.recipes-container .favorite-btn:hover {
+  transform: scale(1.2);
+}
+
+.recipes-container .recipe-card .recipe-link {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 3px;
+}
+
+@media (max-width: 768px) {
+  .recipes-container .recipe-card {
+    width: 240px;
+  }
+
+  .recipes-container .recipe-image {
+    height: 150px;
+  }
+
+  .recipes-container .recipe-meta {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
 }
