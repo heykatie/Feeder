@@ -111,12 +111,15 @@
   color: rgb(182, 180, 180);
 }
 
-/* .privacy-toggle {
-  position: fixed;
-  top: 5px;
-  right: 3px;
-  width: 100px;
-} */
+.privacy-toggle {
+  position: absolute;
+  color: white;
+  top: 1px;
+  left: 1px;
+  padding: 8px;
+  font-size: 14px;
+  background-color: grey;
+}
 
 .recipes-container .favorite-btn {
   position: absolute;

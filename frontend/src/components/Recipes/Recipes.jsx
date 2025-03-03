@@ -28,7 +28,8 @@ const Recipes = () => {
 	const [recipes, setRecipes] = useState([]);
 	const scrollContainerRef = useRef(null);
 		const [searchParams] = useSearchParams();
-		const searchQuery = searchParams.get('search');
+	const searchQuery = searchParams.get('search');
+	const favesLoaded = useRef(false);
 
 	const setScrollRef = useCallback((node) => {
 		if (node) {
@@ -125,9 +126,10 @@ const Recipes = () => {
 	}, []);
 
 	useEffect(() => {
-		if (location.pathname === '/favorites') {
+		if (location.pathname === '/favorites' && !favesLoaded.current) {
 			dispatch(fetchFavorites()).then(() => {
 				setRecipes(faves);
+				favesLoaded.current = true;
 			});
 		} else if (userId) {
 			const isLoggedInUser = sessionUser?.id == Number(userId);
@@ -142,6 +144,12 @@ const Recipes = () => {
 			});
 		}
 	}, [dispatch, userId, sessionUser, location.pathname, searchQuery, faves]);
+
+	const handleFave = async (recipe) => {
+		await dispatch(toggleFavorite(recipe.id));
+		await dispatch(fetchFavorites());
+		setRecipes(faves);
+	};
 
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
 
@@ -168,24 +176,11 @@ const Recipes = () => {
 									<p>{recipe.description}</p>
 								</NavLink>
 
-								{userId && sessionUser?.id == userId && (
-									<button
-										style={{ background: 'none', fontSize: '12px' }}
-										className={`privacy-toggle ${
-											recipe.isPublic ? 'public' : 'private'
-										}`}
-										onClick={() =>
-											dispatch(toggleRecipePrivacy(recipe.id))
-										}>
-										{recipe.isPublic ? '🔓 Public' : '🔒 Private'}
-									</button>
-								)}
-
 								<button
 									className='favorite-btn'
-									onClick={(e) => {
+									onClick={async (e) => {
 										e.stopPropagation();
-										dispatch(toggleFavorite(recipe.id));
+										handleFave(recipe)
 									}}>
 									{recipe.liked ? (
 										<FaHeart color='red' />
@@ -214,7 +209,7 @@ const Recipes = () => {
 				</button>
 			</div>
 
-			{/* 📌 Scrollable Container with Mouse & Keyboard Support */}
+
 			<div className='recipes-scroll-container' ref={setScrollRef}>
 				{recipes.map((recipe) => (
 					<div key={recipe.id} className='recipe-card'>
@@ -239,12 +234,23 @@ const Recipes = () => {
 							</div>
 						</NavLink>
 
+						{userId && sessionUser?.id == userId && (
+							<button
+								className={`privacy-toggle ${
+									recipe.isPublic ? 'public' : 'private'
+								}`}
+								onClick={() =>
+									dispatch(toggleRecipePrivacy(recipe.id))
+								}>
+								{recipe.isPublic ? '🔓 Public' : '🔒 Private'}
+							</button>
+						)}
+
 						<button
 							className='favorite-btn'
 							onClick={(e) => {
 								e.stopPropagation();
 
-								// Optimistically update UI
 								if (location.pathname === '/favorites') {
 									setRecipes((prevRecipes) =>
 										prevRecipes.filter((r) => r.id !== recipe.id)
@@ -258,8 +264,7 @@ const Recipes = () => {
 										)
 									);
 								}
-
-								dispatch(toggleFavorite(recipe.id));
+								handleFave(recipe)
 							}}>
 							{recipe.liked ? (
 								<FaHeart color='red' />
