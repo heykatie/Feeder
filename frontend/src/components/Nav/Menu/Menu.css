@@ -1,7 +1,7 @@
 /* Menu Sidebar (Icon-Only) */
 .menu {
   position: fixed;
-  top: 38%;
+  top: 22rem;
   left: 1.1rem;
   transform: translateY(-50%);
   display: flex;

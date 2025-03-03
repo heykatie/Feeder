@@ -95,9 +95,9 @@
 }
 
 .expand-arrow {
-  position: sticky;
+  position: fixed;
   left: 10px;
-  top: 55px;
+  top: 5rem;
   background: none;
   border: none;
   color: white;
