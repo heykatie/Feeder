@@ -58,7 +58,6 @@ const IngredientModal = ({
 				[ingredient.id]: ingredient.RecipeIngredient?.measurementId ?? null,
 			}));
 		} else {
-			// Remove ingredient if unchecked
 			setUpdatedSelectedIngredients((prev) =>
 				prev.filter((ing) => ing.id !== ingredient.id)
 			);
@@ -127,7 +126,6 @@ const IngredientModal = ({
 					);
 					return (
 						<div key={ingredient.id} className='ingredient-item'>
-							{/* Checkbox for selecting ingredient */}
 							<input
 								type='checkbox'
 								className='ingredient-checkbox'
