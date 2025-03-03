@@ -200,7 +200,7 @@ const RecipeForm = () => {
 					: [response.payload]
 			);
 		} else {
-			navigate(`/recipes/${response.payload.id}`); 
+			navigate(`/recipes/${response.payload.id}`);
 		}
 	};
 
@@ -264,7 +264,7 @@ const RecipeForm = () => {
 			)}
 
 			<form onSubmit={handleSubmit} className='recipe-form'>
-				<label className='form-label'>Title:*</label>
+				<label className='form-label'>Title: *</label>
 				<input
 					type='text'
 					className='form-input'
@@ -280,14 +280,14 @@ const RecipeForm = () => {
 				/>
 				<div className='form-row'>
 					<div className='form-group'>
-						<label className='form-label'>Category:*</label>
+						<label className='form-label'>Category: *</label>
 						<select
 							className='form-select'
 							value={category}
 							onChange={handleCategoryChange}
 							required>
 							<option value='' disabled>
-								Select a Category
+								Select a Category*
 							</option>
 							<option value='Balanced Meal'>Balanced Meal</option>
 							<option value='Raw Diet (BARF)'>Raw Diet (BARF)</option>

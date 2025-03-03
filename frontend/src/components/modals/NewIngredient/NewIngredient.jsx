@@ -93,7 +93,7 @@ const NewIngredient = ({ fetchIngredients }) => {
 
 			<form onSubmit={handleSubmit}>
 				<label>
-					Name:
+					Name: *
 					<input
 						type='text'
 						name='name'

@@ -24,7 +24,7 @@ const CreateListModal = () => {
 	const { closeModal } = useModal();
 
 	const [listName, setListName] = useState('');
-	const [listType, setListType] = useState('todo'); // Default to shopping list
+	const [listType, setListType] = useState('shopping');
 	const [selectedRecipe, setSelectedRecipe] = useState('');
 	const [selectedIngredients, setSelectedIngredients] = useState([]);
 	const [ingredientQuantities, setIngredientQuantities] = useState({});
@@ -106,7 +106,7 @@ const CreateListModal = () => {
 			<h2>Create a New List</h2>
 			<div className='create-list-details'>
 				<label>
-					List Name:
+					List Name: *
 					<input
 						type='text'
 						value={listName}
@@ -117,12 +117,12 @@ const CreateListModal = () => {
 				</label>
 
 				<label>
-					List Type:
+					List Type: *
 					<select
 						value={listType}
 						onChange={(e) => setListType(e.target.value)}>
-						<option value='todo'>To-Do</option>
 						<option value='shopping'>Shopping</option>
+						<option value='todo'>To-Do</option>
 					</select>
 				</label>
 			</div>
