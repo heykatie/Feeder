@@ -48,6 +48,8 @@
     "password-validator": "^5.3.0",
     "per-env": "^1.0.2",
     "pg": "^8.13.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "sequelize": "^6.37.5",
     "sequelize-cli": "^6.6.2"
   },
