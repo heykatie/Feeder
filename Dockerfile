@@ -63,9 +63,8 @@ COPY /backend/.sequelizerc .
 
 COPY --from=frontend frontend/dist ./frontend/dist
 
-# RUN npm install --only=production
-RUN npm install
-# --omit=dev
+RUN npm install --only=production
+# RUN npm install --omit=dev
 # RUN npm ci --force
 # RUN npm install --production=false
 
