@@ -110,7 +110,7 @@ const Recipe = () => {
 
 			<h1 className='recipe-title'>{recipe.title}</h1>
 			<p className='recipe-description'>{recipe.description}</p>
-			
+
 			<div className='recipe-meta'>
 				<p className='recipe-rating'>Rating: {recipe.rating} / 5 ⭐</p>
 				<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
@@ -131,10 +131,10 @@ const Recipe = () => {
 			/>
 			<div className='recipe-info'>
 				<p className='recipe-category'>Category: {recipe.category}</p>
-				<p className='recipe-difficulty'>Difficulty: {recipe.difficulty}</p>
 				<p className='recipe-time'>Prep Time: {recipe.prepTime} min</p>
 				<p className='recipe-time'>Cook Time: {recipe.cookTime} min</p>
 				<p className='recipe-time'>Total Time: {recipe.totalTime} min</p>
+				<p className='recipe-difficulty'>Difficulty: {recipe.difficulty}</p>
 			</div>
 
 			<div className='recipe-adjust'>
