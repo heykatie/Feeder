@@ -38,7 +38,7 @@ function LoginModal() {
 
 		const demoLogin = async (e) => {
 		e.preventDefault();
-		const demoCredential = 'demo@user.io';
+		const demoCredential = 'qt@tootie.io';
 		const demoPassword = 'Password123@';
 		try {
 			await dispatch(
