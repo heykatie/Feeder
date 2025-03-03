@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
+import {toast} from 'react-toastify';
 
 export const fetchRecipes = createAsyncThunk(
 	'recipes/fetchRecipes',
@@ -195,6 +196,15 @@ export const toggleFavorite = createAsyncThunk(
 			// console.log('Toggle Favorite Response:', data);
 			return { recipeId, liked: data.liked };
 		} catch (error) {
+			if (error.status === 401) {
+				toast.error('You need to log in to access this feature.', {
+					position: 'top-center',
+					autoClose: 4000,
+					closeOnClick: true,
+					closeOnEscape: true,
+				});
+				return rejectWithValue('Unauthorized');
+			}
 			return rejectWithValue(error.message);
 		}
 	}

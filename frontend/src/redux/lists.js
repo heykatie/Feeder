@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { csrfFetch } from './csrf';
+import { toast } from 'react-toastify';
 
 export const createList = createAsyncThunk(
 	'lists/createList',
@@ -87,16 +88,28 @@ export const generateGroceryList = createAsyncThunk(
 			});
 
 			const data = await response.json();
+
 			if (!response.ok)
 				return rejectWithValue(data.error || 'Failed to generate list');
+
 
 			return {
 				listId: data.list.id,
 				list: data.list,
 				servings: data.servings,
 			};
+
 		} catch (error) {
-			console.error('  generateGroceryList error:', error);
+			if (error.status === 401) {
+				toast.error('You need to log in to access this feature.', {
+					position: 'top-center',
+					autoClose: 4000,
+					closeOnClick: true,
+					closeOnEscape: true,
+				});
+				return rejectWithValue('Unauthorized');
+			}
+			// console.error('  generateGroceryList error:', error);
 			return rejectWithValue(error.message || 'Internal server error');
 		}
 	}
