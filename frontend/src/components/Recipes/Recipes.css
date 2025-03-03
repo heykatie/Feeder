@@ -175,3 +175,176 @@
     height: 150px;
   }
 }
+
+/* Ensure the recipe card has a structured layout */
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; /* Center text properly */
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+/* Keep the description properly aligned */
+.recipe-card p {
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto 10px; /* Ensure consistent spacing */
+}
+
+/* Ensure rating, likes, and total time are evenly spaced */
+.recipe-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  padding-top: 5px;
+}
+
+/* Make sure the total time is aligned consistently */
+.recipe-time {
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+/* Space out the favorite button and rating */
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Ensure icons in meta are spaced out evenly */
+.recipe-meta p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Prevent overlap on mobile */
+@media (max-width: 768px) {
+  .recipe-meta {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+/* Ensure the recipe card is structured properly */
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* Ensures content is spaced out */
+  align-items: center;
+  padding-bottom: 15px;
+  text-align: center;
+  height: 100%;
+  /* Make sure it takes full height */
+}
+
+/* Keep the recipe-meta (rating & likes) at the bottom */
+.recipe-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+  margin: 0px 0px;
+  padding: 0px 0px;
+}
+
+/* Ensure icons in meta are spaced out evenly */
+.recipe-meta p {
+  margin: 0px 1rem;
+  padding: 0px 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Set a fixed height for all recipe cards */
+.recipe-card {
+  width: 300px;
+  /* Keep width consistent */
+  height: 360px;
+  /* Set a fixed height to prevent uneven cards */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--panel-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  padding-bottom: 10px;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Ensure image size remains consistent */
+.recipe-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Limit title height to prevent overflow */
+.recipe-card h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 10px 0;
+  max-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0px 12px;
+}
+
+/* Ensure the description is consistent */
+.recipe-card p {
+  font-size: 0.9rem;
+  max-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  padding: 0px 12px;
+}
+
+/* Keep rating & likes at the bottom */
+.recipe-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  padding-top: 10px;
+  margin-top: auto;
+}
+
+/* Ensure rating & likes are properly spaced */
+.recipe-meta p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0px 1rem;
+}

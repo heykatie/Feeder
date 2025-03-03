@@ -227,11 +227,20 @@ const Recipes = () => {
 							/>
 							<h2>{recipe.title}</h2>
 							<p>{recipe.description}</p>
+							<p className='recipe-time'>
+								Total Time: {recipe.totalTime} min
+							</p>
+							<div className='recipe-meta'>
+								<p className='recipe-rating'>⭐ {recipe.rating} / 5</p>
+								<p className='recipe-likes'>
+									❤️ {recipe.likesCount} Likes
+								</p>
+							</div>
 						</NavLink>
 
 						{userId && sessionUser?.id == userId && (
 							<button
-								style={{background:'none', fontSize:'12px'}}
+								style={{ background: 'none', fontSize: '12px' }}
 								className={`privacy-toggle ${
 									recipe.isPublic ? 'public' : 'private'
 								}`}
