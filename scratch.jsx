@@ -8,14 +8,13 @@ import {
 	deleteList,
 	fetchAllLists,
 	saveIngredient,
-	deleteIngredient,
 } from '../../redux/lists';
-import { fetchIngredients } from '../../redux/ingredients';
+import { fetchIngredients, deleteIngredient } from '../../redux/ingredients';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import OpenModalButton from '../../context/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { useModal } from '../../context/ModalContext';
-// import NewIngredient from '../modals/NewIngredient';
+import NewIngredient from '../modals/NewIngredient';
 import './List.css'; // Make sure styles are imported
 
 export default function List() {
@@ -179,6 +178,17 @@ export default function List() {
 				)}
 			</h1>
 
+			{groceryList.type === 'shopping' && groceryList.recipeId && (
+				<p className='recipe-info'>
+					<strong>Generated from Recipe:</strong>{' '}
+					<Link
+						to={`/recipes/${groceryList.recipeId}`}
+						className='recipe-link'>
+						View Recipe 🍽
+					</Link>
+				</p>
+			)}
+
 			{groceryList.type === 'shopping' && (
 				<button
 					onClick={toggleAvailableIngredients}
@@ -229,71 +239,53 @@ export default function List() {
 							{...provided.droppableProps}
 							className='grocery-list'>
 							<h3>📋 My Grocery List:</h3>
-							{(groceryList?.Ingredients ?? [])
-								.slice()
-								.reverse()
-								.map((item, i) => (
-									<Draggable
-										key={item.id}
-										draggableId={item.id.toString()}
-										index={i}>
-										{(provided) => (
-											<li
-												ref={provided.innerRef}
-												{...provided.draggableProps}
-												{...provided.dragHandleProps}>
-												<label>
-													<input
-														type='checkbox'
-														checked={
-															checkedItems[item.id] || false
-														}
-														onChange={() => handleCheck(item.id)}
-													/>
-													<span>{item.name}</span>
-												</label>
-												<button
-													className='delete-item'
-													onClick={() => {
-														dispatch(
-															deleteIngredient({
-																listId: groceryList.id,
-																ingredientId: item.ingredientId, // ✅ Ensure correct ID
-															})
-														).then(() => {
-															dispatch(fetchGroceryList(listId)); // ✅ Force re-fetch after delete
-														});
-													}}>
-													🗑
-												</button>
-											</li>
-										)}
-									</Draggable>
-								))}
+							{groceryList.Ingredients?.map((item, i) => (
+								<Draggable
+									key={item.id}
+									draggableId={item.id.toString()}
+									index={i}>
+									{(provided) => (
+										<li
+											ref={provided.innerRef}
+											{...provided.draggableProps}
+											{...provided.dragHandleProps}>
+											<label>
+												<input
+													type='checkbox'
+													checked={checkedItems[item.id] || false}
+													onChange={() => handleCheck(item.id)}
+												/>
+												<span>{item.name}</span>
+											</label>
+											<button
+												className='delete-item'
+												onClick={() =>
+													dispatch(
+														deleteIngredient({
+															listId: groceryList.id,
+															ingredientId: item.ingredientId,
+														})
+													)
+												}>
+												🗑
+											</button>
+										</li>
+									)}
+								</Draggable>
+							))}
 							{provided.placeholder}
 						</ul>
 					)}
 				</Droppable>
 			</DragDropContext>
-			<div className='list-actions'>
-				{groceryList.type === 'shopping' && groceryList.recipeId && (
-					<p className='recipe-info'>
-						<strong>Generated from Recipe:</strong>{' '}
-						<Link
-							to={`/recipes/${groceryList.recipeId}`}
-							className='recipe-link'>
-							View Recipe 🍽
-						</Link>
-					</p>
-				)}
-				<OpenModalButton
-					modalComponent={
-						<ConfirmDelete onConfirm={handleDelete} itemType='list' />
-					}
-					buttonText='🗑 Delete List'
-					className='delete-button'
-				/>
-			</div>
+
+			<OpenModalButton
+				modalComponent={
+					<ConfirmDelete onConfirm={handleDelete} itemType='list' />
+				}
+				buttonText='🗑 Delete List'
+				className='delete-button'
+			/>
 		</div>
 	);
 }

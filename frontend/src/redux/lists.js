@@ -92,13 +92,11 @@ export const generateGroceryList = createAsyncThunk(
 			if (!response.ok)
 				return rejectWithValue(data.error || 'Failed to generate list');
 
-
 			return {
 				listId: data.list.id,
 				list: data.list,
 				servings: data.servings,
 			};
-
 		} catch (error) {
 			if (error.status === 401) {
 				toast.error('You need to log in to access this feature.', {
@@ -212,6 +210,35 @@ export const deleteList = createAsyncThunk(
 			return listId; // Return the deleted list ID
 		} catch (error) {
 			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const deleteIngredient = createAsyncThunk(
+	'lists/deleteIngredient',
+	async ({ listId, ingredientId }, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch(
+				`/api/lists/${listId}/${ingredientId}`,
+				{
+					method: 'DELETE',
+				}
+			);
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.error || 'Failed to delete ingredient');
+			}
+
+			return { listId, ingredientId };
+		} catch (error) {
+			console.error('  Error in deleteIngredient thunk:', error);
+			if (error.json) {
+				const err = await error.json();
+				return rejectWithValue(err);
+			} else {
+				return rejectWithValue(error);
+			}
 		}
 	}
 );
@@ -336,6 +363,32 @@ const listsSlice = createSlice({
 				if (state.currentList?.id === action.payload) {
 					state.currentList = null;
 				}
+			})
+			.addCase(deleteIngredient.fulfilled, (state, action) => {
+				const { listId, ingredientId } = action.payload;
+
+				// ✅ Ensure `currentList` updates immediately
+				if (state.currentList?.id === listId) {
+					state.currentList.Ingredients =
+						state.currentList.Ingredients.filter(
+							(ing) => ing.ingredientId !== ingredientId // ✅ Ensure correct property name
+						);
+				}
+
+				// ✅ Ensure `allLists` updates immediately
+				state.allLists = state.allLists.map((list) =>
+					list.id === listId
+						? {
+								...list,
+								Ingredients: list.Ingredients.filter(
+									(ing) => ing.ingredientId !== ingredientId
+								),
+						}
+						: list
+				);
+			})
+			.addCase(deleteIngredient.rejected, (state, action) => {
+				state.error = action.payload;
 			});
 	},
 });

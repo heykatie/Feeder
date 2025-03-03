@@ -141,7 +141,7 @@ const CreateListModal = () => {
 								</option>
 							))
 						) : (
-							<option disabled>Loading recipes...</option>
+							<option disabled>No favorite recipes yet, go explore!</option>
 						)}
 					</select>
 				</>
