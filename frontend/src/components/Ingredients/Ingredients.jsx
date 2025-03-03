@@ -1,5 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {  useEffect } from 'react';
 import './Ingredients.css';
+import { fetchMeasurements } from '../../redux/ingredients';
 
 const Ingredients = ({
 	selectedIngredients,
@@ -7,6 +9,13 @@ const Ingredients = ({
 	ingredientMeasurements,
 	ingredients,
 }) => {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(fetchMeasurements())
+	}, [dispatch])
+
+
 	if (!selectedIngredients.length) return null;
 		const measurements = useSelector(
 			(state) => state.ingredients.measurements
@@ -16,10 +25,15 @@ const Ingredients = ({
 		<div className='ingredients-preview'>
 			<h3>Ingredients Preview</h3>
 			<ul>
+				{console.error('katie', selectedIngredients)}
 				{selectedIngredients.map((ingredient) => {
-					const quantity = ingredientQuantities?.[ingredient.id] ?? 'N/A';
+					const quantity =
+						ingredient.RecipeIngredient?.quantity ??
+						ingredientQuantities[ingredient.id] ?? 1;
+
 					const measurementId =
-						ingredientMeasurements?.[ingredient.id] ?? null;
+						ingredient.RecipeIngredient?.measurementId ??
+						ingredientMeasurements[ingredient.id] ?? 1;
 
 					const measurement = measurementId
 						? measurements?.find((m) => m.id === measurementId)

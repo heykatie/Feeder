@@ -20,9 +20,10 @@ const RecipeForm = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const ingredients = useSelector((state) => state.ingredients.allList);
-	const recipe = useSelector((state) =>
-		state.recipes?.allRecipes?.find((r) => r.id === Number(id))
-	);
+	// const recipe = useSelector((state) =>
+	// 	state.recipes?.allRecipes?.find((r) => r.id === Number(id))
+	// );
+	const recipe = useSelector((state) => state.recipes?.selectedRecipe);
 	const user = useSelector((state) => state.session.user);
 
 	const [title, setTitle] = useState('');
@@ -75,13 +76,12 @@ const RecipeForm = () => {
 				recipe.instructions ? JSON.parse(recipe.instructions) : []
 			);
 
-			// Ensure selectedIngredients is an array of objects, not IDs
 			setSelectedIngredients(recipe.Ingredients || []);
 
-			// Set ingredient quantities & measurements correctly
 			const updatedQuantities = {};
 			const updatedMeasurements = {};
 
+			// console.error('1', recipe);
 			recipe.Ingredients?.forEach((ing) => {
 				if (ing.RecipeIngredient) {
 					updatedQuantities[ing.id] = ing.RecipeIngredient.quantity ?? 1; // ID as key, quantity as value
@@ -232,7 +232,7 @@ const RecipeForm = () => {
 		e.preventDefault();
 		navigate(-1);
 	};
-	
+
 	return (
 		<div className='new-recipe-container'>
 			<h1 className='form-title'>
@@ -390,7 +390,7 @@ const RecipeForm = () => {
 					/>
 				</div>
 				{console.error(
-					'katie',
+					'katie1',
 					ingredientQuantities, ingredientMeasurements
 				)}
 				{selectedIngredients.length > 0 && (

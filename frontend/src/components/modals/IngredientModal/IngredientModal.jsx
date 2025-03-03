@@ -12,7 +12,6 @@ import OpenModalButton from '../../../context/OpenModalButton';
 import './IngredientModal.css';
 
 const IngredientModal = ({
-	// ingredients,
 	selectedIngredients = [],
 	setSelectedIngredients,
 	ingredientQuantities,
@@ -27,37 +26,55 @@ const IngredientModal = ({
 	const { closeModal } = useModal();
 	const measurements =
 		useSelector((state) => state.ingredients.measurements) || [];
-		const ingredients =
-			useSelector((state) => state.ingredients.allList) || [];
+	const ingredients = useSelector((state) => state.ingredients.allList) || [];
+
 	const [updatedSelectedIngredients, setUpdatedSelectedIngredients] = useState(
 		[...selectedIngredients]
 	);
 	const [updatedIngredientQuantities, setUpdatedIngredientQuantities] =
 		useState({ ...ingredientQuantities });
 	const [updatedIngredientMeasurements, setUpdatedIngredientMeasurements] =
-		useState(ingredientMeasurements || {});
+		useState({ ...ingredientMeasurements });
+
+	useEffect(() => {
+		dispatch(fetchIngredients());
+		dispatch(fetchMeasurements());
+	}, [dispatch]);
 
 	const handleIngredientChange = (ingredient, checked) => {
-		setUpdatedSelectedIngredients((prev) =>
-			checked
-				? [...prev, ingredient] // Store the whole object
-				: prev.filter((ing) => ing.id !== ingredient.id)
-		);
-		setUpdatedIngredientQuantities((prev) => {
-			const updated = { ...prev };
-			if (!checked) delete updated[ingredient.id];
-			return updated;
-		});
-		setUpdatedIngredientMeasurements((prev) => {
-			const updated = { ...prev };
-			if (!checked) delete updated[ingredient.id];
-			return updated;
-		});
+		if (checked) {
+			// Add full ingredient object instead of just the ID
+			setUpdatedSelectedIngredients((prev) => [...prev, ingredient]);
+
+			// Set default quantity and measurement if not already set
+			setUpdatedIngredientQuantities((prev) => ({
+				...prev,
+				[ingredient.id]: ingredient.RecipeIngredient?.quantity ?? 1, // Default to 1 if no existing quantity
+			}));
+
+			setUpdatedIngredientMeasurements((prev) => ({
+				...prev,
+				[ingredient.id]: ingredient.RecipeIngredient?.measurementId ?? null,
+			}));
+		} else {
+			// Remove ingredient if unchecked
+			setUpdatedSelectedIngredients((prev) =>
+				prev.filter((ing) => ing.id !== ingredient.id)
+			);
+
+			setUpdatedIngredientQuantities((prev) => {
+				const updated = { ...prev };
+				delete updated[ingredient.id];
+				return updated;
+			});
+
+			setUpdatedIngredientMeasurements((prev) => {
+				const updated = { ...prev };
+				delete updated[ingredient.id];
+				return updated;
+			});
+		}
 	};
-	console.log(
-		'setSelectedIngredients in IngredientModal:',
-		setSelectedIngredients
-	);
 
 	// const refreshIngredients = async () => {
 	// 	const updatedIngredients = await dispatch(fetchIngredients()).unwrap(); // 🔥 Fetch updated ingredients
@@ -67,7 +84,7 @@ const IngredientModal = ({
 	const handleQuantityChange = (ingredientId, value) => {
 		setUpdatedIngredientQuantities({
 			...updatedIngredientQuantities,
-			[ingredientId]: value ? parseInt(value, 10) : '',
+			[ingredientId]: value ? parseInt(value, 10) : 1,
 		});
 	};
 
@@ -83,17 +100,13 @@ const IngredientModal = ({
 		setIngredientQuantities({ ...updatedIngredientQuantities });
 		setIngredientMeasurements({ ...updatedIngredientMeasurements });
 
-		if (fromCreateList) {
-			handleSaveList(); // Calls save list function if from CreateListModal
-		} else {
-			closeModal();
-		}
+		// if (fromCreateList) {
+		// 	handleSaveList();
+		// } else {
+		// 	closeModal();
+		// }
+		closeModal();
 	};
-
-	useEffect(() => {
-		dispatch(fetchIngredients());
-		dispatch(fetchMeasurements());
-	}, [dispatch]);
 
 	return (
 		<div className='ingredient-modal'>
@@ -102,93 +115,114 @@ const IngredientModal = ({
 			</h2>
 
 			<div className='ingredient-list'>
-				{ingredients.map((ingredient) => (
-					<div key={ingredient.id} className='ingredient-item'>
-						<input
-							type='checkbox'
-							className='ingredient-checkbox'
-							checked={updatedSelectedIngredients.includes(
-								ingredient.id
-							)}
-							onChange={(e) =>
-								handleIngredientChange(ingredient, e.target.checked)
-							}
-						/>
-						{/* <label className='ingredient-label'>{ingredient.name}</label> */}
-						<OpenModal
-							className='ingredient-label'
-							itemText={ingredient.name}
-							parentModal={
-								<IngredientModal
-									ingredients={ingredients}
-									selectedIngredients={selectedIngredients}
-									setSelectedIngredients={setSelectedIngredients} // ✅ Ensure this is passed
-									ingredientQuantities={ingredientQuantities}
-									setIngredientQuantities={setIngredientQuantities}
-									ingredientMeasurements={ingredientMeasurements}
-									setIngredientMeasurements={setIngredientMeasurements}
-									fromCreateList={fromCreateList}
-									onBack={onBack}
-									handleSaveList={handleSaveList}
-								/>
-							}
-							modalComponent={<IngredientInfo ingredient={ingredient} />}
-						/>
-
-						<input
-							type='number'
-							className='ingredient-quantity'
-							placeholder='Quantity'
-							value={updatedIngredientQuantities[ingredient.id] || ''}
-							onChange={(e) =>
-								handleQuantityChange(ingredient.id, e.target.value)
-							}
-							min='1'
-						/>
-
-						<select
-							className='ingredient-measurement'
-							value={updatedIngredientMeasurements[ingredient.id] || ''}
-							onChange={(e) =>
-								handleMeasurementChange(ingredient.id, e.target.value)
-							}>
-							<option value='' disabled>
-								Select Unit
-							</option>
-							{measurements.map((unit) => (
-								<option key={unit.id} value={unit.id}>
-									{unit.name}{' '}
-									{unit.abbreviation ? `(${unit.abbreviation})` : ''}
-								</option>
-							))}
-						</select>
-					</div>
-				))}
-				<div>
-					<OpenModalButton
-						buttonText='➕ Add New Ingredient'
-						className='create-ingredient-btn'
-						parentModal={
-							<IngredientModal
-								ingredients={ingredients}
-								selectedIngredients={selectedIngredients}
-								setSelectedIngredients={setSelectedIngredients} // ✅ Ensure this is passed
-								ingredientQuantities={ingredientQuantities}
-								setIngredientQuantities={setIngredientQuantities}
-								ingredientMeasurements={ingredientMeasurements}
-								setIngredientMeasurements={setIngredientMeasurements}
-								fromCreateList={fromCreateList}
-								onBack={onBack}
-								handleSaveList={handleSaveList}
+				{ingredients.map((ingredient) => {
+					const isChecked = updatedSelectedIngredients.some(
+						(ing) => ing.id === ingredient.id
+					);
+					return (
+						<div key={ingredient.id} className='ingredient-item'>
+							{/* Checkbox for selecting ingredient */}
+							<input
+								type='checkbox'
+								className='ingredient-checkbox'
+								checked={isChecked}
+								onChange={(e) =>
+									handleIngredientChange(ingredient, e.target.checked)
+								}
 							/>
-						}
-						modalComponent={
-							<NewIngredient fetchIngredients={fetchIngredients} />
-						}
-					/>
-				</div>
+
+							{/* Ingredient name */}
+							{/* <label className='ingredient-label'>
+								{ingredient.name}
+							</label> */}
+							<OpenModal
+								className='ingredient-label'
+								itemText={ingredient.name}
+								parentModal={
+									<IngredientModal
+										ingredients={ingredients}
+										selectedIngredients={selectedIngredients}
+										setSelectedIngredients={setSelectedIngredients} // ✅ Ensure this is passed
+										ingredientQuantities={ingredientQuantities}
+										setIngredientQuantities={setIngredientQuantities}
+										ingredientMeasurements={ingredientMeasurements}
+										setIngredientMeasurements={setIngredientMeasurements}
+										fromCreateList={fromCreateList}
+										onBack={onBack}
+										handleSaveList={handleSaveList}
+									/>
+								}
+								modalComponent={<IngredientInfo ingredient={ingredient} />}
+							/>
+
+							{/* Quantity input */}
+							<input
+								type='number'
+								className='ingredient-quantity'
+								placeholder='Quantity'
+								value={updatedIngredientQuantities[ingredient.id] || ''}
+								onChange={(e) =>
+									handleQuantityChange(ingredient.id, e.target.value)
+								}
+								min='1'
+								disabled={!isChecked}
+							/>
+
+							{/* Measurement dropdown */}
+							<select
+								className='ingredient-measurement'
+								value={
+									updatedIngredientMeasurements[ingredient.id] || ''
+								}
+								onChange={(e) =>
+									handleMeasurementChange(
+										ingredient.id,
+										e.target.value
+									)
+								}
+								disabled={!isChecked}>
+								<option value='' disabled>
+									Select Unit
+								</option>
+								{measurements.map((unit) => (
+									<option key={unit.id} value={unit.id}>
+										{unit.name}{' '}
+										{unit.abbreviation
+											? `(${unit.abbreviation})`
+											: ''}
+									</option>
+								))}
+							</select>
+						</div>
+					);
+				})}
 			</div>
 
+			{/* Add new ingredient button */}
+			<div>
+				<OpenModalButton
+					buttonText='➕ Add New Ingredient'
+					className='create-ingredient-btn'
+					parentModal={
+						<IngredientModal
+							ingredients={ingredients}
+							selectedIngredients={selectedIngredients}
+							setSelectedIngredients={setSelectedIngredients}
+							ingredientQuantities={ingredientQuantities}
+							setIngredientQuantities={setIngredientQuantities}
+							ingredientMeasurements={ingredientMeasurements}
+							setIngredientMeasurements={setIngredientMeasurements}
+							fromCreateList={fromCreateList}
+							onBack={onBack}
+							handleSaveList={handleSaveList}
+						/>}
+					modalComponent={
+						<NewIngredient fetchIngredients={fetchIngredients} />
+					}
+				/>
+			</div>
+
+			{/* Save/Cancel buttons */}
 			<div className='ingredient-modal-actions'>
 				{fromCreateList ? (
 					<>

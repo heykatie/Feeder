@@ -106,6 +106,7 @@ const ingredientsSlice = createSlice({
 		currentIngredients: null,
 		error: null,
 		loading: false,
+		measurements: [],
 	},
 	reducers: {},
 	extraReducers: (builder) => {
