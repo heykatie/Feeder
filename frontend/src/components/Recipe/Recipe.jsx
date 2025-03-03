@@ -109,6 +109,12 @@ const Recipe = () => {
 			</div>
 
 			<h1 className='recipe-title'>{recipe.title}</h1>
+			<p className='recipe-description'>{recipe.description}</p>
+			
+			<div className='recipe-meta'>
+				<p className='recipe-rating'>Rating: {recipe.rating} / 5 ⭐</p>
+				<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
+			</div>
 
 			<button className='favorite-btn' onClick={handleFavorite}>
 				{isFavorited ? (
@@ -118,20 +124,18 @@ const Recipe = () => {
 				)}
 			</button>
 
-			<div className='recipe-info'>
-				<p className='recipe-category'>Category: {recipe.category}</p>
-				<p className='recipe-difficulty'>Difficulty: {recipe.difficulty}</p>
-			</div>
 			<img
 				src={recipe.imageUrl || '/images/recipes/dogfood.jpeg'}
 				alt={recipe.title}
 				className='recipe-image'
 			/>
-			<div className='recipe-meta'>
-				<p className='recipe-rating'>Rating: {recipe.rating} / 5 ⭐</p>
-				<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
+			<div className='recipe-info'>
+				<p className='recipe-category'>Category: {recipe.category}</p>
+				<p className='recipe-difficulty'>Difficulty: {recipe.difficulty}</p>
+				<p className='recipe-time'>Prep Time: {recipe.prepTime} min</p>
+				<p className='recipe-time'>Cook Time: {recipe.cookTime} min</p>
+				<p className='recipe-time'>Total Time: {recipe.totalTime} min</p>
 			</div>
-			<p className='recipe-description'>{recipe.description}</p>
 
 			<div className='recipe-adjust'>
 				<div className='recipe-servings-container'>

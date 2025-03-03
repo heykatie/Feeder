@@ -40,6 +40,8 @@
 .recipe-container .recipe-title {
   font-size: 1.8rem;
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 .recipe-container .recipe-image {
@@ -47,6 +49,8 @@
   max-height: 250px;
   object-fit: cover;
   border-radius: 10px;
+  margin: 0rem;
+  padding: 0rem;
 }
 
 .recipe-container .recipe-details {
@@ -59,7 +63,6 @@
 .recipe-container .recipe-details p {
   flex: 1;
   text-align: center;
-  margin: 5px 0;
   font-size: 1rem;
 }
 
@@ -204,7 +207,6 @@
   align-items: center;
   width: 100%;
   max-width: 800px;
-  margin: 5px auto;
 }
 
 .recipe-category,
@@ -252,27 +254,32 @@
   font-weight: 20;
 }
 
+.recipe-container .recipe-description {
+  padding: 0;
+  margin: 2px 0px 0px;
+  text-align: center;
+}
 .ingredient-item {
-    display: flex;
-      align-items: center;
-      gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-      background: rgba(255, 255, 255, 0.05);
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
 }
 
 .ingredient-quantity {
-    font-weight: bold;
-      min-width: 50px;
+  font-weight: bold;
+  min-width: 50px;
 
-      text-align: center;
+  text-align: center;
 }
 
 .ingredient-measurement {
-    font-size: 0.9rem;
-      color: #bbb;
+  font-size: 0.9rem;
+  color: #bbb;
 }
 
 .recipe-container .recipe-nutrition {
