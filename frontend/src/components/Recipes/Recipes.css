@@ -108,6 +108,7 @@
 .recipes-container .recipe-time {
   padding: 0;
   margin: 0;
+  color: rgb(182, 180, 180);
 }
 
 .recipes-container .favorite-btn {
