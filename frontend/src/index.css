@@ -349,3 +349,7 @@ button:hover {
   align-items: center;
   height: 100vh;
 }
+
+.future-feature {
+  cursor: wait
+}

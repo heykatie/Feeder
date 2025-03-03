@@ -96,7 +96,7 @@
 
 .expand-arrow {
   position: fixed;
-  left: 10px;
+  left: .1rem;
   top: 5rem;
   background: none;
   border: none;

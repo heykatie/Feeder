@@ -58,15 +58,15 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 				</NavLink>
 			</div>
 			<ul className='sidebar-links'>
-				<li>
+				{/* <li>
 					<NavLink
-						to='/dash'
+						to='/'
 						onClick={toggleExpand}
 						className='sidebar-navLink'>
 						<i className='fa-solid fa-house'></i>{' '}
 						<span className='text'>Home</span>
 					</NavLink>
-				</li>
+				</li> */}
 				<li>
 					<NavLink
 						to='/recipes'

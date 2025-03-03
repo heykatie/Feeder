@@ -24,7 +24,7 @@ export default function Dash() {
 			<div className='dash-header'>
 				<h1>{greeting}</h1>
 				<NavLink to='/notifications'>
-					<FaBell className='notification-icon' />
+					<FaBell className='notification-icon future-feature ' />
 				</NavLink>
 			</div>
 

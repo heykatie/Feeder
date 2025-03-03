@@ -74,9 +74,9 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 					<NavLink
 						className='rsidebar-navLink'
 						onClick={toggleSidebar}
-						to='/profile'>
+						to='/dash'>
 						<i className='fas fa-user'></i>
-						<span className='text'>Profile</span>
+						<span className='text'>Dashboard</span>
 					</NavLink>
 				</li>
 				<li>
@@ -90,7 +90,7 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 				</li>
 				<li>
 					<NavLink
-						className='rsidebar-navLink'
+						className='rsidebar-navLink future-feature'
 						onClick={toggleSidebar}
 						to='/achievements'>
 						<i className='fas fa-trophy'></i>
@@ -99,7 +99,7 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 				</li>
 				<li>
 					<NavLink
-						className='rsidebar-navLink'
+						className='rsidebar-navLink future-feature '
 						onClick={toggleSidebar}
 						to='/leaderboards'>
 						<i className='fas fa-chart-line'></i>
@@ -108,7 +108,7 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 				</li>
 				<li>
 					<NavLink
-						className='rsidebar-navLink'
+						className='rsidebar-navLink future-feature '
 						onClick={toggleSidebar}
 						to='/settings'>
 						<i className='fas fa-cog'></i>

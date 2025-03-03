@@ -46,9 +46,9 @@ const Menu = ({
 			onMouseLeave={handleMouseLeave}
 			ref={menuRef}
 			className={`menu ${isHovered || showMenu ? '' : 'hidden'} `}>
-			<NavLink to='/dash' className='menu-navLink'>
+			{/* <NavLink to='/dash' className='menu-navLink'>
 				<i className='fa-solid fa-house'></i>
-			</NavLink>
+			</NavLink> */}
 			<NavLink to='/recipes' className='menu-navLink'>
 				<i className='fa-solid fa-book'></i>
 			</NavLink>
