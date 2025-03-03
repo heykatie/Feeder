@@ -128,7 +128,7 @@ const Recipes = () => {
 		if (location.pathname === '/favorites') {
 			dispatch(fetchFavorites()).then(() => {
 				setRecipes(faves);
-			})
+			});
 		} else if (userId) {
 			const isLoggedInUser = sessionUser?.id == Number(userId);
 			dispatch(fetchRecipes({ userId, isLoggedInUser }));
@@ -141,21 +141,15 @@ const Recipes = () => {
 				setRecipes(res.payload || []);
 			});
 		}
-	}, [
-		dispatch,
-		userId,
-		sessionUser,
-		location.pathname,
-		searchQuery,
-	]);
+	}, [dispatch, userId, sessionUser, location.pathname, searchQuery, faves]);
 
 	useEffect(() => {
 		if (location.pathname === '/favorites') {
 			setRecipes(faves);
 		} else if (!searchQuery) {
-			setRecipes(allRecipes)
+			setRecipes(allRecipes);
 		}
-	},[faves, allRecipes])
+	}, [faves, allRecipes, location.pathname, searchQuery]);
 
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
 
@@ -163,7 +157,7 @@ const Recipes = () => {
 		<div className='recipes-container'>
 			{searchQuery && recipes.length > 0 && (
 				<div className='search-results'>
-					<h2>Search Results for: "{searchQuery}"</h2>
+					<h2>Search Results for: &quot;{searchQuery}&quot;</h2>
 					<div className='recipes-scroll-container' ref={setScrollRef}>
 						{searchResults.map((recipe) => (
 							<div key={recipe.id} className='recipe-card'>
@@ -227,9 +221,11 @@ const Recipes = () => {
 							/>
 							<h2>{recipe.title}</h2>
 							<p>{recipe.description}</p>
-							<p className='recipe-time'>
-								Total Time: {recipe.totalTime} min
-							</p>
+							{recipe.totalTime > 0 && (
+								<p className='recipe-time'>
+									Total Time: {recipe.totalTime} min
+								</p>
+							)}
 							<div className='recipe-meta'>
 								<p className='recipe-rating'>⭐ {recipe.rating} / 5</p>
 								<p className='recipe-likes'>

@@ -1,21 +1,20 @@
-import { useRef, useState, useContext, useEffect } from 'react';
+import { useRef, useState, useContext, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import { ModalContext } from './ModalContext';
 import './Modal.css';
-
 
 export function ModalProvider({ children }) {
 	const modalRef = useRef();
 	const [modalContent, setModalContent] = useState(null);
 	const [onModalClose, setOnModalClose] = useState(null);
 
-	const closeModal = () => {
+	const closeModal = useCallback(() => {
 		setModalContent(null);
 		if (typeof onModalClose === 'function') {
 			setOnModalClose(null);
 			onModalClose();
 		}
-	};
+	}, [onModalClose]);
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -26,7 +25,7 @@ export function ModalProvider({ children }) {
 
 		document.addEventListener('keydown', handleKeyDown);
 		return () => document.removeEventListener('keydown', handleKeyDown);
-	}, []);
+	}, [closeModal]);
 
 	const contextValue = {
 		modalRef,

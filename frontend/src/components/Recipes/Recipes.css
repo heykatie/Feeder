@@ -348,3 +348,11 @@
   font-size: 14px;
   margin: 0px 1rem;
 }
+
+.recipe-card .recipe-link {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}

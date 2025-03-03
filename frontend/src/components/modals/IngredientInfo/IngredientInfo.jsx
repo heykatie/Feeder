@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './IngredientInfo.css';
 
-const IngredientInfo = ({ ingredient, onClose }) => {
+const IngredientInfo = ({ ingredient }) => {
+	const [showDetails, setShowDetails] = useState(false);
+	
 	if (!ingredient) return null;
 
 	const {
@@ -20,7 +22,6 @@ const IngredientInfo = ({ ingredient, onClose }) => {
 		image,
 	} = ingredient;
 
-	const [showDetails, setShowDetails] = useState(false);
 
 	return (
 		<div className='ingredient-info'>

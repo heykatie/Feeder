@@ -14,7 +14,7 @@ export const fetchRecipes = createAsyncThunk(
 
 		if (search) {
 			const separator = url.includes('?') ? '&' : '?';
-			url += `${separator}search=${encodeURIComponent(search.trim())}`; // Trim search to prevent extra spaces
+			url += `${separator}search=${encodeURIComponent(search.trim())}`;
 		}
 
 		const response = await csrfFetch(url);
@@ -55,7 +55,7 @@ export const fetchRecipe = createAsyncThunk(
 				);
 
 				return {
-					...ingredient, // ✅ Now includes full details
+					...ingredient,
 					id: ingredient.id,
 					quantity: recipeIngredient?.quantity || 1,
 					measurement: recipeIngredient?.Measurement?.name || '',
@@ -109,14 +109,10 @@ export const createRecipe = createAsyncThunk(
 	'recipes/createRecipe',
 	async (recipeData, { rejectWithValue }) => {
 		try {
-			// console.log('Sending Recipe Data:', recipeData);
-
 			const response = await csrfFetch('/api/recipes', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					// Authorization: `Bearer ${localStorage.getItem('token')}`,
-					// 'X-CSRF-Token': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1],
 				},
 				body: JSON.stringify(recipeData),
 			});
@@ -146,8 +142,6 @@ export const updateRecipe = createAsyncThunk(
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
-					// Authorization: `Bearer ${localStorage.getItem('token')}`,
-					// 'X-CSRF-Token': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1],
 				},
 				body: JSON.stringify(recipeData),
 			});
@@ -189,7 +183,7 @@ export const toggleRecipePrivacy = createAsyncThunk(
 
 export const toggleFavorite = createAsyncThunk(
 	'recipes/toggleFavorite',
-	async (recipeId, { getState, rejectWithValue }) => {
+	async (recipeId, { rejectWithValue }) => {
 		try {
 			const response = await csrfFetch(`/api/recipes/${recipeId}/favorite`, {
 				method: 'POST',
@@ -213,10 +207,6 @@ export const deleteRecipe = createAsyncThunk(
 		try {
 			const response = await csrfFetch(`/api/recipes/${id}`, {
 				method: 'DELETE',
-				// headers: {
-				// Authorization: `Bearer ${localStorage.getItem('token')}`,
-				// 'X-CSRF-Token': document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1],
-				// },
 			});
 
 			const data = await response.json();
@@ -247,16 +237,12 @@ const recipesSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			// .addCase(fetchRecipes.fulfilled, (state, action) => {
-			// 	state.allRecipes = Array.isArray(action.payload) ? action.payload : [];
-			// 	state.error = null;
-			// })
 			.addCase(fetchRecipes.fulfilled, (state, action) => {
 				state.allRecipes = Array.isArray(action.payload)
 					? action.payload.map((recipe) => ({
 							...recipe,
 							liked: recipe.liked || false,
-					  }))
+					}))
 					: [];
 				state.error = null;
 			})
@@ -279,29 +265,6 @@ const recipesSlice = createSlice({
 				state.allRecipes.push(action.payload);
 				state.error = null;
 			})
-			// .addCase(toggleFavorite.fulfilled, (state, action) => {
-			// 	const { recipeId, liked } = action.payload;
-
-			// 	if (window.location.pathname === '/favorites') {
-			// 		if (!liked) {
-			// 			state.allRecipes = state.allRecipes.filter(
-			// 				(recipe) => recipe.id !== recipeId
-			// 			);
-			// 		}
-			// 	} else {
-			// 		const updateRecipe = (recipe) => {
-			// 			if (recipe) {
-			// 				recipe.liked = liked;
-			// 				recipe.likesCount = liked
-			// 					? recipe.likesCount + 1
-			// 					: Math.max(0, recipe.likesCount - 1);
-			// 			}
-			// 		};
-
-			// 		updateRecipe(state.allRecipes.find((r) => r.id === recipeId));
-			// 		updateRecipe(state.selectedRecipe);
-			// 	}
-			// })
 			.addCase(toggleFavorite.fulfilled, (state, action) => {
 				const { recipeId, liked } = action.payload;
 
@@ -313,11 +276,10 @@ const recipesSlice = createSlice({
 					}
 				} else {
 					const updateRecipe = (recipes) => {
-						if (!Array.isArray(recipes)) return; // Ensure `recipes` is valid
+						if (!Array.isArray(recipes)) return;
 
 						const recipe = recipes.find((r) => r?.id === recipeId);
-						if (!recipe) return; // Ensure the recipe exists
-
+						if (!recipe) return;
 						recipe.liked = liked;
 						recipe.likesCount = liked
 							? (recipe.likesCount || 0) + 1
@@ -326,17 +288,17 @@ const recipesSlice = createSlice({
 
 					updateRecipe(state.allRecipes);
 					updateRecipe(state.favorites);
-					updateRecipe([state.selectedRecipe]); // If a single recipe is being viewed
+					updateRecipe([state.selectedRecipe]);
 				}
 			})
 			.addCase(toggleRecipePrivacy.fulfilled, (state, action) => {
-	const { recipeId, isPublic } = action.payload;
-	const updateRecipe = (recipe) => {
-		if (recipe.id === recipeId) recipe.isPublic = isPublic;
-	};
-	state.allRecipes.forEach(updateRecipe);
-	state.selectedRecipe && updateRecipe(state.selectedRecipe);
-})
+				const { recipeId, isPublic } = action.payload;
+				const updateRecipe = (recipe) => {
+					if (recipe.id === recipeId) recipe.isPublic = isPublic;
+				};
+				state.allRecipes.forEach(updateRecipe);
+				state.selectedRecipe && updateRecipe(state.selectedRecipe);
+			})
 			.addCase(deleteRecipe.fulfilled, (state, action) => {
 				state.allRecipes = state.allRecipes.filter(
 					(recipe) => recipe.id !== action.payload
@@ -368,3 +330,33 @@ const recipesSlice = createSlice({
 
 export const { clearRecipeErrors } = recipesSlice.actions;
 export default recipesSlice.reducer;
+
+
+			// .addCase(toggleFavorite.fulfilled, (state, action) => {
+			// 	const { recipeId, liked } = action.payload;
+
+			// 	if (window.location.pathname === '/favorites') {
+			// 		if (!liked) {
+			// 			state.allRecipes = state.allRecipes.filter(
+			// 				(recipe) => recipe.id !== recipeId
+			// 			);
+			// 		}
+			// 	} else {
+			// 		const updateRecipe = (recipe) => {
+			// 			if (recipe) {
+			// 				recipe.liked = liked;
+			// 				recipe.likesCount = liked
+			// 					? recipe.likesCount + 1
+			// 					: Math.max(0, recipe.likesCount - 1);
+			// 			}
+			// 		};
+
+			// 		updateRecipe(state.allRecipes.find((r) => r.id === recipeId));
+			// 		updateRecipe(state.selectedRecipe);
+			// 	}
+			// })
+
+						// .addCase(fetchRecipes.fulfilled, (state, action) => {
+			// 	state.allRecipes = Array.isArray(action.payload) ? action.payload : [];
+			// 	state.error = null;
+			// })

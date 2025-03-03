@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './CreateList.css';
@@ -8,8 +8,8 @@ import {
 	saveListName,
 } from '../../../redux/lists';
 import { fetchFavorites, fetchRecipes } from '../../../redux/recipes';
-import OpenModalButton from '../../../context/OpenModalButton';
-import IngredientModal from '../../modals/IngredientModal/IngredientModal';
+// import OpenModalButton from '../../../context/OpenModalButton';
+// import IngredientModal from '../../modals/IngredientModal/IngredientModal';
 import { useModal } from '../../../context/ModalContext';
 import { fetchIngredients } from '../../../redux/ingredients';
 // import IngredientModal from '../IngredientModal/index';
@@ -19,8 +19,8 @@ const CreateListModal = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.session.user);
 	const recipes = useSelector((state) => state.recipes.favorites) || [];
-	const allIngredients =
-		useSelector((state) => state.ingredients.allList) || [];
+	// const allIngredients =
+	// 	useSelector((state) => state.ingredients.allList) || [];
 	const { closeModal } = useModal();
 
 	const [listName, setListName] = useState('');

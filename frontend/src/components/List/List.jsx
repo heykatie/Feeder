@@ -11,7 +11,8 @@ import {
 } from '../../redux/lists';
 import {
 	fetchIngredients,
-	createIngredient, deleteIngredient,
+	// createIngredient,
+	deleteIngredient,
 } from '../../redux/ingredients';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import OpenModalButton from '../../context/OpenModalButton';
@@ -66,19 +67,19 @@ export default function List() {
 		}
 	}, [groceryList]);
 
-	const handleCreateIngredient = async () => {
-		const newIngredientName = prompt('Enter new ingredient name:');
-		if (!newIngredientName) return;
+	// const handleCreateIngredient = async () => {
+	// 	const newIngredientName = prompt('Enter new ingredient name:');
+	// 	if (!newIngredientName) return;
 
-		dispatch(createIngredient({ name: newIngredientName }))
-			.unwrap()
-			.then(() => {
-				dispatch(fetchIngredients()); // Refresh ingredient list
-			})
-			.catch((error) =>
-				console.error('❌ Error creating ingredient:', error)
-			);
-	};
+	// 	dispatch(createIngredient({ name: newIngredientName }))
+	// 		.unwrap()
+	// 		.then(() => {
+	// 			dispatch(fetchIngredients()); // Refresh ingredient list
+	// 		})
+	// 		.catch((error) =>
+	// 			console.error('❌ Error creating ingredient:', error)
+	// 		);
+	// };
 
 	const handleCheck = async (groceryIngredientId) => {
 		const newCheckedState = !checkedItems[groceryIngredientId];

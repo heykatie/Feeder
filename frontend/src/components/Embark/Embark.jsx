@@ -40,18 +40,6 @@ const Embark = () => {
 		species: '',
 	});
 
-	const handleNext = async (skip = false) => {
-		if (!skip && !stepValid) return;
-
-		if (step === 0 && !selection.species) {
-			setStep(2);
-		} else if (step < forms.length - 1) {
-			setStep((prev) => prev + 1);
-		} else {
-			await handleSubmit();
-		}
-	};
-
 	const handleBack = useCallback(() => {
 		if (step === 2 && !selection.species) {
 			setStep(0);
@@ -64,7 +52,8 @@ const Embark = () => {
 		setShowExitModal(true);
 	}, []);
 
-	const handleSubmit = async (e) => {
+const handleSubmit = useCallback(
+	async (e) => {
 		if (e?.preventDefault) e.preventDefault();
 		if (isSubmitting) return;
 		setIsSubmitting(true);
@@ -131,72 +120,11 @@ const Embark = () => {
 		} finally {
 			setIsSubmitting(false);
 		}
-	};
+	},
+	[isSubmitting, dispatch, selection, sousChef, navigate]
+);
 
-	useEffect(() => {
-		const handleKeyDown = (e) => {
-			const activeElement = document.activeElement;
-			const isInputField =
-				activeElement.tagName === 'INPUT' ||
-				activeElement.tagName === 'TEXTAREA' ||
-				activeElement.tagName === 'SELECT';
-
-			if (e.key === 'Escape') {
-				if (isInputField) {
-					activeElement.blur();
-				} else {
-					setShowExitModal(true);
-				}
-			} else if (e.key === 'Enter' && stepValid) {
-				handleNext();
-			} else if (e.key === ' ') {
-				if (
-					activeElement &&
-					(activeElement.tagName === 'BUTTON' ||
-						activeElement.tagName === 'INPUT')
-				) {
-					activeElement.click();
-				} else if (!stepValid && step !== 3) {
-					handleNext(true);
-				}
-			} else if (e.key === 'Backspace' && !isInputField) {
-				handleBack();
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [handleNext, handleBack, step, stepValid]);
-
-		useEffect(() => {
-			if (stepValid !== prevStepValid || step === forms.length - 1) {
-				const newText =
-					step === forms.length - 1
-						? 'Level up now'
-						: stepValid
-						? 'Continue →'
-						: 'Skip →';
-
-				setButtonText(newText);
-
-				if (newText === 'Continue →' || newText === 'Level up now') {
-					const btn = document.querySelector('.embark-next-btn.continue');
-					if (btn) {
-						btn.classList.remove('animate');
-						void btn.offsetWidth;
-						btn.classList.add('animate');
-					}
-				}
-
-				setPrevStepValid(stepValid);
-			}
-		}, [stepValid, prevStepValid, step]);
-
-		useEffect(() => {
-			setStepValid(isStepValid(step));
-		}, [step, selection]);
-
-	const isStepValid = (currentStep) => {
+	const isStepValid = useCallback((currentStep) => {
 		switch (currentStep) {
 			case 0:
 				return (
@@ -213,7 +141,11 @@ const Embark = () => {
 					allergies: selection.allergies,
 					notes: selection.notes,
 					image: selection.image,
-				}).some((value) => typeof value === 'string' ? value.trim() !== '' : value !== null && value !== undefined);
+				}).some((value) =>
+					typeof value === 'string'
+						? value.trim() !== ''
+						: value !== null && value !== undefined
+				);
 			case 2:
 				return (
 					(selection.sousChefName?.trim() !== '' &&
@@ -237,7 +169,7 @@ const Embark = () => {
 			default:
 				return true;
 		}
-	};
+	}, [selection]);
 
 	const forms = [
 		{
@@ -288,6 +220,84 @@ const Embark = () => {
 			),
 		},
 	];
+
+	useEffect(() => {
+		setStepValid(isStepValid(step));
+	}, [step, selection, isStepValid]);
+
+	const handleNext = useCallback(
+		async (skip = false) => {
+			if (!skip && !stepValid) return;
+
+			if (step === 0 && !selection.species) {
+				setStep(2);
+			} else if (step < forms.length - 1) {
+				setStep((prev) => prev + 1);
+			} else {
+				await handleSubmit();
+			}
+		},
+		[step, stepValid, selection.species, forms.length, handleSubmit]
+	);
+
+	useEffect(() => {
+		if (stepValid !== prevStepValid || step === forms.length - 1) {
+			const newText =
+				step === forms.length - 1
+					? 'Level up now'
+					: stepValid
+					? 'Continue →'
+					: 'Skip →';
+
+			setButtonText(newText);
+
+			if (newText === 'Continue →' || newText === 'Level up now') {
+				const btn = document.querySelector('.embark-next-btn.continue');
+				if (btn) {
+					btn.classList.remove('animate');
+					void btn.offsetWidth;
+					btn.classList.add('animate');
+				}
+			}
+
+			setPrevStepValid(stepValid);
+		}
+	}, [stepValid, prevStepValid, step, forms.length]);
+
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			const activeElement = document.activeElement;
+			const isInputField =
+				activeElement.tagName === 'INPUT' ||
+				activeElement.tagName === 'TEXTAREA' ||
+				activeElement.tagName === 'SELECT';
+
+			if (e.key === 'Escape') {
+				if (isInputField) {
+					activeElement.blur();
+				} else {
+					setShowExitModal(true);
+				}
+			} else if (e.key === 'Enter' && stepValid) {
+				handleNext();
+			} else if (e.key === ' ') {
+				if (
+					activeElement &&
+					(activeElement.tagName === 'BUTTON' ||
+						activeElement.tagName === 'INPUT')
+				) {
+					activeElement.click();
+				} else if (!stepValid && step !== 3) {
+					handleNext(true);
+				}
+			} else if (e.key === 'Backspace' && !isInputField) {
+				handleBack();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [handleNext, handleBack, step, stepValid]);
 
 	return (
 		<div className='embark-container'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createIngredient } from '../../../redux/ingredients';
 import {useModal} from '../../../context/ModalContext';

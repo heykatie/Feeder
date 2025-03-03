@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import SousChefSVG from '../../SousChef/SousChefSVG';
 import './StartingChef.css';
 
@@ -21,85 +21,96 @@ const StartingChef = ({ onUpdate, initialData }) => {
 	);
 
 	const nameInputRef = useRef(null);
-	const sections = ['sousChefName', 'eyeShape', 'personality', 'color'];
+	const sections = useMemo(
+		() => ['sousChefName', 'eyeShape', 'personality', 'color'],
+		[]
+	);
 	const [selectedSection, setSelectedSection] = useState(0);
 
-	const updateSelection = (field, value) => {
-		if (field === 'sousChefName') setSousChefName(value);
-		if (field === 'eyeShape') setEyeShape(value);
-		if (field === 'color') setColor(value);
-		if (field === 'personality') setPersonality(value);
+	const updateSelection = useCallback(
+		(field, value) => {
+			if (field === 'sousChefName') setSousChefName(value);
+			if (field === 'eyeShape') setEyeShape(value);
+			if (field === 'color') setColor(value);
+			if (field === 'personality') setPersonality(value);
 
-		onUpdate({
-			sousChefName: field === 'sousChefName' ? value : sousChefName,
-			eyeShape: field === 'eyeShape' ? value : eyeShape,
-			color: field === 'color' ? value : color,
-			personality: field === 'personality' ? value : personality,
-		});
-	};
+			onUpdate({
+				sousChefName: field === 'sousChefName' ? value : sousChefName,
+				eyeShape: field === 'eyeShape' ? value : eyeShape,
+				color: field === 'color' ? value : color,
+				personality: field === 'personality' ? value : personality,
+			});
+		},
+		[onUpdate, sousChefName, eyeShape, color, personality]
+	);
 
-	const handleKeyDown = (e) => {
-		if (
-			document.activeElement.tagName === 'INPUT' &&
-			e.key !== 'ArrowUp' &&
-			e.key !== 'ArrowDown'
-		)
-			return;
+	const handleKeyDown = useCallback(
+		(e) => {
+			if (
+				document.activeElement.tagName === 'INPUT' &&
+				e.key !== 'ArrowUp' &&
+				e.key !== 'ArrowDown'
+			)
+				return;
 
-		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-			e.preventDefault();
-			let newIndex =
-				e.key === 'ArrowUp'
-					? (selectedSection - 1 + sections.length) % sections.length
-					: (selectedSection + 1) % sections.length;
+			if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+				e.preventDefault();
+				let newIndex =
+					e.key === 'ArrowUp'
+						? (selectedSection - 1 + sections.length) % sections.length
+						: (selectedSection + 1) % sections.length;
 
-			setSelectedSection(newIndex);
+				setSelectedSection(newIndex);
 
-			setTimeout(() => {
-				if (sections[newIndex] === 'sousChefName' && nameInputRef.current) {
-					nameInputRef.current.focus();
-				} else if (sections[newIndex] === 'eyeShape') {
-					document
-						.querySelector('[data-type="eyeShape"].selected')
-						?.focus();
-				} else if (sections[newIndex] === 'personality') {
-					document
-						.querySelector('[data-type="personality"].selected')
-						?.focus();
-				} else if (sections[newIndex] === 'color') {
-					document.querySelector('input[type="color"]')?.focus();
-				}
-			}, 10);
-		}
-
-		if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-			e.preventDefault();
-			if (sections[selectedSection] === 'eyeShape') {
-				const currentIndex = eyeShapes.indexOf(eyeShape);
-				const newIndex =
-					e.key === 'ArrowRight'
-						? (currentIndex + 1) % eyeShapes.length
-						: (currentIndex - 1 + eyeShapes.length) % eyeShapes.length;
-				updateSelection('eyeShape', eyeShapes[newIndex]);
-			} else if (sections[selectedSection] === 'personality') {
-				const currentIndex = personalities?.findIndex(
-					(p) => p.label === personality
-				);
-				const newIndex =
-					e.key === 'ArrowRight'
-						? (currentIndex + 1) % personalities.length
-						: (currentIndex - 1 + personalities.length) %
-						personalities.length;
-				updateSelection('personality', personalities[newIndex].label);
+				setTimeout(() => {
+					if (
+						sections[newIndex] === 'sousChefName' &&
+						nameInputRef.current
+					) {
+						nameInputRef.current.focus();
+					} else if (sections[newIndex] === 'eyeShape') {
+						document
+							.querySelector('[data-type="eyeShape"].selected')
+							?.focus();
+					} else if (sections[newIndex] === 'personality') {
+						document
+							.querySelector('[data-type="personality"].selected')
+							?.focus();
+					} else if (sections[newIndex] === 'color') {
+						document.querySelector('input[type="color"]')?.focus();
+					}
+				}, 10);
 			}
-		}
-	};
 
+			if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+				e.preventDefault();
+				if (sections[selectedSection] === 'eyeShape') {
+					const currentIndex = eyeShapes.indexOf(eyeShape);
+					const newIndex =
+						e.key === 'ArrowRight'
+							? (currentIndex + 1) % eyeShapes.length
+							: (currentIndex - 1 + eyeShapes.length) % eyeShapes.length;
+					updateSelection('eyeShape', eyeShapes[newIndex]);
+				} else if (sections[selectedSection] === 'personality') {
+					const currentIndex = personalities.findIndex(
+						(p) => p.label === personality
+					);
+					const newIndex =
+						e.key === 'ArrowRight'
+							? (currentIndex + 1) % personalities.length
+							: (currentIndex - 1 + personalities.length) %
+							personalities.length;
+					updateSelection('personality', personalities[newIndex].label);
+				}
+			}
+		},
+		[selectedSection, eyeShape, personality, sections, updateSelection]
+	);
 
 	useEffect(() => {
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [eyeShape, personality, selectedSection]);
+	}, [handleKeyDown]); // ✅ Now `useEffect` correctly depends on `handleKeyDown`
 
 	return (
 		<div className='starting-chef-container'>
@@ -112,7 +123,6 @@ const StartingChef = ({ onUpdate, initialData }) => {
 					personality={personality}
 				/>
 			</div>
-
 
 			<input
 				type='text'

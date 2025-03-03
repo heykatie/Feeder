@@ -19,7 +19,7 @@ const Recipe = () => {
 	const user = useSelector((state) => state.session.user);
 	const recipe = useSelector((state) => state.recipes.selectedRecipe);
 	const [isFavorited, setIsFavorited] = useState(false);
-	const [error, setError] = useState({});
+	// const [error, setError] = useState({});
 	const [servings, setServings] = useState(recipe?.servings || 1);
 	const [adjustedIngredients, setAdjustedIngredients] = useState([]);
 	const [showNotes, setShowNotes] = useState(false); // Toggle for notes

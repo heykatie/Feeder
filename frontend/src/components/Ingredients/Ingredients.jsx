@@ -7,7 +7,7 @@ const Ingredients = ({
 	selectedIngredients,
 	ingredientQuantities,
 	ingredientMeasurements,
-	ingredients,
+	// ingredients,
 }) => {
 	const dispatch = useDispatch();
 
@@ -15,11 +15,12 @@ const Ingredients = ({
 		dispatch(fetchMeasurements())
 	}, [dispatch])
 
+	const measurements = useSelector(
+		(state) => state.ingredients.measurements
+	);
+
 
 	if (!selectedIngredients.length) return null;
-		const measurements = useSelector(
-			(state) => state.ingredients.measurements
-		);
 
 	return (
 		<div className='ingredients-preview'>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	fetchGroceryList,
@@ -9,8 +9,8 @@ import {
 } from '../../redux/lists';
 
 export default function List() {
-	const navigate = useNavigate();
-	const lists = useSelector((state) => state.lists.allLists);
+	// const navigate = useNavigate();
+	// const lists = useSelector((state) => state.lists.allLists);
 	const { listId } = useParams();
 	const dispatch = useDispatch();
 	const groceryList = useSelector((state) =>
