@@ -54,27 +54,38 @@ const Lists = () => {
 					<p>No shopping lists found. Start by creating one!</p>
 				) : (
 					<ul className='lists'>
-						{shoppingLists.map((list) => (
-							<li key={list.id} className='list-item'>
-								<h3>{list.name}</h3>
-								<p>{list.Ingredients?.length || 0} items</p>
-								<div className='list-actions'>
-									<button onClick={() => handleViewList(list.id)}>
-										View List
-									</button>
-									<OpenModalButton
-										modalComponent={
-											<ConfirmDelete
-												itemType='list'
-												onConfirm={() => handleDeleteList(list.id)}
-											/>
-										}
-										buttonText='Delete'
-										className='delete-list-btn'
-									/>
-								</div>
-							</li>
-						))}
+						{shoppingLists.map((list) => {
+							const totalItems = list.Ingredients?.length || 0;
+							const checkedItems =
+								list.Ingredients?.filter((ing) => ing.checked).length ||
+								0;
+
+							return (
+								<li key={list.id} className='list-item'>
+									<h3>{list.name}</h3>
+									<p>
+										{checkedItems}/{totalItems} items checked ✅
+									</p>
+									<div className='list-actions'>
+										<button onClick={() => handleViewList(list.id)}>
+											View List
+										</button>
+										<OpenModalButton
+											modalComponent={
+												<ConfirmDelete
+													itemType='list'
+													onConfirm={() =>
+														handleDeleteList(list.id)
+													}
+												/>
+											}
+											buttonText='Delete'
+											className='delete-list-btn'
+										/>
+									</div>
+								</li>
+							);
+						})}
 					</ul>
 				)}
 			</div>
@@ -85,27 +96,38 @@ const Lists = () => {
 					<p>No to-do lists found. Start by creating one!</p>
 				) : (
 					<ul className='lists'>
-						{todoLists.map((list) => (
-							<li key={list.id} className='list-item'>
-								<h3>{list.name}</h3>
-								<p>{list.Ingredients?.length || 0} items</p>
-								<div className='list-actions'>
-									<button onClick={() => handleViewList(list.id)}>
-										View List
-									</button>
-									<OpenModalButton
-										modalComponent={
-											<ConfirmDelete
-												itemType='list'
-												onConfirm={() => handleDeleteList(list.id)}
-											/>
-										}
-										buttonText='Delete'
-										className='delete-list-btn'
-									/>
-								</div>
-							</li>
-						))}
+						{todoLists.map((list) => {
+							const totalItems = list.Ingredients?.length || 0;
+							const checkedItems =
+								list.Ingredients?.filter((ing) => ing.checked).length ||
+								0;
+
+							return (
+								<li key={list.id} className='list-item'>
+									<h3>{list.name}</h3>
+									<p>
+										{checkedItems}/{totalItems} tasks completed ✅
+									</p>
+									<div className='list-actions'>
+										<button onClick={() => handleViewList(list.id)}>
+											View List
+										</button>
+										<OpenModalButton
+											modalComponent={
+												<ConfirmDelete
+													itemType='list'
+													onConfirm={() =>
+														handleDeleteList(list.id)
+													}
+												/>
+											}
+											buttonText='Delete'
+											className='delete-list-btn'
+										/>
+									</div>
+								</li>
+							);
+						})}
 					</ul>
 				)}
 			</div>

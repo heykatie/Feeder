@@ -1,4 +1,4 @@
-/* 🔹 Main Container */
+
 .list-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -12,15 +12,16 @@
   text-align: center;
   transition: all 0.3s ease-in-out;
   max-height: 90vh;
+  min-width: 70%;
 }
 
-/* 🔹 List Header */
-.list-header {
+
+.list-container .list-header {
   text-align: center;
   margin-bottom: 15px;
 }
 
-.list-title {
+.list-container .list-title {
   font-size: 22px;
   font-weight: bold;
   background: linear-gradient(90deg, #FFCA28, rgba(255, 184, 76, 0.7));
@@ -28,16 +29,21 @@
   -webkit-text-fill-color: transparent;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin: 0px;
+  padding: 0px;
 }
 
-.list-type {
+.list-container .list-type {
   font-size: 14px;
   color: #f9f9f9;
   text-transform: uppercase;
+    margin: 0px;
+      padding: 0px;
 }
 
-/* 🔹 Buttons */
-.button {
+
+.list-container .button {
+
   padding: 12px 18px;
   font-size: 14px;
   font-weight: bold;
@@ -48,30 +54,32 @@
   box-shadow: 0px 4px 10px rgba(0, 198, 207, 0.5);
 }
 
-/* 🔹 See My Lists Button */
-.back-button {
+
+.list-container .back-button {
   background: linear-gradient(90deg, #1E88E5, #00C6CF);
   color: white;
 }
 
-.back-button:hover {
+.list-container .back-button:hover {
   background: linear-gradient(90deg, #1565C0, #008BA3);
   transform: scale(1.05);
 }
 
-/* 🔹 Delete Button */
-.delete-button {
+
+.list-container .delete-button {
   background: linear-gradient(90deg, #D32F2F, #FF5F5F);
   color: white;
+    margin: 0px;
+      padding: 0px;
 }
 
-.delete-button:hover {
+.list-container .delete-button:hover {
   background: linear-gradient(90deg, #B71C1C, #FF3333);
   transform: scale(1.05);
 }
 
-/* 🔹 Ingredients & Grocery List Section */
-.ingredients-container {
+
+.list-container .ingredients-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -79,8 +87,8 @@
   margin-top: 20px;
 }
 
-/* 🔹 Ingredient List (Left Panel) */
-.ingredient-pool {
+
+.list-container .ingredient-pool {
   flex: 1;
   background: #18122b;
   padding: 15px;
@@ -93,7 +101,7 @@
   overflow-y: auto;
 }
 
-.ingredient-pool h3 {
+.list-container .ingredient-pool h3 {
   font-size: 16px;
   font-weight: bold;
   padding-bottom: 10px;
@@ -101,12 +109,12 @@
   text-transform: uppercase;
 }
 
-.ingredient-pool ul {
+.list-container .ingredient-pool ul {
   padding: 0px;
 }
 
-/* 🔹 Ingredient Items */
-.ingredient-item {
+
+.list-container .ingredient-item {
   background: linear-gradient(135deg, #252040, #312a5d);
   padding: 12px;
   border-radius: 10px;
@@ -118,14 +126,14 @@
   transition: all 0.3s ease-in-out;
 }
 
-.ingredient-item:hover {
+.list-container .ingredient-item:hover {
   background: linear-gradient(135deg, #00C6CF, #A379FF);
   box-shadow: 0px 4px 12px rgba(0, 198, 207, 0.6);
   transform: scale(1.05);
 }
 
-/* 🔹 Grocery List (Right Panel) */
-.grocery-list {
+
+.list-container .grocery-list {
   flex: 1;
   background: #18122b;
   padding: 15px;
@@ -137,7 +145,7 @@
   margin: 1rem;
 }
 
-.grocery-list h3 {
+.list-container .grocery-list h3 {
   font-size: 16px;
   font-weight: bold;
   padding-bottom: 10px;
@@ -145,8 +153,8 @@
   text-transform: uppercase;
 }
 
-/* 🔹 Grocery List Items */
-.grocery-list li {
+
+.list-container .grocery-list li {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -157,19 +165,19 @@
   transition: all 0.3s ease-in-out;
 }
 
-.grocery-list li:hover {
+.list-container .grocery-list li:hover {
   background: linear-gradient(135deg, #00C6CF, #A379FF);
   box-shadow: 0px 4px 12px rgba(0, 198, 207, 0.6);
   transform: scale(1.05);
 }
 
-.grocery-list label {
+.list-container .grocery-list label {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* 🔹 Checkbox */
+
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
@@ -177,20 +185,24 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
-/* 🔹 Recipe Link */
-.recipe-link {
+.list-container .recipe-info {
+    margin: 0px;
+      padding: 0px;
+}
+
+.list-container .recipe-link {
   color: rgba(255, 184, 76, 0.7);
   font-weight: bold;
   text-decoration: none;
   transition: color 0.3s ease-in-out;
 }
 
-.recipe-link:hover {
+.list-container .recipe-link:hover {
   color: rgba(255, 184, 76, 0.7);
 }
 
-/* 🔹 Delete Icon */
-.delete-item {
+
+.list-container .delete-item {
   background: none;
   border: none;
   color: #D32F2F;
@@ -199,7 +211,7 @@ input[type="checkbox"] {
   transition: all 0.3s ease-in-out;
 }
 
-.delete-item:hover {
+.list-container .delete-item:hover {
   color: #FF5F5F;
   transform: scale(1.2);
 }
