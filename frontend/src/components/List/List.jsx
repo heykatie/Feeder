@@ -31,16 +31,15 @@ export default function List() {
 	const existingIngredientIds = new Set(
 		groceryList?.Ingredients?.map((item) => item.ingredientId) || []
 	);
-	const [showAvailableIngredients, setShowAvailableIngredients] =
-		useState(true);
+	const showAvailableIngredients = true;
 
 	const availableIngredients = ingredients.filter(
 		(ingredient) => !existingIngredientIds.has(ingredient.id)
 	);
 
-	const toggleAvailableIngredients = () => {
-		setShowAvailableIngredients((prev) => !prev);
-	};
+	// const toggleAvailableIngredients = () => {
+	// 	setShowAvailableIngredients((prev) => !prev);
+	// };
 
 	useEffect(() => {
 		dispatch(fetchGroceryList(listId));

@@ -416,7 +416,7 @@ const listsSlice = createSlice({
 								Ingredients: list.Ingredients.filter(
 									(ing) => ing.ingredientId !== ingredientId
 								),
-						  }
+						}
 						: list
 				);
 			})
