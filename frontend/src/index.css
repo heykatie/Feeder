@@ -1,1 +1,351 @@
 /* TODO: Add sitewide styles */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Rubik+Doodle+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Coiny&family=Rubik+Doodle+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Coiny&family=Press+Start+2P&family=Rubik+Doodle+Shadow&display=swap');
+
+:root {
+  /* 🎨 Background Colors */
+  --bg-color: #121212;
+  /* Charcoal Black - Main background */
+  --alt-bg-color: #1A1A2E;
+  /* Dark Indigo - Alternative background */
+  --panel-bg: #232946;
+  /* Soft Midnight Blue - UI panels and cards */
+
+  /* 🌈 Accent Colors */
+  --highlight-color: #00C6CF;
+  /* Neon Cyan - Highlights, buttons, XP progress */
+  --active-color: #A379FF;
+  /* Electric Purple - Leaderboards, achievements */
+  --cta-color: #FFB84C;
+  /* Warm Amber - Call-to-actions, XP tracker */
+
+  /* 🍏 Ingredient-Based Categories */
+  --veg-color: #2ECC71;
+  /* Leaf Green - Vegetables & Herbs */
+  --meat-color: #FF4D4D;
+  /* Cherry Red - Meats & Proteins */
+  --grain-color: #FFD166;
+  /* Golden Yellow - Grains & Carbs */
+  --dairy-color: #4FC3F7;
+  /* Sky Blue - Dairy & Liquids */
+
+  /* 🖋️ Text Colors */
+  --text-color: #ffffff;
+  /* White - Primary text */
+  --muted-text: #B3B3B3;
+  /* Soft gray - Secondary text */
+  --border-color: #333333;
+  /* Subtle dark borders */
+}
+
+body {
+  font-family: "Baloo 2", serif;
+  /* font-family: "Rubik Doodle Shadow", serif; */
+  /* font-family: "Coiny", serif; */
+  /* font-family: "Press Start 2P", serif; */
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.panel,
+.card {
+  background: var(--panel-bg);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+a {
+  color: var(--highlight-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--active-color);
+}
+
+.top-navbar {
+  background: var(--alt-bg-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.sidebar {
+  background: var(--alt-bg-color);
+  border-right: 2px solid var(--border-color);
+}
+
+input,
+textarea {
+  background: var(--panel-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  border-radius: 5px;
+}
+
+input::placeholder {
+  color: var(--muted-text);
+}
+
+button {
+  /* background: var(--cta-color); */
+  color: var(--text-color);
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+  /* background: var(--highlight-color); */
+  color: #A379FF;
+}
+
+li {
+  list-style: none;
+}
+
+.xp-bar {
+  background: var(--active-color);
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.ingredient-veg {
+  color: var(--veg-color);
+}
+
+.ingredient-meat {
+  color: var(--meat-color);
+}
+
+.ingredient-grain {
+  color: var(--grain-color);
+}
+
+.ingredient-dairy {
+  color: var(--dairy-color);
+}
+
+.text-muted {
+  color: var(--muted-text);
+}
+
+.border {
+  border: 1px solid var(--border-color);
+}
+
+:root {
+  /* 🔹 Main Dark Theme Colors */
+  --bg-color: #121212;
+  /* Charcoal Black - Main background */
+  --alt-bg-color: #1A1A2E;
+  /* Dark Indigo - Alternative background */
+  --panel-bg: #232946;
+  /* Soft Midnight Blue - UI panels, cards */
+  --text-color: #ffffff;
+  /* White - Primary text */
+  --secondary-text: #B3B3B3;
+  /* Muted gray - Secondary text */
+  --border-color: #333333;
+  /* Soft borders */
+
+  /* 🌈 Accent Colors */
+  --primary-accent: #00C6CF;
+  /* Neon Cyan - Highlights, buttons, XP progress bar */
+  --secondary-accent: #A379FF;
+  /* Electric Purple - Leaderboards, achievements */
+  --cta-color: #FFB84C;
+  /* Warm Amber - Call-to-actions, XP tracker */
+
+  /* 🍏 Ingredient-Based Categories (Soft Color Coding) */
+  --green: #2ECC71;
+  /* Vegetables & herbs */
+  --red: #FF4D4D;
+  /* Meats & proteins */
+  --yellow: #FFD166;
+  /* Grains & carbs */
+  --blue: #4FC3F7;
+  /* Dairy & liquids */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.alt-bg {
+  background-color: var(--alt-bg-color);
+}
+
+.panel {
+  background: var(--panel-bg);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+a {
+  color: var(--primary-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--secondary-accent);
+}
+
+.top-navbar {
+  background: var(--alt-bg-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar {
+  background: var(--alt-bg-color);
+  border-right: 1px solid var(--border-color);
+}
+
+input,
+textarea {
+  background: var(--panel-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  border-radius: 5px;
+}
+
+input::placeholder {
+  color: var(--secondary-text);
+}
+
+button {
+  background: var(--primary-accent);
+  color: var(--text-color);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  /* background: var(--secondary-accent); */
+  color: #A379FF;
+}
+
+.xp-bar {
+  background: var(--panel-bg);
+  border-radius: 5px;
+  overflow: hidden;
+  height: 8px;
+}
+
+.xp-bar-fill {
+  background: var(--primary-accent);
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease-in-out;
+}
+
+.leaderboard-highlight {
+  color: var(--secondary-accent);
+  font-weight: bold;
+}
+
+.cta-btn {
+  background: var(--cta-color);
+  color: var(--text-color);
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: var(--primary-accent);
+}
+
+.veg {
+  color: var(--green);
+}
+
+.meat {
+  color: var(--red);
+}
+
+.grain {
+  color: var(--yellow);
+}
+
+.dairy {
+  color: var(--blue);
+}
+
+
+.text-muted {
+  color: var(--secondary-text);
+}
+
+.hidden {
+  display: none;
+}
+
+.error-message {
+  color: #ff4d4d;
+  /* Bright red for visibility */
+  background: rgba(255, 77, 77, 0.1);
+  /* Subtle red background */
+  border-left: 4px solid #ff4d4d;
+  /* Red accent border */
+  padding: 8px 12px;
+  margin: 5px 0;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 5px;
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Fade-in animation */
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-message {
+  animation: fadeInError 0.3s ease-in-out;
+}
+
+.main-content > *:not(.main-content>.embark-container) {
+  margin: 0 5vw;
+}
+
+.main-content:not(:has(> .embark-container)) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

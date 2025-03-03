@@ -1,0 +1,35 @@
+/* 📌 Instruction Preview Container */
+.instruction-preview {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: var(--panel-bg);
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 📌 Instruction Preview Title */
+.instruction-preview h3 {
+  color: var(--primary-accent);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* 📌 Numbered List Styling */
+.instruction-preview ol {
+  list-style: decimal inside;
+  padding-left: 0;
+  color: var(--text-color);
+}
+
+/* 📌 Individual Steps */
+.instruction-step-preview {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.instruction-step-preview:last-child {
+  border-bottom: none;
+}

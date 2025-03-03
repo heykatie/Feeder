@@ -1,0 +1,197 @@
+/* Modal Container */
+.login-modal {
+  /* background: #1A1A2E; */
+  background: linear-gradient(#1A1A2E, #1A1A2E);
+  /* Dark Indigo */
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  height: 520px;
+  text-align: center;
+  overflow: hidden;
+  border: 2px solid #1A1A2E;
+  padding: 10px;
+  padding-top: 0px;
+  margin: 11px;
+}
+
+/* Logo */
+.logo {
+  width: 80px;
+  margin-bottom: 14px;
+}
+
+/* Heading */
+.login-modal h2 {
+  font-size: 23px;
+  font-weight: bold;
+  margin-bottom: 22px;
+}
+
+.login-modal .input-container {
+  width: 90%;
+  /* max-width: 280px; */
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.login-modal input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  max-width: 300px;
+  border: 1px solid #444;
+  background: #232946;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.login-modal input::placeholder {
+  color: #B3B3B3;
+}
+
+/* Password Input & Toggle */
+.login-modal .password-container {
+  width: 90%;
+  /* max-width: 280px; */
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.login-modal .password-toggle {
+  position: absolute;
+  right: 0px;
+  top: 55%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #B3B3B3;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.login-modal .password-toggle:hover {
+  color: #FFFFFF;
+}
+
+.login-button {
+  width: 100%;
+  max-width: 300px;
+  background: #00C6CF;
+  /* Neon Cyan */
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-bottom: 12px;
+}
+
+.login-button:hover {
+  background: #64CCC5;
+  /* Lighter Neon Cyan */
+}
+
+.demologin button {
+  width: 100%;
+  max-width: 300px;
+  background: #FFB84C;
+  color: #121212;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.demologin button:hover {
+  background: #FFD166;
+  /* Lighter Warm Amber */
+}
+
+/* OR Divider */
+.login-modal .or-divider {
+  margin: 18px 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: #B3B3B3;
+  font-size: 13px;
+}
+
+.login-modal .or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #444;
+  margin: 0 12px;
+}
+
+.login-modal .social-login {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+  justify-content: center;
+}
+
+.login-modal .social-login a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.login-modal .google-login {
+  background-color: #ffffff;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.google-login i {
+  color: #db4437;
+  margin-right: 8px;
+}
+
+.discord-login {
+  background-color: #5865F2;
+  color: white;
+}
+
+.discord-login i {
+  margin-right: 8px;
+}
+
+/* Signup Text */
+.signup-text {
+  font-size: 13px;
+  color: #B3B3B3;
+  margin: 18px;
+  padding: 0px 30px;
+}
+
+.signup-link {
+  color: #A379FF;
+  /* Electric Purple */
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.signup-link:hover {
+  color: #C49CFF;
+  /* Lighter Electric Purple */
+}

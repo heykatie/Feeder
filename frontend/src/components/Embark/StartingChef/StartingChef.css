@@ -1,0 +1,111 @@
+.eye-shape-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.eye-preview-container {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.starting-chef-container input {
+  text-align: center;
+}
+
+.eye-preview-container button {
+  background: transparent;
+  border: 2px solid transparent;
+  padding: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+}
+
+.eye-preview-container button.selected {
+  border-color: #ffcc00;
+}
+
+/* Personality Selection */
+.personality-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.personality-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.personality-options button {
+  background: #333;
+  color: white;
+  border: 2px solid transparent;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+}
+
+.personality-options button.selected {
+  border-color: #ffcc00;
+  background-color: #222;
+}
+
+.color-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.color-input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Space between input and preview */
+}
+
+input[type='color'] {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.color-preview {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+input.empty::placeholder {
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* input::placeholder {
+  opacity: 1 !important;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+input:focus::placeholder {
+  opacity: 0.5 !important;
+} */

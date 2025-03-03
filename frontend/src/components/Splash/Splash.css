@@ -1,0 +1,117 @@
+.splash-container {
+  text-align: center;
+  color: #FFD166;
+  /* Warm accent for text */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  height: 100vh;
+  background-color: #121212;
+  /* Dark background */
+}
+
+.splash-title {
+  margin-top: 4rem;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+  color: #A379FF;
+  /* Soft purple highlight */
+}
+
+.splash-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  opacity: 0.85;
+  color: white;
+  padding-bottom: 2rem;
+}
+
+.mascot-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.2rem;
+  transition: transform 0.5s ease-in-out;
+}
+
+.mascot {
+  width: 300px;
+  height: auto;
+  animation: float 3s ease-in-out infinite, glow 1.5s ease-in-out infinite alternate;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Glowing Effect */
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 5px #A379FF);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 15px #FFD166);
+  }
+}
+
+.hidden {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.zoom-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.button-group {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 20px;
+}
+
+.cta-button {
+  background: #FFB84C;
+  /* Bright golden-orange */
+  color: #231E2E;
+  /* Darker contrast text */
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.cta-button:hover {
+  background: #FFD166;
+  /* Softer golden tone */
+  transform: scale(1.05);
+}
+
+.primary {
+  background: #00C6CF;
+  /* Vibrant cyan */
+  color: #1A1A2E;
+  /* Deep navy contrast */
+}
+
+.primary:hover {
+  background: #64CCC5;
+  /* Lighter teal for hover */
+}

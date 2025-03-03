@@ -9,21 +9,20 @@ const pass = new PasswordValidator();
 
 pass
 	.is()
-	.min(8) // Minimum length 8
+	.min(8)
 	.is()
-	.max(100) // Maximum length 100
+	.max(100)
 	.has()
-	.uppercase() // Must have uppercase letters
+	.uppercase()
 	.has()
-	.lowercase() // Must have lowercase letters
+	.lowercase()
 	.has()
-	.digits() // Must have digits
+	.digits()
 	.has()
 	.symbols()
 	.has()
 	.not()
-	.spaces(); // Should not have spaces
-
+	.spaces();
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -36,7 +35,19 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.SousChef, {
 			foreignKey: 'userId',
 			onDelete: 'CASCADE',
-		});
+			});
+			User.hasMany(models.Pet, {
+				foreignKey: 'userId',
+				onDelete: 'CASCADE',
+			});
+			User.belongsToMany(models.Recipe, {
+				through: models.Favorite,
+				foreignKey: 'userId',
+			});
+			User.hasMany(models.Favorite, {
+					foreignKey: 'userId',
+					onDelete: 'CASCADE',
+			});
     }
   }
   User.init(

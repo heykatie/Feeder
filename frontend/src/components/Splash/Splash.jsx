@@ -1,9 +1,41 @@
-// import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import './Splash.css';
 
 const Splash = () => {
+	const navigate = useNavigate();
+	const [loaded, setLoaded] = useState(false);
+
+	useEffect(() => {
+		setTimeout(() => setLoaded(true), 300);
+	}, []);
+
 	return (
-		<div>
-			<h1>Welcome To Capstone Express Starter</h1>
+		<div className='splash-container'>
+			<h1 className='splash-title'>Cook. Feed. Grow.</h1>
+			<p className='splash-subtitle'>
+				Level up your pet’s meals with nutritious recipes and smart
+				shopping.
+			</p>
+
+			<div className={`mascot-wrapper ${loaded ? 'zoom-in' : 'hidden'}`}>
+				<img
+					src='/images/assets/mascot.png'
+					alt='SousChef Mascot'
+					className='mascot'
+				/>
+			</div>
+
+			<div className='button-group'>
+				<button className='cta-button' onClick={() => navigate('/recipes')}>
+					Explore Recipes
+				</button>
+				<button
+					className='cta-button primary'
+					onClick={() => navigate('/embark')}>
+					Begin Your Journey
+				</button>
+			</div>
 		</div>
 	);
 };

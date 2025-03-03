@@ -2,12 +2,11 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
+const { User, SousChef } = require('../../db/models');
 
 const router = express.Router();
 
-//backend validation for signup
 const validateSignup = [
 	check('email')
 		.exists({ checkFalsy: true })
@@ -28,56 +27,64 @@ const validateSignup = [
 	handleValidationErrors,
 ];
 
-// Sign up
 router.post('/', validateSignup, async (req, res) => {
 	const { email, password, username } = req.body;
 
-	const hashedPassword = bcrypt.hashSync(password);
-	const user = await User.create({ email, username, hashedPassword });
+	try {
+		const hashedPassword = bcrypt.hashSync(password);
+		const user = await User.create({ email, username, hashedPassword });
 
-	const safeUser = {
-		id: user.id,
-		email: user.email,
-		username: user.username,
-		firstName: user.firstName || null,
-		lastName: user.lastName || null,
-		phone: user.phone || null,
-		birthday: user.birthday || null,
-		avatarUrl: user.avatarUrl || null,
-		bio: user.bio || null,
-		theme: user.theme || null,
-		sousChef: user.SousChef || null,
-	};
+		const responseUser = await User.findByPk(user.id, {
+			attributes: { exclude: ['hashedPassword'] },
+			include: [{ model: SousChef }],
+		});
 
-	await setTokenCookie(res, safeUser);
+		await setTokenCookie(res, responseUser);
 
-	return res.json({
-		user: safeUser,
-	});
+		return res.status(201).json({ user: responseUser });
+	} catch (error) {
+		return res
+			.status(500)
+			.json({ message: error.errors[0].message || 'Error signing up' });
+	}
 });
 
-// Restore session user
+router.put('/:userId', requireAuth, async (req, res) => {
+	const { userId } = req.params;
+	const { firstName, lastName, phone, birthday, avatarUrl, bio, theme } = req.body;
+
+	try {
+		const user = await User.findByPk(userId);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		await user.update({ firstName, lastName, phone, birthday, avatarUrl, bio, theme });
+
+		const updatedUser = await User.findByPk(user.id, {
+			attributes: { exclude: ['hashedPassword'] },
+			include: [{ model: SousChef }],
+		});
+
+		return res.json({ user: updatedUser });
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ message: 'Error updating user profile' });
+	}
+});
+
 router.get(
-	'/',
-	async (req, res) => {
+	'/', restoreUser, requireAuth, async (req, res) => {
 		const { user } = req;
 		if (user) {
 
-			const safeUser = {
-				id: user.id,
-				email: user.email,
-				username: user.username,
-				firstName: user.firstName || null,
-				lastName: user.lastName || null,
-				phone: user.phone || null,
-				birthday: user.birthday || null,
-				avatarUrl: user.avatarUrl || null,
-				bio: user.bio || null,
-				theme: user.theme || null,
-				sousChef: user.SousChef || null
-			};
+			const restoredUser = await User.findByPk(user.id, {
+				attributes: { exclude: ['hashedPassword'] },
+				include: [{ model: SousChef }],
+			});
+
 			return res.json({
-				user: safeUser
+				user: restoredUser,
 			});
 		} else return res.json({ user: null });
 	}

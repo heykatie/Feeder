@@ -81,6 +81,26 @@ module.exports = {
 					allowNull: false,
 					defaultValue: 'Foraging Fledgling',
 				},
+				color: {
+					type: Sequelize.STRING(7),
+					allowNull: false,
+					defaultValue: '#FFCC00',
+				},
+				personality: {
+					type: Sequelize.ENUM(
+						'Playful',
+						'Serious',
+						'Mischievous',
+						'Calm'
+					),
+					allowNull: false,
+					defaultValue: 'Playful',
+				},
+				eyeShape: {
+					type: Sequelize.ENUM('cute', 'serious', 'glowing'),
+					allowNull: false,
+					defaultValue: 'cute',
+				},
 				imageUrl: {
 					type: Sequelize.STRING,
 					allowNull: true,

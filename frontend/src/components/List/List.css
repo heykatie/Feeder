@@ -1,0 +1,152 @@
+/* General List Container */
+.list-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Back Button */
+.list-container .back-button {
+  background-color: #1E88E5;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: inline-block;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.list-container .back-button:hover {
+  background-color: #1565C0;
+  transform: scale(1.05);
+}
+
+/* Save Button */
+.list-container .save-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  display: block;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.list-container .save-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Toggle Ingredients Button */
+.toggle-ingredients-button {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border: none;
+  background: #1e88e5;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.toggle-ingredients-button:hover {
+  background: #1565c0;
+  transform: scale(1.05);
+}
+
+/* Ingredient Pool (Available Ingredients to Drag) */
+.ingredient-pool {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Ingredients List */
+.list-container .ingredient-item {
+  background: #ffffff;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 5px 0;
+  cursor: grab;
+  transition: background 0.2s ease;
+}
+
+.list-container .ingredient-item:hover {
+  background: #f0f0f0;
+}
+
+/* Grocery List */
+.list-container .grocery-list {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.list-container .grocery-list h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.list-container .grocery-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  transition: background 0.2s ease;
+}
+
+.list-container .grocery-list li:hover {
+  background: #f0f0f0;
+}
+
+/* Delete Button */
+.list-container .delete-button {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+  display: block;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.list-container .delete-button:hover {
+  background-color: #b71c1c;
+  transform: scale(1.05);
+}
+
+/* Recipe Link */
+.recipe-link {
+  color: #ffca28;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.recipe-link:hover {
+  color: #ffb300;
+}

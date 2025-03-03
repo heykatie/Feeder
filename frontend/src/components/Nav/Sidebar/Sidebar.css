@@ -1,0 +1,104 @@
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 220px;
+  height: 100vh;
+  background: rgba(26, 26, 46, 0.99);
+  color: white;
+  padding: 20px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: left 0.3s ease-in-out;
+  z-index: 100;
+}
+
+.sidebar-panel.expanded {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.sidebar-header .logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #64CCC5;
+}
+
+.sidebar-links {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar-links li {
+  width: 100%;
+}
+
+.sidebar-panel .sidebar-navLink {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 10px;
+  padding: 12px 15px;
+  width: 100%;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  /* transition: background 0.3s ease-in-out; */
+  transition: transform 0.2s ease-in-out;
+  height: 45px;
+}
+
+.sidebar-navLink i {
+  font-size: 18px;
+}
+
+.sidebar-navLink:hover {
+  background: #232946;
+  transform: scale(1.01);
+}
+
+.sidebar-panel .text {
+  display: none;
+}
+
+.sidebar-panel.expanded .text {
+  display: inline-block;
+  font-size: 18px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: grey;
+  font-size: 20px;
+  align-self: flex-end;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #FFB84C;
+}
+
+@media (max-width: 768px) {
+  .sidebar-panel {
+    width: 35%;
+    left: -120%;
+  }
+
+  .sidebar-panel.open {
+    left: 0;
+  }
+}

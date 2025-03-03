@@ -1,0 +1,145 @@
+.embark-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #1a1a2e;
+  color: white;
+  overflow: auto;
+  position: relative;
+}
+
+.form-step {
+  width: auto;
+  max-width: 500px;
+  text-align: center;
+  background: #232946;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 198, 207, 0.4);
+  height: max-content;
+  transform: translateX(0);
+  transition: transform 0.5s ease-in-out;
+}
+
+.step-0 {
+  transform: translateX(0);
+}
+
+.step-1 {
+  transform: translateX(-100%);
+}
+
+.step-2 {
+  transform: translateX(-200%);
+}
+
+.embark-container .nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+.embark-container .back-btn,
+.embark-next-btn {
+  background: #00c6cf;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.embark-container .back-btn {
+  background: #a379ff;
+}
+
+.embark-container .back-btn:hover,
+.embark-next-btn:hover {
+  background: #ffb84c;
+}
+
+.exit-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: regular;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.exit-btn:hover {
+  color: #ffb84c;
+}
+
+.embark-next-btn {
+  position: relative;
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.embark-next-btn.skip {
+  background-color: #aaa;
+  color: black;
+}
+
+.embark-button-text {
+  display: inline-block;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.embark-next-btn .button-text {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.embark-next-btn .button-text-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.embark-next-btn .button-text-exit {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.embark-next-btn.continue {
+  background-color: #00c6cf;
+  color: white;
+  animation: bounce 0.3s ease-in-out;
+}

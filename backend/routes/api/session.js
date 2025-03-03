@@ -3,12 +3,11 @@ const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth');
+const { User, SousChef } = require('../../db/models');
 
 const router = express.Router();
 
-// backend validation for login
 const validateLogin = [
 	check('credential')
 		.exists({ checkFalsy: true })
@@ -20,37 +19,46 @@ const validateLogin = [
 	handleValidationErrors,
 ];
 
-// Restore session user
-router.get(
-  '/',
-  (req, res) => {
-    const { user } = req;
-    if (user) {
+router.get('/', restoreUser, requireAuth, async (req, res) => {
+	const { user } = req;
+	if (!user) return res.json({ user: null });
 
-      const safeUser = {
-        id: user.id,
-        email: user.email,
-				username: user.username,
-				firstName: user.firstName || null,
-				lastName: user.lastName || null,
-				phone: user.phone || null,
-				birthday: user.birthday || null,
-				avatarUrl: user.avatarUrl || null,
-				bio: user.bio || null,
-				theme: user.theme || null,
-				sousChef: user.SousChef || null
-      };
-      return res.json({
-        user: safeUser
-      });
-    } else return res.json({ user: null });
-  }
-);
+	const restoredUser = await User.findByPk(user.id, {
+		attributes: { exclude: ['hashedPassword'] },
+		include: [{ model: SousChef }],
+	});
 
-// Log in
+	// const safeUser = {
+	// 	id: user.id,
+	// 	email: user.email,
+	// 	username: user.username,
+	// 	firstName: user.firstName || null,
+	// 	lastName: user.lastName || null,
+	// 	phone: user.phone || null,
+	// 	birthday: user.birthday || null,
+	// 	avatarUrl: user.avatarUrl || null,
+	// 	bio: user.bio || null,
+	// 	theme: user.theme || null,
+	// 	sousChef: user.SousChef || null,
+	// };
+
+	return res.json({ user: restoredUser });
+});
+
 router.post('/', validateLogin, async (req, res, next) => {
 	const { credential, password } = req.body;
-	console.log(credential, password, '************');
+
+	if (!credential || !password) {
+		return res
+			.status(400)
+			.json({
+				errors: {
+					credential: 'Missing email or username.',
+					password: 'Missing password.',
+				},
+			});
+	}
+
 	const user = await User.unscoped().findOne({
 		where: {
 			[Op.or]: {
@@ -58,41 +66,51 @@ router.post('/', validateLogin, async (req, res, next) => {
 				email: credential,
 			},
 		},
+		include: [{ model: SousChef }],
 	});
 
 	if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
 		const err = new Error('Login failed');
 		err.status = 401;
 		err.title = 'Login failed';
-		err.errors = { credential: 'The provided credentials were invalid.' };
+		err.errors = { credential: 'Invalid credentials.' };
 		return next(err);
 	}
 
-	const safeUser = {
-		id: user.id,
-		email: user.email,
-		username: user.username,
-		firstName: user.firstName || null,
-		lastName: user.lastName || null,
-		phone: user.phone || null,
-		birthday: user.birthday || null,
-		avatarUrl: user.avatarUrl || null,
-		bio: user.bio || null,
-		theme: user.theme || null,
-		sousChef: user.SousChef || null,
-	};
+	// const safeUser = {
+	// 	id: user.id,
+	// 	email: user.email,
+	// 	username: user.username,
+	// 	firstName: user.firstName || null,
+	// 	lastName: user.lastName || null,
+	// 	phone: user.phone || null,
+	// 	birthday: user.birthday || null,
+	// 	avatarUrl: user.avatarUrl || null,
+	// 	bio: user.bio || null,
+	// 	theme: user.theme || null,
+	// 	sousChef: user.SousChef || null,
+	// };
 
-	await setTokenCookie(res, safeUser);
+	await setTokenCookie(res, user);
+
+	req.session.userId = user.id;
 
 	return res.json({
-		user: safeUser,
+		user: user,
 	});
 });
 
 // Log out
-router.delete('/', (_req, res) => {
-	res.clearCookie('token');
-	return res.json({ message: 'success' });
+router.delete('/', (req, res) => {
+	req.session.destroy(() => {
+		res.clearCookie('token');
+		return res.json({ message: 'Logout successful' });
+	});
 });
+
+// router.delete('/', (_req, res) => {
+// 	res.clearCookie('token');
+// 	return res.json({ message: 'success' });
+// });
 
 module.exports = router;

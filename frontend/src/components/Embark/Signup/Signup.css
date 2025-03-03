@@ -1,0 +1,263 @@
+
+.signup-form {
+  background: linear-gradient(#1A1A2E, #1A1A2E);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: auto;
+  justify-content: center;
+  width: 320px;
+  min-height: 500px;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0px 2px;
+}
+
+.page-logo {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.signup-form h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  margin-top: 14px;
+}
+
+.signup-form .input-container {
+  width: 100%;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.signup-form input {
+  width: 90%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #232946;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.signup-form input::placeholder {
+  color: #B3B3B3;
+}
+
+.signup-form .password-container {
+  width: 100%;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.signup-form .password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 57%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #B3B3B3;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.signup-form .password-toggle:hover {
+  color: #FFFFFF;
+}
+
+.signup-button {
+  width: 100%;
+  background: #00C6CF;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-bottom: 12px;
+}
+
+.signup-button:hover {
+  background: #64CCC5;
+}
+
+.signup-form .or-divider {
+  margin: 18px 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: #B3B3B3;
+  font-size: 13px;
+}
+
+.signup-form .or-divider::before,
+.signup-form .or-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #444;
+  margin: 0 12px;
+}
+
+.signup-form .social-login {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+}
+
+.signup-form .social-login a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.signup-form .google-login {
+  background-color: #ffffff;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.signup-form .google-login i {
+  color: #db4437;
+  margin-right: 8px;
+}
+
+.signup-form .discord-login {
+  background-color: #5865F2;
+  color: white;
+}
+
+.signup-form .discord-login i {
+  margin-right: 8px;
+}
+
+.signup-modal {
+  position: relative;
+  background: #1A1A2E;
+  width: 340px;
+  max-width: 100%;
+  text-align: center;
+  z-index: 1000;
+  height: auto;
+}
+
+.signup-modal.show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.signup-modal .signup-button {
+  display: block;
+  margin-top: 20px;
+  width: 100%;
+}
+
+Dark overlay behind the modal
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.signup-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #ffffff;
+  background: transparent;
+  border: none;
+}
+
+.embark-container .signup-form {
+  background: linear-gradient(135deg, #1A1A2E, #0F0F1A);
+  box-shadow: 0 0 15px rgba(0, 198, 207, 0.6);
+  transition: all 0.3s ease-in-out;
+}
+
+.embark-container .signup-form:hover {
+  box-shadow: 0 0 25px rgba(163, 121, 255, 0.9);
+}
+
+.embark-container .signup-form h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00C6CF, #A379FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.embark-container .signup-form form input,
+.embark-container .signup-form form textarea,
+.embark-container .signup-form form select {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #00C6CF;
+  background: #232946;
+  color: white;
+  font-size: 16px;
+  text-align: left;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  border-radius: 12px;
+}
+
+.embark-container .signup-form form input:focus,
+.embark-container .signup-form form textarea:focus,
+.embark-container .signup-form form select:focus {
+  animation: glowPulse 1.5s infinite alternate;
+  border-color: #A379FF;
+  box-shadow: 0px 0px 15px rgba(0, 198, 207, 0.9);
+  transform: scale(1.02);
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0px 0px 8px rgba(0, 198, 207, 0.4);
+  }
+
+  50% {
+    box-shadow: 0px 0px 12px rgba(0, 198, 207, 0.6);
+  }
+
+  100% {
+    box-shadow: 0px 0px 8px rgba(0, 198, 207, 0.4);
+  }
+}
+
+@keyframes fadeScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.signup-form>form {
+  width: 80%;
+}

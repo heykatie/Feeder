@@ -1,0 +1,81 @@
+.footer {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #121212;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px dotted var(--border-color);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  max-width: 900px;
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 6px;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  position: relative;
+  transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.footer-links .icon {
+  color: white;
+}
+
+.footer-link:hover {
+  color: #A379FF;
+  transform: translateY(-2px);
+}
+
+/* Tooltip Effect */
+.link-text {
+  min-width: 150px;
+  text-align: center;
+  display: inline-block;
+  transition: opacity 0.2s ease-in-out;
+  margin: auto;
+}
+
+.footer-link:hover .link-text {
+  opacity: 1;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  /* Pushes the footer down */
+}
+
+.footer {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #121212;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px dotted var(--border-color);
+  position: relative;
+  /* Can be absolute if issues persist */
+  bottom: 0;
+}

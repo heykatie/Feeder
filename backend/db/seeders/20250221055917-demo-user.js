@@ -14,34 +14,34 @@ module.exports = {
 		await User.bulkCreate(
 			[
 				{
-					firstName: 'Demo',
-					lastName: 'User',
+					firstName: 'Cutie',
+					lastName: 'Patootie',
 					phone: '+11234567890',
 					birthday: '1990-01-01',
-					email: 'demo@user.io',
-					username: 'Demo-lition',
+					email: 'qt@tootie.io',
+					username: 'cutie-patutu',
 					hashedPassword: await bcrypt.hash('Password123@', 10),
 					bio: 'This is a demo user bio.',
 					theme: 'dark',
 				},
 				{
-					firstName: 'Fake',
-					lastName: 'User',
+					firstName: 'Lovely',
+					lastName: 'Hooman',
 					phone: '+14155552671',
 					birthday: '1988-05-15',
-					email: 'user1@user.io',
-					username: 'FakeUser1',
+					email: 'lovely@hooman.io',
+					username: 'lovelyhooman',
 					hashedPassword: await bcrypt.hash('Password123@', 10),
 					bio: 'I love cooking for my pet!',
 					theme: 'light',
 				},
 				{
-					firstName: 'Fakeh',
-					lastName: 'User',
+					firstName: 'Tater',
+					lastName: 'Tots',
 					phone: '+442071838750',
 					birthday: '1995-07-20',
-					email: 'user2@user.io',
-					username: 'FakeUser2',
+					email: 'tater@tots.io',
+					username: 'tatertots',
 					hashedPassword: await bcrypt.hash('Password123@', 10),
 					bio: 'Excited to level up my SousChef!',
 					theme: 'system',
@@ -52,7 +52,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		options.tableName = 'Users';
 		const Op = Sequelize.Op;
 		return queryInterface.bulkDelete(
 			options,
