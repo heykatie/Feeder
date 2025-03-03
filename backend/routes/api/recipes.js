@@ -410,10 +410,12 @@ router.put('/:id', async (req, res) => {
 					console.error(`Ingredient ID ${ingredient.id} not found`);
 					return null;
 				}
+
 				return RecipeIngredient.create({
 					recipeId: id,
 					ingredientId: ingredient.id,
-					quantity: ingredient.quantity || '1 unit',
+					quantity: ingredient.quantity || 1, // ✅ Ensure quantity is stored correctly
+					measurementId: ingredient.measurementId || null, // ✅ Now storing measurementId
 				});
 			});
 

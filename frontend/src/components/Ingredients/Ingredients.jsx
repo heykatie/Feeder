@@ -25,7 +25,7 @@ const Ingredients = ({
 		<div className='ingredients-preview'>
 			<h3>Ingredients Preview</h3>
 			<ul>
-				{console.error('katie', selectedIngredients)}
+				{/* {console.error('katie', selectedIngredients)} */}
 				{selectedIngredients.map((ingredient) => {
 					const quantity =
 						ingredient.RecipeIngredient?.quantity ??

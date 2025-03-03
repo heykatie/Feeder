@@ -164,7 +164,6 @@ const RecipeForm = () => {
 			(step) => step.trim() !== ''
 		);
 
-		// console.error('katie', ingredientMeasurements[id]?.id);
 		const recipeData = {
 			userId: user.id,
 			title,
@@ -179,12 +178,13 @@ const RecipeForm = () => {
 			isPublic,
 			notes,
 			instructions: JSON.stringify(validInstructions),
-			ingredients: selectedIngredients.map((id) => ({
-				id,
-				quantity: ingredientQuantities[id] || 1,
-				measurementId: ingredientMeasurements[id] || null,
+			ingredients: selectedIngredients.map((ingredient) => ({
+				id: ingredient.id, // ✅ Extracts only the ID
+				quantity: ingredientQuantities[ingredient.id] || 1, // ✅ Gets correct quantity
+				measurementId: ingredientMeasurements[ingredient.id] || null, // ✅ Gets correct measurementId
 			})),
 		};
+		console.error('katie111', recipeData);
 
 		let response;
 		if (id) {
@@ -209,19 +209,29 @@ const RecipeForm = () => {
 		updatedQuantities,
 		updatedMeasurements
 	) => {
-		setSelectedIngredients(updatedIngredients);
-		setIngredientQuantities(updatedQuantities);
-		setIngredientMeasurements(updatedMeasurements);
+    setSelectedIngredients([...updatedIngredients]);
+		setIngredientQuantities({ ...updatedQuantities });
+		setIngredientMeasurements({ ...updatedMeasurements });
 
 		if (id) {
+			console.log(
+				'Final ingredient data before saving:',
+				updatedIngredients.map((ing) => ({
+					id: ing.id,
+					quantity: updatedQuantities[ing.id] || 1,
+					measurementId: updatedMeasurements[ing.id] || null,
+				}))
+			);
 			dispatch(
 				updateRecipe({
 					id,
 					recipeData: {
 						...recipe,
-						ingredients: updatedIngredients,
-						ingredientQuantities: updatedQuantities,
-						ingredientMeasurements: updatedMeasurements,
+						ingredients: updatedIngredients.map((ing) => ({
+							id: ing.id,
+							quantity: updatedQuantities[ing.id] || 1,
+							measurementId: updatedMeasurements[ing.id] || null,
+						})),
 					},
 				})
 			);
@@ -368,7 +378,7 @@ const RecipeForm = () => {
 						buttonText={id ? 'Edit Ingredients' : '+ Add Ingredients*'}
 						modalComponent={
 							<IngredientModal
-								ingredients={ingredients}
+								handleSaveIngredients={handleSaveIngredients}
 								selectedIngredients={selectedIngredients}
 								setSelectedIngredients={setSelectedIngredients}
 								ingredientQuantities={ingredientQuantities}
@@ -389,10 +399,10 @@ const RecipeForm = () => {
 						}
 					/>
 				</div>
-				{console.error(
+				{/* {console.error(
 					'katie1',
 					ingredientQuantities, ingredientMeasurements
-				)}
+				)} */}
 				{selectedIngredients.length > 0 && (
 					<Ingredients
 						selectedIngredients={selectedIngredients}

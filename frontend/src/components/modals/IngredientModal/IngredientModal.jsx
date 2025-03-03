@@ -12,6 +12,7 @@ import OpenModalButton from '../../../context/OpenModalButton';
 import './IngredientModal.css';
 
 const IngredientModal = ({
+	handleSaveIngredients,
 	selectedIngredients = [],
 	setSelectedIngredients,
 	ingredientQuantities,
@@ -100,6 +101,11 @@ const IngredientModal = ({
 		setIngredientQuantities({ ...updatedIngredientQuantities });
 		setIngredientMeasurements({ ...updatedIngredientMeasurements });
 
+		handleSaveIngredients(
+			[...updatedSelectedIngredients],
+			{ ...updatedIngredientQuantities },
+			{ ...updatedIngredientMeasurements }
+		);
 		// if (fromCreateList) {
 		// 	handleSaveList();
 		// } else {
@@ -146,13 +152,17 @@ const IngredientModal = ({
 										ingredientQuantities={ingredientQuantities}
 										setIngredientQuantities={setIngredientQuantities}
 										ingredientMeasurements={ingredientMeasurements}
-										setIngredientMeasurements={setIngredientMeasurements}
+										setIngredientMeasurements={
+											setIngredientMeasurements
+										}
 										fromCreateList={fromCreateList}
 										onBack={onBack}
 										handleSaveList={handleSaveList}
 									/>
 								}
-								modalComponent={<IngredientInfo ingredient={ingredient} />}
+								modalComponent={
+									<IngredientInfo ingredient={ingredient} />
+								}
 							/>
 
 							{/* Quantity input */}
@@ -205,7 +215,7 @@ const IngredientModal = ({
 					className='create-ingredient-btn'
 					parentModal={
 						<IngredientModal
-							ingredients={ingredients}
+							handleSaveIngredients={handleSaveIngredients}
 							selectedIngredients={selectedIngredients}
 							setSelectedIngredients={setSelectedIngredients}
 							ingredientQuantities={ingredientQuantities}
@@ -215,7 +225,8 @@ const IngredientModal = ({
 							fromCreateList={fromCreateList}
 							onBack={onBack}
 							handleSaveList={handleSaveList}
-						/>}
+						/>
+					}
 					modalComponent={
 						<NewIngredient fetchIngredients={fetchIngredients} />
 					}
