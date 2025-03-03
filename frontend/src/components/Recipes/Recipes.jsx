@@ -154,6 +154,7 @@ const Recipes = () => {
 						{searchResults.map((recipe) => (
 							<div key={recipe.id} className='recipe-card'>
 								<NavLink
+									state={{ from: location.pathname + location.search }}
 									to={`/recipes/${recipe.id}`}
 									className='recipe-link'>
 									<img
@@ -209,7 +210,14 @@ const Recipes = () => {
 			<div className='recipes-scroll-container' ref={setScrollRef}>
 				{[...recipes].reverse().map((recipe) => (
 					<div key={recipe.id} className='recipe-card'>
-						<NavLink to={`/recipes/${recipe.id}`} className='recipe-link'>
+						<NavLink
+							state={
+								location.search 
+									? null
+									: { from: location.pathname + location.search }
+							}
+							to={`/recipes/${recipe.id}`}
+							className='recipe-link'>
 							<img
 								src={recipe.imageUrl || '/images/recipes/dogfood.jpeg'}
 								alt={recipe.title}

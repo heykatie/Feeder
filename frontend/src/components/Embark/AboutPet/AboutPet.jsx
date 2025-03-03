@@ -117,6 +117,7 @@ const AboutPet = ({
 						name='birthday'
 						value={formData.birthday}
 						onChange={handleChange}
+						// max={new Date().toISOString().split('T')[0]}
 					/>
 					<textarea
 						name='allergies'

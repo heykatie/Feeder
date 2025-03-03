@@ -200,7 +200,8 @@ const RecipeForm = () => {
 					: [response.payload]
 			);
 		} else {
-			navigate(`/recipes/${response.payload.id}`);
+			const previousPage = location.pathname + location.search; 
+			navigate(`/recipes/${response.payload.id}`, { state: { from: previousPage } });
 		}
 	};
 

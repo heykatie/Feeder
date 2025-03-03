@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipe, deleteRecipe, toggleFavorite } from '../../redux/recipes';
 import { useModal } from '../../context/ModalContext';
@@ -16,6 +16,7 @@ const Recipe = () => {
 	const { closeModal } = useModal();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
 	const user = useSelector((state) => state.session.user);
 	const recipe = useSelector((state) => state.recipes.selectedRecipe);
 	const [isFavorited, setIsFavorited] = useState(false);
@@ -85,10 +86,54 @@ const Recipe = () => {
 
 	if (!recipe) return <p className='no-recipe'>Recipe not found.</p>;
 
+	// const handleBack = () => {
+	// 	const prevPath = location.state?.from || document.referrer;
+
+	// 	if (
+	// 		prevPath.includes('/:userId') ||
+	// 		prevPath.includes('/favorites') ||
+	// 		prevPath.includes('/recipes?search')
+	// 	) {
+	// 		navigate(-1);
+	// 	} else {
+	// 		navigate('/recipes');
+	// 	}
+	// };
+
+	// const handleBack = () => {
+	// 	const prevPath = location.state?.from || document.referrer;
+	// 	if (
+		// 		prevPath?.includes('/edit') ||
+	// 		prevPath?.includes('/lists') ||
+	// 		prevPath?.includes('/recipes/new')
+	// 	) {
+	// 		navigate('/recipes');
+	// 	} else {
+	// 		navigate(-1);
+	// 	}
+	// };
+
+	const handleBack = () => {
+		const prevPath = location.state?.from;
+		console.error('Previous Path:', prevPath);
+
+		if (prevPath?.includes('/edit') || prevPath?.includes('/new')) {
+			navigate(`/${user.id}/recipes`);
+		} else if (
+			prevPath?.includes('?search') ||
+			prevPath?.includes('/favorites') ||
+			prevPath?.includes('/recipes')
+		) {
+			navigate(-1);
+		} else {
+			navigate('/recipes');
+		}
+	};
+
 	return (
 		<div className='recipe-container'>
 			<div className='recipe-header'>
-				<button className='back-btn' onClick={() => navigate('/recipes')}>
+				<button className='back-btn' onClick={handleBack}>
 					← Back to Recipes
 				</button>
 
@@ -165,7 +210,10 @@ const Recipe = () => {
 						</button>
 					)}
 				</div>
-				<button style={ {background:'none', textDecoration:'underline'}} className='grocery-btn' onClick={handleGenerateList}>
+				<button
+					style={{ background: 'none', textDecoration: 'underline' }}
+					className='grocery-btn'
+					onClick={handleGenerateList}>
 					Auto-Generate a Grocery List 🛒
 				</button>
 			</div>
