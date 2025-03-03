@@ -13,8 +13,8 @@ const RSidebar = ({ showSidebar, toggleSidebar }) => {
 	const handleLogout = (e) => {
 		e.preventDefault();
 		dispatch(logout());
-		toggleSidebar(false);
 		navigate('/')
+		toggleSidebar(false);
 	};
 
 

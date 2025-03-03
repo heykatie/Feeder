@@ -21,7 +21,11 @@ const ProtectedRoute = ({ children }) => {
 
 	if (isLoading) return <div className='loading-screen'>Loading...</div>;
 
-	return user ? children : <Navigate to='/' replace />;
+	return user ? (
+		children
+	) : (
+		<Navigate to='/login' replace />
+	);
 };
 
 export default ProtectedRoute;

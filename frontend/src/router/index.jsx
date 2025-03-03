@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-// import LoginModal from '../components/Auth/LoginModal';
+import LoginModal from '../components/modals/LoginModal';
 import Layout from './Layout';
 import Splash from '../components/Splash';
 import Embark from '../components/Embark';
@@ -23,14 +23,14 @@ export const router = createBrowserRouter([
 				path: '/',
 				element: <Splash />,
 			},
-			// {
-			// 	path: 'login',
-			// 	element: (
-			// 		<div style={{ display: 'flex', justifyContent: 'center' }}>
-			// 			<LoginModal />
-			// 		</div>
-			// 	),
-			// },
+			{
+				path: 'login',
+				element: (
+					<div style={{ display: 'flex', justifyContent: 'center' }}>
+						<LoginModal />
+					</div>
+				),
+			},
 			{
 				path: 'embark',
 				element: <Embark />,
@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: '/recipes/:id',
-				element: <Recipe />
+				element: <Recipe />,
 			},
 			{
 				path: '/recipes/new',
@@ -93,7 +93,10 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: '/:userId/recipes',
-				element: <Recipes />,
+				element:
+				(<ProtectedRoute>
+					<Recipes />,
+				</ProtectedRoute>),
 			},
 			{
 				path: '/favorites',

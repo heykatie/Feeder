@@ -15,12 +15,24 @@ const round = (num) => (num ? parseFloat(num.toFixed(2)) : 0);
 
 router.get('/', async (req, res) => {
 	try {
-		const userId = req.user.id;
+		const userId = req.user?.id || null;
 		const { search } = req.query;
 
 		const isPostgres = process.env.NODE_ENV === 'production'; // Use Postgres in production
-
 		let where = { isPublic: true };
+
+
+		if (!userId) {
+			const recipes = await Recipe.findAll({
+				include: [
+					{
+						model: Ingredient,
+						as: 'Ingredients',
+					},
+				],
+			});
+			res.json(recipes);
+		}
 
 		if (search) {
 			where[Sequelize.Op.or] = [
@@ -48,7 +60,7 @@ router.get('/', async (req, res) => {
 							? Sequelize.Op.iLike
 							: Sequelize.Op.like]: `%${search}%`,
 					},
-			  }
+			}
 			: undefined;
 
 		// const recipes = await Recipe.findAll({
@@ -96,7 +108,6 @@ router.get('/', async (req, res) => {
 			likesMap[entry.recipeId] = entry.likesCount;
 		});
 
-		// Attach `liked` and `likesCount` to each recipe
 		const updatedRecipes = recipes.map((recipe) => ({
 			...recipe.toJSON(),
 			liked: favoriteRecipeIds.has(recipe.id),
@@ -106,7 +117,11 @@ router.get('/', async (req, res) => {
 		res.json(updatedRecipes);
 	} catch (error) {
 		console.error('Error fetching recipes:', error);
-		res.status(500).json({ error: 'Failed to fetch recipes' });
+		if (error.json) {
+			const err = await error.json()
+			res.status(500).json({ error: err || 'Failed to fetch recipes' });
+		}
+		res.status(500).json({ error: error || 'Failed to fetch recipes' });
 	}
 });
 
@@ -189,7 +204,7 @@ router.get('/all/:userId', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 	try {
-		const userId = req.user.id;
+		const userId = req.user?.id || null;
 		const recipe = await Recipe.findByPk(req.params.id, {
 			include: [
 				{

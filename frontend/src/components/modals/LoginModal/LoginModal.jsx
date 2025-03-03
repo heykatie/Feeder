@@ -30,9 +30,12 @@ function LoginModal() {
 
 		if (serverResponse.payload?.errors) {
 			setErrors(serverResponse.payload.errors);
+		// } else if (location.state?.from) {
+		// 	navigate(location.state.from);
+		// 	closeModal();
 		} else {
-			closeModal();
 			navigate('/dash');
+			closeModal();
 		}
 	};
 

@@ -133,8 +133,10 @@ const Recipes = () => {
 			dispatch(fetchRecipes({ search: searchQuery })).then((res) => {
 				setSearchResults(res.payload || []);
 			});
-		} else {
+		} else if (!sessionUser) {
 			dispatch(fetchRecipes())
+		} else {
+			dispatch(fetchRecipes());
 		}
 	}, [dispatch, userId, sessionUser, location.pathname, searchQuery]);
 

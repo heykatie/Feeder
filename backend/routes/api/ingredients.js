@@ -1,6 +1,8 @@
 const express = require('express');
 const { Ingredient, GroceryIngredient } = require('../../db/models');
 const router = express.Router();
+const { requireAuth } = require('../../utils/auth');
+
 
 router.get('/', async (req, res) => {
 	try {

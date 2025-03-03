@@ -43,9 +43,12 @@ const Signup = ({ mode, errors = {}, onUpdate, initialData, handleSubmit }) => {
 				setErrs(
 					serverResponse.payload.errors || serverResponse.payload.message
 				);
+			// } else if (location.state?.from) {
+			// 	navigate(location.state.from);
+			// 	closeModal();
 			} else {
-				closeModal();
 				navigate('/dash');
+				closeModal();
 			}
 			return;
 		}
