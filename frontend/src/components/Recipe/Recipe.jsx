@@ -131,9 +131,21 @@ const Recipe = () => {
 			/>
 			<div className='recipe-info'>
 				<p className='recipe-category'>Category: {recipe.category}</p>
-				<p className='recipe-time'>Prep Time: {recipe.prepTime} min</p>
-				<p className='recipe-time'>Cook Time: {recipe.cookTime} min</p>
-				<p className='recipe-time'>Total Time: {recipe.totalTime} min</p>
+
+				{recipe.totalTime > 0 && (
+					<>
+						<p className='recipe-time'>
+							Prep Time: {recipe.prepTime} min
+						</p>
+						<p className='recipe-time'>
+							Cook Time: {recipe.cookTime} min
+						</p>
+						<p className='recipe-time'>
+							Total Time: {recipe.totalTime} min
+						</p>
+					</>
+				)}
+
 				<p className='recipe-difficulty'>Difficulty: {recipe.difficulty}</p>
 			</div>
 
