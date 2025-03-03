@@ -274,3 +274,24 @@
     font-size: 0.9rem;
       color: #bbb;
 }
+
+.recipe-container .recipe-nutrition {
+  padding: 2px 5px 2px 25px;
+  margin: 1px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 5px 20px;
+  width: 100%;
+  max-width: 800px;
+  align-items: center;
+}
+
+.recipe-container .toggle-notes {
+  padding: auto auto 0px;
+  margin: 1rem 0rem 0rem 0rem;
+}
+
+.recipe-container .recipe-notes {
+  padding: 0px 0px 1rem;
+  margin: .5rem 0rem 1rem 1rem;
+}
