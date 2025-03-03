@@ -200,7 +200,7 @@ const RecipeForm = () => {
 					: [response.payload]
 			);
 		} else {
-			navigate('/recipes');
+			navigate(`/recipes/${response.payload.id}`); 
 		}
 	};
 
