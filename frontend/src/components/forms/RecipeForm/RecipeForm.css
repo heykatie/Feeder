@@ -94,7 +94,7 @@
 }
 
 
-/* Adjust spacing for time input fields */
+
 .form-row {
   display: flex;
   justify-content: space-between;
@@ -107,7 +107,7 @@
   flex-direction: column;
 }
 
-/* Ensure consistency for time input fields */
+
 .form-input[type="number"] {
   width: 100%;
   padding: 8px;
@@ -117,21 +117,21 @@
   color: var(--text-color);
 }
 
-/* Style for the auto-calculated total time */
+
 .form-input[readonly] {
   background-color: var(--input-bg-disabled);
   color: var(--text-muted);
   cursor: not-allowed;
 }
 
-/* Improve spacing for time labels */
+
 .form-label {
   margin-top: 10px;
   font-weight: bold;
   color: var(--text-color);
 }
 
-/* Make form more responsive */
+
 @media (max-width: 600px) {
   .form-row {
     flex-direction: column;

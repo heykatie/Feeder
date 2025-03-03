@@ -99,7 +99,7 @@ const StartingChef = ({ onUpdate, initialData }) => {
 						e.key === 'ArrowRight'
 							? (currentIndex + 1) % personalities.length
 							: (currentIndex - 1 + personalities.length) %
-							personalities.length;
+							  personalities.length;
 					updateSelection('personality', personalities[newIndex].label);
 				}
 			}
@@ -110,7 +110,7 @@ const StartingChef = ({ onUpdate, initialData }) => {
 	useEffect(() => {
 		window.addEventListener('keydown', handleKeyDown);
 		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [handleKeyDown]); // ✅ Now `useEffect` correctly depends on `handleKeyDown`
+	}, [handleKeyDown]); //   Now `useEffect` correctly depends on `handleKeyDown`
 
 	return (
 		<div className='starting-chef-container'>

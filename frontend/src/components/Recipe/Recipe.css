@@ -276,7 +276,7 @@
   margin: 0.5rem 0rem 1rem 1rem;
 }
 
-/* 📱 Responsive Styles */
+
 @media (max-width: 768px) {
   .recipe-container {
     max-width: 95%;
@@ -354,7 +354,7 @@
   }
 }
 
-/* 📱 Even Smaller Screens (Phones) */
+
 @media (max-width: 480px) {
   .recipe-container {
     padding: 5px;

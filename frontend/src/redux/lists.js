@@ -12,13 +12,13 @@ export const createList = createAsyncThunk(
 			});
 
 			const data = await response.json();
-			console.log('🔍 API Response:', data); // Debugging log
+			// console.log('API Response:', data);
 
 			if (!response.ok)
 				return rejectWithValue(data.error || 'Failed to create list');
 
 			if (!data.list || !data.list.id) {
-				throw new Error('Invalid list returned from API'); // Prevents silent failure
+				throw new Error('Invalid list returned from API');
 			}
 
 			return data.list;
@@ -32,13 +32,13 @@ export const fetchAllLists = createAsyncThunk(
 	'lists/fetchAllLists',
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await csrfFetch('/api/lists'); // ✅ Ensure this endpoint exists
+			const response = await csrfFetch('/api/lists');
 			const data = await response.json();
 
 			if (!response.ok)
 				return rejectWithValue(data.error || 'Failed to fetch lists');
 
-			return data.lists; // ✅ Expecting an array of lists
+			return data.lists;
 		} catch (error) {
 			return rejectWithValue(error.message);
 		}
@@ -52,20 +52,22 @@ export const fetchGroceryList = createAsyncThunk(
 			const response = await csrfFetch(`/api/lists/${listId}`);
 			const data = await response.json();
 
-			if (!response.ok) return rejectWithValue(data.error || 'Failed to fetch list');
+			if (!response.ok)
+				return rejectWithValue(data.error || 'Failed to fetch list');
 
 			return {
 				...data.list,
 				servings: data.servings || 1,
-				Ingredients: data.list.Ingredients?.map((gi) => ({
-					id: gi.id,
-					ingredientId: gi.ingredientId,
-					quantity: gi.quantity,
-					name: gi.name || 'Mystery Item',
-					checked: gi.checked || false,
-					measurement: gi.measurement || '',
-					abbreviation: gi.abbreviation || '',
-				})) || [],
+				Ingredients:
+					data.list.Ingredients?.map((gi) => ({
+						id: gi.id,
+						ingredientId: gi.ingredientId,
+						quantity: gi.quantity,
+						name: gi.name || 'Mystery Item',
+						checked: gi.checked || false,
+						measurement: gi.measurement || '',
+						abbreviation: gi.abbreviation || '',
+					})) || [],
 			};
 		} catch (error) {
 			return rejectWithValue(error.message);
@@ -94,7 +96,7 @@ export const generateGroceryList = createAsyncThunk(
 				servings: data.servings,
 			};
 		} catch (error) {
-			console.error('❌ generateGroceryList error:', error);
+			console.error('  generateGroceryList error:', error);
 			return rejectWithValue(error.message || 'Internal server error');
 		}
 	}
@@ -109,10 +111,10 @@ export const saveListName = createAsyncThunk(
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ name }),
 			});
-			console.log('✅ List name updated');
+			// console.log('  List name updated');
 			return { listId, name };
 		} catch (error) {
-			console.error('❌ Error updating list name:', error);
+			console.error('  Error updating list name:', error);
 			return rejectWithValue(error.message);
 		}
 	}
@@ -125,13 +127,13 @@ export const saveIngredient = createAsyncThunk(
 		{ rejectWithValue }
 	) => {
 		try {
-			if (!listId) throw new Error('❌ Missing listId in saveIngredient');
+			if (!listId) throw new Error('  Missing listId in saveIngredient');
 			if (!ingredientId)
-				throw new Error('❌ Missing ingredientId in saveIngredient');
+				throw new Error('  Missing ingredientId in saveIngredient');
 
-			console.log(
-				`🛠 Adding ingredient: listId=${listId}, ingredientId=${ingredientId}`
-			);
+			// console.log(
+			// 	`🛠 Adding ingredient: listId=${listId}, ingredientId=${ingredientId}`
+			// );
 
 			const response = await csrfFetch(`/api/lists/${listId}/ingredients`, {
 				method: 'POST',
@@ -152,7 +154,7 @@ export const saveIngredient = createAsyncThunk(
 				name: data.ingredient.Ingredient?.name,
 			};
 		} catch (error) {
-			console.error('❌ Error in saveIngredient thunk:', error);
+			console.error('  Error in saveIngredient thunk:', error);
 			return rejectWithValue(error.message);
 		}
 	}
@@ -228,7 +230,7 @@ const listsSlice = createSlice({
 			})
 			.addCase(fetchAllLists.fulfilled, (state, action) => {
 				state.loading = false;
-				state.allLists = action.payload; 
+				state.allLists = action.payload;
 			})
 			.addCase(fetchAllLists.rejected, (state, action) => {
 				state.loading = false;

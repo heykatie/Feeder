@@ -1,8 +1,6 @@
-/* Modal Container */
+
 .login-modal {
-  /* background: #1A1A2E; */
   background: linear-gradient(#1A1A2E, #1A1A2E);
-  /* Dark Indigo */
   color: white;
   border-radius: 12px;
   display: flex;
@@ -18,13 +16,11 @@
   margin: 11px;
 }
 
-/* Logo */
 .logo {
   width: 80px;
   margin-bottom: 14px;
 }
 
-/* Heading */
 .login-modal h2 {
   font-size: 23px;
   font-weight: bold;
@@ -33,7 +29,6 @@
 
 .login-modal .input-container {
   width: 90%;
-  /* max-width: 280px; */
   margin-bottom: 15px;
   position: relative;
 }
@@ -54,10 +49,8 @@
   color: #B3B3B3;
 }
 
-/* Password Input & Toggle */
 .login-modal .password-container {
   width: 90%;
-  /* max-width: 280px; */
   position: relative;
   margin-bottom: 15px;
 }
@@ -81,7 +74,6 @@
   width: 100%;
   max-width: 300px;
   background: #00C6CF;
-  /* Neon Cyan */
   color: white;
   border: none;
   padding: 14px;
@@ -95,7 +87,6 @@
 
 .login-button:hover {
   background: #64CCC5;
-  /* Lighter Neon Cyan */
 }
 
 .demologin button {
@@ -114,10 +105,8 @@
 
 .demologin button:hover {
   background: #FFD166;
-  /* Lighter Warm Amber */
 }
 
-/* OR Divider */
 .login-modal .or-divider {
   margin: 18px 0;
   display: flex;
@@ -176,7 +165,6 @@
   margin-right: 8px;
 }
 
-/* Signup Text */
 .signup-text {
   font-size: 13px;
   color: #B3B3B3;
@@ -186,12 +174,10 @@
 
 .signup-link {
   color: #A379FF;
-  /* Electric Purple */
   cursor: pointer;
   font-weight: bold;
 }
 
 .signup-link:hover {
   color: #C49CFF;
-  /* Lighter Electric Purple */
 }

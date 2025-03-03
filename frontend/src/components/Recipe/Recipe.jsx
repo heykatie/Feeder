@@ -254,7 +254,7 @@ const Recipe = () => {
 				</div>
 			</div>
 
-			{/* Instructions */}
+
 			<div
 				className={`recipe-section collapsible ${
 					showInstructions ? 'open' : ''
@@ -277,7 +277,7 @@ const Recipe = () => {
 				</div>
 			</div>
 
-			{/* Nutrition */}
+
 			<div
 				className={`recipe-section collapsible ${
 					showNutrition ? 'open' : ''
@@ -299,7 +299,7 @@ const Recipe = () => {
 				</div>
 			</div>
 
-			{/* Notes */}
+
 			{recipe.notes && (
 				<div className='recipe-section'>
 					<h2

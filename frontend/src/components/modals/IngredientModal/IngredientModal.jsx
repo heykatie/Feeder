@@ -160,7 +160,7 @@ const IngredientModal = ({
 								}
 							/>
 
-							{/* Ingredient name */}
+
 							{/* <label className='ingredient-label'>
 								{ingredient.name}
 							</label> */}
@@ -171,7 +171,7 @@ const IngredientModal = ({
 									<IngredientModal
 										ingredients={ingredients}
 										selectedIngredients={selectedIngredients}
-										setSelectedIngredients={setSelectedIngredients} // ✅ Ensure this is passed
+										setSelectedIngredients={setSelectedIngredients}
 										ingredientQuantities={ingredientQuantities}
 										setIngredientQuantities={setIngredientQuantities}
 										ingredientMeasurements={ingredientMeasurements}
@@ -188,7 +188,6 @@ const IngredientModal = ({
 								}
 							/>
 
-							{/* Quantity input */}
 							<input
 								type='number'
 								className='ingredient-quantity'
@@ -202,7 +201,7 @@ const IngredientModal = ({
 								onFocus={() => handleIngredientChange(ingredient, true)}
 							/>
 
-							{/* Measurement dropdown */}
+
 							<select
 								className='ingredient-measurement'
 								value={
@@ -235,7 +234,7 @@ const IngredientModal = ({
 				})}
 			</div>
 
-			{/* Add new ingredient button */}
+
 			<div>
 				<OpenModalButton
 					buttonText='➕ Add New Ingredient'
@@ -260,7 +259,7 @@ const IngredientModal = ({
 				/>
 			</div>
 
-			{/* Save/Cancel buttons */}
+
 			<div className='ingredient-modal-actions'>
 				{fromCreateList ? (
 					<>

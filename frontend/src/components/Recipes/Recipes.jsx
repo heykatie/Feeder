@@ -77,9 +77,9 @@ const Recipes = () => {
 
 		// const handleEdgeScroll = (event) => {
 		// 	const { clientX } = event;
-		// 	const edgeThreshold = 50; // Increase threshold area for smoother activation
-		// 	const maxSpeed = 0.05; // Reduce max scroll speed for slower movement
-		// 	const minSpeed = 0.005; // Ensure gradual acceleration
+		// 	const edgeThreshold = 50;
+		// 	const maxSpeed = 0.05;
+		// 	const minSpeed = 0.005;
 
 		// 	if (!scrollContainerRef.current) return;
 
@@ -212,7 +212,7 @@ const Recipes = () => {
 					<div key={recipe.id} className='recipe-card'>
 						<NavLink
 							state={
-								location.search 
+								location.search
 									? null
 									: { from: location.pathname + location.search }
 							}

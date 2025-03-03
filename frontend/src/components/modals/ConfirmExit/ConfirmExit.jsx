@@ -30,7 +30,7 @@ export default function ConfirmExit({ showExitModal, setShowExitModal }) {
 			} else if (e.key === 'Enter') {
 				confirmExit();
 			} else if (e.key === 'Tab') {
-				// Ensure Tab only cycles between the two buttons
+
 				if (document.activeElement === cancelButtonRef.current) {
 					e.preventDefault();
 					exitButtonRef.current.focus();

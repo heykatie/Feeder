@@ -18,7 +18,7 @@ export default function ConfirmDelete({ onConfirm, itemType = 'recipe' }) {
 			} else if (e.key === 'Enter') {
 				onConfirm();
 			} else if (e.key === 'Tab') {
-				// Ensure Tab only cycles between the two buttons
+
 				if (document.activeElement === cancelButtonRef.current) {
 					e.preventDefault();
 					deleteButtonRef.current.focus();

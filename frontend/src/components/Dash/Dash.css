@@ -1,4 +1,4 @@
-/* 📌 General Dashboard Layout */
+
 .dash-container {
   min-height: 100vh;
   background-color: #121212;
@@ -6,7 +6,6 @@
   padding: 1.5rem;
 }
 
-/* 📌 Dashboard Header */
 .dash-header {
   display: flex;
   justify-content: space-between;
@@ -29,7 +28,6 @@
   color: #FFB84C;
 }
 
-/* 📌 Main Dashboard Grid */
 .dash-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -42,7 +40,6 @@
   }
 }
 
-/* 📌 User Profile & SousChef Section */
 .profile-card {
   background-color: #1A1A2E;
   padding: 1.25rem;
@@ -73,7 +70,6 @@
   color: #aaa;
 }
 
-/* 📌 XP Progress Bar */
 .xp-progress-container {
   margin-top: 1rem;
 }
@@ -83,7 +79,6 @@
   color: #aaa;
 }
 
-/* 📌 SousChef Widget */
 .souschef-widget {
   margin-top: 1.5rem;
   padding: 1rem;
@@ -103,7 +98,6 @@
   color: #aaa;
 }
 
-/* 📌 Daily Challenge & Actions */
 .challenge-card {
   background-color: #231E2E;
   padding: 1.25rem;
@@ -145,7 +139,6 @@
   background-color: #FFD166;
 }
 
-/* 📌 Leaderboard */
 .leaderboard-card {
   background-color: #462B55;
   padding: 1.25rem;
@@ -181,7 +174,6 @@
   color: #888;
 }
 
-/* 📌 Notifications */
 .notifications-title {
   font-size: 1.125rem;
   font-weight: 600;

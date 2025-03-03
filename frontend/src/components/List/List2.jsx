@@ -20,7 +20,8 @@ export default function List() {
 	const [listName, setListName] = useState(groceryList?.name || '');
 	const [checkedItems, setCheckedItems] = useState({});
 	const [editingIngredientName, setEditingIngredientName] = useState(null);
-	const [editingIngredientQuantity, setEditingIngredientQuantity] = useState(null);
+	const [editingIngredientQuantity, setEditingIngredientQuantity] =
+		useState(null);
 	const [ingredientValues, setIngredientValues] = useState({});
 	const [loading, setLoading] = useState(true);
 	const inputRef = useRef(null);
@@ -35,8 +36,8 @@ export default function List() {
 		if (groceryList?.Ingredients) {
 			const initialValues = groceryList.Ingredients.reduce((acc, item) => {
 				acc[item.id] = {
-					name: item.name ?? '', // Ensure it's always a string
-					quantity: item.quantity ?? '', // Ensure it's always a string
+					name: item.name ?? '', 
+					quantity: item.quantity ?? '',
 				};
 				return acc;
 			}, {});
@@ -73,7 +74,7 @@ export default function List() {
 		)
 			.unwrap()
 			.catch((error) =>
-				console.error('❌ Error updating checked state:', error)
+				console.error('  Error updating checked state:', error)
 			);
 	};
 
@@ -85,9 +86,9 @@ export default function List() {
 						toggleChecked(listId, ingredientId, checked)
 					)
 				);
-				console.log('✅ Auto-saved all checked items');
+				// console.log('  Auto-saved all checked items');
 			} catch (error) {
-				console.error('❌ Error auto-saving list:', error);
+				console.error('  Error auto-saving list:', error);
 			}
 		}, 500000);
 
@@ -101,9 +102,9 @@ export default function List() {
 	// 				toggleChecked(listId, ingredientId, checked)
 	// 			)
 	// 		);
-	// 		console.log('✅ Auto-saved before exit');
+	// 		console.log('  Auto-saved before exit');
 	// 	} catch (error) {
-	// 		console.error('❌ Error saving before exit:', error);
+	// 		console.error('  Error saving before exit:', error);
 	// 	}
 	// };
 
@@ -116,9 +117,8 @@ export default function List() {
 					const url = `/api/lists/${listId}/bulk-update`;
 					const data = JSON.stringify({ checkedItems });
 					navigator.sendBeacon(url, data);
-					console.log('✅ Auto-saved before exit using sendBeacon');
 				} catch (error) {
-					console.error('❌ Error saving before exit:', error);
+					console.error('  Error saving before exit:', error);
 				}
 			}
 		};
@@ -184,7 +184,7 @@ export default function List() {
 
 	if (loading) return <p>Loading grocery list...</p>;
 	if (!groceryList || !groceryList.id) {
-		console.error('❌ groceryList is undefined or missing ID:', groceryList);
+		// console.error('  groceryList is undefined or missing ID:', groceryList);
 		return <p>Error loading grocery list. Try refreshing.</p>;
 	}
 
@@ -281,7 +281,7 @@ export default function List() {
 													})
 													.catch((error) => {
 														console.error(
-															'❌ Failed to update ingredient:',
+															'  Failed to update ingredient:',
 															error
 														);
 														alert(
@@ -330,7 +330,7 @@ export default function List() {
 														ingredientId: item.id,
 														quantity:
 															ingredientValues[item.id]
-																?.quantity || item.quantity, // ✅ Only updating quantity
+																?.quantity || item.quantity, //   Only updating quantity
 													})
 												)
 													.unwrap()
@@ -338,15 +338,15 @@ export default function List() {
 														setIngredientValues((prev) => ({
 															...prev,
 															[updatedIngredient.ingredientId]: {
-																name: item.name, // ✅ Keep name from DB
+																name: item.name, //   Keep name from DB
 																quantity:
-																	updatedIngredient.quantity, // ✅ Update quantity
+																	updatedIngredient.quantity, //   Update quantity
 															},
 														}));
 													})
 													.catch((error) => {
 														console.error(
-															'❌ Failed to update ingredient:',
+															'  Failed to update ingredient:',
 															error
 														);
 														alert(

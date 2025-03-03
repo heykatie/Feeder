@@ -1,4 +1,4 @@
-/* General List Container */
+
 .list-container {
   max-width: 600px;
   margin: 20px auto;
@@ -8,7 +8,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Back Button */
+
 .list-container .back-button {
   background-color: #1E88E5;
   color: white;
@@ -27,7 +27,7 @@
   transform: scale(1.05);
 }
 
-/* Save Button */
+
 .list-container .save-btn {
   background-color: #007bff;
   color: white;
@@ -47,7 +47,7 @@
   transform: scale(1.05);
 }
 
-/* Toggle Ingredients Button */
+
 .toggle-ingredients-button {
   margin: 10px 0;
   padding: 8px 12px;
@@ -65,7 +65,7 @@
   transform: scale(1.05);
 }
 
-/* Ingredient Pool (Available Ingredients to Drag) */
+
 .ingredient-pool {
   background: #f9f9f9;
   padding: 10px;
@@ -74,7 +74,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Ingredients List */
+
 .list-container .ingredient-item {
   background: #ffffff;
   padding: 8px 12px;
@@ -89,7 +89,7 @@
   background: #f0f0f0;
 }
 
-/* Grocery List */
+
 .list-container .grocery-list {
   background: #f9f9f9;
   padding: 15px;
@@ -120,7 +120,7 @@
   background: #f0f0f0;
 }
 
-/* Delete Button */
+
 .list-container .delete-button {
   background-color: #d32f2f;
   color: white;
@@ -139,7 +139,7 @@
   transform: scale(1.05);
 }
 
-/* Recipe Link */
+
 .recipe-link {
   color: #ffca28;
   font-weight: bold;

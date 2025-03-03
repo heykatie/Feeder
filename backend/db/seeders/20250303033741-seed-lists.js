@@ -10,17 +10,17 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		// Fetch all recipes to assign random recipeIds to some lists
+
 		const recipes = await Recipe.findAll({ attributes: ['id'] });
 		const recipeIds = recipes.map((recipe) => recipe.id);
 
-		// Function to get a random recipeId or null
+
 		const getRandomRecipeId = () =>
 			recipeIds.length
 				? recipeIds[Math.floor(Math.random() * recipeIds.length)]
 				: null;
 
-		// Seed data: Lists for 3 demo users
+
 		await List.bulkCreate(
 			[
 				{
@@ -39,7 +39,7 @@ module.exports = {
 				},
 				{
 					userId: 2,
-					recipeId: null, // No linked recipe, just a generic list
+					recipeId: null, 
 					name: 'Fresh Ingredients',
 					type: 'shopping',
 					notes: 'Vegetables and meats for healthy meals.',

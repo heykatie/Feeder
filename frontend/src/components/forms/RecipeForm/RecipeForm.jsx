@@ -98,7 +98,6 @@ const RecipeForm = () => {
 		}
 	}, [recipe, id]);
 
-
 	// useEffect(() => {
 	// 	if (recipe && recipe.id === Number(id)) {
 	// 		setTitle(recipe.title || '');
@@ -179,12 +178,12 @@ const RecipeForm = () => {
 			notes,
 			instructions: JSON.stringify(validInstructions),
 			ingredients: selectedIngredients.map((ingredient) => ({
-				id: ingredient.id, // ✅ Extracts only the ID
-				quantity: ingredientQuantities[ingredient.id] || 1, // ✅ Gets correct quantity
-				measurementId: ingredientMeasurements[ingredient.id] || null, // ✅ Gets correct measurementId
+				id: ingredient.id, //   Extracts only the ID
+				quantity: ingredientQuantities[ingredient.id] || 1, //   Gets correct quantity
+				measurementId: ingredientMeasurements[ingredient.id] || null, //   Gets correct measurementId
 			})),
 		};
-		console.error('katie111', recipeData);
+		// console.error('katie111', recipeData);
 
 		let response;
 		if (id) {
@@ -200,8 +199,10 @@ const RecipeForm = () => {
 					: [response.payload]
 			);
 		} else {
-			const previousPage = location.pathname + location.search; 
-			navigate(`/recipes/${response.payload.id}`, { state: { from: previousPage } });
+			const previousPage = location.pathname + location.search;
+			navigate(`/recipes/${response.payload.id}`, {
+				state: { from: previousPage },
+			});
 		}
 	};
 
@@ -210,19 +211,19 @@ const RecipeForm = () => {
 		updatedQuantities,
 		updatedMeasurements
 	) => {
-    setSelectedIngredients([...updatedIngredients]);
+		setSelectedIngredients([...updatedIngredients]);
 		setIngredientQuantities({ ...updatedQuantities });
 		setIngredientMeasurements({ ...updatedMeasurements });
 
 		if (id) {
-			console.log(
-				'Final ingredient data before saving:',
-				updatedIngredients.map((ing) => ({
-					id: ing.id,
-					quantity: updatedQuantities[ing.id] || 1,
-					measurementId: updatedMeasurements[ing.id] || null,
-				}))
-			);
+			// console.log(
+			// 	'Final ingredient data before saving:',
+			// 	updatedIngredients.map((ing) => ({
+			// 		id: ing.id,
+			// 		quantity: updatedQuantities[ing.id] || 1,
+			// 		measurementId: updatedMeasurements[ing.id] || null,
+			// 	}))
+			// );
 			dispatch(
 				updateRecipe({
 					id,

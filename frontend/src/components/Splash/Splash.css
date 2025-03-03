@@ -1,14 +1,14 @@
 .splash-container {
   text-align: center;
   color: #FFD166;
-  /* Warm accent for text */
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
+
   height: 100vh;
   background-color: #121212;
-  /* Dark background */
+
 }
 
 .splash-title {
@@ -17,7 +17,7 @@
   font-weight: bold;
   margin-bottom: 2px;
   color: #A379FF;
-  /* Soft purple highlight */
+
 }
 
 .splash-subtitle {
@@ -41,7 +41,7 @@
   animation: float 3s ease-in-out infinite, glow 1.5s ease-in-out infinite alternate;
 }
 
-/* Floating Animation */
+
 @keyframes float {
   0% {
     transform: translateY(0px);
@@ -56,7 +56,7 @@
   }
 }
 
-/* Glowing Effect */
+
 @keyframes glow {
   0% {
     filter: drop-shadow(0 0 5px #A379FF);
@@ -85,9 +85,9 @@
 
 .cta-button {
   background: #FFB84C;
-  /* Bright golden-orange */
+
   color: #231E2E;
-  /* Darker contrast text */
+
   border: none;
   padding: 12px 20px;
   font-size: 1rem;
@@ -100,18 +100,18 @@
 
 .cta-button:hover {
   background: #FFD166;
-  /* Softer golden tone */
+
   transform: scale(1.05);
 }
 
 .primary {
   background: #00C6CF;
-  /* Vibrant cyan */
+
   color: #1A1A2E;
-  /* Deep navy contrast */
+
 }
 
 .primary:hover {
   background: #64CCC5;
-  /* Lighter teal for hover */
+
 }

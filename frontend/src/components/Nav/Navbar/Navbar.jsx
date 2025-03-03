@@ -37,9 +37,9 @@ const Navbar = () => {
 	};
 
 		const handleSearch = (e) => {
-			console.log('handleSearch fired'); // ✅ Debug log
-			console.log('Current searchQuery:', searchQuery);
-			e.preventDefault(); // ❌ Try commenting this out
+			// console.log('handleSearch fired');
+			// console.log('Current searchQuery:', searchQuery);
+			e.preventDefault(); 
 			if (!searchQuery.trim()) return;
 			navigate(`/recipes?search=${encodeURIComponent(searchQuery)}`);
 		};

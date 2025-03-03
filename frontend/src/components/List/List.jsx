@@ -18,7 +18,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import OpenModalButton from '../../context/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { useModal } from '../../context/ModalContext';
-import NewIngredient from '../modals/NewIngredient'
+import NewIngredient from '../modals/NewIngredient';
 
 export default function List() {
 	const { closeModal } = useModal();
@@ -45,7 +45,7 @@ export default function List() {
 
 	useEffect(() => {
 		dispatch(fetchGroceryList(listId));
-		dispatch(fetchIngredients()); // Fetch available ingredients from DB
+		dispatch(fetchIngredients()); 
 	}, [dispatch, listId]);
 
 	useEffect(() => {
@@ -77,7 +77,7 @@ export default function List() {
 	// 			dispatch(fetchIngredients()); // Refresh ingredient list
 	// 		})
 	// 		.catch((error) =>
-	// 			console.error('❌ Error creating ingredient:', error)
+	// 			console.error('  Error creating ingredient:', error)
 	// 		);
 	// };
 
@@ -97,11 +97,11 @@ export default function List() {
 		)
 			.unwrap()
 			.catch((error) => {
-				console.error('❌ Error updating checked state:', error);
+				console.error('  Error updating checked state:', error);
 			});
 	};
 
-	// ✅ Handle List Deletion
+	//   Handle List Deletion
 	const handleDelete = async () => {
 		dispatch(deleteList(listId))
 			.unwrap()
@@ -110,7 +110,7 @@ export default function List() {
 				navigate('/lists');
 			})
 			.catch((error) => {
-				console.error('❌ Error deleting list:', error);
+				console.error('  Error deleting list:', error);
 			});
 		closeModal();
 	};
@@ -156,17 +156,17 @@ export default function List() {
 		)
 			.unwrap()
 			.then(() => {
-				dispatch(fetchGroceryList(listId)); // ✅ Ensure the full list updates correctly
+				dispatch(fetchGroceryList(listId));
 			})
-			.catch((error) => console.error('❌ Error adding ingredient:', error));
+			.catch((error) => console.error('  Error adding ingredient:', error));
 
 		if (
 			source.droppableId === 'groceryList' &&
 			destination.droppableId === 'availableIngredients'
 		) {
-			console.log(
-				`🗑 Removing ingredient ${draggableId} from list ${groceryList.id}`
-			);
+			// console.log(
+			// 	`Removing ingredient ${draggableId} from list ${groceryList.id}`
+			// );
 			dispatch(
 				deleteIngredient({
 					listId: groceryList.id,
@@ -188,7 +188,7 @@ export default function List() {
 				<strong>List Type:</strong>{' '}
 				{groceryList.type === 'shopping'
 					? 'Shopping List 🛒'
-					: 'To-Do List ✅'}
+					: 'To-Do List  '}
 			</p>
 
 			<h1 onClick={() => setEditingName(true)}>
@@ -315,11 +315,11 @@ export default function List() {
 															.then(() => {
 																dispatch(
 																	fetchGroceryList(listId)
-																); // ✅ Ensure UI updates after delete
+																);
 															})
 															.catch((error) =>
 																console.error(
-																	'❌ Error deleting ingredient:',
+																	'  Error deleting ingredient:',
 																	error
 																)
 															)

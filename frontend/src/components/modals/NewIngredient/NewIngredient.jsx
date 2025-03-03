@@ -129,7 +129,7 @@ const NewIngredient = () => {
 					/>
 				</label>
 
-				{/* Dropdown for optional fields */}
+
 				<label>
 					Add More Fields:
 					<select onChange={handleSelectField} value=''>
@@ -146,7 +146,7 @@ const NewIngredient = () => {
 					</select>
 				</label>
 
-				{/* Show selected fields dynamically */}
+
 				{selectedFields.map((field) => (
 					<div key={field} className='selected-field'>
 						<label>

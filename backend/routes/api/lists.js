@@ -117,7 +117,7 @@ router.post('/', requireAuth, async (req, res) => {
 			type,
 		});
 
-		console.log('✅ New list created:', newList);
+		// console.log('  New list created:', newList);
 		res.json({ message: 'List created successfully!', list: newList });
 	} catch (error) {
 		console.error('Error creating list:', error);
@@ -229,7 +229,7 @@ router.post('/:listId/ingredients', async (req, res) => {
 
 		return res.json({ ingredient: newIngredient });
 	} catch (error) {
-		console.error('❌ Error adding ingredient:', error);
+		console.error('  Error adding ingredient:', error);
 		return res.status(500).json({ error: 'Internal server error' });
 	}
 });
@@ -272,7 +272,7 @@ router.put(
 				},
 			});
 		} catch (error) {
-			console.error('katie', error);
+			// console.error('katie', error);
 			res.status(500).json({
 				error:
 					error.errors?.[0]?.message ||
@@ -315,7 +315,7 @@ router.put(
 				checked,
 			});
 		} catch (error) {
-			console.error('❌ Error toggling checked state:', error);
+			console.error('  Error toggling checked state:', error);
 			res.status(500).json({ error: 'Internal server error' });
 		}
 	}

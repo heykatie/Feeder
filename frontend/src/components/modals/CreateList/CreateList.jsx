@@ -41,7 +41,9 @@ const CreateListModal = () => {
 		const recipeId = e.target.value;
 		setSelectedRecipe(recipeId);
 
-		const selectedRecipeObj = recipes?.find((recipe) => recipe.id == recipeId);
+		const selectedRecipeObj = recipes?.find(
+			(recipe) => recipe.id == recipeId
+		);
 		if (selectedRecipeObj) {
 			setListName(`Grocery for ${selectedRecipeObj.title}`);
 		}
@@ -86,7 +88,7 @@ const CreateListModal = () => {
 				newList = { ...result };
 			}
 
-			console.log('✅ Created List:', newList);
+			// console.log('Created List:', newList);
 
 			if (!newList?.id) {
 				throw new Error('New list was not created correctly.');
@@ -95,7 +97,7 @@ const CreateListModal = () => {
 			closeModal();
 			navigate(`/lists/${newList.id}`);
 		} catch (error) {
-			console.error('❌ Error creating list:', error);
+			console.error('  Error creating list:', error);
 		} finally {
 			setIsLoading(false);
 		}

@@ -48,10 +48,9 @@ router.get('/', async (req, res) => {
 							? Sequelize.Op.iLike
 							: Sequelize.Op.like]: `%${search}%`,
 					},
-			}
+			  }
 			: undefined;
 
-		// Fetch public recipes with user data
 		// const recipes = await Recipe.findAll({
 		// 	where,
 		// 	include: [
@@ -68,13 +67,12 @@ router.get('/', async (req, res) => {
 					as: 'Ingredients',
 					attributes: ['name'],
 					where: ingredientWhere,
-					required: false, // Ensure recipes without matching ingredients aren't excluded
+					required: false,
 				},
 				{ model: User, attributes: ['username'] },
 			],
 		});
 
-		// Fetch user's favorite recipes
 		const userFavorites = await Favorite.findAll({
 			where: { userId },
 			attributes: ['recipeId'],
@@ -84,7 +82,6 @@ router.get('/', async (req, res) => {
 			userFavorites.map((fav) => fav.recipeId)
 		);
 
-		// Fetch likes count for each recipe
 		const recipeLikes = await Favorite.findAll({
 			attributes: [
 				'recipeId',
@@ -284,13 +281,13 @@ router.get('/:id', async (req, res) => {
 			};
 		});
 
-		console.error('katie', {
-			...recipe.toJSON(),
-			likesCount,
-			liked: !!existingFavorite,
-			nutritionTotals: roundedTotals,
-			Ingredients: formattedIngredients,
-		});
+		// console.error('katie', {
+		// 	...recipe.toJSON(),
+		// 	likesCount,
+		// 	liked: !!existingFavorite,
+		// 	nutritionTotals: roundedTotals,
+		// 	Ingredients: formattedIngredients,
+		// });
 		return res.json({
 			...recipe.toJSON(),
 			likesCount,
@@ -414,8 +411,8 @@ router.put('/:id', async (req, res) => {
 				return RecipeIngredient.create({
 					recipeId: id,
 					ingredientId: ingredient.id,
-					quantity: ingredient.quantity || 1, // ✅ Ensure quantity is stored correctly
-					measurementId: ingredient.measurementId || null, // ✅ Now storing measurementId
+					quantity: ingredient.quantity || 1,
+					measurementId: ingredient.measurementId || null,
 				});
 			});
 
