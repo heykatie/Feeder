@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	fetchRecipes,
@@ -25,11 +25,10 @@ const Recipes = () => {
 	const allRecipes = useSelector((state) => state.recipes.allRecipes);
 	const [searchResults, setSearchResults] = useState([]);
 	const faves = useSelector((state) => state.recipes.favorites);
-	const [recipes, setRecipes] = useState([]);
+	const recipes = location.pathname === '/favorites' ? faves : allRecipes;
 	const scrollContainerRef = useRef(null);
-		const [searchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 	const searchQuery = searchParams.get('search');
-	const favesLoaded = useRef(false);
 
 	const setScrollRef = useCallback((node) => {
 		if (node) {
@@ -76,46 +75,46 @@ const Recipes = () => {
 			}
 		};
 
-		const handleEdgeScroll = (event) => {
-			const { clientX } = event;
-			const edgeThreshold = 180; // Increase threshold area for smoother activation
-			const maxSpeed = 0.05; // Reduce max scroll speed for slower movement
-			const minSpeed = 0.005; // Ensure gradual acceleration
+		// const handleEdgeScroll = (event) => {
+		// 	const { clientX } = event;
+		// 	const edgeThreshold = 50; // Increase threshold area for smoother activation
+		// 	const maxSpeed = 0.05; // Reduce max scroll speed for slower movement
+		// 	const minSpeed = 0.005; // Ensure gradual acceleration
 
-			if (!scrollContainerRef.current) return;
+		// 	if (!scrollContainerRef.current) return;
 
-			const container = scrollContainerRef.current;
-			let scrollAmount = 0;
+		// 	const container = scrollContainerRef.current;
+		// 	let scrollAmount = 0;
 
-			if (clientX < edgeThreshold) {
-				scrollAmount =
-					Math.max(minSpeed, (edgeThreshold - clientX) / 500) * -maxSpeed;
-			} else if (clientX > window.innerWidth - edgeThreshold) {
-				scrollAmount =
-					Math.max(
-						minSpeed,
-						(clientX - (window.innerWidth - edgeThreshold)) / 500
-					) * maxSpeed;
-			}
+		// 	if (clientX < edgeThreshold) {
+		// 		scrollAmount =
+		// 			Math.max(minSpeed, (edgeThreshold - clientX) / 500) * -maxSpeed;
+		// 	} else if (clientX > window.innerWidth - edgeThreshold) {
+		// 		scrollAmount =
+		// 			Math.max(
+		// 				minSpeed,
+		// 				(clientX - (window.innerWidth - edgeThreshold)) / 500
+		// 			) * maxSpeed;
+		// 	}
 
-			if (scrollAmount !== 0) {
-				requestAnimationFrame(() => {
-					container.scrollBy({
-						left: scrollAmount,
-						behavior: 'smooth',
-					});
-				});
-			}
-		};
+		// 	if (scrollAmount !== 0) {
+		// 		requestAnimationFrame(() => {
+		// 			container.scrollBy({
+		// 				left: scrollAmount,
+		// 				behavior: 'smooth',
+		// 			});
+		// 		});
+		// 	}
+		// };
 
 		scrollContainer.addEventListener('wheel', handleScroll);
 		window.addEventListener('keydown', handleKeyDown);
-		document.addEventListener('mousemove', handleEdgeScroll);
+		// document.addEventListener('mousemove', handleEdgeScroll);
 
 		return () => {
 			scrollContainer.removeEventListener('wheel', handleScroll);
 			window.removeEventListener('keydown', handleKeyDown);
-			document.removeEventListener('mousemove', handleEdgeScroll);
+			// document.removeEventListener('mousemove', handleEdgeScroll);
 		};
 	};
 
@@ -126,12 +125,8 @@ const Recipes = () => {
 	}, []);
 
 	useEffect(() => {
-		if (location.pathname === '/favorites' && !favesLoaded.current) {
-			dispatch(fetchFavorites()).then(() => {
-				setRecipes(faves);
-				favesLoaded.current = true;
-			});
-		} else if (userId) {
+		dispatch(fetchFavorites());
+		if (userId) {
 			const isLoggedInUser = sessionUser?.id == Number(userId);
 			dispatch(fetchRecipes({ userId, isLoggedInUser }));
 		} else if (searchQuery) {
@@ -139,16 +134,13 @@ const Recipes = () => {
 				setSearchResults(res.payload || []);
 			});
 		} else {
-			dispatch(fetchRecipes()).then((res) => {
-				setRecipes(res.payload || []);
-			});
+			dispatch(fetchRecipes())
 		}
-	}, [dispatch, userId, sessionUser, location.pathname, searchQuery, faves]);
+	}, [dispatch, userId, sessionUser, location.pathname, searchQuery]);
 
 	const handleFave = async (recipe) => {
 		await dispatch(toggleFavorite(recipe.id));
 		await dispatch(fetchFavorites());
-		setRecipes(faves);
 	};
 
 	if (!recipes.length) return <p className='no-recipes'>No recipes found.</p>;
@@ -180,13 +172,18 @@ const Recipes = () => {
 									className='favorite-btn'
 									onClick={async (e) => {
 										e.stopPropagation();
-										handleFave(recipe)
+										handleFave(recipe);
 									}}>
-									{recipe.liked ? (
+									{faves.some((f) => f.id === recipe.id) ? (
 										<FaHeart color='red' />
 									) : (
 										<FaRegHeart color='gray' />
 									)}
+									{/* {recipe.liked ? (
+										<FaHeart color='red' />
+									) : (
+										<FaRegHeart color='gray' />
+									)} */}
 								</button>
 							</div>
 						))}
@@ -208,7 +205,6 @@ const Recipes = () => {
 					Create New Recipe
 				</button>
 			</div>
-
 
 			<div className='recipes-scroll-container' ref={setScrollRef}>
 				{recipes.map((recipe) => (
@@ -251,22 +247,22 @@ const Recipes = () => {
 							onClick={(e) => {
 								e.stopPropagation();
 
-								if (location.pathname === '/favorites') {
-									setRecipes((prevRecipes) =>
-										prevRecipes.filter((r) => r.id !== recipe.id)
-									);
-								} else {
-									setRecipes((prevRecipes) =>
-										prevRecipes.map((r) =>
-											r.id === recipe.id
-												? { ...r, liked: !r.liked }
-												: r
-										)
-									);
-								}
-								handleFave(recipe)
+								// if (location.pathname === '/favorites') {
+								// 	setRecipes((prevRecipes) =>
+								// 		prevRecipes.filter((r) => r.id !== recipe.id)
+								// 	);
+								// } else {
+								// 	setRecipes((prevRecipes) =>
+								// 		prevRecipes.map((r) =>
+								// 			r.id === recipe.id
+								// 				? { ...r, liked: !r.liked }
+								// 				: r
+								// 		)
+								// 	);
+								// }
+								handleFave(recipe);
 							}}>
-							{recipe.liked ? (
+							{faves.some((f) => f.id === recipe.id) ? (
 								<FaHeart color='red' />
 							) : (
 								<FaRegHeart color='gray' />
