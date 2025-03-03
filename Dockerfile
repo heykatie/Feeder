@@ -64,10 +64,10 @@ COPY /backend/.sequelizerc .
 COPY --from=frontend frontend/dist ./frontend/dist
 
 # RUN npm install --only=production
-# RUN npm install
+RUN npm install
 # --omit=dev
 # RUN npm ci --force
-RUN npm install --production=false
+# RUN npm install --production=false
 
 COPY --from=backend backend ./backend
 
