@@ -27,7 +27,7 @@ router.get('/discord', passport.authenticate('discord'));
 router.get(
 	'/discord/callback',
 	passport.authenticate('discord', {
-		failureRedirect: '/login',
+		failureRedirect: '/',
 		session: true,
 	}),
 	(req, res) => {
@@ -47,7 +47,7 @@ router.get(
 router.get(
 	'/google/callback',
 	passport.authenticate('google', {
-		failureRedirect: '/login',
+		failureRedirect: '/',
 		session: true, // Enables session support for Google login
 	}),
 	(req, res) => {
