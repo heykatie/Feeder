@@ -83,6 +83,7 @@ export default function Layout() {
 		const musicPaths = {
 			'/recipes': '/audio/lofi/honey-chill-lofi-309227.mp3',
 			'/dash': '/audio/lofi/chill-lofi-music-interior-lounge-256260.mp3',
+			'/embark': '/audio/game/best-game-console-301284.mp3',
 			default: '/audio/lofi/lofi-chill-jazz-272869.mp3',
 		};
 

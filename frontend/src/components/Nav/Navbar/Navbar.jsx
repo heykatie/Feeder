@@ -113,7 +113,7 @@ const Navbar = () => {
 					)}
 				</div>
 			</nav>
-			<div className='xp-navbar-container'>
+			{user && <div className='xp-navbar-container'>
 				<div className='xp-bar'>
 					<div
 						className='xp-bar-fill'
@@ -123,7 +123,7 @@ const Navbar = () => {
 				<span className='xp-label'>
 					{xp} / {xpToNextLevel} XP
 				</span>
-			</div>
+			</div>}
 
 			<button
 				className={`expand-arrow ${showMenu ? 'rotated' : ''}`}
