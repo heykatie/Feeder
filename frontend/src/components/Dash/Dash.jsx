@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { addXP } from '../../redux/xp';
-import { NavLink } from 'react-router-dom';
+import { addXP, updateXP } from '../../redux/xp';
+import { NavLink, useNavigate } from 'react-router-dom';
 import ProgressBar from '../ui/ProgressBar';
 import { FaCrown, FaList, FaBell, FaBookOpen, FaPen } from 'react-icons/fa';
 import XPNotification from '../Notifications/XP';
@@ -10,11 +10,27 @@ import './Dash.css';
 
 export default function Dash() {
 	const user = useSelector((state) => state.session.user);
+	const navigate = useNavigate();
+	const [XP, setXP] = useState(0);
 	const sousChef = useSelector((state) => state.sousChefs.sousChef);
 	const { xp, level, xpToNextLevel } = useSelector((state) => state.xp);
 	const dispatch = useDispatch();
 
 	const [greeting, setGreeting] = useState('');
+
+	const handleClick = async (xp, url) => {
+		setXP(xp);
+		dispatch(addXP(xp));
+		await dispatch(
+			updateXP({
+				sousChefId: user.SousChef.id,
+				xp: xp,
+			})
+		);
+		setTimeout(() => {
+			navigate(url);
+		}, 600);
+	};
 
 	useEffect(() => {
 		const hours = new Date().getHours();
@@ -26,7 +42,7 @@ export default function Dash() {
 
 	return (
 		<div className='dash-container'>
-			<XPNotification />
+			<XPNotification xp={XP} />
 			<div className='dash-header'>
 				<h1>{greeting}</h1>
 				<NavLink to='/notifications'>
@@ -82,10 +98,8 @@ export default function Dash() {
 						<NavLink
 							onClick={(e) => {
 								e.preventDefault();
-								dispatch(addXP(10));
-								setTimeout(() => {
-									window.location.href = '/recipes';
-								}, 500);
+								e.preventDefault();
+								handleClick(10, '/recipes');
 							}}
 							className='quick-action'>
 							<FaBookOpen /> Browse Recipes{' '}
@@ -94,10 +108,7 @@ export default function Dash() {
 						<NavLink
 							onClick={(e) => {
 								e.preventDefault();
-								dispatch(addXP(50));
-								setTimeout(() => {
-									window.location.href = '/recipes/new';
-								}, 500);
+								handleClick(50, '/recipes/new');
 							}}
 							className='quick-action post-action'>
 							<FaPen /> Post a Recipe{' '}
@@ -106,10 +117,7 @@ export default function Dash() {
 						<NavLink
 							onClick={(e) => {
 								e.preventDefault();
-								dispatch(addXP(20));
-								setTimeout(() => {
-									window.location.href = '/lists';
-								}, 500);
+								handleClick(20, '/lists');
 							}}
 							className='quick-action shopping-list-action'>
 							<FaList /> View Shopping Lists{' '}

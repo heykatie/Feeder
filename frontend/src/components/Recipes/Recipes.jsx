@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import XPNotification from '../Notifications/XP';
 import {
 	fetchRecipes,
 	fetchFavorites,
@@ -17,9 +18,11 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import './Recipes.css';
 import { addXP, updateXP } from '../../redux/xp';
 
+
 const Recipes = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+		const [XP, setXP] = useState(0);
 	const { userId } = useParams();
 	const location = useLocation();
 	const sessionUser = useSelector((state) => state.session.user);
@@ -32,13 +35,14 @@ const Recipes = () => {
 	const searchQuery = searchParams.get('search');
 
 	const handleCreateRecipe = async () => {
+		setXP(50);
 		try {
-			await dispatch(addXP(50)); // Grant 50 XP
-			await dispatch(updateXP({ sousChefId: sessionUser.SousChef.id, xp: 50 })); // Save XP in DB
-
-			navigate('/recipes/new');
+			await dispatch(addXP(50));
+			await dispatch(updateXP({ sousChefId: sessionUser.SousChef.id, xp: 50 }));
 		} catch (error) {
 			console.error('Error creating recipe:', error);
+		} finally {
+			setTimeout(() => navigate('/recipes/new'), 500);
 		}
 	};
 
@@ -161,6 +165,7 @@ const Recipes = () => {
 
 	return (
 		<div className='recipes-container'>
+						<XPNotification xp={XP} />
 			{searchQuery && recipes.length > 0 && (
 				<div className='search-results'>
 					<h2>Search Results for: &quot;{searchQuery}&quot;</h2>
