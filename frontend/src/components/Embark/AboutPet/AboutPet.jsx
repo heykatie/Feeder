@@ -197,8 +197,12 @@ const AboutPet = ({
 						<input
 							type='file'
 							accept='image/*'
+							id='file-upload'
 							onChange={handleFileChange}
 						/>
+						<label htmlFor='file-upload' className='file-upload-label'>
+							📂 upload photo
+						</label>
 					</div>
 
 					{(isEditMode || isAddMode) && (

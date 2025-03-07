@@ -3,7 +3,7 @@
   padding: 20px;
   background: linear-gradient(135deg, #1A1A2E, #0F0F1A);
   color: white;
-  border-radius: 10px;
+  border-radius: 15px;
   text-align: center;
   box-shadow: 0 0 15px rgba(0, 198, 207, 0.6);
   display: flex;
@@ -122,15 +122,7 @@
 }
 
 .file-upload-container input {
-  width: 100%;
-  max-width: 400px;
-  background: none;
-  color: white;
-  border: 2px dashed #00C6CF;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  display: none; /* Hide default input */
 }
 
 .file-upload-container input:hover {
@@ -226,4 +218,37 @@
     max-width: 120px;
     max-height: 120px;
   }
+}
+/* Styled "Choose File" button */
+.file-upload-label {
+  display: inline-block;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(90deg, #00C6CF, #A379FF);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 198, 207, 0.5);
+  text-align: center;
+  width: auto;
+  text-transform: uppercase;
+}
+
+.file-upload-label:hover {
+  background: linear-gradient(90deg, #A379FF, #00C6CF);
+  box-shadow: 0px 6px 15px rgba(163, 121, 255, 0.8);
+  transform: scale(1.1);
+}
+
+.file-upload-label:active {
+  transform: scale(0.95);
+}
+
+/* 🎉 Fun animation when file is selected */
+.file-selected {
+  background: #ffb84c;
+  color: #232946;
+  box-shadow: 0px 4px 15px rgba(255, 184, 76, 0.6);
 }

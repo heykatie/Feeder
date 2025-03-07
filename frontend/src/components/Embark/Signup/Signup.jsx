@@ -66,7 +66,7 @@ const Signup = ({ mode, errors = {}, onUpdate, initialData, handleSubmit }) => {
 				mode === 'fast' ? 'signup-modal show' : ''
 			}`}>
 			<img
-				src='/assets/logo.png'
+				src='/gif/cat-gifs/new-cat.gif'
 				alt='SousChef Logo'
 				className='page-logo'
 			/>

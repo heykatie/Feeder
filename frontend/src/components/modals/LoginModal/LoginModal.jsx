@@ -62,7 +62,7 @@ function LoginModal() {
 	return (
 		<div className='login-modal'>
 			<img
-				src='/assets/logo.png'
+				src='/gif/cat-gifs/cat-stare.gif'
 				alt='SousChef Logo'
 				className='logo'
 			/>

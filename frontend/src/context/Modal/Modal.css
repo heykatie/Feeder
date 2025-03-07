@@ -60,3 +60,126 @@
 #modal-close:hover {
   color: #FFB84C;
 }
+
+#modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeInModal 0.4s ease-in-out;
+}
+
+/* 🎭 Modal Background with Blur */
+#modal-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(3px);
+  animation: backgroundFade 0.4s ease-in-out;
+}
+
+/* ✨ Glowing & Animated Modal */
+#modal-content {
+  align-items: center;
+  border-radius: 15px;
+  padding: 15px;
+  background: linear-gradient(135deg, #232946, #1a1a2e);
+  box-shadow: 0px 0px 20px rgba(163, 121, 255, 0.8);
+  z-index: 1;
+  min-height: fit-content;
+  position: relative;
+  overflow: visible;
+  z-index: 1000;
+  transform: scale(0.95);
+  animation: bounceOpen 0.4s ease-in-out forwards;
+  min-width: fit-content;
+  max-height: 95vh;
+}
+
+/* 🚀 Bouncy Modal Open Animation */
+@keyframes bounceOpen {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 🎭 Modal Background Fade Animation */
+@keyframes backgroundFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* 🎮 Fun Close Button */
+#modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: transform 0.2s, color 0.3s;
+}
+
+/* 🌀 Close Button Hover Effect */
+#modal-close:hover {
+  color: #FFB84C;
+  transform: rotate(10deg) scale(1.2);
+  text-shadow: 0px 0px 10px rgba(255, 184, 76, 0.8);
+}
+
+/* 🏆 Game-Like Font Styling */
+#modal-content h1,
+#modal-content h2,
+#modal-content h3 {
+  font-family: "Press Start 2P", cursive;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #A379FF;
+  text-shadow: 0px 0px 6px rgba(163, 121, 255, 0.8);
+}
+
+/* ✨ Add Soft Glow to Modals */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 184, 76, 0.6);
+  }
+
+  50% {
+    box-shadow: 0 0 15px rgba(255, 184, 76, 1);
+  }
+
+  100% {
+    box-shadow: 0 0 5px rgba(255, 184, 76, 0.6);
+  }
+}
+
+#modal-content.glow {
+  animation: glowPulse 1.5s infinite alternate ease-in-out;
+}
