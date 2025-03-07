@@ -7,6 +7,7 @@
   color: white;
   position: relative;
   flex-wrap: nowrap;
+  border-bottom: 1px dotted var(--border-color);
 }
 
 .navbar-left, .navbar-right {
@@ -16,11 +17,11 @@
 
 .navbar-left {
   flex-shrink: 0;
-  min-width: 120px;
+  /* min-width: 120px; */
 }
 
 .navbar-menu-btn {
-  background: none;
+  background: none !important;
   border: none;
   color: white;
   font-size: 24px;
@@ -46,8 +47,8 @@
 }
 
 .navbar-center {
-  position: absolute;
-  left: 34%;
+  /* position: absolute; */
+  /* left: 34%; */
   /* transform: translateX(-50%); */
   display: flex;
   align-items: center;
@@ -59,7 +60,7 @@
   border-radius: 5px;
   background: #222;
   color: white;
-  width: 200%;
+  width: 100%;
   max-width: 500px;
   min-width: 350px;
 }

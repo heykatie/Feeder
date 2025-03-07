@@ -128,9 +128,11 @@
   background-color: #00C6CF;
   color: black;
   padding: 0.75rem 1rem;
-  border-radius: 8px;
+  border-radius: 15px;
   font-weight: 500;
   transition: background 0.3s ease;
+  margin: 1rem 0rem;
+  min-width: fit-content;
 }
 
 .quick-action:hover {

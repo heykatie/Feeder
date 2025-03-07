@@ -1,4 +1,4 @@
-import {NavLink, useNavigate} from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import AvatarButton from './AvatarButton';
@@ -18,6 +18,8 @@ const Navbar = () => {
 	const [showSidebar, setShowSidebar] = useState(false);
 	const [searchQuery, setSearchQuery] = useState('');
 	const navigate = useNavigate();
+	const xp = useSelector((state) => state.xp.xp);
+	const xpToNextLevel = useSelector((state) => state.xp.xpToNextLevel);
 
 	const handleMouseEnter = () => setIsHovered(true);
 	const handleMouseLeave = () => setTimeout(() => setIsHovered(false), 1500);
@@ -37,13 +39,13 @@ const Navbar = () => {
 		setShowSidebar((prev) => !prev);
 	};
 
-		const handleSearch = (e) => {
-			// console.log('handleSearch fired');
-			// console.log('Current searchQuery:', searchQuery);
-			e.preventDefault();
-			if (!searchQuery.trim()) return;
-			navigate(`/recipes?search=${encodeURIComponent(searchQuery)}`);
-		};
+	const handleSearch = (e) => {
+		// console.log('handleSearch fired');
+		// console.log('Current searchQuery:', searchQuery);
+		e.preventDefault();
+		if (!searchQuery.trim()) return;
+		navigate(`/recipes?search=${encodeURIComponent(searchQuery)}`);
+	};
 
 	// useEffect(() => {
 	// 	if (!isExpanded) return;
@@ -111,6 +113,17 @@ const Navbar = () => {
 					)}
 				</div>
 			</nav>
+			<div className='xp-navbar-container'>
+				<div className='xp-bar'>
+					<div
+						className='xp-bar-fill'
+						style={{ width: `${(xp / xpToNextLevel) * 100}%` }}
+					/>
+				</div>
+				<span className='xp-label'>
+					{xp} / {xpToNextLevel} XP
+				</span>
+			</div>
 
 			<button
 				className={`expand-arrow ${showMenu ? 'rotated' : ''}`}

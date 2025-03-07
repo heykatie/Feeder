@@ -15,6 +15,7 @@ import {
 } from 'react-router-dom';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import './Recipes.css';
+import { addXP, updateXP } from '../../redux/xp';
 
 const Recipes = () => {
 	const dispatch = useDispatch();
@@ -29,6 +30,17 @@ const Recipes = () => {
 	const scrollContainerRef = useRef(null);
 	const [searchParams] = useSearchParams();
 	const searchQuery = searchParams.get('search');
+
+	const handleCreateRecipe = async () => {
+		try {
+			await dispatch(addXP(50)); // Grant 50 XP
+			await dispatch(updateXP({ sousChefId: sessionUser.SousChef.id, xp: 50 })); // Save XP in DB
+
+			navigate('/recipes/new');
+		} catch (error) {
+			console.error('Error creating recipe:', error);
+		}
+	};
 
 	const setScrollRef = useCallback((node) => {
 		if (node) {
@@ -204,8 +216,8 @@ const Recipes = () => {
 				)}
 				<button
 					className='create-recipe-btn'
-					onClick={() => navigate('/recipes/new')}>
-					Create New Recipe
+					onClick={handleCreateRecipe}>
+					Create New Recipe <span className='xp-gain'>+50 XP</span>
 				</button>
 			</div>
 

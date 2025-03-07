@@ -1,26 +1,32 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { addXP } from '../../redux/xp';
 import { NavLink } from 'react-router-dom';
 import ProgressBar from '../ui/ProgressBar';
 import { FaCrown, FaList, FaBell, FaBookOpen, FaPen } from 'react-icons/fa';
+import XPNotification from '../Notifications/XP';
 import './Dash.css';
 
 export default function Dash() {
 	const user = useSelector((state) => state.session.user);
 	const sousChef = useSelector((state) => state.sousChefs.sousChef);
+	const { xp, level, xpToNextLevel } = useSelector((state) => state.xp);
+	const dispatch = useDispatch();
 
 	const [greeting, setGreeting] = useState('');
 
 	useEffect(() => {
 		const hours = new Date().getHours();
-		if (hours < 12) setGreeting(`Good morning, ${user?.firstName || user?.username}☀️`);
+		if (hours < 12)
+			setGreeting(`Good morning, ${user?.firstName || user?.username}☀️`);
 		else if (hours < 18) setGreeting('Ready to cook something delicious? 🍳');
 		else setGreeting("Let's level up your meals! 🚀");
 	}, [user]);
 
 	return (
 		<div className='dash-container'>
+			<XPNotification />
 			<div className='dash-header'>
 				<h1>{greeting}</h1>
 				<NavLink to='/notifications'>
@@ -40,14 +46,14 @@ export default function Dash() {
 						/>
 						<div className='profile-info'>
 							<h2>{user?.username || 'Chef'}</h2>
-							<p>Level {sousChef?.level || 1}</p>
+							<p>Level {level}</p>
 						</div>
 					</div>
 
 					<div className='xp-progress-container'>
 						<p className='xp-progress-label'>XP Progress</p>
 						<ProgressBar
-							value={(sousChef?.xp / 100) * 100}
+							value={(xp / xpToNextLevel) * 100}
 							className='xp-progress-bar'
 						/>
 					</div>
@@ -73,19 +79,41 @@ export default function Dash() {
 					</p>
 
 					<div className='quick-actions'>
-						<NavLink to='/recipes' className='quick-action'>
-							<FaBookOpen /> Browse Recipes
+						<NavLink
+							onClick={(e) => {
+								e.preventDefault();
+								dispatch(addXP(10));
+								setTimeout(() => {
+									window.location.href = '/recipes';
+								}, 500);
+							}}
+							className='quick-action'>
+							<FaBookOpen /> Browse Recipes{' '}
+							<span className='xp-gain'>+10 XP</span>
 						</NavLink>
 						<NavLink
-							to='/recipes/new'
+							onClick={(e) => {
+								e.preventDefault();
+								dispatch(addXP(50));
+								setTimeout(() => {
+									window.location.href = '/recipes/new';
+								}, 500);
+							}}
 							className='quick-action post-action'>
-							<FaPen />
-							Post a Recipe
+							<FaPen /> Post a Recipe{' '}
+							<span className='xp-gain'>+50 XP</span>
 						</NavLink>
 						<NavLink
-							to='/lists'
+							onClick={(e) => {
+								e.preventDefault();
+								dispatch(addXP(20));
+								setTimeout(() => {
+									window.location.href = '/lists';
+								}, 500);
+							}}
 							className='quick-action shopping-list-action'>
-							<FaList /> View Shopping Lists
+							<FaList /> View Shopping Lists{' '}
+							<span className='xp-gain'>+20 XP</span>
 						</NavLink>
 					</div>
 				</div>

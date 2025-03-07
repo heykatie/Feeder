@@ -10,6 +10,7 @@ import Navbar from '../components/Nav';
 import Footer from '../components/Footer';
 import { useAudio } from '../context/AudioContext';
 import AudioControls from '../components/AudioControls';
+import Loading from '../components/Loading/';
 import '../index.css';
 
 export default function Layout() {
@@ -17,6 +18,7 @@ export default function Layout() {
 	const location = useLocation();
 	const [isLoaded, setIsLoaded] = useState(true);
 	const { setCurrentMusic } = useAudio();
+	const [loading, setLoading] = useState(true);
 
 	// useEffect(() => {
 	// 	const restore = async () => {
@@ -31,9 +33,13 @@ export default function Layout() {
 	// 	restore();
 	// }, [dispatch]);
 
-	// useEffect(() => {
-	// 	dispatch(restoreSession()).then(() => setIsLoaded(true));
-	// }, [dispatch]);
+	useEffect(() => {
+		dispatch(restoreSession()).then(() => setIsLoaded(true));
+	}, [dispatch]);
+
+	useEffect(() => {
+		setTimeout(() => setLoading(false), 1000);
+	}, []);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -101,7 +107,9 @@ export default function Layout() {
 			/>
 			<ModalProvider>
 				{location.pathname !== '/embark' && <Navbar />}
-				<div className='main-content'>{isLoaded && <Outlet />}</div>
+				<div className='main-content'>
+					{loading ? <Loading /> : isLoaded && <Outlet />}
+				</div>
 				<AudioControls />
 				<Modal />
 				{location.pathname !== '/embark' && <Footer />}

@@ -12,9 +12,11 @@ const Splash = () => {
 		setTimeout(() => setLoaded(true), 300);
 	}, []);
 
-	if (user) {
-		navigate('/dash')
-	}
+	useEffect(() => {
+		if (user) {
+			navigate('/dash');
+		}
+	}, [user]);
 
 	return (
 		<div className='splash-container'>

@@ -8,6 +8,7 @@ import recipesReducer from './recipes';
 import ingredientsReducer from './ingredients'
 import listsReducer from './lists';
 import filesReducer from './files';
+import xpReducer from './xp';
 
 const isProduction = import.meta.env.MODE === 'production';
 
@@ -23,6 +24,7 @@ const store = configureStore({
 		ingredients: ingredientsReducer,
 		lists: listsReducer,
 		files: filesReducer,
+		xp: xpReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		isProduction
