@@ -175,7 +175,7 @@
 .species-card.selected {
   transform: scale(1.2);
   box-shadow: 0px 6px 15px rgba(255, 184, 76, 0.8);
-  animation: bounce 10s ease-in-out infinite alternate;
+  animation: bounce 2s ease-in-out infinite alternate;
 }
 
 
