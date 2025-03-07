@@ -4,6 +4,7 @@ import { getPets, createPet, deletePet, updatePet } from '../../redux/pets';
 import AboutPet from '../Embark/AboutPet';
 import OpenModalButton from '../../context/OpenModalButton';
 import pupGif from '/images/icons/pup.gif';
+import catGif from '/images/cat-gifs/new-cat.gif';
 import './Pets.css';
 
 const Pets = () => {
@@ -53,7 +54,8 @@ const Pets = () => {
 				<ul className='pet-list'>
 					{pets.map((pet) => (
 						<li key={pet.id} className='pet-card'>
-							<img src={pet?.image || pupGif} alt={pet.name} />
+							{pet.species == 'dog' && <img src={pet?.image || pupGif} alt={pet.name} />}
+							{pet.species == 'cat' && <img src={pet?.image || catGif} alt={pet.name} />}
 							<h3>{pet.name}</h3>
 							<p>
 								{pet.species} - {pet.breed}

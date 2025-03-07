@@ -12,7 +12,7 @@ const callbackBaseUrl =
 		: process.env.APP_HOME_URL;
 
 passport.serializeUser((user, done) => {
-	console.log('🔐 Serializing User:', user.id);
+	// console.log('🔐 Serializing User:', user.id);
 	done(null, user.id);
 });
 
@@ -22,13 +22,13 @@ passport.deserializeUser(async (id, done) => {
 			include: [{ model: SousChef }],
 		});
 		if (!user) {
-			console.error('❌ User Not Found in deserializeUser:', id);
+			// console.error('❌ User Not Found in deserializeUser:', id);
 			return done(null, false);
 		}
-		console.log('✅ User Session Restored:', user.id);
+		// console.log('✅ User Session Restored:', user.id);
 		done(null, user);
 	} catch (err) {
-		console.error('🚨 Deserialize Error:', err);
+		// console.error('🚨 Deserialize Error:', err);
 		done(err, null);
 	}
 });

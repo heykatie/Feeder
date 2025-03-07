@@ -39,7 +39,7 @@ const restoreUser = async (req, res, next) => {
 		// Check if the user is authenticated via session (OAuth users)
 		if (req.session?.passport?.user) {
 			console.log(
-				'🔍 Restoring OAuth user from session:',
+				// '🔍 Restoring OAuth user from session:',
 				req.session.passport.user
 			);
 
@@ -49,11 +49,11 @@ const restoreUser = async (req, res, next) => {
 			});
 
 			if (!req.user) {
-				console.error('❌ OAuth User not found in database.');
+				// console.error('❌ OAuth User not found in database.');
 				return next();
 			}
 
-			console.log('✅ OAuth User restored:', req.user.id);
+			// console.log('✅ OAuth User restored:', req.user.id);
 			return next();
 		}
 
@@ -61,7 +61,7 @@ const restoreUser = async (req, res, next) => {
 		if (token) {
 			return jwt.verify(token, secret, null, async (err, jwtPayload) => {
 				if (err) {
-					console.error('❌ Invalid JWT token.');
+					// console.error('❌ Invalid JWT token.');
 					res.clearCookie('token');
 					return next();
 				}
@@ -74,25 +74,25 @@ const restoreUser = async (req, res, next) => {
 					});
 
 					if (!req.user) {
-						console.error('❌ Regular user not found in database.');
+						// console.error('❌ Regular user not found in database.');
 						res.clearCookie('token');
 						return next();
 					}
 
-					console.log('✅ Regular User restored:', req.user.id);
+					// console.log('✅ Regular User restored:', req.user.id);
 					return next();
 				} catch (err) {
-					console.error('🚨 Error restoring regular user:', err);
+					// console.error('🚨 Error restoring regular user:', err);
 					res.clearCookie('token');
 					return next();
 				}
 			});
 		}
 
-		console.warn('⚠️ No session or token found. User not authenticated.');
+		// console.warn('⚠️ No session or token found. User not authenticated.');
 		return next();
 	} catch (err) {
-		console.error('🚨 Unexpected error in restoreUser:', err);
+		// console.error('🚨 Unexpected error in restoreUser:', err);
 		return next();
 	}
 };

@@ -49,10 +49,10 @@ const validateLogin = [
 // });
 
 router.get('/', restoreUser, async (req, res) => {
-	console.log('🔍 Session Middleware Restoring User:', req.user);
+	// console.log('🔍 Session Middleware Restoring User:', req.user);
 
 	if (!req.user) {
-		console.error('❌ No user found in session.');
+		// console.error('❌ No user found in session.');
 		return res.json({ user: null });
 	}
 
@@ -63,14 +63,14 @@ router.get('/', restoreUser, async (req, res) => {
 		});
 
 		if (!restoredUser) {
-			console.error('❌ User not found in database.');
+			// console.error('❌ User not found in database.');
 			return res.status(404).json({ error: 'User not found' });
 		}
 
-		console.log('✅ Returning user from session:', restoredUser.toJSON());
+		// console.log('✅ Returning user from session:', restoredUser.toJSON());
 		return res.json({ user: restoredUser });
 	} catch (err) {
-		console.error('🚨 Error fetching user for session restore:', err);
+		// console.error('🚨 Error fetching user for session restore:', err);
 		return res.status(500).json({ error: 'Internal Server Error' });
 	}
 });
