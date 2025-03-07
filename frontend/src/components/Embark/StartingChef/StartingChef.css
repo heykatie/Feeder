@@ -16,7 +16,7 @@
   position: relative;
 }
 
-/* 🎭 Animated Gradient Background */
+
 @keyframes backgroundMove {
   0% {
     background-position: 0% 50%;
@@ -31,7 +31,7 @@
   }
 }
 
-/* 🎆 SousChef Preview with Glow Effect */
+
 .souschef-preview {
   width: 200px;
   height: 200px;
@@ -50,7 +50,7 @@
   box-shadow: 0 0 25px rgba(255, 184, 76, 1);
 }
 
-/* 🎀 Input Styling for Naming the SousChef */
+
 .starting-chef-container input {
   text-align: center;
   font-size: 16px;
@@ -73,7 +73,7 @@
   margin: 1rem;
 }
 
-/* 🚀 Animated Selection Buttons */
+
 .eye-preview-container,
 .personality-options {
   display: flex;
@@ -82,7 +82,7 @@
   margin-top: 20px;
 }
 
-/* ✨ Hover Effects for Eye Shape Selection */
+
 .eye-preview-container button {
   background: transparent;
   border: 2px solid transparent;
@@ -102,7 +102,7 @@
   box-shadow: 0px 4px 10px rgba(255, 202, 40, 0.8);
 }
 
-/* 🌀 Bouncy Animation for Selected Eye */
+
 @keyframes bounce {
 
   0%,
@@ -120,7 +120,7 @@
   animation: bounce 0.5s ease-in-out infinite alternate;
 }
 
-/* 🎭 Personality Selection Fun Effects */
+
 .personality-options button {
   background: #444;
   color: white;
@@ -141,14 +141,14 @@
   box-shadow: 0px 4px 12px rgba(255, 202, 40, 0.8);
 }
 
-/* 🎉 Selected Personality Highlight */
+
 .personality-options button.selected {
   border-color: #ffcc00;
   background-color: #222;
   animation: bounce 0.5s ease-in-out infinite alternate;
 }
 
-/* 🎨 Color Picker Effects */
+
 .color-picker {
   display: flex;
   flex-direction: column;
@@ -162,7 +162,7 @@
   gap: 10px;
 }
 
-/* 🏆 Animated Color Preview */
+
 .color-preview {
   width: 50px;
   height: 50px;
@@ -177,7 +177,7 @@
   box-shadow: 0 0 18px rgba(255, 202, 40, 1);
 }
 
-/* 🎭 Animated Buttons */
+
 button {
   transition: transform 0.2s ease-in-out;
 }
@@ -186,7 +186,7 @@ button:active {
   transform: scale(0.95);
 }
 
-/* 🏅 Level-Up Button Effect */
+
 .starting-chef-container .level-up-btn {
   background: #ffb84c;
   color: white;
@@ -207,7 +207,7 @@ button:active {
   box-shadow: 0px 6px 18px rgba(255, 204, 0, 0.9);
 }
 
-/* 🚀 Fun XP Bar */
+
 .xp-bar-container {
   width: 90%;
   max-width: 450px;

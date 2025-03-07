@@ -258,10 +258,10 @@ export default function List() {
 														dispatch(
 															deleteIngredient({
 																listId: groceryList.id,
-																ingredientId: item.ingredientId, // ✅ Ensure correct ID
+																ingredientId: item.ingredientId,
 															})
 														).then(() => {
-															dispatch(fetchGroceryList(listId)); // ✅ Force re-fetch after delete
+															dispatch(fetchGroceryList(listId));
 														});
 													}}>
 													🗑

@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); */
+
 }
 
 #modal-background {
@@ -74,7 +74,7 @@
   animation: fadeInModal 0.4s ease-in-out;
 }
 
-/* 🎭 Modal Background with Blur */
+
 #modal-background {
   position: fixed;
   top: 0;
@@ -86,7 +86,7 @@
   animation: backgroundFade 0.4s ease-in-out;
 }
 
-/* ✨ Glowing & Animated Modal */
+
 #modal-content {
   align-items: center;
   border-radius: 15px;
@@ -104,7 +104,7 @@
   max-height: 95vh;
 }
 
-/* 🚀 Bouncy Modal Open Animation */
+
 @keyframes bounceOpen {
   0% {
     transform: scale(0.8);
@@ -121,7 +121,7 @@
   }
 }
 
-/* 🎭 Modal Background Fade Animation */
+
 @keyframes backgroundFade {
   from {
     opacity: 0;
@@ -132,7 +132,7 @@
   }
 }
 
-/* 🎮 Fun Close Button */
+
 #modal-close {
   background: none;
   border: none;
@@ -147,14 +147,14 @@
   transition: transform 0.2s, color 0.3s;
 }
 
-/* 🌀 Close Button Hover Effect */
+
 #modal-close:hover {
   color: #FFB84C;
   transform: rotate(10deg) scale(1.2);
   text-shadow: 0px 0px 10px rgba(255, 184, 76, 0.8);
 }
 
-/* 🏆 Game-Like Font Styling */
+
 #modal-content h1,
 #modal-content h2,
 #modal-content h3 {
@@ -165,7 +165,7 @@
   text-shadow: 0px 0px 6px rgba(163, 121, 255, 0.8);
 }
 
-/* ✨ Add Soft Glow to Modals */
+
 @keyframes glowPulse {
   0% {
     box-shadow: 0 0 5px rgba(255, 184, 76, 0.6);

@@ -122,7 +122,7 @@
 }
 
 .file-upload-container input {
-  display: none; /* Hide default input */
+  display: none;
 }
 
 .file-upload-container input:hover {
@@ -219,7 +219,7 @@
     max-height: 120px;
   }
 }
-/* Styled "Choose File" button */
+
 .file-upload-label {
   display: inline-block;
   padding: 12px 18px;
@@ -246,7 +246,6 @@
   transform: scale(0.95);
 }
 
-/* 🎉 Fun animation when file is selected */
 .file-selected {
   background: #ffb84c;
   color: #232946;

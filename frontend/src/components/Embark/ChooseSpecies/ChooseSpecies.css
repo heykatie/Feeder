@@ -94,7 +94,7 @@
   box-shadow: 0px 8px 15px rgba(0, 198, 207, 0.3);
 }
 
-/* 🎭 Animated Gradient Background */
+
 @keyframes backgroundMove {
   0% {
     background-position: 0% 50%;
@@ -118,7 +118,7 @@
   width: 100%;
 }
 
-/* 🐾 Pet Selection Cards */
+
 .species-card {
   background: #232946;
   padding: 12px;
@@ -136,7 +136,7 @@
   box-shadow: 0px 4px 10px rgba(0, 198, 207, 0.5);
 }
 
-/* ✨ Pet GIF Styling */
+
 .pet-gif {
   width: auto;
   height: 120px;
@@ -144,7 +144,7 @@
   object-fit: contain;
 }
 
-/* 🎀 Pet Name Styling */
+
 .species-card p {
   margin-top: 10px;
   font-size: 1.2rem;
@@ -153,13 +153,13 @@
   text-shadow: 1px 1px 5px rgba(255, 202, 40, 0.6);
 }
 
-/* 🎆 Fun Glow and Scaling Effects */
+
 .species-card:hover {
   transform: scale(1.1);
   box-shadow: 0px 6px 15px rgba(0, 198, 207, 0.7);
 }
 
-/* 🚀 Bouncy Animation When Selected */
+
 @keyframes bounce {
 
   0%,

@@ -376,7 +376,7 @@ button:hover {
   --border-color: #333333;
 }
 
-/* 🎨 General UI Typography */
+
 body {
   font-family: "Baloo 2", sans-serif;
   background-color: var(--bg-color);
@@ -386,7 +386,7 @@ body {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* 🎭 Page Transition Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -403,7 +403,7 @@ body {
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Smooth slide transitions */
+
 @keyframes slideIn {
   from {
     transform: translateX(10px);
@@ -420,7 +420,7 @@ body {
   animation: slideIn 0.4s ease-in-out;
 }
 
-/* 🎮 XP & Game-Like Elements */
+
 .xp-bar,
 .badge-title,
 .leaderboard-highlight {
@@ -429,7 +429,7 @@ body {
   letter-spacing: 1px;
 }
 
-/* 📜 Headings & Buttons */
+
 h1,
 h2,
 h3,
@@ -441,7 +441,7 @@ h6,
   font-weight: 700;
 }
 
-/* 🔘 Buttons */
+
 button {
   background: var(--highlight-color);
   color: var(--text-color);
@@ -467,7 +467,7 @@ button:hover {
   box-shadow: 0 0 10px var(--active-color);
 }
 
-/* 🏆 Leaderboard & XP */
+
 .leaderboard-highlight {
   color: var(--active-color);
   font-weight: bold;
@@ -482,7 +482,7 @@ button:hover {
   box-shadow: 0px 0px 6px var(--active-color);
 }
 
-/* ✨ Glowing Effects */
+
 @keyframes glow {
   0% {
     box-shadow: 0 0 5px var(--cta-color);
@@ -501,7 +501,7 @@ button:hover {
   animation: glow 1.5s infinite alternate ease-in-out;
 }
 
-/* 🎭 Soft Button Pop Animation */
+
 @keyframes softPop {
   0% {
     transform: scale(0.95);

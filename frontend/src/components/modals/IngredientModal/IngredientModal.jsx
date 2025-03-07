@@ -102,7 +102,7 @@ const IngredientModal = ({
 	};
 
 	// const refreshIngredients = async () => {
-	// 	const updatedIngredients = await dispatch(fetchIngredients()).unwrap(); // 🔥 Fetch updated ingredients
+	// 	const updatedIngredients = await dispatch(fetchIngredients()).unwrap(); 
 	// 	setIngredientList(updatedIngredients); // Update state
 	// };
 
