@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { signup } from '../../../redux/users';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OpenModal from '../../../context/OpenModal';
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '../../../context/Modal/ModalContext';
 import './Signup.css';
 import LoginModal from '../../modals/LoginModal';
 
@@ -43,9 +43,9 @@ const Signup = ({ mode, errors = {}, onUpdate, initialData, handleSubmit }) => {
 				setErrs(
 					serverResponse.payload.errors || serverResponse.payload.message
 				);
-			// } else if (location.state?.from) {
-			// 	navigate(location.state.from);
-			// 	closeModal();
+				// } else if (location.state?.from) {
+				// 	navigate(location.state.from);
+				// 	closeModal();
 			} else {
 				navigate('/dash');
 				closeModal();
@@ -66,7 +66,7 @@ const Signup = ({ mode, errors = {}, onUpdate, initialData, handleSubmit }) => {
 				mode === 'fast' ? 'signup-modal show' : ''
 			}`}>
 			<img
-				src='/images/assets/logo.png'
+				src='/assets/logo.png'
 				alt='SousChef Logo'
 				className='page-logo'
 			/>

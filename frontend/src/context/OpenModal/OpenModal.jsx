@@ -1,4 +1,4 @@
-import { useModal } from '../ModalContext';
+import { useModal } from '../Modal/ModalContext';
 
 // function OpenModal({
 // 	modalComponent, // component to render inside the modal
@@ -16,8 +16,6 @@ import { useModal } from '../ModalContext';
 
 // 	return <li onClick={onClick}>{itemText}</li>;
 // }
-
-
 
 function OpenModal({
 	modalComponent, // Component to render inside the modal

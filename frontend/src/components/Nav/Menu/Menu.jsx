@@ -5,40 +5,37 @@ import './Menu.css';
 
 const Menu = ({
 	showMenu,
-	handleMouseEnter, isHovered,
+	handleMouseEnter,
+	isHovered,
 	toggleMenu,
 	handleMouseLeave,
+	setIsHovered,
 }) => {
 	const userId = useSelector((state) => state.session?.user?.id);
 	const menuRef = useRef(null);
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
-			if (e.key === 'Escape') {
-				toggleMenu();
-			}
+			if (e.key === 'Escape') toggleMenu();
 		};
 
-		// const handleClickOutside = (e) => {
-		// 	const menuButton = document.querySelector('.navbar-menu-btn');
+		const handleClickOutside = (e) => {
+			if (!menuRef.current || !e.target) return;
 
-		// 	if (menuButton && menuButton.contains(e.target)) return;
-
-		// 	if (menuRef.current && !menuRef.current.contains(e.target)) {
-		// 		toggleMenu();
-		// 	}
-		// };
+			setIsHovered(false);
+			handleMouseLeave();
+		};
 
 		if (showMenu) {
 			document.addEventListener('keydown', handleKeyDown);
-			// document.addEventListener('click', handleClickOutside);
+			document.addEventListener('mousedown', handleClickOutside);
 		}
 
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
-			// document.removeEventListener('click', handleClickOutside);
+			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [showMenu, toggleMenu]);
+	}, [showMenu, toggleMenu, handleMouseLeave, setIsHovered]);
 
 	return (
 		<div

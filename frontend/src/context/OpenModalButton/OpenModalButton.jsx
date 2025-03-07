@@ -1,4 +1,4 @@
-import { useModal } from '../ModalContext';
+import { useModal } from '../Modal/ModalContext';
 
 // function OpenModalButton({
 // 	modalComponent, // component to render inside the modal
@@ -17,12 +17,11 @@ import { useModal } from '../ModalContext';
 // 	return <button onClick={onClick}>{buttonText}</button>;
 // }
 
-
 function OpenModalButton({
-	modalComponent, 
-	buttonText, 
-	onButtonClick, 
-	parentModal, 
+	modalComponent,
+	buttonText,
+	onButtonClick,
+	parentModal,
 	onModalClose,
 }) {
 	const { setModalContent, setOnModalClose } = useModal();

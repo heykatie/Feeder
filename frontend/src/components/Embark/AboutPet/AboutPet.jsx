@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '../../../context/Modal/ModalContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUploadUrl, uploadFileToS3 } from '../../../redux/files';
 import './AboutPet.css';
@@ -27,9 +27,11 @@ const AboutPet = ({
 		allergies: initialData?.allergies || '',
 		notes: initialData?.notes || '',
 		image: initialData?.image || '',
-		birthday: initialData?.birthday && !isNaN(new Date(initialData.birthday).getTime())
-	? new Date(initialData.birthday).toISOString().split('T')[0]
-	: '',
+		birthday:
+			initialData?.birthday &&
+			!isNaN(new Date(initialData.birthday).getTime())
+				? new Date(initialData.birthday).toISOString().split('T')[0]
+				: '',
 	}));
 
 	const handleChange = (e) => {
@@ -66,7 +68,11 @@ const AboutPet = ({
 		try {
 			// Step 1: Request a signed URL from the backend using Redux
 			const { payload: result } = await dispatch(
-				getUploadUrl({ fileName: file.name, fileType: file.type, fileSize: file.size })
+				getUploadUrl({
+					fileName: file.name,
+					fileType: file.type,
+					fileSize: file.size,
+				})
 			);
 			console.log('Signed URL response:', result);
 
@@ -76,7 +82,11 @@ const AboutPet = ({
 
 			// Step 2: Upload the file directly to S3 using Redux
 			const { payload: uploadResponse } = await dispatch(
-				uploadFileToS3({ url: result.url, file, uniqueKey: result.uniqueKey })
+				uploadFileToS3({
+					url: result.url,
+					file,
+					uniqueKey: result.uniqueKey,
+				})
 			);
 
 			if (!uploadResponse) {

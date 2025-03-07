@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '../../../context/Modal/ModalContext';
 import {
 	fetchMeasurements,
 	fetchIngredients,
@@ -160,7 +160,6 @@ const IngredientModal = ({
 								}
 							/>
 
-
 							{/* <label className='ingredient-label'>
 								{ingredient.name}
 							</label> */}
@@ -201,7 +200,6 @@ const IngredientModal = ({
 								onFocus={() => handleIngredientChange(ingredient, true)}
 							/>
 
-
 							<select
 								className='ingredient-measurement'
 								value={
@@ -234,7 +232,6 @@ const IngredientModal = ({
 				})}
 			</div>
 
-
 			<div>
 				<OpenModalButton
 					buttonText='➕ Add New Ingredient'
@@ -258,7 +255,6 @@ const IngredientModal = ({
 					}
 				/>
 			</div>
-
 
 			<div className='ingredient-modal-actions'>
 				{fromCreateList ? (

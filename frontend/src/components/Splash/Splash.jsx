@@ -26,7 +26,7 @@ const Splash = () => {
 
 			<div className={`mascot-wrapper ${loaded ? 'zoom-in' : 'hidden'}`}>
 				<img
-					src='/images/assets/mascot.png'
+					src='/assets/mascot.png'
 					alt='SousChef Mascot'
 					className='mascot'
 				/>

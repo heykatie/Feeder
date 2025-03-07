@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import './ChooseSpecies.css';
-import catGif from '/images/forms/cat.apng';
-import dogGif from '/images/forms/dog.apng';
+import catGif from '/forms/cat.apng';
+import dogGif from '/forms/dog.apng';
 
 const ChooseSpecies = ({ onSelect, selectedSpecies }) => {
 	const [selectedPet, setSelectedPet] = useState(selectedSpecies || null);
 	const pets = useMemo(() => ['cat', 'dog'], []);
-	
+
 	const handlePetSelection = useCallback(
 		(pet) => {
 			setSelectedPet(pet);

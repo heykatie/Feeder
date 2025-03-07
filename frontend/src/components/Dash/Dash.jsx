@@ -57,7 +57,7 @@ export default function Dash() {
 						animate={{ scale: [1, 1.02, 1] }}
 						transition={{ repeat: Infinity, duration: 5 }}>
 						<img
-							src={'/images/assets/mascot.png' || sousChef?.imageUrl}
+							src={'/assets/mascot.png' || sousChef?.imageUrl}
 							alt='SousChef'
 						/>
 						<p className='souschef-evo-text'>

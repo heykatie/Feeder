@@ -25,6 +25,7 @@ const Navbar = () => {
 	const toggleExpand = () => {
 		if (!isExpanded) setShowMenu(false);
 		setIsExpanded((prev) => !prev);
+		setIsHovered(false);
 	};
 
 	const toggleMenu = () => {
@@ -39,7 +40,7 @@ const Navbar = () => {
 		const handleSearch = (e) => {
 			// console.log('handleSearch fired');
 			// console.log('Current searchQuery:', searchQuery);
-			e.preventDefault(); 
+			e.preventDefault();
 			if (!searchQuery.trim()) return;
 			navigate(`/recipes?search=${encodeURIComponent(searchQuery)}`);
 		};
@@ -115,7 +116,6 @@ const Navbar = () => {
 				className={`expand-arrow ${showMenu ? 'rotated' : ''}`}
 				onClick={toggleMenu}
 				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
 				aria-label='Toggle Sidebar'>
 				<i className='fa-solid fa-chevron-right'></i>
 			</button>
@@ -127,6 +127,7 @@ const Navbar = () => {
 					handleMouseEnter={handleMouseEnter}
 					isHovered={isHovered}
 					toggleMenu={toggleMenu}
+					setIsHovered={setIsHovered}
 					handleMouseLeave={handleMouseLeave}
 				/>
 			)}

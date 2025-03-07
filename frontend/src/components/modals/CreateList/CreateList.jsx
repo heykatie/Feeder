@@ -10,7 +10,7 @@ import {
 import { fetchFavorites, fetchRecipes } from '../../../redux/recipes';
 // import OpenModalButton from '../../../context/OpenModalButton';
 // import IngredientModal from '../../modals/IngredientModal/IngredientModal';
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '../../../context/Modal/ModalContext';
 import { fetchIngredients } from '../../../redux/ingredients';
 // import IngredientModal from '../IngredientModal/index';
 
@@ -141,7 +141,9 @@ const CreateListModal = () => {
 								</option>
 							))
 						) : (
-							<option disabled>No favorite recipes yet, go explore!</option>
+							<option disabled>
+								No favorite recipes yet, go explore!
+							</option>
 						)}
 					</select>
 				</>

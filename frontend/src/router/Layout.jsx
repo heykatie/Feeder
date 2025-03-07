@@ -1,24 +1,39 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { ModalProvider, Modal } from '../context/ModalProvider';
+import { ModalProvider, Modal } from '../context/Modal/ModalProvider';
 import { restoreSession } from '../redux/session';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import './toast.css';
 import Navbar from '../components/Nav';
 import Footer from '../components/Footer';
+import { useAudio } from '../context/AudioContext';
+import AudioControls from '../components/AudioControls';
 import '../index.css';
-
 
 export default function Layout() {
 	const dispatch = useDispatch();
 	const location = useLocation();
-	const [isLoaded, setIsLoaded] = useState(false);
+	const [isLoaded, setIsLoaded] = useState(true);
+	const { setCurrentMusic } = useAudio();
 
-	useEffect(() => {
-		dispatch(restoreSession()).then(() => setIsLoaded(true));
-	}, [dispatch]);
+	// useEffect(() => {
+	// 	const restore = async () => {
+	// 		try {
+	// 			await dispatch(restoreSession()).unwrap();
+	// 		} catch (error) {
+	// 			console.error('Session restore failed:', error);
+	// 		} finally {
+	// 			setIsLoaded(true); // Ensure the page always loads
+	// 		}
+	// 	};
+	// 	restore();
+	// }, [dispatch]);
+
+	// useEffect(() => {
+	// 	dispatch(restoreSession()).then(() => setIsLoaded(true));
+	// }, [dispatch]);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -52,6 +67,27 @@ export default function Layout() {
 		}
 	}, []);
 
+
+	useEffect(() => {
+		if (!setCurrentMusic) {
+			console.error('Audio context is not initialized');
+			return;
+		}
+
+		const musicPaths = {
+			'/recipes': '/audio/lofi/honey-chill-lofi-309227.mp3',
+			'/dash': '/audio/lofi/chill-lofi-music-interior-lounge-256260.mp3',
+			default: '/audio/lofi/lofi-chill-jazz-272869.mp3',
+		};
+
+		const matchedPath = Object.keys(musicPaths).find((path) =>
+			location.pathname.includes(path)
+		);
+		const selectedMusic = matchedPath ? musicPaths[matchedPath] : musicPaths.default;
+		console.log(`Setting background music: ${selectedMusic}`);
+		setCurrentMusic(selectedMusic);
+	}, [location.pathname, setCurrentMusic]);
+
 	return (
 		<>
 			<ToastContainer
@@ -66,6 +102,7 @@ export default function Layout() {
 			<ModalProvider>
 				{location.pathname !== '/embark' && <Navbar />}
 				<div className='main-content'>{isLoaded && <Outlet />}</div>
+				<AudioControls />
 				<Modal />
 				{location.pathname !== '/embark' && <Footer />}
 			</ModalProvider>

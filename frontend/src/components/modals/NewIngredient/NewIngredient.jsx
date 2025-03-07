@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createIngredient, fetchIngredients } from '../../../redux/ingredients';
-import {useModal} from '../../../context/ModalContext';
+import { useModal } from '../../../context/Modal/ModalContext';
 import './NewIngredient.css';
 
 const NewIngredient = () => {
@@ -129,7 +129,6 @@ const NewIngredient = () => {
 					/>
 				</label>
 
-
 				<label>
 					Add More Fields:
 					<select onChange={handleSelectField} value=''>
@@ -145,7 +144,6 @@ const NewIngredient = () => {
 							))}
 					</select>
 				</label>
-
 
 				{selectedFields.map((field) => (
 					<div key={field} className='selected-field'>

@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPets, createPet, deletePet, updatePet } from '../../redux/pets';
 import AboutPet from '../Embark/AboutPet';
 import OpenModalButton from '../../context/OpenModalButton';
-import pupGif from '/images/icons/pup.gif';
-import catGif from '/images/cat-gifs/new-cat.gif';
+import pupGif from '/icons/pup.gif';
+import catGif from '/gif/cat-gifs/new-cat.gif';
 import './Pets.css';
 
 const Pets = () => {

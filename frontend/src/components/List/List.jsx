@@ -14,7 +14,7 @@ import { fetchIngredients } from '../../redux/ingredients';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import OpenModalButton from '../../context/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/Modal/ModalContext';
 // import NewIngredient from '../modals/NewIngredient';
 import './List.css';
 
@@ -275,7 +275,7 @@ export default function List() {
 					)}
 				</Droppable>
 			</DragDropContext>
-		{<div></div>}
+			{<div></div>}
 			<OpenModalButton
 				modalComponent={
 					<ConfirmDelete onConfirm={handleDelete} itemType='list' />
