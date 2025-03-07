@@ -6,6 +6,7 @@ export default function ConfirmExit({ showExitModal, setShowExitModal }) {
 	const navigate = useNavigate();
 	const cancelButtonRef = useRef(null);
 	const exitButtonRef = useRef(null);
+	const modalRef = useRef(null);
 
 	// const confirmExit = useCallback(() => {
 	// 	navigate('/');
@@ -19,18 +20,16 @@ export default function ConfirmExit({ showExitModal, setShowExitModal }) {
 		}, 0);
 	}, [navigate, setShowExitModal]);
 
-
 	useEffect(() => {
-				if (cancelButtonRef.current) {
-					cancelButtonRef.current.focus();
-				}
+		if (cancelButtonRef.current) {
+			cancelButtonRef.current.focus();
+		}
 		const handleKeyDown = (e) => {
 			if (e.key === 'Escape') {
 				setShowExitModal(false);
 			} else if (e.key === 'Enter') {
 				confirmExit();
 			} else if (e.key === 'Tab') {
-
 				if (document.activeElement === cancelButtonRef.current) {
 					e.preventDefault();
 					exitButtonRef.current.focus();
@@ -41,16 +40,26 @@ export default function ConfirmExit({ showExitModal, setShowExitModal }) {
 			}
 		};
 
+		const handleClickOutside = (e) => {
+			if (modalRef.current && !modalRef.current.contains(e.target)) {
+				setShowExitModal(false);
+			}
+		};
+
 		if (showExitModal) {
 			window.addEventListener('keydown', handleKeyDown);
+			document.addEventListener('mousedown', handleClickOutside);
 		}
 
-		return () => window.removeEventListener('keydown', handleKeyDown);
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
 	}, [showExitModal, confirmExit, setShowExitModal]);
 
 	return (
 		<div className={`exit-modal ${showExitModal ? 'visible' : ''}`}>
-			<div className='exit-modal-content'>
+			<div ref={modalRef} className='exit-modal-content'>
 				<p>Are you sure? Exiting will lose your progress.</p>
 				<div className='exit-modal-buttons'>
 					<button
