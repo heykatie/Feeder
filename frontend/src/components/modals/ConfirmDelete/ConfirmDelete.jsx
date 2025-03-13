@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '../../../context/Modal/ModalContext';
 import './ConfirmDelete.css';
 
 export default function ConfirmDelete({ onConfirm, itemType = 'recipe' }) {
@@ -18,7 +18,6 @@ export default function ConfirmDelete({ onConfirm, itemType = 'recipe' }) {
 			} else if (e.key === 'Enter') {
 				onConfirm();
 			} else if (e.key === 'Tab') {
-
 				if (document.activeElement === cancelButtonRef.current) {
 					e.preventDefault();
 					deleteButtonRef.current.focus();

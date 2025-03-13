@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { login } from '../../../redux/session';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useModal } from '../../../context/ModalContext';
+import { useModal } from '../../../context/Modal/ModalContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import OpenModal from '../../../context/OpenModal';
 // import LoginModal from '../../../Auth/Modals/LoginModal';
@@ -30,16 +30,16 @@ function LoginModal() {
 
 		if (serverResponse.payload?.errors) {
 			setErrors(serverResponse.payload.errors);
-		// } else if (location.state?.from) {
-		// 	navigate(location.state.from);
-		// 	closeModal();
+			// } else if (location.state?.from) {
+			// 	navigate(location.state.from);
+			// 	closeModal();
 		} else {
 			navigate('/dash');
 			closeModal();
 		}
 	};
 
-		const demoLogin = async (e) => {
+	const demoLogin = async (e) => {
 		e.preventDefault();
 		const demoCredential = 'qt@tootie.io';
 		const demoPassword = 'Password123@';
@@ -62,13 +62,15 @@ function LoginModal() {
 	return (
 		<div className='login-modal'>
 			<img
-				src='/images/assets/logo.png'
+				src='/gif/cat-gifs/cat-stare.gif'
 				alt='SousChef Logo'
 				className='logo'
 			/>
 			<h2>Log in to SousChef</h2>
 
-			{errors.credential && <p className='error-message'>{errors.credential}</p>}
+			{errors.credential && (
+				<p className='error-message'>{errors.credential}</p>
+			)}
 			<form onSubmit={handleLogin}>
 				<div className='input-container'>
 					<input

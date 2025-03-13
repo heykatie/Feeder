@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import OpenModalButton from '../../context/OpenModalButton';
 import CreateListModal from '../modals/CreateList';
 import ConfirmDelete from '../modals/ConfirmDelete';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/Modal/ModalContext';
 import './Lists.css';
 
 const Lists = () => {

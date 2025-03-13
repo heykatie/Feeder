@@ -7,13 +7,14 @@
   flex-direction: column;
   align-items: center;
   width: 320px;
-  height: 520px;
+  height: 550px;
   text-align: center;
   overflow: auto;
   border: 2px solid #1A1A2E;
   padding: 10px;
   padding-top: 0px;
   margin: 11px;
+  border-radius: 15px;
 }
 
 .logo {
@@ -180,4 +181,14 @@
 
 .signup-link:hover {
   color: #C49CFF;
+}
+
+.login-modal h2 {
+  margin-bottom: 1rem;
+}
+
+.login-modal button {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }

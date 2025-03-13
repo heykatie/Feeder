@@ -4,57 +4,118 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
+
 
 .exit-modal.visible {
   opacity: 1;
   visibility: visible;
+  animation: bounceOpen 0.4s ease-in-out;
+}
+
+
+@keyframes bounceOpen {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .exit-modal-content {
-  background: linear-gradient(#1A1A2E, #1A1A2E);
-  padding: 20px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #232946, #1a1a2e);
+  padding: 25px;
+  border-radius: 15px;
   text-align: center;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(163, 121, 255, 0.8);
+  min-width: 320px;
+  max-width: 550px;
+  transform: scale(0.95);
+  animation: glowPulse 1.5s infinite alternate ease-in-out;
 }
 
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 184, 76, 0.6);
+  }
+
+  50% {
+    box-shadow: 0 0 15px rgba(255, 184, 76, 1);
+  }
+
+  100% {
+    box-shadow: 0 0 5px rgba(255, 184, 76, 0.6);
+  }
+}
+
+.exit-modal-content p {
+  font-size: 18px;
+  font-weight: bold;
+  color: #FFB84C;
+  font-family: "Press Start 2P", cursive;
+  text-transform: uppercase;
+  line-height: 1.6;
+  text-shadow: 0px 0px 6px rgba(255, 184, 76, 0.8);
+}
+
+
 .exit-modal-buttons {
-  margin-top: 15px;
+  margin-top: 20px;
   display: flex;
   justify-content: space-evenly;
 }
 
+
 .exit-cancel-btn {
-  background: #ccc;
-  color: black;
-  padding: 10px 20px;
+  background: #444;
+  color: white;
+  padding: 12px 24px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
+
+.exit-cancel-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 12px rgba(255, 202, 40, 0.7);
+}
+
 
 .confirm-exit-btn {
   background: red;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-}
-
-.exit-cancel-btn:hover {
-  background: #bbb;
+  font-weight: bold;
+  font-size: 16px;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
 .confirm-exit-btn:hover {
   background: darkred;
+  transform: scale(1.1);
+  box-shadow: 0px 4px 12px rgba(255, 60, 60, 0.8);
 }

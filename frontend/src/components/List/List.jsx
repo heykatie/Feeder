@@ -14,7 +14,7 @@ import { fetchIngredients } from '../../redux/ingredients';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import OpenModalButton from '../../context/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/Modal/ModalContext';
 // import NewIngredient from '../modals/NewIngredient';
 import './List.css';
 
@@ -258,10 +258,10 @@ export default function List() {
 														dispatch(
 															deleteIngredient({
 																listId: groceryList.id,
-																ingredientId: item.ingredientId, // ✅ Ensure correct ID
+																ingredientId: item.ingredientId,
 															})
 														).then(() => {
-															dispatch(fetchGroceryList(listId)); // ✅ Force re-fetch after delete
+															dispatch(fetchGroceryList(listId));
 														});
 													}}>
 													🗑
@@ -275,7 +275,7 @@ export default function List() {
 					)}
 				</Droppable>
 			</DragDropContext>
-		{<div></div>}
+			{<div></div>}
 			<OpenModalButton
 				modalComponent={
 					<ConfirmDelete onConfirm={handleDelete} itemType='list' />

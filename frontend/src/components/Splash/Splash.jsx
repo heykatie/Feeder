@@ -12,9 +12,11 @@ const Splash = () => {
 		setTimeout(() => setLoaded(true), 300);
 	}, []);
 
-	if (user) {
-		navigate('/dash')
-	}
+	useEffect(() => {
+		if (user) {
+			navigate('/dash');
+		}
+	}, [user]);
 
 	return (
 		<div className='splash-container'>
@@ -26,7 +28,7 @@ const Splash = () => {
 
 			<div className={`mascot-wrapper ${loaded ? 'zoom-in' : 'hidden'}`}>
 				<img
-					src='/images/assets/mascot.png'
+					src='/assets/mascot.png'
 					alt='SousChef Mascot'
 					className='mascot'
 				/>

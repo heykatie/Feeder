@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
 			// 	),
 			// },
 			{
-				path: '/dash',
+				path: 'dash',
 				element: (
 					<ProtectedRoute>
 						<Dash />
@@ -66,7 +66,7 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: '/pets',
+				path: 'pets',
 				element: (
 					<ProtectedRoute>
 						<Pets />
@@ -74,19 +74,19 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: '/recipes',
+				path: 'recipes',
 				element: <Recipes />,
 			},
 			{
-				path: '/recipes/:id',
+				path: 'recipes/:id',
 				element: <Recipe />,
 			},
 			{
-				path: '/recipes/new',
+				path: 'recipes/new',
 				element: <RecipeForm />,
 			},
 			{
-				path: '/recipes/:id/edit',
+				path: 'recipes/:id/edit',
 				element: (
 					<ProtectedRoute>
 						<RecipeForm />
@@ -94,14 +94,14 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: '/:userId/recipes',
+				path: ':userId/recipes',
 				element:
 				(<ProtectedRoute>
 					<Recipes />,
 				</ProtectedRoute>),
 			},
 			{
-				path: '/favorites',
+				path: 'favorites',
 				element: (
 					<ProtectedRoute>
 						<Recipes />
@@ -109,7 +109,7 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: '/lists/:listId',
+				path: 'lists/:listId',
 				element: (
 					<ProtectedRoute>
 						<List />
@@ -117,7 +117,7 @@ export const router = createBrowserRouter([
 				),
 			},
 			{
-				path: '/lists',
+				path: 'lists',
 				element: (
 					<ProtectedRoute>
 						<Lists />

@@ -161,3 +161,7 @@
     gap: 5px;
   }
 }
+
+.create-recipe-btn {
+  margin-right: 1rem;
+}

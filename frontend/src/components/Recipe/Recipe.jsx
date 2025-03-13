@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipe, deleteRecipe, toggleFavorite } from '../../redux/recipes';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../context/Modal/ModalContext';
 import OpenModalButton from '../../context/OpenModalButton/OpenModalButton';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
@@ -103,7 +103,7 @@ const Recipe = () => {
 	// const handleBack = () => {
 	// 	const prevPath = location.state?.from || document.referrer;
 	// 	if (
-		// 		prevPath?.includes('/edit') ||
+	// 		prevPath?.includes('/edit') ||
 	// 		prevPath?.includes('/lists') ||
 	// 		prevPath?.includes('/recipes/new')
 	// 	) {
@@ -254,7 +254,6 @@ const Recipe = () => {
 				</div>
 			</div>
 
-
 			<div
 				className={`recipe-section collapsible ${
 					showInstructions ? 'open' : ''
@@ -277,7 +276,6 @@ const Recipe = () => {
 				</div>
 			</div>
 
-
 			<div
 				className={`recipe-section collapsible ${
 					showNutrition ? 'open' : ''
@@ -298,7 +296,6 @@ const Recipe = () => {
 					</ul>
 				</div>
 			</div>
-
 
 			{recipe.notes && (
 				<div className='recipe-section'>

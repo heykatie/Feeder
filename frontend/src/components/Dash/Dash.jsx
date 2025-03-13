@@ -1,26 +1,48 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { NavLink } from 'react-router-dom';
+import { addXP, updateXP } from '../../redux/xp';
+import { NavLink, useNavigate } from 'react-router-dom';
 import ProgressBar from '../ui/ProgressBar';
 import { FaCrown, FaList, FaBell, FaBookOpen, FaPen } from 'react-icons/fa';
+import XPNotification from '../Notifications/XP';
 import './Dash.css';
 
 export default function Dash() {
 	const user = useSelector((state) => state.session.user);
+	const navigate = useNavigate();
+	const [XP, setXP] = useState(0);
 	const sousChef = useSelector((state) => state.sousChefs.sousChef);
+	const { xp, level, xpToNextLevel } = useSelector((state) => state.xp);
+	const dispatch = useDispatch();
 
 	const [greeting, setGreeting] = useState('');
 
+	const handleClick = async (xp, url) => {
+		setXP(xp);
+		dispatch(addXP(xp));
+		await dispatch(
+			updateXP({
+				sousChefId: user.SousChef.id,
+				xp: xp,
+			})
+		);
+		setTimeout(() => {
+			navigate(url);
+		}, 600);
+	};
+
 	useEffect(() => {
 		const hours = new Date().getHours();
-		if (hours < 12) setGreeting(`Good morning, ${user?.firstName || user?.username}☀️`);
+		if (hours < 12)
+			setGreeting(`Good morning, ${user?.firstName || user?.username}☀️`);
 		else if (hours < 18) setGreeting('Ready to cook something delicious? 🍳');
 		else setGreeting("Let's level up your meals! 🚀");
 	}, [user]);
 
 	return (
 		<div className='dash-container'>
+			<XPNotification xp={XP} />
 			<div className='dash-header'>
 				<h1>{greeting}</h1>
 				<NavLink to='/notifications'>
@@ -40,14 +62,14 @@ export default function Dash() {
 						/>
 						<div className='profile-info'>
 							<h2>{user?.username || 'Chef'}</h2>
-							<p>Level {sousChef?.level || 1}</p>
+							<p>Level {level}</p>
 						</div>
 					</div>
 
 					<div className='xp-progress-container'>
 						<p className='xp-progress-label'>XP Progress</p>
 						<ProgressBar
-							value={(sousChef?.xp / 100) * 100}
+							value={(xp / xpToNextLevel) * 100}
 							className='xp-progress-bar'
 						/>
 					</div>
@@ -57,7 +79,7 @@ export default function Dash() {
 						animate={{ scale: [1, 1.02, 1] }}
 						transition={{ repeat: Infinity, duration: 5 }}>
 						<img
-							src={'/images/assets/mascot.png' || sousChef?.imageUrl}
+							src={'/assets/mascot.png' || sousChef?.imageUrl}
 							alt='SousChef'
 						/>
 						<p className='souschef-evo-text'>
@@ -73,19 +95,33 @@ export default function Dash() {
 					</p>
 
 					<div className='quick-actions'>
-						<NavLink to='/recipes' className='quick-action'>
-							<FaBookOpen /> Browse Recipes
+						<NavLink
+							onClick={(e) => {
+								e.preventDefault();
+								e.preventDefault();
+								handleClick(10, '/recipes');
+							}}
+							className='quick-action'>
+							<FaBookOpen /> Browse Recipes{' '}
+							<span className='xp-gain'>+10 XP</span>
 						</NavLink>
 						<NavLink
-							to='/recipes/new'
+							onClick={(e) => {
+								e.preventDefault();
+								handleClick(50, '/recipes/new');
+							}}
 							className='quick-action post-action'>
-							<FaPen />
-							Post a Recipe
+							<FaPen /> Post a Recipe{' '}
+							<span className='xp-gain'>+50 XP</span>
 						</NavLink>
 						<NavLink
-							to='/lists'
+							onClick={(e) => {
+								e.preventDefault();
+								handleClick(20, '/lists');
+							}}
 							className='quick-action shopping-list-action'>
-							<FaList /> View Shopping Lists
+							<FaList /> View Shopping Lists{' '}
+							<span className='xp-gain'>+20 XP</span>
 						</NavLink>
 					</div>
 				</div>

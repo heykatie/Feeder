@@ -79,3 +79,122 @@
 .continue-btn:hover {
   background: #64ccc5;
 }
+
+.pet-selection-container {
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a2e, #232946, #00c6cf);
+  background-size: 400% 400%;
+  animation: backgroundMove 10s ease infinite;
+  border-radius: 20px;
+  box-shadow: 0px 8px 15px rgba(0, 198, 207, 0.3);
+}
+
+
+@keyframes backgroundMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.pet-options {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 80px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+
+.species-card {
+  background: #232946;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease-in-out;
+  text-align: center;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin: 2rem 0px 3rem 0px;
+  box-shadow: 0px 4px 10px rgba(0, 198, 207, 0.5);
+}
+
+
+.pet-gif {
+  width: auto;
+  height: 120px;
+  display: block;
+  object-fit: contain;
+}
+
+
+.species-card p {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffca28;
+  text-shadow: 1px 1px 5px rgba(255, 202, 40, 0.6);
+}
+
+
+.species-card:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 6px 15px rgba(0, 198, 207, 0.7);
+}
+
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.species-card.selected {
+  transform: scale(1.2);
+  box-shadow: 0px 6px 15px rgba(255, 184, 76, 0.8);
+  animation: bounce 2s ease-in-out infinite alternate;
+}
+
+
+/* .continue-btn {
+  margin-top: 20px;
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  background: #00c6cf;
+  color: white;
+  box-shadow: 0px 4px 10px rgba(0, 198, 207, 0.5);
+}
+
+.continue-btn:hover {
+  background: #64ccc5;
+  transform: scale(1.1);
+  box-shadow: 0px 6px 15px rgba(100, 204, 197, 0.7);
+} */

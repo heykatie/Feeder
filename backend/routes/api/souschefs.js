@@ -54,4 +54,25 @@ router.put('/:sousChefId', requireAuth, async (req, res) => {
 	}
 });
 
+router.put('/:id/xp', async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { xp } = req.body;
+
+		const sousChef = await SousChef.findByPk(id);
+		if (!sousChef)
+			return res.status(404).json({ error: 'SousChef not found' });
+
+		// Update XP and save
+		sousChef.xp += xp;
+		await sousChef.save();
+
+		res.json({ xp: sousChef.xp });
+	} catch (error) {
+		console.error('Error updating XP:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	}
+});
+
+
 module.exports = router;

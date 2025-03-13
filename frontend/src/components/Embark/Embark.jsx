@@ -84,6 +84,8 @@ const handleSubmit = useCallback(
 			const userId = userResponse?.payload?.id;
 			const sousChefId = userResponse?.payload.SousChef?.id || sousChef?.id;
 
+			console.warn('Final image URL being sent:', selection.image);
+
 			if (selection.species) {
 				await dispatch(
 					createPet({

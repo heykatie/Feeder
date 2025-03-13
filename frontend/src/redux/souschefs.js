@@ -66,6 +66,27 @@ export const updateSousChef = createAsyncThunk(
 	}
 );
 
+export const updateSousChefXP = createAsyncThunk(
+	'sousChefs/updateXP',
+	async ({ sousChefId, xp }, { rejectWithValue }) => {
+		try {
+			const response = await csrfFetch(`/api/souschefs/${sousChefId}/xp`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ xp }),
+			});
+			if (!response.ok) {
+				const errorData = await response.json();
+				return rejectWithValue(errorData);
+			}
+			const data = await response.json();
+			return data;
+		} catch (error) {
+			return rejectWithValue('Failed to update XP in SousChef.');
+		}
+	}
+);
+
 const sousChefSlice = createSlice({
 	name: 'sousChefs',
 	initialState: { sousChef: null, status: 'idle', error: null },

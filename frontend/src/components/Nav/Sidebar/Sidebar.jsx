@@ -51,7 +51,7 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 			<div className='sidebar-header'>
 				<NavLink to='/'>
 					<img
-						src='/images/assets/logo.png'
+						src='/assets/logo.png'
 						className='logo'
 						alt='SousChef Logo'
 					/>

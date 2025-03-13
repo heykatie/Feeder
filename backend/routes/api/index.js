@@ -9,11 +9,12 @@ const oauthRouter = require('./oauth.js');
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
 const petsRouter = require('./pets');
-const sousChefsRouter = require('./souschefs.js')
+const sousChefsRouter = require('./souschefs.js');
 const recipesRouter = require('./recipes.js');
 const ingredientsRouter = require('./ingredients.js');
 const listsRouter = require('./lists.js');
 const measurementsRouter = require('./measurements.js');
+const filesRouter = require('./files.js');
 
 router.use(restoreUser);
 router.use('/oauth', oauthRouter);
@@ -25,15 +26,12 @@ router.use('/recipes', recipesRouter);
 router.use('/ingredients', ingredientsRouter);
 router.use('/lists', listsRouter);
 router.use('/measurements', measurementsRouter);
-
+router.use('/files', filesRouter);
 
 // GET /api/restore-user
-router.get(
-  '/restore-user',
-  (req, res) => {
-    return res.json(req.user);
-  }
-);
+router.get('/restore-user', (req, res) => {
+	return res.json(req.user);
+});
 
 // test GET /api/require-auth
 // router.get(
@@ -57,7 +55,6 @@ router.get(
 //   setTokenCookie(res, user);
 //   return res.json({ user: user });
 // });
-
 
 // test route
 // router.post('/test', function (req, res) {

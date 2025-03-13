@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useModal } from '../../../context/ModalContext';
-import {FaTrash} from 'react-icons/fa';
+import { useModal } from '../../../context/Modal/ModalContext';
+import { FaTrash } from 'react-icons/fa';
 import './InstructionModal.css';
 
 const InstructionModal = ({ instructions, setInstructions }) => {

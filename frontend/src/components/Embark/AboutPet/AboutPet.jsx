@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useModal } from '../../../context/ModalContext';
-import { useSelector } from 'react-redux';
+import { useModal } from '../../../context/Modal/ModalContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUploadUrl, uploadFileToS3 } from '../../../redux/files';
 import './AboutPet.css';
 
 const AboutPet = ({
@@ -14,6 +15,7 @@ const AboutPet = ({
 	const isAddMode = mode === 'add';
 	const { error } = useSelector((state) => state.pets);
 	const { closeModal } = useModal();
+	const dispatch = useDispatch();
 
 	const [formData, setFormData] = useState(() => ({
 		id: initialData?.id || '',
@@ -25,25 +27,86 @@ const AboutPet = ({
 		allergies: initialData?.allergies || '',
 		notes: initialData?.notes || '',
 		image: initialData?.image || '',
-		birthday: initialData?.birthday || '',
+		birthday:
+			initialData?.birthday &&
+			!isNaN(new Date(initialData.birthday).getTime())
+				? new Date(initialData.birthday).toISOString().split('T')[0]
+				: '',
 	}));
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
+		let updatedValue = value;
+
+		if (name === 'birthday' && value) {
+			const date = new Date(value);
+			updatedValue = !isNaN(date.getTime())
+				? date.toISOString().split('T')[0]
+				: '';
+		}
+
+		setFormData((prev) => ({ ...prev, [name]: updatedValue }));
+
 		if (isOnboarding) {
-			onUpdate({ [name]: value });
-		} else {
-			return;
+			onUpdate({ [name]: updatedValue });
 		}
 	};
 
-	const handleFileChange = (e) => {
+	// const handleFileChange = (e) => {
+	// 	const file = e.target.files[0];
+	// 	if (file) {
+	// 		const imageUrl = URL.createObjectURL(file);
+	// 		setFormData((prev) => ({ ...prev, image: imageUrl }));
+	// 		onUpdate({ image: imageUrl, file });
+	// 	}
+	// };
+
+	const handleFileChange = async (e) => {
 		const file = e.target.files[0];
-		if (file) {
-			const imageUrl = URL.createObjectURL(file);
-			setFormData((prev) => ({ ...prev, image: imageUrl }));
-			onUpdate({ image: imageUrl, file });
+		if (!file) return;
+
+		try {
+			// Step 1: Request a signed URL from the backend using Redux
+			const { payload: result } = await dispatch(
+				getUploadUrl({
+					fileName: file.name,
+					fileType: file.type,
+					fileSize: file.size,
+				})
+			);
+			console.log('Signed URL response:', result);
+
+			if (!result.url || !result.uniqueKey) {
+				throw new Error('Invalid signed URL response');
+			}
+
+			// Step 2: Upload the file directly to S3 using Redux
+			const { payload: uploadResponse } = await dispatch(
+				uploadFileToS3({
+					url: result.url,
+					file,
+					uniqueKey: result.uniqueKey,
+				})
+			);
+
+			if (!uploadResponse) {
+				throw new Error('Failed to upload image to S3');
+			}
+
+			// Step 3: Generate the full S3 URL using `import.meta.env`
+			const s3ImageUrl = `https://${
+				import.meta.env.VITE_AWS_BUCKET_NAME
+			}.s3.${import.meta.env.VITE_AWS_REGION}.amazonaws.com/${
+				result.uniqueKey
+			}`;
+
+			console.log('Uploaded image URL:', s3ImageUrl);
+
+			// Step 4: Store in state
+			setFormData((prev) => ({ ...prev, image: s3ImageUrl }));
+			onUpdate({ image: s3ImageUrl });
+		} catch (error) {
+			console.error('S3 Upload Error:', error);
 		}
 	};
 
@@ -134,8 +197,12 @@ const AboutPet = ({
 						<input
 							type='file'
 							accept='image/*'
+							id='file-upload'
 							onChange={handleFileChange}
 						/>
+						<label htmlFor='file-upload' className='file-upload-label'>
+							📂 upload photo
+						</label>
 					</div>
 
 					{(isEditMode || isAddMode) && (
