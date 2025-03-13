@@ -110,12 +110,6 @@ AWS_BUCKET_NAME=your_s3_bucket
 
 ⸻
 
-👥 Contributors
-	•	Your Name (@yourusername)
-	•	Other Contributors
-
-⸻
-
 📜 License
 
 SousChef is licensed under the MIT License.
