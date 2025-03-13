@@ -52,7 +52,7 @@ Frontend:
 
 1️⃣ Clone the Repository
 
-git clone https://github.com/yourusername/souschef.git
+git clone [https://github.com/heykatie/souschef.git](https://github.com/heykatie/SousChef.git)
 cd souschef
 
 2️⃣ Backend Setup
