@@ -1,4 +1,4 @@
-🍳 SousChef – Gamify Your Cooking Experience
+# 🍳 SousChef – Gamify Your Cooking Experience
 
 SousChef is a modern, interactive recipe and meal planning application for your pet that brings fun to cooking! SousChef gamifies the cooking process, tracks culinary progress, and makes grocery shopping effortless.
 
