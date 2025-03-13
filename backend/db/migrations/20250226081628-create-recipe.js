@@ -83,6 +83,11 @@ module.exports = {
 					type: Sequelize.TEXT,
 					allowNull: true,
 				},
+				species: {
+					type: Sequelize.ENUM('dog', 'cat'),
+					allowNull: false,
+					defaultValue: 'dog',
+				},
 				createdAt: {
 					allowNull: false,
 					type: Sequelize.DATE,

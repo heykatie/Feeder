@@ -22,6 +22,7 @@ module.exports = {
 					allowNull: false,
 					unique: true,
 				},
+				category: { type: Sequelize.STRING, allowNull: false },
 				calories: {
 					type: Sequelize.INTEGER,
 					allowNull: true,
@@ -68,8 +69,7 @@ module.exports = {
 				image: {
 					type: Sequelize.TEXT,
 					allowNull: true,
-					defaultValue:
-						process.env.DEFAULT_FOOD_IMAGE_URL
+					defaultValue: process.env.DEFAULT_FOOD_IMAGE_URL,
 				},
 				createdAt: {
 					allowNull: false,

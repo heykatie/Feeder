@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				unique: true,
 			},
+			category: { type: DataTypes.STRING, allowNull: false },
 			calories: {
 				type: DataTypes.INTEGER,
 				allowNull: true,

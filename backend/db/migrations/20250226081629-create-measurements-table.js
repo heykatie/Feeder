@@ -61,14 +61,16 @@ module.exports = {
 				{ name: 'slice', abbreviation: 'sl', conversionFactor: null }, // Variable thickness
 				{ name: 'pinch', abbreviation: 'pinch', conversionFactor: 0.36 }, // Approx 0.36g salt/spices
 				{ name: 'dash', abbreviation: 'dash', conversionFactor: 0.6 }, // Approx 0.6g dry or 0.92ml liquid
-				{
-					name: 'fluid ounce',
-					abbreviation: 'fl oz',
-					conversionFactor: 29.57,
-				}, 
+				{ name: 'fluid ounce', abbreviation: 'fl oz', conversionFactor: 29.57 },
 				{ name: 'clove', abbreviation: 'clv', conversionFactor: 5 }, // Approx 5g per garlic clove
 				{ name: 'stick', abbreviation: 'stk', conversionFactor: 113 }, // 1 stick of butter ≈ 113g
 				{ name: 'can', abbreviation: 'can', conversionFactor: null }, // Variable size (e.g., canned pumpkin)
+				{ name: 'drop', abbreviation: 'drp', conversionFactor: 0.05 }, // Useful for liquids like vanilla extract
+				{ name: 'scoop', abbreviation: 'scp', conversionFactor: null }, // Used for protein powder, dog food scoops
+				{ name: 'gallon', abbreviation: 'gal', conversionFactor: 3785 }, // 1 gallon = 3785ml
+				{ name: 'quart', abbreviation: 'qt', conversionFactor: 946 }, // 1 quart = 946ml
+				{ name: 'pint', abbreviation: 'pt', conversionFactor: 473 }, // 1 pint = 473ml
+				{ name: 'smidgen', abbreviation: 'smid', conversionFactor: 0.12 },
 			],
 			{ validate: true }
 		);

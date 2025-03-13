@@ -100,6 +100,11 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.TEXT,
 				allowNull: true,
 			},
+			species: {
+				type: DataTypes.ENUM('dog', 'cat'),
+				allowNull: false,
+				defaultValue: 'dog',
+			},
 		},
 		{
 			sequelize,
