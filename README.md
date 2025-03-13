@@ -105,13 +105,8 @@ AWS_BUCKET_NAME=your_s3_bucket
 ⸻
 
 🚀 Deployment
-
-Backend:
 	•	Hosted on Render
 	•	PostgreSQL database
-
-Frontend:
-	•	Hosted on Render
 
 ⸻
 
