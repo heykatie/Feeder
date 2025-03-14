@@ -1,0 +1,22 @@
+.featured-carousel {
+  margin: 20px 0;
+}
+
+.featured-carousel h2 {
+  margin: 0 20px;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  /* font-family: 'Press Start 2P', cursive; */
+}
+
+.carousel-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px 20px;
+  scroll-snap-type: x mandatory;
+}
+
+.carousel-scroll-container::-webkit-scrollbar {
+  display: none;
+}

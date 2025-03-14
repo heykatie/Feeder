@@ -1,7 +1,9 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import XPNotification from '../Notifications/XP';
 import RecipesHeader from './RecipesHeader';
+import HorizontalScrollContainer from '../ui/HorizontalScrollContainer';
+import CreateRecipeButton from './CreateRecipeButton';
 import {
 	fetchRecipes,
 	fetchFavorites,
@@ -16,9 +18,10 @@ import {
 	useSearchParams,
 } from 'react-router-dom';
 import { addXP, updateXP } from '../../redux/xp';
-import RecipeCard from '../RecipeCard/RecipeCard';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import RecipeCard from './RecipeCard';
 import './Recipes.css';
+import SearchResults from './SearchResults';
+import FeaturedCarousel from './FeaturedCarousel';
 
 const Recipes = () => {
 	const dispatch = useDispatch();
@@ -31,80 +34,8 @@ const Recipes = () => {
 	const [searchResults, setSearchResults] = useState([]);
 	const faves = useSelector((state) => state.recipes.favorites);
 	const recipes = location.pathname === '/favorites' ? faves : allRecipes;
-	const scrollContainerRef = useRef(null);
 	const [searchParams] = useSearchParams();
 	const searchQuery = searchParams.get('search');
-
-	const handleCreateRecipe = async () => {
-		setXP(50);
-		try {
-			await dispatch(addXP(50));
-			await dispatch(
-				updateXP({ sousChefId: sessionUser.SousChef.id, xp: 50 })
-			);
-		} catch (error) {
-			console.error('Error creating recipe:', error);
-		} finally {
-			setTimeout(() => navigate('/recipes/new'), 500);
-		}
-	};
-
-	const setScrollRef = useCallback((node) => {
-		if (node) {
-			scrollContainerRef.current = node;
-			attachScrollListeners(node);
-		}
-	}, []);
-
-	const attachScrollListeners = (scrollContainer) => {
-		if (!scrollContainer) return;
-
-		const handleScroll = (event) => {
-			event.preventDefault();
-			if (!scrollContainerRef.current) return;
-			scrollContainer.scrollBy({
-				left: event.deltaY * 2,
-				behavior: 'smooth',
-			});
-		};
-
-		const handleKeyDown = (event) => {
-			if (!scrollContainerRef.current) return;
-			const scrollAmount = 200;
-			const maxScrollLeft =
-				scrollContainerRef.current.scrollWidth -
-				scrollContainerRef.current.clientWidth;
-			const currentScroll = scrollContainerRef.current.scrollLeft;
-			if (event.key === 'ArrowLeft' && currentScroll > 0) {
-				scrollContainerRef.current.scrollBy({
-					left: -scrollAmount,
-					behavior: 'smooth',
-				});
-			} else if (
-				event.key === 'ArrowRight' &&
-				currentScroll < maxScrollLeft
-			) {
-				scrollContainerRef.current.scrollBy({
-					left: scrollAmount,
-					behavior: 'smooth',
-				});
-			}
-		};
-
-		scrollContainer.addEventListener('wheel', handleScroll);
-		window.addEventListener('keydown', handleKeyDown);
-
-		return () => {
-			scrollContainer.removeEventListener('wheel', handleScroll);
-			window.removeEventListener('keydown', handleKeyDown);
-		};
-	};
-
-	useEffect(() => {
-		if (scrollContainerRef.current) {
-			attachScrollListeners(scrollContainerRef.current);
-		}
-	}, []);
 
 	useEffect(() => {
 		dispatch(fetchFavorites());
@@ -130,49 +61,28 @@ const Recipes = () => {
 	return (
 		<div className='recipes-container'>
 			<XPNotification xp={XP} />
-			<button className='create-recipe-btn' onClick={handleCreateRecipe}>
-				Create New Recipe <span className='xp-gain'>+50 XP</span>
-			</button>
+			<CreateRecipeButton />
 
 			{searchQuery && recipes.length > 0 && (
-				<div className='search-results'>
-					<h2>Search Results for: "{searchQuery}"</h2>
-					<div className='recipes-scroll-container' ref={setScrollRef}>
-						{searchResults.map((recipe) => (
-							<RecipeCard
-								key={recipe.id}
-								recipe={recipe}
-								onFavorite={handleFave}
-								isFavorite={faves.some((f) => f.id === recipe.id)}
-								showMeta={false}
-							/>
-						))}
-					</div>
-				</div>
+				<SearchResults
+					searchQuery={searchQuery}
+					searchResults={searchResults}
+					faves={faves}
+					onFavorite={handleFave}
+				/>
 			)}
 
 			{location.pathname === '/recipes' && (
-				<div className='featured-carousel'>
-					<h1>Featured Recipes</h1>
-					<div className='carousel-scroll-container' ref={setScrollRef}>
-						{[...recipes]
-							.reverse()
-							.slice(0, 8)
-							.map((recipe) => (
-								<RecipeCard
-									key={recipe.id}
-									recipe={recipe}
-									onFavorite={handleFave}
-									isFavorite={faves.some((f) => f.id === recipe.id)}
-								/>
-							))}
-					</div>
-				</div>
+				<FeaturedCarousel
+					recipes={recipes}
+					faves={faves}
+					onFavorite={handleFave}
+				/>
 			)}
 
 			<RecipesHeader />
 
-			<div className='recipes-scroll-container' ref={setScrollRef}>
+			<HorizontalScrollContainer className='recipes-scroll-container'>
 				{[...recipes].reverse().map((recipe) => (
 					<RecipeCard
 						key={recipe.id}
@@ -181,7 +91,7 @@ const Recipes = () => {
 						isFavorite={faves.some((f) => f.id === recipe.id)}
 					/>
 				))}
-			</div>
+			</HorizontalScrollContainer>
 		</div>
 	);
 };

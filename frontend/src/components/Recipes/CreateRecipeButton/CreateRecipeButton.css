@@ -1,0 +1,19 @@
+.create-recipe-btn {
+  background-color: var(--cta-color);
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-recipe-btn:hover {
+  background-color: var(--cta-hover);
+}
+
+.create-recipe-btn .xp-gain {
+  font-weight: bold;
+  margin-left: 8px;
+}

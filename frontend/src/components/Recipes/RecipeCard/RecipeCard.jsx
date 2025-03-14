@@ -1,7 +1,8 @@
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleRecipePrivacy } from '../../redux/recipes';
+import { toggleRecipePrivacy } from '../../../redux/recipes';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
+import './RecipeCard.css';
 
 const RecipeCard = ({ recipe, onFavorite, isFavorite, showMeta = true }) => {
 	const location = useLocation();
