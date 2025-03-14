@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import XPNotification from '../Notifications/XP';
+import RecipesHeader from './RecipesHeader';
 import {
 	fetchRecipes,
 	fetchFavorites,
@@ -156,7 +157,7 @@ const Recipes = () => {
 					<div className='carousel-scroll-container' ref={setScrollRef}>
 						{[...recipes]
 							.reverse()
-							.slice(0, 7)
+							.slice(0, 8)
 							.map((recipe) => (
 								<RecipeCard
 									key={recipe.id}
@@ -169,15 +170,7 @@ const Recipes = () => {
 				</div>
 			)}
 
-			<div className='recipes-header'>
-				{location.pathname === '/favorites' ? (
-					<h1>My Favorite Recipes</h1>
-				) : userId ? (
-					<h1>My Recipes</h1>
-				) : (
-					<h1>Explore Recipes</h1>
-				)}
-			</div>
+			<RecipesHeader />
 
 			<div className='recipes-scroll-container' ref={setScrollRef}>
 				{[...recipes].reverse().map((recipe) => (
