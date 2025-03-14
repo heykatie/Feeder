@@ -123,6 +123,51 @@ module.exports = {
 				{ recipeId: 24, ingredientId: 16, quantity: 1, measurementId: 4 }, // 1 lb Ground Chicken
 				{ recipeId: 24, ingredientId: 7, quantity: 0.5, measurementId: 1 }, // 1/2 cup Oatmeal
 				{ recipeId: 24, ingredientId: 5, quantity: 1, measurementId: 3 }, // 1 Egg
+
+				// Salmon & Tuna Delight (recipeId: 25)
+				{ recipeId: 25, ingredientId: 4, quantity: 1, measurementId: 6 }, // 1 filet Salmon
+				{ recipeId: 25, ingredientId: 33, quantity: 1, measurementId: 4 }, // 1 can Tuna
+				{ recipeId: 25, ingredientId: 12, quantity: 0.5, measurementId: 1 }, // 1/2 cup Fish Broth
+
+				// Chicken & Liver Pâté (recipeId: 26)
+				{ recipeId: 26, ingredientId: 1, quantity: 1, measurementId: 4 }, // 1 lb Chicken Breast
+				{ recipeId: 26, ingredientId: 8, quantity: 0.5, measurementId: 4 }, // 1/2 lb Chicken Liver
+				{
+					recipeId: 26,
+					ingredientId: 12,
+					quantity: 0.25,
+					measurementId: 1,
+				}, // 1/4 cup Chicken Broth
+
+				// Tuna & Egg Scramble (recipeId: 27)
+				{ recipeId: 27, ingredientId: 33, quantity: 1, measurementId: 4 }, // 1 can Tuna
+				{ recipeId: 27, ingredientId: 53, quantity: 53, measurementId: 3 }, // 2 Eggs
+
+				// Sardine & Pumpkin Mix (recipeId: 28)
+				{ recipeId: 28, ingredientId: 52, quantity: 1, measurementId: 4 }, // 1 can Sardines
+				{ recipeId: 28, ingredientId: 5, quantity: 0.5, measurementId: 1 }, // 1/2 cup Pumpkin
+
+				// Turkey & Green Bean Feast (recipeId: 29)
+				{ recipeId: 29, ingredientId: 24, quantity: 1, measurementId: 4 }, // 1 lb Ground Turkey
+				{ recipeId: 29, ingredientId: 20, quantity: 1, measurementId: 1 }, // 1 cup Green Beans
+
+				// Rabbit & Blueberry Medley (recipeId: 30)
+				{ recipeId: 30, ingredientId: 49, quantity: 1, measurementId: 4 }, // 1 lb Rabbit Meat
+				{ recipeId: 30, ingredientId: 6, quantity: 0.5, measurementId: 1 }, // 1/2 cup Blueberries
+
+				// Salmon Skin & Rice Treats (recipeId: 31)
+				{ recipeId: 31, ingredientId: 38, quantity: 1, measurementId: 4 }, // 1 lb Salmon Skin
+				{ recipeId: 31, ingredientId: 2, quantity: 1, measurementId: 1 }, // 1 cup Brown Rice
+
+				// Beef & Liver Mousse (recipeId: 32)
+				{ recipeId: 32, ingredientId: 22, quantity: 1, measurementId: 4 }, // 1 lb Beef
+				{ recipeId: 32, ingredientId: 34, quantity: 0.5, measurementId: 4 }, // 1/2 lb Beef Liver
+				{
+					recipeId: 32,
+					ingredientId: 12,
+					quantity: 0.25,
+					measurementId: 1,
+				}, // 1/4 cup Beef Broth
 			],
 			{ validate: true }
 		);

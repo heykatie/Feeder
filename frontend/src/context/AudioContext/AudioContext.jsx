@@ -15,7 +15,7 @@ const AudioContext = createContext();
 
 export const AudioProvider = ({ children }) => {
 	const [isMuted, setIsMuted] = useState(false);
-	const [volume, setVolume] = useState(0.25); // Default volume at 50%
+	const [volume, setVolume] = useState(0.15); // Default volume at 50%
 	const [currentMusic, setCurrentMusic] = useState(defaultMusic);
 	const [isUserInteracted, setIsUserInteracted] = useState(false);
 

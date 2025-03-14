@@ -18,11 +18,10 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import './Recipes.css';
 import { addXP, updateXP } from '../../redux/xp';
 
-
 const Recipes = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-		const [XP, setXP] = useState(0);
+	const [XP, setXP] = useState(0);
 	const { userId } = useParams();
 	const location = useLocation();
 	const sessionUser = useSelector((state) => state.session.user);
@@ -38,7 +37,9 @@ const Recipes = () => {
 		setXP(50);
 		try {
 			await dispatch(addXP(50));
-			await dispatch(updateXP({ sousChefId: sessionUser.SousChef.id, xp: 50 }));
+			await dispatch(
+				updateXP({ sousChefId: sessionUser.SousChef.id, xp: 50 })
+			);
 		} catch (error) {
 			console.error('Error creating recipe:', error);
 		} finally {
@@ -150,7 +151,7 @@ const Recipes = () => {
 				setSearchResults(res.payload || []);
 			});
 		} else if (!sessionUser) {
-			dispatch(fetchRecipes())
+			dispatch(fetchRecipes());
 		} else {
 			dispatch(fetchRecipes());
 		}
@@ -165,7 +166,72 @@ const Recipes = () => {
 
 	return (
 		<div className='recipes-container'>
-						<XPNotification xp={XP} />
+			<XPNotification xp={XP} />
+			<button className='create-recipe-btn' onClick={handleCreateRecipe}>
+				Create New Recipe <span className='xp-gain'>+50 XP</span>
+			</button>
+			{location.pathname === '/recipes' && (
+				<div className='featured-carousel'>
+					<h1>Featured Recipes</h1>
+					<div className='carousel-scroll-container' ref={setScrollRef}>
+						{[...recipes]
+							.reverse()
+							.slice(0, 7)
+							.map((recipe) => (
+								<div key={recipe.id} className='recipe-card featured'>
+									<NavLink
+										state={{
+											from: location.pathname + location.search,
+										}}
+										to={`/recipes/${recipe.id}`}
+										className='recipe-link'>
+										<img
+											src={
+												recipe.imageUrl ||
+												'/images/recipes/dogfood.jpeg'
+											}
+											alt={recipe.title}
+											className='recipe-image'
+										/>
+										<h2>{recipe.title}</h2>
+										<p>{recipe.description}</p>
+										{recipe.totalTime > 0 && (
+											<p className='recipe-time'>
+												Total Time: {recipe.totalTime} min
+											</p>
+										)}
+										<div className='recipe-meta'>
+											<p className='recipe-rating'>
+												⭐ {recipe.rating} / 5
+											</p>
+											<p className='recipe-likes'>
+												❤️ {recipe.likesCount} Likes
+											</p>
+										</div>
+									</NavLink>
+									<button
+										className='favorite-btn'
+										onClick={async (e) => {
+											e.stopPropagation();
+											handleFave(recipe);
+										}}>
+										{faves.some((f) => f.id === recipe.id) ? (
+											<FaHeart color='red' />
+										) : (
+											<FaRegHeart color='gray' />
+										)}
+										{/* {recipe.liked ? (
+										<FaHeart color='red' />
+									) : (
+										<FaRegHeart color='gray' />
+									)} */}
+									</button>
+								</div>
+							))}
+					</div>
+				</div>
+			)}
+
 			{searchQuery && recipes.length > 0 && (
 				<div className='search-results'>
 					<h2>Search Results for: &quot;{searchQuery}&quot;</h2>
@@ -219,11 +285,6 @@ const Recipes = () => {
 				) : (
 					<h1>Explore Recipes</h1>
 				)}
-				<button
-					className='create-recipe-btn'
-					onClick={handleCreateRecipe}>
-					Create New Recipe <span className='xp-gain'>+50 XP</span>
-				</button>
 			</div>
 
 			<div className='recipes-scroll-container' ref={setScrollRef}>
