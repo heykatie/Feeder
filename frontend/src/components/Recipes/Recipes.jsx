@@ -14,9 +14,10 @@ import {
 	useLocation,
 	useSearchParams,
 } from 'react-router-dom';
+import { addXP, updateXP } from '../../redux/xp';
+import RecipeCard from '../RecipeCard/RecipeCard';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import './Recipes.css';
-import { addXP, updateXP } from '../../redux/xp';
 
 const Recipes = () => {
 	const dispatch = useDispatch();
@@ -62,76 +63,39 @@ const Recipes = () => {
 			if (!scrollContainerRef.current) return;
 			scrollContainer.scrollBy({
 				left: event.deltaY * 2,
-				behavior: 'smooth', // Enable smooth scrolling
+				behavior: 'smooth',
 			});
 		};
 
 		const handleKeyDown = (event) => {
 			if (!scrollContainerRef.current) return;
-
-			const scrollAmount = 200; // Adjust scroll step size
+			const scrollAmount = 200;
 			const maxScrollLeft =
 				scrollContainerRef.current.scrollWidth -
 				scrollContainerRef.current.clientWidth;
 			const currentScroll = scrollContainerRef.current.scrollLeft;
-
-			if (event.key === 'ArrowLeft') {
-				if (currentScroll > 0) {
-					scrollContainerRef.current.scrollBy({
-						left: -scrollAmount,
-						behavior: 'smooth',
-					});
-				}
-			} else if (event.key === 'ArrowRight') {
-				if (currentScroll < maxScrollLeft) {
-					scrollContainerRef.current.scrollBy({
-						left: scrollAmount,
-						behavior: 'smooth',
-					});
-				}
+			if (event.key === 'ArrowLeft' && currentScroll > 0) {
+				scrollContainerRef.current.scrollBy({
+					left: -scrollAmount,
+					behavior: 'smooth',
+				});
+			} else if (
+				event.key === 'ArrowRight' &&
+				currentScroll < maxScrollLeft
+			) {
+				scrollContainerRef.current.scrollBy({
+					left: scrollAmount,
+					behavior: 'smooth',
+				});
 			}
 		};
 
-		// const handleEdgeScroll = (event) => {
-		// 	const { clientX } = event;
-		// 	const edgeThreshold = 50;
-		// 	const maxSpeed = 0.05;
-		// 	const minSpeed = 0.005;
-
-		// 	if (!scrollContainerRef.current) return;
-
-		// 	const container = scrollContainerRef.current;
-		// 	let scrollAmount = 0;
-
-		// 	if (clientX < edgeThreshold) {
-		// 		scrollAmount =
-		// 			Math.max(minSpeed, (edgeThreshold - clientX) / 500) * -maxSpeed;
-		// 	} else if (clientX > window.innerWidth - edgeThreshold) {
-		// 		scrollAmount =
-		// 			Math.max(
-		// 				minSpeed,
-		// 				(clientX - (window.innerWidth - edgeThreshold)) / 500
-		// 			) * maxSpeed;
-		// 	}
-
-		// 	if (scrollAmount !== 0) {
-		// 		requestAnimationFrame(() => {
-		// 			container.scrollBy({
-		// 				left: scrollAmount,
-		// 				behavior: 'smooth',
-		// 			});
-		// 		});
-		// 	}
-		// };
-
 		scrollContainer.addEventListener('wheel', handleScroll);
 		window.addEventListener('keydown', handleKeyDown);
-		// document.addEventListener('mousemove', handleEdgeScroll);
 
 		return () => {
 			scrollContainer.removeEventListener('wheel', handleScroll);
 			window.removeEventListener('keydown', handleKeyDown);
-			// document.removeEventListener('mousemove', handleEdgeScroll);
 		};
 	};
 
@@ -144,14 +108,12 @@ const Recipes = () => {
 	useEffect(() => {
 		dispatch(fetchFavorites());
 		if (userId) {
-			const isLoggedInUser = sessionUser?.id == Number(userId);
+			const isLoggedInUser = sessionUser?.id === Number(userId);
 			dispatch(fetchRecipes({ userId, isLoggedInUser }));
 		} else if (searchQuery) {
 			dispatch(fetchRecipes({ search: searchQuery })).then((res) => {
 				setSearchResults(res.payload || []);
 			});
-		} else if (!sessionUser) {
-			dispatch(fetchRecipes());
 		} else {
 			dispatch(fetchRecipes());
 		}
@@ -170,6 +132,24 @@ const Recipes = () => {
 			<button className='create-recipe-btn' onClick={handleCreateRecipe}>
 				Create New Recipe <span className='xp-gain'>+50 XP</span>
 			</button>
+
+			{searchQuery && recipes.length > 0 && (
+				<div className='search-results'>
+					<h2>Search Results for: "{searchQuery}"</h2>
+					<div className='recipes-scroll-container' ref={setScrollRef}>
+						{searchResults.map((recipe) => (
+							<RecipeCard
+								key={recipe.id}
+								recipe={recipe}
+								onFavorite={handleFave}
+								isFavorite={faves.some((f) => f.id === recipe.id)}
+								showMeta={false}
+							/>
+						))}
+					</div>
+				</div>
+			)}
+
 			{location.pathname === '/recipes' && (
 				<div className='featured-carousel'>
 					<h1>Featured Recipes</h1>
@@ -178,101 +158,13 @@ const Recipes = () => {
 							.reverse()
 							.slice(0, 7)
 							.map((recipe) => (
-								<div key={recipe.id} className='recipe-card featured'>
-									<NavLink
-										state={{
-											from: location.pathname + location.search,
-										}}
-										to={`/recipes/${recipe.id}`}
-										className='recipe-link'>
-										<img
-											src={
-												recipe.imageUrl ||
-												'/images/recipes/dogfood.jpeg'
-											}
-											alt={recipe.title}
-											className='recipe-image'
-										/>
-										<h2>{recipe.title}</h2>
-										<p>{recipe.description}</p>
-										{recipe.totalTime > 0 && (
-											<p className='recipe-time'>
-												Total Time: {recipe.totalTime} min
-											</p>
-										)}
-										<div className='recipe-meta'>
-											<p className='recipe-rating'>
-												⭐ {recipe.rating} / 5
-											</p>
-											<p className='recipe-likes'>
-												❤️ {recipe.likesCount} Likes
-											</p>
-										</div>
-									</NavLink>
-									<button
-										className='favorite-btn'
-										onClick={async (e) => {
-											e.stopPropagation();
-											handleFave(recipe);
-										}}>
-										{faves.some((f) => f.id === recipe.id) ? (
-											<FaHeart color='red' />
-										) : (
-											<FaRegHeart color='gray' />
-										)}
-										{/* {recipe.liked ? (
-										<FaHeart color='red' />
-									) : (
-										<FaRegHeart color='gray' />
-									)} */}
-									</button>
-								</div>
+								<RecipeCard
+									key={recipe.id}
+									recipe={recipe}
+									onFavorite={handleFave}
+									isFavorite={faves.some((f) => f.id === recipe.id)}
+								/>
 							))}
-					</div>
-				</div>
-			)}
-
-			{searchQuery && recipes.length > 0 && (
-				<div className='search-results'>
-					<h2>Search Results for: &quot;{searchQuery}&quot;</h2>
-					<div className='recipes-scroll-container' ref={setScrollRef}>
-						{searchResults.map((recipe) => (
-							<div key={recipe.id} className='recipe-card'>
-								<NavLink
-									state={{ from: location.pathname + location.search }}
-									to={`/recipes/${recipe.id}`}
-									className='recipe-link'>
-									<img
-										src={
-											recipe.imageUrl ||
-											'/images/recipes/dogfood.jpeg'
-										}
-										alt={recipe.title}
-										className='recipe-image'
-									/>
-									<h2>{recipe.title}</h2>
-									<p>{recipe.description}</p>
-								</NavLink>
-
-								<button
-									className='favorite-btn'
-									onClick={async (e) => {
-										e.stopPropagation();
-										handleFave(recipe);
-									}}>
-									{faves.some((f) => f.id === recipe.id) ? (
-										<FaHeart color='red' />
-									) : (
-										<FaRegHeart color='gray' />
-									)}
-									{/* {recipe.liked ? (
-										<FaHeart color='red' />
-									) : (
-										<FaRegHeart color='gray' />
-									)} */}
-								</button>
-							</div>
-						))}
 					</div>
 				</div>
 			)}
@@ -289,74 +181,12 @@ const Recipes = () => {
 
 			<div className='recipes-scroll-container' ref={setScrollRef}>
 				{[...recipes].reverse().map((recipe) => (
-					<div key={recipe.id} className='recipe-card'>
-						<NavLink
-							state={
-								location.search
-									? null
-									: { from: location.pathname + location.search }
-							}
-							to={`/recipes/${recipe.id}`}
-							className='recipe-link'>
-							<img
-								src={recipe.imageUrl || '/images/recipes/dogfood.jpeg'}
-								alt={recipe.title}
-								className='recipe-image'
-							/>
-							<h2>{recipe.title}</h2>
-							<p>{recipe.description}</p>
-							{recipe.totalTime > 0 && (
-								<p className='recipe-time'>
-									Total Time: {recipe.totalTime} min
-								</p>
-							)}
-							<div className='recipe-meta'>
-								<p className='recipe-rating'>⭐ {recipe.rating} / 5</p>
-								<p className='recipe-likes'>
-									❤️ {recipe.likesCount} Likes
-								</p>
-							</div>
-						</NavLink>
-
-						{userId && sessionUser?.id == userId && (
-							<button
-								className={`privacy-toggle ${
-									recipe.isPublic ? 'public' : 'private'
-								}`}
-								onClick={() =>
-									dispatch(toggleRecipePrivacy(recipe.id))
-								}>
-								{recipe.isPublic ? '🔓 Public' : '🔒 Private'}
-							</button>
-						)}
-
-						<button
-							className='favorite-btn'
-							onClick={(e) => {
-								e.stopPropagation();
-
-								// if (location.pathname === '/favorites') {
-								// 	setRecipes((prevRecipes) =>
-								// 		prevRecipes.filter((r) => r.id !== recipe.id)
-								// 	);
-								// } else {
-								// 	setRecipes((prevRecipes) =>
-								// 		prevRecipes.map((r) =>
-								// 			r.id === recipe.id
-								// 				? { ...r, liked: !r.liked }
-								// 				: r
-								// 		)
-								// 	);
-								// }
-								handleFave(recipe);
-							}}>
-							{faves.some((f) => f.id === recipe.id) ? (
-								<FaHeart color='red' />
-							) : (
-								<FaRegHeart color='gray' />
-							)}
-						</button>
-					</div>
+					<RecipeCard
+						key={recipe.id}
+						recipe={recipe}
+						onFavorite={handleFave}
+						isFavorite={faves.some((f) => f.id === recipe.id)}
+					/>
 				))}
 			</div>
 		</div>
