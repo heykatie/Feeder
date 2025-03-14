@@ -1,8 +1,10 @@
+import {useSelector} from 'react-redux';
 // import {useSelector } from 'react-redux';
 
 
-function AvatarButton({toggleSidebar}) {
-	// const user = useSelector((store) => store.session.user);
+function AvatarButton({ toggleSidebar }) {
+	const user = useSelector((state) => state.session.user);
+
 	// const ulRef = useRef();
 	// const closeMenu = () => setShowSidebar(false);
 
@@ -23,7 +25,15 @@ function AvatarButton({toggleSidebar}) {
 	return (
 		<>
 			<button onClick={toggleSidebar} aria-label='profile menu'>
-				<i className='fas fa-user-circle' />
+				{user ? (
+					<img
+						src={user.avatarUrl}
+						alt='User Avatar'
+						className='profile-avatar'
+					/>
+				) : (
+					<i className='fas fa-user-circle' />
+				)}
 			</button>
 		</>
 	);

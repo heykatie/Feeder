@@ -44,6 +44,8 @@
   max-width: 100%;
   overflow: auto;
   padding: 20px;
+  display: block;
+  width: 100%;
 }
 
 .recipes-actions {
@@ -53,7 +55,7 @@
 }
 
 .non-featured-grid {
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   padding: 20px;

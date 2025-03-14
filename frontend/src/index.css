@@ -527,3 +527,11 @@ li {
 a {
   text-decoration: none;
 }
+
+#modal-close:hover, .close-btn:hover {
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  box-shadow: none !important;
+  transform: rotate(10deg) scale(1.2);
+}

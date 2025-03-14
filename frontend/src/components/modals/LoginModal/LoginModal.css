@@ -11,15 +11,13 @@
   text-align: center;
   overflow: auto;
   border: 2px solid #1A1A2E;
-  padding: 10px;
-  padding-top: 0px;
-  margin: 11px;
+  padding: 20px;
   border-radius: 15px;
 }
 
-.logo {
+.login-modal .logo {
   width: 80px;
-  margin-bottom: 14px;
+  /* margin: 10px 0px 0px; */
 }
 
 .login-modal h2 {

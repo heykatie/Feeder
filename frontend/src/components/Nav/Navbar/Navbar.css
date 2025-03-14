@@ -20,28 +20,36 @@
   /* min-width: 120px; */
 }
 
-.navbar-menu-btn {
+.navbar-menu-btn,
+.navbar-right button {
   background: none !important;
   border: none;
   color: white;
-  font-size: 24px;
   cursor: pointer;
-  margin-right: 8px;
+  margin: 0px 8px;
+  box-shadow: none !important;
+  padding: 2px;
 }
 
-.logo {
+.navbar-menu-btn i {
+  font-size: 23px;
+}
+
+.navbar-left .logo {
   display: flex;
   align-items: center;
   text-decoration: none;
   font-size: 21px;
   font-weight: bold;
-  /* font-size: clamp(18px, 4vw, 22px); */
+  font-size: clamp(18px, 4vw, 22px);
   color: #FFB84C;
   text-overflow: ellipsis;
-  margin: auto;
+  margin: 2px 8px 0px;
+  justify-content: center;
+  width: auto;
 }
 
-.logo img {
+.navbar-left .logo img {
   width: 50%;
   margin: auto;
 }
@@ -171,4 +179,11 @@
     width: 70%;
     max-width: 200px;
   }
+}
+
+.navbar-right .profile-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 }
