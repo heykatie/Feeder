@@ -179,7 +179,7 @@ module.exports = {
 					description:
 						'Mini cupcakes made with apples and carrots for a vitamin boost.',
 					imageUrl:
-						'https://scontent-sjc3-1.xx.fbcdn.net/v/t39.30808-6/475786589_624014463514859_400421170891784191_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=aa7b47&_nc_ohc=zhCUe1wohd8Q7kNvgFGmtLf&_nc_oc=AdhtpxWzPpLq7cPLUj-tsSRuqFgd6cFyCuTHCxmToK2lH7Ww2YlcDQMuYENdXj5Rv3VT57ubmkqi3pMnyBVn-Mjk&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&_nc_gid=ArKLFykN5_wclQE-zkPD-YW&oh=00_AYBxuyDJ4leHJvCuoQJribW1fQ1djkzLT-NPaCqiWAXrKg&oe=67CA0053',
+						'https://justamumnz.com/wp-content/uploads/2022/03/Apple-Carrot-Muffins-14-1966x2048.jpg',
 					category: 'Treats',
 					instructions: JSON.stringify([
 						'Preheat oven to 350°F (175°C).',
@@ -291,7 +291,7 @@ module.exports = {
 					description:
 						'A rich and flavorful meal with duck and pumpkin, packed with nutrients.',
 					imageUrl:
-						'https://images.pexels.com/photos/1054971/pexels-photo-1054971.jpeg',
+						'https://ruhros.com/cdn/shop/files/DSACAWholesomeGrainsDuckLIDPDPs6_500x500.webp?v=1716673338',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook duck breast in a skillet until fully done.',
@@ -313,7 +313,7 @@ module.exports = {
 					description:
 						'A lean rabbit meat dish with carrots, ideal for sensitive stomachs.',
 					imageUrl:
-						'https://images.pexels.com/photos/1235705/pexels-photo-1235705.jpeg',
+						'https://purposepetfood.com/cdn/shop/products/rabbit-veggie-freeze-dried-raw-dog-food-447709.jpg?v=1716362166&width=1400',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Slow cook rabbit meat until tender.',
@@ -335,7 +335,7 @@ module.exports = {
 					description:
 						'A salmon dish with sweet potatoes and omega-3 benefits.',
 					imageUrl:
-						'https://images.pexels.com/photos/3026800/pexels-photo-3026800.jpeg',
+						'https://i0.wp.com/studenteats.co.uk/wp-content/uploads/2020/09/cajun-salmon-sweet-potato-broccoli-recipe-2.jpeg?w=2000&ssl=1',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Bake salmon fillet until fully cooked.',
@@ -358,7 +358,7 @@ module.exports = {
 					description:
 						'A simple and nutritious ground chicken dish with rice.',
 					imageUrl:
-						'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg',
+						'https://www.allrecipes.com/thmb/SiJBFHEPcjqllhh2BbgjbINa3L4=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/139453-Lucky-and-Rippys-Favorite-Dog-Food-ddmfs-117-4x3-1-b8b49bf3211b40eb9d91590445ca56e2.jpg',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook ground chicken in a pan until fully done.',
@@ -380,7 +380,7 @@ module.exports = {
 					description:
 						'A hearty stew with pork and apples for natural sweetness.',
 					imageUrl:
-						'https://images.pexels.com/photos/414102/pexels-photo-414102.jpeg',
+						'https://www.heartsofpets.com/wp-content/uploads/2024/11/Pork-and-Apple-Stew-Dog-Food-Recipe.webp',
 					category: 'Stew',
 					instructions: JSON.stringify([
 						'Brown ground pork in a pot.',
@@ -403,7 +403,7 @@ module.exports = {
 					description:
 						'A high-protein raw mix with beef, liver, and veggies.',
 					imageUrl:
-						'https://images.pexels.com/photos/1054971/pexels-photo-1054971.jpeg',
+						'https://blogstudio.s3.amazonaws.com/frenchiestore/c1f88377e14093e09eb467291f033dea.jpg',
 					category: 'Raw Diet',
 					instructions: JSON.stringify([
 						'Chop beef, liver, and kidney into bite-sized pieces.',
@@ -425,7 +425,7 @@ module.exports = {
 					description:
 						'A cooked turkey and sweet potato dish, easy to digest.',
 					imageUrl:
-						'https://images.pexels.com/photos/1235705/pexels-photo-1235705.jpeg',
+						'https://mydogrecipe.com/wp-content/uploads/2024/10/Turkey-11-728x546.webp',
 					category: 'Cooked Diet',
 					instructions: JSON.stringify([
 						'Cook ground turkey in a pan until fully done.',
@@ -446,7 +446,7 @@ module.exports = {
 					title: 'Duck & Quinoa Bowl',
 					description: 'A hypoallergenic meal with duck and quinoa.',
 					imageUrl:
-						'https://images.pexels.com/photos/3026800/pexels-photo-3026800.jpeg',
+						'https://spoiledhounds.com/wp-content/uploads/2024/10/Duck-Dog-Food-Recipe-Photo.jpg',
 					category: 'Limited Ingredient',
 					instructions: JSON.stringify([
 						'Cook duck breast in a skillet until golden brown.',
@@ -467,7 +467,7 @@ module.exports = {
 					title: 'Rabbit & Egg Power Bowl',
 					description: 'A lean and high-protein rabbit dish with eggs.',
 					imageUrl:
-						'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg',
+						'https://blogstudio.s3.amazonaws.com/frenchiestore/bbdd79c3f46568cf325da6d0d9188a49.jpg',
 					category: 'High-Protein',
 					instructions: JSON.stringify([
 						'Slow cook rabbit meat until tender.',
@@ -488,7 +488,7 @@ module.exports = {
 					title: 'Salmon & Green Bean Light Meal',
 					description: 'A lean salmon meal with fiber-rich green beans.',
 					imageUrl:
-						'https://images.pexels.com/photos/414102/pexels-photo-414102.jpeg',
+						'https://cleanfoodcrush.com/wp-content/uploads/2021/04/One-Sheet-Pan-Salmon-Green-Beans-Clean-Eating-Recipe-Clean-Food-Crush.jpg',
 					category: 'Weight Management',
 					instructions: JSON.stringify([
 						'Bake salmon fillet until fully cooked.',
@@ -509,7 +509,7 @@ module.exports = {
 					title: 'Soft Chicken & Pumpkin Puree',
 					description: 'A soft, easy-to-eat meal for senior dogs.',
 					imageUrl:
-						'https://images.pexels.com/photos/3026800/pexels-photo-3026800.jpeg',
+						'https://d36fw6y2wq3bat.cloudfront.net/recipes/crema-de-pollo-y-calabaza/900/crema-de-pollo-y-calabaza_version_1670579152.jpg',
 					category: 'Senior Diet',
 					instructions: JSON.stringify([
 						'Boil chicken until tender and shred finely.',
@@ -530,7 +530,7 @@ module.exports = {
 					title: 'Puppy Power Meatballs',
 					description: 'Small, nutritious meatballs for growing puppies.',
 					imageUrl:
-						'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg',
+						'https://healthyrecipesblogs.com/wp-content/uploads/2019/08/pork-meatballs-featured-2022.jpg',
 					category: 'Puppy Diet',
 					instructions: JSON.stringify([
 						'Mix ground chicken, oats, and egg in a bowl.',
@@ -552,7 +552,7 @@ module.exports = {
 					description:
 						'A protein-rich meal with salmon and tuna for cats.',
 					imageUrl:
-						'https://images.pexels.com/photos/3026800/pexels-photo-3026800.jpeg',
+						'https://img.freepik.com/premium-photo/exquisite-seafood-delight-fresh-salmon-red-tuna-sole-fish-chunks-garnished-wooden-plate_1000124-253198.jpg?w=2000',
 					category: 'Cat Balanced Meal',
 					instructions: JSON.stringify([
 						'Bake salmon until fully cooked.',
@@ -574,7 +574,7 @@ module.exports = {
 					title: 'Chicken & Liver Pâté',
 					description: 'A smooth and tasty chicken pâté for cats.',
 					imageUrl:
-						'https://images.pexels.com/photos/1054971/pexels-photo-1054971.jpeg',
+						'https://onlineculinaryschool.net/wp-content/uploads/2018/11/online_culinary_school_chicken_liver_pate-1.jpg',
 					category: 'Cat Soft Food',
 					instructions: JSON.stringify([
 						'Boil chicken breast and liver until fully cooked.',
@@ -596,7 +596,7 @@ module.exports = {
 					title: 'Tuna & Egg Scramble',
 					description: 'A simple tuna and egg scramble for cats.',
 					imageUrl:
-						'https://images.pexels.com/photos/1235705/pexels-photo-1235705.jpeg',
+						'https://hiphipgourmet.com/wp-content/uploads/2023/07/20230617_161706-01-1-750x500.jpeg',
 					category: 'Cat Cooked Diet',
 					instructions: JSON.stringify([
 						'Scramble an egg in a pan over low heat.',
@@ -619,7 +619,7 @@ module.exports = {
 					description:
 						'A nutritious sardine mix with pumpkin for digestion.',
 					imageUrl:
-						'https://images.pexels.com/photos/414102/pexels-photo-414102.jpeg',
+						'https://healthyhappylife.com/wp-content/uploads/2011/10/toasty-pumpkin-chickpea-fritters-IMG_4323-3.jpg',
 					category: 'Cat Limited Ingredient',
 					instructions: JSON.stringify([
 						'Mash canned sardines in a bowl.',
@@ -642,7 +642,7 @@ module.exports = {
 					description:
 						'A turkey-based meal with added fiber from green beans.',
 					imageUrl:
-						'https://images.pexels.com/photos/1054971/pexels-photo-1054971.jpeg',
+						'https://www.wholesomelicious.com/wp-content/uploads/2021/08/Ground-Turkey-and-Green-Bean-Stir-Fry-Photo2-1097x1536.jpg',
 					category: 'Cat Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook ground turkey in a pan until fully done.',
@@ -665,7 +665,7 @@ module.exports = {
 					description:
 						'A lean rabbit meal with antioxidant-rich blueberries.',
 					imageUrl:
-						'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg',
+						'https://cookingwithwineblog.com/wp-content/uploads/2020/05/Blueberry-Thyme-Red-Wine-Reduction-Featured-1.jpg',
 					category: 'Cat High-Protein',
 					instructions: JSON.stringify([
 						'Slow cook rabbit meat until tender.',
@@ -687,7 +687,7 @@ module.exports = {
 					title: 'Salmon Skin & Rice Treats',
 					description: 'Crunchy salmon skin treats with brown rice.',
 					imageUrl:
-						'https://images.pexels.com/photos/3026800/pexels-photo-3026800.jpeg',
+						'https://thewoksoflife.com/wp-content/uploads/2017/04/salmon-skin-bowls-2.jpg',
 					category: 'Cat Treats',
 					instructions: JSON.stringify([
 						'Bake salmon skin until crispy.',
@@ -709,7 +709,7 @@ module.exports = {
 					title: 'Beef & Liver Mousse',
 					description: 'A soft and easy-to-eat mousse for senior cats.',
 					imageUrl:
-						'https://images.pexels.com/photos/1235705/pexels-photo-1235705.jpeg',
+						'https://www.primaledgehealth.com/wp-content/uploads/2019/07/Classic-Beef-Liver-Pate-featured-500x500.jpg',
 					category: 'Cat Senior Diet',
 					instructions: JSON.stringify([
 						'Cook beef and liver until soft.',
