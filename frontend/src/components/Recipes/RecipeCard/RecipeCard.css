@@ -6,21 +6,20 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--panel-bg);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding-bottom: 10px;
   text-align: center;
   overflow: hidden;
-  white-space: normal;
   position: relative;
   scroll-snap-align: start;
   flex: 0 0 auto;
 }
 
 .recipe-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  transform: translateY(-3px);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
 }
 
 .recipe-image {

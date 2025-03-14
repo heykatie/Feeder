@@ -1,7 +1,3 @@
-.recipes-container {
-  max-width: 100%;
-  overflow: auto;
-}
 
 .recipes-container .recipes-header {
   display: flex;
@@ -9,10 +5,6 @@
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 15px;
-}
-
-.recipes-container .search-results {
-  margin-bottom: 2rem;
 }
 
 .recipes-container .recipes-scroll-container {
@@ -48,9 +40,16 @@
   transform: translateY(-8px);
 }
 
+.recipes-container {
+  max-width: 100%;
+  overflow: auto;
+  padding: 20px;
+}
+
 .recipes-actions {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .non-featured-grid {

@@ -1,6 +1,7 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 
 const RecipesHeader = () => {
+	const navigate = useNavigate();
 	const location = useLocation();
 	const { userId } = useParams();
 
@@ -11,7 +12,12 @@ const RecipesHeader = () => {
 			) : userId ? (
 				<h1>My Recipes</h1>
 			) : (
-				<h1>Explore More</h1>
+				<h1
+					onClick={() =>
+						location.pathname !== '/recipes' && navigate('/recipes')
+					}>
+					Explore More
+				</h1>
 			)}
 		</div>
 	);
