@@ -47,3 +47,15 @@
 .recipe-card.featured:hover {
   transform: translateY(-8px);
 }
+
+.recipes-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.non-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}

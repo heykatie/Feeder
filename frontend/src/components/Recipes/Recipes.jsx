@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import XPNotification from '../Notifications/XP';
-import RecipesHeader from './RecipesHeader';
+import RecipesHeader from './RecipesHeader/RecipesHeader';
 import HorizontalScrollContainer from '../ui/HorizontalScrollContainer';
 import CreateRecipeButton from './CreateRecipeButton';
 import {
@@ -12,44 +12,31 @@ import {
 } from '../../redux/recipes';
 import {
 	NavLink,
-	useNavigate,
 	useParams,
 	useLocation,
 	useSearchParams,
 } from 'react-router-dom';
-import { addXP, updateXP } from '../../redux/xp';
 import RecipeCard from './RecipeCard';
-import './Recipes.css';
 import SearchResults from './SearchResults';
 import FeaturedCarousel from './FeaturedCarousel';
+import useRecipesData from './useRecipesData';
+import './Recipes.css';
 
 const Recipes = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const [XP, setXP] = useState(0);
 	const { userId } = useParams();
 	const location = useLocation();
-	const sessionUser = useSelector((state) => state.session.user);
-	const allRecipes = useSelector((state) => state.recipes.allRecipes);
-	const [searchResults, setSearchResults] = useState([]);
-	const faves = useSelector((state) => state.recipes.favorites);
-	const recipes = location.pathname === '/favorites' ? faves : allRecipes;
 	const [searchParams] = useSearchParams();
 	const searchQuery = searchParams.get('search');
+	const sessionUser = useSelector((state) => state.session.user);
 
-	useEffect(() => {
-		dispatch(fetchFavorites());
-		if (userId) {
-			const isLoggedInUser = sessionUser?.id === Number(userId);
-			dispatch(fetchRecipes({ userId, isLoggedInUser }));
-		} else if (searchQuery) {
-			dispatch(fetchRecipes({ search: searchQuery })).then((res) => {
-				setSearchResults(res.payload || []);
-			});
-		} else {
-			dispatch(fetchRecipes());
-		}
-	}, [dispatch, userId, sessionUser, location.pathname, searchQuery]);
+	const { recipes, faves, searchResults } = useRecipesData(
+		userId,
+		searchQuery,
+		location.pathname,
+		sessionUser
+	);
 
 	const handleFave = async (recipe) => {
 		await dispatch(toggleFavorite(recipe.id));
@@ -60,8 +47,10 @@ const Recipes = () => {
 
 	return (
 		<div className='recipes-container'>
-			<XPNotification xp={XP} />
-			<CreateRecipeButton />
+			<div className='recipes-actions'>
+				<XPNotification xp={XP} />
+				<CreateRecipeButton />
+			</div>
 
 			{searchQuery && recipes.length > 0 && (
 				<SearchResults
@@ -82,8 +71,8 @@ const Recipes = () => {
 
 			<RecipesHeader />
 
-			<HorizontalScrollContainer className='recipes-scroll-container'>
-				{[...recipes].reverse().map((recipe) => (
+			<div className='non-featured-grid'>
+				{[...recipes].reverse().slice(8).map((recipe) => (
 					<RecipeCard
 						key={recipe.id}
 						recipe={recipe}
@@ -91,7 +80,7 @@ const Recipes = () => {
 						isFavorite={faves.some((f) => f.id === recipe.id)}
 					/>
 				))}
-			</HorizontalScrollContainer>
+			</div>
 		</div>
 	);
 };

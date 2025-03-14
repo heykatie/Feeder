@@ -11,7 +11,7 @@ const RecipesHeader = () => {
 			) : userId ? (
 				<h1>My Recipes</h1>
 			) : (
-				<h1>Explore Recipes</h1>
+				<h1>Explore More</h1>
 			)}
 		</div>
 	);
