@@ -72,14 +72,17 @@ const Recipes = () => {
 			<RecipesHeader />
 
 			<div className='non-featured-grid'>
-				{[...recipes].reverse().slice(8).map((recipe) => (
-					<RecipeCard
-						key={recipe.id}
-						recipe={recipe}
-						onFavorite={handleFave}
-						isFavorite={faves.some((f) => f.id === recipe.id)}
-					/>
-				))}
+				{[...recipes]
+					.reverse()
+					.map((recipe) => (
+						<RecipeCard
+							key={recipe.id}
+							recipe={recipe}
+							onFavorite={handleFave}
+							isFavorite={faves.some((f) => f.id === recipe.id)}
+							hideDesc={true}
+						/>
+					))}
 			</div>
 		</div>
 	);

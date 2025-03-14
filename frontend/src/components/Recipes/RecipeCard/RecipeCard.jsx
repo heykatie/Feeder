@@ -4,7 +4,13 @@ import { toggleRecipePrivacy } from '../../../redux/recipes';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import './RecipeCard.css';
 
-const RecipeCard = ({ recipe, onFavorite, isFavorite, showMeta = true }) => {
+const RecipeCard = ({
+	recipe,
+	onFavorite,
+	isFavorite,
+	showMeta = true,
+	hideDesc,
+}) => {
 	const location = useLocation();
 	const dispatch = useDispatch();
 	const { userId } = useParams();
@@ -24,13 +30,13 @@ const RecipeCard = ({ recipe, onFavorite, isFavorite, showMeta = true }) => {
 					className='recipe-image'
 				/>
 				<h2>{recipe.title}</h2>
-				<p>{recipe.description}</p>
-				{recipe.totalTime > 0 && (
-					<p className='recipe-time'>Total Time: {recipe.totalTime} min</p>
-				)}
+				{!hideDesc && <p>{recipe.description}</p>}
 				{showMeta && (
 					<div className='recipe-meta'>
 						<p className='recipe-rating'>⭐ {recipe.rating} / 5</p>
+						{recipe.totalTime > 0 && (
+							<p className='recipe-time'>⏲️ {recipe.totalTime} min</p>
+						)}
 						<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
 					</div>
 				)}

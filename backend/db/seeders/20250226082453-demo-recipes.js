@@ -36,7 +36,7 @@ module.exports = {
 					notes: 'give em a boop for me',
 				},
 				{
-					userId: 1,
+					userId: 3,
 					title: 'Peanut Butter Banana Bites',
 					description:
 						'Frozen treats with peanut butter and banana, perfect for a snack.',
@@ -220,7 +220,7 @@ module.exports = {
 					notes: 'give em a boop for me',
 				},
 				{
-					userId: 3,
+					userId: 1,
 					title: 'Puppy Meatballs',
 					description:
 						'Soft, bite-sized meatballs perfect for young or senior dogs.',
@@ -683,7 +683,7 @@ module.exports = {
 					notes: 'Perfect for active cats needing lean protein.',
 				},
 				{
-					userId: 1,
+					userId: 3,
 					title: 'Salmon Skin & Rice Treats',
 					description: 'Crunchy salmon skin treats with brown rice.',
 					imageUrl:
