@@ -165,11 +165,12 @@ const NewIngredient = () => {
 						</button>
 					</div>
 				))}
-
-				<button type='submit'>Create Ingredient</button>
-				<button type='button' onClick={closeModal}>
-					Cancel
-				</button>
+				<div className='new-ing-actions'>
+					<button type='submit'>Create Ingredient</button>
+					<button type='button' onClick={closeModal}>
+						Cancel
+					</button>
+				</div>
 			</form>
 		</div>
 	);

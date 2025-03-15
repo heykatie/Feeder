@@ -1,6 +1,6 @@
 .new-ingredient-modal {
   background: #1a1a2e;
-  padding: 20px;
+  padding: 1.5rem;
   border-radius: 10px;
   width: 400px;
   text-align: center;
@@ -17,6 +17,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 3px;
 }
 
 .new-ingredient-modal label {
@@ -95,18 +96,11 @@
   transition: background 0.3s ease;
 }
 
-.new-ingredient-modal button[type="submit"] {
-  background: #1e88e5;
-  color: white;
-}
-
-.new-ingredient-modal button[type="submit"]:hover {
-  background: #1565c0;
-}
-
 .new-ingredient-modal button[type="button"] {
   background: #555;
   color: #e0e0e0;
+  width: 150px !important;
+  justify-content: center;
 }
 
 .new-ingredient-modal button[type="button"]:hover {
@@ -118,7 +112,18 @@
   margin-top: 5px;
 }
 
+.new-ingredient-modal button[type="submit"] {
+  width: 150px !important;
+  justify-content: center;
+}
+
 .new-ingredient-modal .success {
   color: green;
   margin-top: 5px;
+}
+
+.new-ing-actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 3rem;
 }
