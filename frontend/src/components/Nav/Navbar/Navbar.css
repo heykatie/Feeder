@@ -21,7 +21,7 @@
 }
 
 .navbar-menu-btn,
-.navbar-right button {
+.navbar-right button, .search-btn {
   background: none !important;
   border: none;
   color: white;
@@ -29,6 +29,12 @@
   margin: 0px 8px;
   box-shadow: none !important;
   padding: 2px;
+}
+
+.navbar-menu-btn:hover,
+.navbar-right button:hover,
+.search-btn:hover {
+  color: var(--active-color);
 }
 
 .navbar-menu-btn i {

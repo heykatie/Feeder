@@ -71,6 +71,7 @@
 .rsidebar-navLink:hover {
   background: #232946;
   transform: scale(1.01);
+  border-radius: 6px;
 }
 
 .rsidebar-links button {
