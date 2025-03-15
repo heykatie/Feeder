@@ -67,6 +67,9 @@
 .sidebar-navLink:hover {
   background: #232946;
   transform: scale(1.01);
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 208px;
 }
 
 .sidebar-panel .text {
