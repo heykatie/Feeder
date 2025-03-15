@@ -35,7 +35,7 @@ const RecipeCard = ({
 					<div className='recipe-meta'>
 						<p className='recipe-rating'>⭐ {recipe.rating} / 5</p>
 						{recipe.totalTime > 0 && (
-							<p className='recipe-time'>⏲️ {recipe.totalTime} min</p>
+							<p className='recipe-time'>⏲️ {recipe.totalTime}m</p>
 						)}
 						<p className='recipe-likes'>❤️ {recipe.likesCount} Likes</p>
 					</div>
