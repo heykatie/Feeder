@@ -25,10 +25,15 @@
 
 body {
   font-family: "Baloo 2", serif;
-  background-color: var(--bg-color);
+  background: linear-gradient(135deg, #0F172A, #1E293B);
+  transition: background 0.3s ease-in-out;
   color: var(--text-color);
   margin: 0;
   padding: 0;
+}
+
+body:has(.splash-container) {
+  background: #121212 !important;
 }
 
 .panel,
@@ -111,6 +116,15 @@ button {
   align-items: center;
   gap: 8px;
   transition: all 0.3s ease;
+
+    padding: 14px 22px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #63E6BE, #2DCD86);
+      color: #0F172A;
+      border: none;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 button:hover {

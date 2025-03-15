@@ -30,7 +30,7 @@ const RecipeCard = ({
 					className='recipe-image'
 				/>
 				<h2>{recipe.title}</h2>
-				{!hideDesc && <p>{recipe.description}</p>}
+				{!hideDesc && <p className='recipe-description'>{recipe.description}</p>}
 				{showMeta && (
 					<div className='recipe-meta'>
 						<p className='recipe-rating'>⭐ {recipe.rating} / 5</p>
