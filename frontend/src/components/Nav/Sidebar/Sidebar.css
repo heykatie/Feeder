@@ -19,11 +19,14 @@
   left: 0;
 }
 
-.sidebar-header {
+.sidebar-header,
+.sidebar-logo {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
+  align-items: baseline;
+  margin: 0px;
+  padding: 0px;
+  justify-content: baseline;
 }
 
 .sidebar-header .logo {

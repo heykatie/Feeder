@@ -49,7 +49,7 @@ export default function Sidebar({ isExpanded, toggleExpand }) {
 				✖{/* <i className='fa-solid fa-xmark'></i> */}
 			</button>
 			<div className='sidebar-header'>
-				<NavLink to='/'>
+				<NavLink to='/' className='sidebar-logo'>
 					<img
 						src='/assets/logo.png'
 						className='logo'
