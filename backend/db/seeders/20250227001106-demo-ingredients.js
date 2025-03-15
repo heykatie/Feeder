@@ -24,7 +24,7 @@ module.exports = {
 					calcium: 5,
 					iron: 0.9,
 					moisture: 69,
-					image: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGoybGc2YWd5bW44bjJhZWFzbzJyN2k1N3NqZHhrMWs4bTFpazNpYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/vZ4b5aFw6M6eesYMpe/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Fried+Chicken+Celebration+GIF+by+Pudgy+Penguins+(1).gif',
 					servingSize: '100g', // Standard nutrition reference
 				},
 				{
@@ -40,7 +40,7 @@ module.exports = {
 					calcium: 10,
 					iron: 0.8,
 					moisture: 12,
-					image: 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGdybHMxdjVsdzNqeWI4Z3FuOWt5dTNlMXFqaWgxNWJ1aDV1MWpubyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/UXg5N4aA7xUeXUWIy8/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/White+Rice+Love+Sticker+by+Malaysia+Rice+(1).gif',
 					servingSize: '1 cup cooked (195g)',
 				},
 				{
@@ -56,7 +56,7 @@ module.exports = {
 					calcium: 30,
 					iron: 0.6,
 					moisture: 77,
-					image: 'https://art.pixilart.com/dbeae09d1cae603.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/dbeae09d1cae603.gif',
 					servingSize: '1 medium (114g)',
 				},
 				{
@@ -72,7 +72,7 @@ module.exports = {
 					calcium: 9,
 					iron: 0.5,
 					moisture: 64,
-					image: 'https://img1.picmix.com/output/stamp/normal/4/0/1/3/2613104_c30d0.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/2613104_c30d0.gif',
 					servingSize: '100g fillet',
 				},
 				{
@@ -88,7 +88,7 @@ module.exports = {
 					calcium: 21,
 					iron: 0.8,
 					moisture: 92,
-					image: 'https://www.icegif.com/wp-content/uploads/2023/10/icegif-72.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/icegif-72+(1).gif',
 					servingSize: '½ cup mashed (120g)',
 				},
 				{
@@ -104,7 +104,7 @@ module.exports = {
 					calcium: 6,
 					iron: 0.3,
 					moisture: 84,
-					image: 'https://i.pinimg.com/originals/1e/09/e7/1e09e7533262f2a6bf5badfe05c71c3e.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/1e09e7533262f2a6bf5badfe05c71c3e.gif',
 					servingSize: '½ cup (74g)',
 				},
 				{
@@ -120,7 +120,7 @@ module.exports = {
 					calcium: 21,
 					iron: 1.7,
 					moisture: 10,
-					image: 'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTh3MW41b3BmdzRiMm80NjVnY2VtaDZob3hmeW42dmF0cTN5NXk3cyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/nrSRWL9TNU3LiSKznp/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Baking+Sticker+by+Pusheen+(1).gif',
 					servingSize: '½ cup dry (40g)',
 				},
 				{
@@ -136,7 +136,7 @@ module.exports = {
 					calcium: 11,
 					iron: 9.2,
 					moisture: 68,
-					image: 'https://media.baamboozle.com/uploads/images/1148231/1680373007_183059_gif-url.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/31.gif',
 					servingSize: '40g',
 				},
 				{
@@ -152,7 +152,7 @@ module.exports = {
 					calcium: 33,
 					iron: 0.3,
 					moisture: 88,
-					image: 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGt6bTVlZnV6cmVtMjl4aGo4ZmZuMTl6cGsxY2xmc2djank4NG1lNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Pmj5hfzsgEZzJScmJQ/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Sleepy+Potato+Sticker+by+KiraKira.gif',
 					servingSize: '1 medium (61g)',
 				},
 				{
@@ -168,7 +168,7 @@ module.exports = {
 					calcium: 110,
 					iron: 0,
 					moisture: 85,
-					image: 'https://cdn.dribbble.com/userupload/21321693/file/original-8317b5963818a5710713c017c586df74.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/original-8317b5963818a5710713c017c586df74.gif',
 					servingSize: '½ cup (113g)',
 				},
 				{
@@ -184,7 +184,7 @@ module.exports = {
 					calcium: 0,
 					iron: 0,
 					moisture: 0,
-					image: 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaThycnUyMmR3ZXplODk0OG00M2Q2d2gxcW1rYTFvYThtMmZ0ZjRqeSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/U9Q3jbpsDcSz9BMQnS/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/download.gif',
 					servingSize: '1 tbsp (14g)',
 				},
 				{
@@ -200,7 +200,7 @@ module.exports = {
 					calcium: 15,
 					iron: 0.3,
 					moisture: 96,
-					image: 'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHJlbmZwdjdmMGhwbTlya3d6M290MjZvdHpyYzBhMG9lY3A1YTFqZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xUOrvYDUuRXnlhoVlm/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/potatoes+cooking+GIF+by+Michelle+Porucznik.gif',
 					servingSize: '1 cup (240ml)',
 				},
 				{
@@ -216,7 +216,7 @@ module.exports = {
 					calcium: 76,
 					iron: 1,
 					moisture: 4,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Happy+Dance+GIF+by+curly_mads.gif',
 					servingSize: '1 oz (28g)',
 				},
 				{
@@ -232,7 +232,7 @@ module.exports = {
 					calcium: 23,
 					iron: 2.1,
 					moisture: 59,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Hungry+Baked+Beans+GIF.gif',
 					servingSize: '½ cup cooked (86g)',
 				},
 				{
@@ -248,7 +248,7 @@ module.exports = {
 					calcium: 177,
 					iron: 2.2,
 					moisture: 5,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/type+effects+GIF.gif',
 					servingSize: '1 oz (28g)',
 				},
 				{
@@ -264,7 +264,7 @@ module.exports = {
 					calcium: 12,
 					iron: 0.8,
 					moisture: 87,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Tomato+Newy+GIF.gif',
 					servingSize: '½ cup (120g)',
 				},
 				{
@@ -280,7 +280,7 @@ module.exports = {
 					calcium: 15,
 					iron: 1.3,
 					moisture: 10,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Line+Eating+GIF+by+ehcat.gif',
 					servingSize: '1 cup cooked (140g)',
 				},
 				{
@@ -296,7 +296,7 @@ module.exports = {
 					calcium: 731,
 					iron: 0.2,
 					moisture: 49,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/cheese+eating+GIF.gif',
 					servingSize: '1 cup shredded (113g)',
 				},
 				{
@@ -312,7 +312,7 @@ module.exports = {
 					calcium: 10,
 					iron: 1.9,
 					moisture: 3,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Go+Vegan+GIF+by+Simple+Happy+Kitchen.gif',
 					servingSize: '1 oz (28g)',
 				},
 				{
@@ -328,7 +328,7 @@ module.exports = {
 					calcium: 25,
 					iron: 1.5,
 					moisture: 78,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/I+Love+You+Netflix+GIF+by+Life+of+a+Potato.gif',
 					servingSize: '½ cup cooked (80g)',
 				},
 				{
@@ -344,7 +344,7 @@ module.exports = {
 					calcium: 27,
 					iron: 0.8,
 					moisture: 3,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: "https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Season+1+Walnut+GIF+by+Nanalan'.gif",
 					servingSize: '1 oz (28g)',
 				},
 				{
@@ -360,7 +360,7 @@ module.exports = {
 					calcium: 11,
 					iron: 2.7,
 					moisture: 55,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/download+(1).gif',
 					servingSize: '100g',
 				},
 				{
@@ -376,7 +376,7 @@ module.exports = {
 					calcium: 15,
 					iron: 1,
 					moisture: 58,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Peppa+Pig+Animation+GIF+by+Mashed.gif',
 					servingSize: '100g',
 				},
 				{
@@ -392,7 +392,7 @@ module.exports = {
 					calcium: 13,
 					iron: 0.8,
 					moisture: 65,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Animation+Domination+Dance+GIF+by+gifnews.gif',
 					servingSize: '100g',
 				},
 				{
@@ -408,7 +408,7 @@ module.exports = {
 					calcium: 23,
 					iron: 0.2,
 					moisture: 88,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/download+(2).gif',
 					servingSize: '1 medium (110g)',
 				},
 				{
@@ -424,7 +424,7 @@ module.exports = {
 					calcium: 181,
 					iron: 1.7,
 					moisture: 58,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/angry+GIF+by+slugspoon.gif',
 					servingSize: '1 clove (3g)',
 				},
 				{
@@ -440,7 +440,7 @@ module.exports = {
 					calcium: 10,
 					iron: 0.4,
 					moisture: 91,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/8+Bit+Dnd+GIF.gif',
 					servingSize: '1 medium (119g)',
 				},
 				{
@@ -456,7 +456,7 @@ module.exports = {
 					calcium: 11,
 					iron: 0.2,
 					moisture: 85,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Apple+Running+GIF+by+Sarah+Matuszewski.gif',
 					servingSize: '1 medium (182g)',
 				},
 				{
@@ -472,7 +472,7 @@ module.exports = {
 					calcium: 6,
 					iron: 0.3,
 					moisture: 74,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Banana+Anxiety+GIF.gif',
 					servingSize: '1 medium (118g)',
 				},
 				{
@@ -488,7 +488,7 @@ module.exports = {
 					calcium: 16,
 					iron: 0.4,
 					moisture: 91,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/See+Ya+Hello+GIF+by+Molang.gif',
 					servingSize: '1 cup (152g)',
 				},
 				{
@@ -504,7 +504,7 @@ module.exports = {
 					calcium: 305,
 					iron: 0,
 					moisture: 89,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Drink+Bar+GIF+by+Puss+In+Boots.gif',
 					servingSize: '1 cup (244g)',
 				},
 				{
@@ -520,7 +520,7 @@ module.exports = {
 					calcium: 3,
 					iron: 0,
 					moisture: 16,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Butter+GIF+by+Playbear520_TW.gif',
 					servingSize: '1 tbsp (14g)',
 				},
 				{
@@ -536,7 +536,7 @@ module.exports = {
 					calcium: 25,
 					iron: 0.8,
 					moisture: 88,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/egg+GIF.gif',
 					servingSize: '1 large egg (50g)',
 				},
 				{
@@ -552,7 +552,7 @@ module.exports = {
 					calcium: 9,
 					iron: 6.5,
 					moisture: 71,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/beef+GIF.gif',
 					servingSize: '40g',
 				},
 				{
@@ -568,7 +568,7 @@ module.exports = {
 					calcium: 75,
 					iron: 1.8,
 					moisture: 58,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Dance+Love+GIF+by+Kennysgifs.gif',
 					servingSize: '100g',
 				},
 				{
@@ -584,7 +584,7 @@ module.exports = {
 					calcium: 70,
 					iron: 1.9,
 					moisture: 76,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/200901-dehydrated-grassfed-beef-green-tripe-pet-chews-dsc03977-600x600.webp',
 					servingSize: '100g',
 				},
 				{
@@ -600,7 +600,7 @@ module.exports = {
 					calcium: 10,
 					iron: 0.5,
 					moisture: 75,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/egg+GIF.gif',
 					servingSize: '1 egg (9g)',
 				},
 				{
@@ -616,7 +616,7 @@ module.exports = {
 					calcium: 12,
 					iron: 0.7,
 					moisture: 60,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Australia+Satisfying+GIF+by+MasterChefAU.gif',
 					servingSize: '50g',
 				},
 				{
@@ -632,7 +632,7 @@ module.exports = {
 					calcium: 13,
 					iron: 1.1,
 					moisture: 65,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/1680373007_183059_gif-url.gif',
 					servingSize: '100g',
 				},
 				{
@@ -648,7 +648,7 @@ module.exports = {
 					calcium: 9,
 					iron: 2.2,
 					moisture: 72,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Season+2+Martin+Tv+Show+GIF+by+Martin.gif',
 					servingSize: '100g',
 				},
 				{
@@ -664,7 +664,7 @@ module.exports = {
 					calcium: 83,
 					iron: 0.1,
 					moisture: 80,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/bart+simpson+nasty+food+GIF.gif',
 					servingSize: '½ cup (113g)',
 				},
 				{
@@ -680,7 +680,7 @@ module.exports = {
 					calcium: 47,
 					iron: 0.7,
 					moisture: 89,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/8+Bit+Dnd+GIF+(1).gif',
 					servingSize: '½ cup mashed (122g)',
 				},
 				{
@@ -696,7 +696,7 @@ module.exports = {
 					calcium: 16,
 					iron: 0.4,
 					moisture: 95,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Summer+Squash+8Bit+GIF.gif',
 					servingSize: '1 medium (196g)',
 				},
 				{
@@ -712,7 +712,7 @@ module.exports = {
 					calcium: 10,
 					iron: 1.3,
 					moisture: 67,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Dance+Love+GIF+by+Kennysgifs.gif',
 					servingSize: '100g',
 				},
 				{
@@ -728,7 +728,7 @@ module.exports = {
 					calcium: 150,
 					iron: 1.6,
 					moisture: 84,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/8+Bit+Dnd+GIF+(2).gif',
 					servingSize: '1 cup chopped (67g)',
 				},
 				{
@@ -744,7 +744,7 @@ module.exports = {
 					calcium: 17,
 					iron: 1.8,
 					moisture: 9,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Art+Animation+GIF+by+Happy+Motion.gif',
 					servingSize: '¼ cup (28g)',
 				},
 				{
@@ -760,7 +760,7 @@ module.exports = {
 					calcium: 6,
 					iron: 0.9,
 					moisture: 6,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/hey+arnold+nicksplat+GIF.gif',
 					servingSize: '1 oz (28g)',
 				},
 				{
@@ -776,7 +776,7 @@ module.exports = {
 					calcium: 88,
 					iron: 0.9,
 					moisture: 64,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Chicken+Feet+Cooking+Show+GIF+by+Nederburg.gif',
 					servingSize: '1 piece (35g)',
 				},
 				{
@@ -792,7 +792,7 @@ module.exports = {
 					calcium: 18,
 					iron: 3.2,
 					moisture: 67,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/bunny+rabbit+GIF+by+bigblueboo.gif',
 					servingSize: '100g',
 				},
 				{
@@ -808,7 +808,7 @@ module.exports = {
 					calcium: 11,
 					iron: 0.9,
 					moisture: 69,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/close+up+head+banging+GIF+by+Real+Food+RN.gif',
 					servingSize: '100g',
 				},
 				{
@@ -824,7 +824,7 @@ module.exports = {
 					calcium: 9,
 					iron: 1.2,
 					moisture: 62,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Pink+Pig+GIF+by+Yeremia+Adicipta.gif',
 					servingSize: '100g',
 				},
 				{
@@ -840,7 +840,7 @@ module.exports = {
 					calcium: 382,
 					iron: 2.9,
 					moisture: 60,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Art+Love+GIF.gif',
 					servingSize: '100g',
 				},
 				{
@@ -856,7 +856,7 @@ module.exports = {
 					calcium: 382,
 					iron: 2.9,
 					moisture: 60,
-					image: 'https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif',
+					image: 'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/ingredients/Cat+Food+GIF+by+Sam+C.gif',
 					servingSize: '100g',
 				},
 			],

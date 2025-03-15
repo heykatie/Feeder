@@ -3,8 +3,9 @@
   /* background: white; */
   border-radius: 10px;
   /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
-  padding: 16px;
+  padding: 1rem;
   text-align: center;
+  margin: 1rem;
 }
 
 .ingredient-header {
@@ -15,11 +16,11 @@
 }
 
 .ingredient-header h2 {
-  margin: 0;
+  margin: 1.5rem auto;
   font-size: 20px;
 }
 
-.close-btn {
+.ingredient-info .close-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -28,17 +29,18 @@
 }
 
 .ingredient-image {
-  width: 100px;
-  height: 100px;
+  width: 15rem;
+  height: 10rem;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 10px;
+  margin: 0px auto;
+  padding: 0px;
 }
 
 .serving-size {
   font-size: 14px;
   color: #666;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .toggle-details {
@@ -51,6 +53,8 @@
   font-size: 14px;
   margin-bottom: 10px;
   transition: background 0.3s ease;
+  display: block;
+  margin: 0 auto;
 }
 
 .toggle-details:hover {
