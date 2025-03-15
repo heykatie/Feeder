@@ -25,17 +25,6 @@
   width: 400px;
 }
 
-.about-pet-container h2 {
-  margin-top: 0;
-  font-size: 1.7rem;
-  margin-bottom: 15px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #00C6CF, #A379FF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition: all 0.3s ease-in-out;
-}
-
 .about-pet-container form input,
 .about-pet-container form textarea,
 .about-pet-container form select {
