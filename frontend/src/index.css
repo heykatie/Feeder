@@ -36,27 +36,46 @@ body {
   background: var(--panel-bg);
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.panel:hover, .card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
 }
 
 a {
   text-decoration: none;
-  color: rgba(0, 198, 207, 0.9);;
-  transition: color 0.3s ease;
+  color: rgba(0, 198, 207, 0.9);
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 a:hover {
   color: var(--active-color);
+  transform: translateY(-1px);
 }
 
 .top-navbar {
   background: var(--alt-bg-color);
   border-bottom: 2px solid var(--border-color);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.top-navbar:hover {
+  background: var(--panel-bg);
+  transform: translateX(-1px);
 }
 
 .sidebar {
   background: var(--alt-bg-color);
   border-right: 2px solid var(--border-color);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar:hover {
+  background: var(--panel-bg);
+  transform: translateX(-1px);
 }
 
 input,
@@ -68,24 +87,41 @@ textarea {
   border-radius: 5px;
 }
 
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 8px var(--primary-accent);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
 input::placeholder {
   color: var(--muted-text);
 }
 
 button {
-  width: fit-content !important;
-  color: var(--text-color);
-  border: none;
-  padding: 10px 15px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease-in-out;
-  height: fit-content;
+  padding: 12px 20px;
+  border-radius: 8px !important;
+  border: 2px solid var(--primary-accent);
+  background-color: transparent;
+  color: var(--primary-accent);
+  font-weight: 600;
+  font-family: "Baloo 2", sans-serif;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  color: #A379FF;
+  background-color: var(--primary-accent);
+  color: var(--text-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 198, 207, 0.4);
+}
+
+button:active {
+  transform: scale(0.97);
 }
 
 li {
@@ -125,13 +161,6 @@ li {
 
 .alt-bg {
   background-color: var(--alt-bg-color);
-}
-
-.panel {
-  background: var(--panel-bg);
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
 }
 
 .xp-bar {
@@ -283,29 +312,6 @@ h6,
   font-weight: 700;
 }
 
-button {
-  padding: 10px 15px;
-  border-radius: 14px !important;
-  cursor: pointer;
-  font-weight: bold;
-  font-family: "Baloo 2", sans-serif;
-  transition: background 0.3s ease-in-out, transform 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: auto;
-}
-
-button i {
-  font-size: 1.2rem;
-}
-
-button:hover {
-  background: var(--active-color);
-  transform: scale(1.05);
-  box-shadow: 0 0 10px var(--active-color);
-}
-
 .leaderboard-highlight {
   color: var(--active-color);
   font-weight: bold;
@@ -346,10 +352,6 @@ button:hover {
   100% {
     transform: scale(1);
   }
-}
-
-button:active {
-  animation: softPop 0.2s ease-in-out;
 }
 
 li {

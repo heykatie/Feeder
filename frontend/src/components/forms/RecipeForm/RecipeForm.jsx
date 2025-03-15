@@ -20,9 +20,6 @@ const RecipeForm = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const ingredients = useSelector((state) => state.ingredients.allList);
-	// const recipe = useSelector((state) =>
-	// 	state.recipes?.allRecipes?.find((r) => r.id === Number(id))
-	// );
 	const recipe = useSelector((state) => state.recipes?.selectedRecipe);
 	const user = useSelector((state) => state.session.user);
 
@@ -81,12 +78,11 @@ const RecipeForm = () => {
 			const updatedQuantities = {};
 			const updatedMeasurements = {};
 
-			// console.error('1', recipe);
 			recipe.Ingredients?.forEach((ing) => {
 				if (ing.RecipeIngredient) {
-					updatedQuantities[ing.id] = ing.RecipeIngredient.quantity ?? 1; // ID as key, quantity as value
+					updatedQuantities[ing.id] = ing.RecipeIngredient.quantity ?? 1;
 					updatedMeasurements[ing.id] =
-						ing.RecipeIngredient.measurementId ?? null; // ID as key, measurementId as value
+						ing.RecipeIngredient.measurementId ?? null;
 				} else {
 					updatedQuantities[ing.id] = 1;
 					updatedMeasurements[ing.id] = null;
@@ -97,32 +93,6 @@ const RecipeForm = () => {
 			setIngredientMeasurements(updatedMeasurements);
 		}
 	}, [recipe, id]);
-
-	// useEffect(() => {
-	// 	if (recipe && recipe.id === Number(id)) {
-	// 		setTitle(recipe.title || '');
-	// 		setDescription(recipe.description || '');
-	// 		setImageUrl(recipe.imageUrl || '');
-	// 		setCategory(recipe.category || '');
-	// 		setDifficulty(recipe.difficulty || 'Easy');
-	// 		setServings(recipe.servings || 1);
-	// 		setPrepTime(recipe.prepTime || 0);
-	// 		setCookTime(recipe.cookTime || 0);
-	// 		setTotalTime(recipe.totalTime || 0);
-	// 		setIsPublic(recipe.isPublic ?? true);
-	// 		setNotes(recipe.notes || '');
-	// 		setInstructions(
-	// 			recipe.instructions ? JSON.parse(recipe.instructions) : []
-	// 		);
-	// 		setSelectedIngredients(recipe.Ingredients?.map((ing) => ing.id) || []);
-	// 		setIngredientQuantities(
-	// 			recipe.Ingredients?.reduce((acc, ing) => {
-	// 				acc[ing.id] = ing.RecipeIngredient?.quantity || '1 unit';
-	// 				return acc;
-	// 			}, {}) || {}
-	// 		);
-	// 	}
-	// }, [recipe, id]);
 
 	const handleCategoryChange = (e) => {
 		const value = e.target.value;
@@ -178,12 +148,11 @@ const RecipeForm = () => {
 			notes,
 			instructions: JSON.stringify(validInstructions),
 			ingredients: selectedIngredients.map((ingredient) => ({
-				id: ingredient.id, //   Extracts only the ID
-				quantity: ingredientQuantities[ingredient.id] || 1, //   Gets correct quantity
-				measurementId: ingredientMeasurements[ingredient.id] || null, //   Gets correct measurementId
+				id: ingredient.id,
+				quantity: ingredientQuantities[ingredient.id] || 1,
+				measurementId: ingredientMeasurements[ingredient.id] || null,
 			})),
 		};
-		// console.error('katie111', recipeData);
 
 		let response;
 		if (id) {
@@ -216,14 +185,6 @@ const RecipeForm = () => {
 		setIngredientMeasurements({ ...updatedMeasurements });
 
 		if (id) {
-			// console.log(
-			// 	'Final ingredient data before saving:',
-			// 	updatedIngredients.map((ing) => ({
-			// 		id: ing.id,
-			// 		quantity: updatedQuantities[ing.id] || 1,
-			// 		measurementId: updatedMeasurements[ing.id] || null,
-			// 	}))
-			// );
 			dispatch(
 				updateRecipe({
 					id,
@@ -405,10 +366,6 @@ const RecipeForm = () => {
 						}
 					/>
 				</div>
-				{/* {console.error(
-					'katie1',
-					ingredientQuantities, ingredientMeasurements
-				)} */}
 				{selectedIngredients.length > 0 && (
 					<Ingredients
 						selectedIngredients={selectedIngredients}
