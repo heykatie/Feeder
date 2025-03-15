@@ -1,9 +1,6 @@
 'use strict';
 
 const { Sequelize, Recipe } = require('../models');
-const fs = require('fs');
-const path = require('path');
-const { generatePutPresignedUrl, deleteFromS3 } = require('../../utils/s3');
 
 let options = {};
 options.tableName = 'Recipes';
@@ -11,54 +8,8 @@ if (process.env.NODE_ENV === 'production') {
 	options.schema = process.env.SCHEMA;
 }
 
-async function uploadImagesToS3() {
-	const images = [
-		'chicken-and-rice-for-dogs-lead-683x1024.jpg',
-		'edit-frozen-pb-chocolate-banana-bites-3.jpg',
-		'turkey_pumpkin.jpg',
-		'blueberry_oat_cookies.jpg',
-		'lamb_rice_dinner.jpg',
-		'apple_carrot_pupcakes.jpg',
-		'chicken_liver_treats.jpg',
-		'rabbit_blueberry_medley.jpg',
-		'salmon-skin-bowls-2.jpg',
-		'Classic-Beef-Liver-Pate-featured-500x500.jpg',
-	];
-
-	const uploads = images.map(async (filename) => {
-		const localPath = `./seed-images/${filename}`;
-		const key = `recipes/${filename}`;
-		const existingUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${key}`;
-
-		// If image exists in S3, return existing URL
-		try {
-			return { [filename]: existingUrl };
-		} catch (error) {
-			console.log(`Uploading ${filename} to S3...`);
-		}
-
-		// Read local file and upload if not present
-		const fileBuffer = fs.readFileSync(localPath);
-		const uploadUrl = await generatePutPresignedUrl(key, 'image/jpeg');
-
-		await fetch(uploadUrl, {
-			method: 'PUT',
-			headers: { 'Content-Type': 'image/jpeg' },
-			body: fileBuffer,
-		});
-
-		return { [filename]: existingUrl };
-	});
-
-	// Resolve all uploads
-	const imageMappings = await Promise.all(uploads);
-	return Object.assign({}, ...imageMappings);
-}
-
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		const recipeImages = await uploadImagesToS3();
-
 		await Recipe.bulkCreate(
 			[
 				{
@@ -67,8 +18,7 @@ module.exports = {
 					description:
 						'A simple, balanced meal with lean chicken and brown rice for dogs.',
 					imageUrl:
-						recipeImages['chicken-and-rice-for-dogs-lead-683x1024.jpg'],
-
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/chicken-and-rice-for-dogs-lead-683x1024.jpg',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Boil chicken breast until fully cooked.',
@@ -91,8 +41,7 @@ module.exports = {
 					description:
 						'Frozen treats with peanut butter and banana, perfect for a snack.',
 					imageUrl:
-						recipeImages['edit-frozen-pb-chocolate-banana-bites-3.jpg'],
-
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/edit-frozen-pb-chocolate-banana-bites-3.jpg',
 					category: 'Treats',
 					instructions: JSON.stringify([
 						'Mash bananas in a bowl until smooth.',
@@ -114,8 +63,8 @@ module.exports = {
 					title: 'Beef & Sweet Potato Stew',
 					description:
 						'A hearty beef stew with sweet potatoes, packed with nutrients.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/20241120105039-beef-20-26-20sp-20v1.webp',
 					category: 'Stew',
 					instructions: JSON.stringify([
 						'Brown the ground beef in a pan.',
@@ -138,8 +87,8 @@ module.exports = {
 					title: 'Salmon & Quinoa Bowl',
 					description:
 						'A protein-rich meal with omega-3 fatty acids for a shiny coat.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/8110444-fe18d867dddf4b7ca90ac3c05dff42a0.webp',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook quinoa according to package instructions.',
@@ -161,8 +110,8 @@ module.exports = {
 					title: 'Turkey & Pumpkin Mash',
 					description:
 						'A delicious and easy-to-digest turkey meal with pumpkin for gut health.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/turkey-meatballs-in-pumpkin-sage-sauce_thecozyapron_1.jpg',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook ground turkey in a pan until no longer pink.',
@@ -183,8 +132,8 @@ module.exports = {
 					title: 'Blueberry Oatmeal Cookies',
 					description:
 						'Crunchy, homemade dog cookies with blueberries and oats.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/product-blueberries-and-cream-scones-with-sweet-glaze-the-whistling-kettle-15766113812535.jpg',
 					category: 'Treats',
 					instructions: JSON.stringify([
 						'Preheat oven to 350°F (175°C).',
@@ -207,8 +156,8 @@ module.exports = {
 					title: 'Lamb & Brown Rice Dinner',
 					description:
 						'A rich lamb dish with brown rice, great for sensitive stomachs.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/20200412_075928.webp',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook ground lamb in a pan until fully browned.',
@@ -229,8 +178,8 @@ module.exports = {
 					title: 'Apple Carrot Pupcakes',
 					description:
 						'Mini cupcakes made with apples and carrots for a vitamin boost.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/Apple-Carrot-Muffins-14-1966x2048.jpg',
 					category: 'Treats',
 					instructions: JSON.stringify([
 						'Preheat oven to 350°F (175°C).',
@@ -253,8 +202,8 @@ module.exports = {
 					title: 'Chicken Liver Training Treats',
 					description:
 						'Soft and high-protein training treats made with chicken liver.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/liver-treat-recipe-for-dogs.webp',
 					category: 'Training Treats',
 					instructions: JSON.stringify([
 						'Blend chicken liver in a food processor until smooth.',
@@ -275,8 +224,8 @@ module.exports = {
 					title: 'Puppy Meatballs',
 					description:
 						'Soft, bite-sized meatballs perfect for young or senior dogs.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/meatballs-for-dogs.jpg',
 					category: 'Soft Food',
 					instructions: JSON.stringify([
 						'Preheat oven to 350°F (175°C).',
@@ -298,8 +247,8 @@ module.exports = {
 					title: 'Coconut Yogurt Bites',
 					description:
 						'Frozen coconut yogurt treats to cool your pup on hot days.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/DSCF9846.jpg',
 					category: 'Frozen Treats',
 					instructions: JSON.stringify([
 						'Mix unsweetened coconut yogurt with mashed banana.',
@@ -320,8 +269,8 @@ module.exports = {
 					title: 'Vegetable Broth for Hydration',
 					description:
 						'A nutrient-rich vegetable broth for hydration and gut health.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/Veggie-Broth-NF-6-500x500.jpg',
 					category: 'Soup & Broth',
 					instructions: JSON.stringify([
 						'Simmer chopped carrots, celery, and parsley in water for 1 hour.',
@@ -341,8 +290,8 @@ module.exports = {
 					title: 'Duck & Pumpkin Feast',
 					description:
 						'A rich and flavorful meal with duck and pumpkin, packed with nutrients.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/DSACAWholesomeGrainsDuckLIDPDPs6_500x500.jpeg',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook duck breast in a skillet until fully done.',
@@ -363,8 +312,8 @@ module.exports = {
 					title: 'Rabbit & Carrot Medley',
 					description:
 						'A lean rabbit meat dish with carrots, ideal for sensitive stomachs.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/rabbit-veggie-freeze-dried-raw-dog-food-447709.webp',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Slow cook rabbit meat until tender.',
@@ -385,8 +334,8 @@ module.exports = {
 					title: 'Salmon & Sweet Potato Mash',
 					description:
 						'A salmon dish with sweet potatoes and omega-3 benefits.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/cajun-salmon-sweet-potato-broccoli-recipe-2.webp',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Bake salmon fillet until fully cooked.',
@@ -408,8 +357,8 @@ module.exports = {
 					title: 'Ground Chicken & Rice Delight',
 					description:
 						'A simple and nutritious ground chicken dish with rice.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/139453-Lucky-and-Rippys-Favorite-Dog-Food-ddmfs-117-4x3-1-b8b49bf3211b40eb9d91590445ca56e2.webp',
 					category: 'Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook ground chicken in a pan until fully done.',
@@ -430,8 +379,8 @@ module.exports = {
 					title: 'Pork & Apple Stew',
 					description:
 						'A hearty stew with pork and apples for natural sweetness.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/Pork-and-Apple-Stew-Dog-Food-Recipe.webp',
 					category: 'Stew',
 					instructions: JSON.stringify([
 						'Brown ground pork in a pot.',
@@ -453,8 +402,8 @@ module.exports = {
 					title: 'Raw Beef & Organ Mix',
 					description:
 						'A high-protein raw mix with beef, liver, and veggies.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/c1f88377e14093e09eb467291f033dea.png',
 					category: 'Raw Diet',
 					instructions: JSON.stringify([
 						'Chop beef, liver, and kidney into bite-sized pieces.',
@@ -475,8 +424,8 @@ module.exports = {
 					title: 'Turkey & Sweet Potato Mash',
 					description:
 						'A cooked turkey and sweet potato dish, easy to digest.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/Turkey-11-728x546.webp',
 					category: 'Cooked Diet',
 					instructions: JSON.stringify([
 						'Cook ground turkey in a pan until fully done.',
@@ -496,8 +445,8 @@ module.exports = {
 					userId: 3,
 					title: 'Duck & Quinoa Bowl',
 					description: 'A hypoallergenic meal with duck and quinoa.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/Duck-Dog-Food-Recipe-Photo.jpg',
 					category: 'Limited Ingredient',
 					instructions: JSON.stringify([
 						'Cook duck breast in a skillet until golden brown.',
@@ -517,8 +466,8 @@ module.exports = {
 					userId: 1,
 					title: 'Rabbit & Egg Power Bowl',
 					description: 'A lean and high-protein rabbit dish with eggs.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/bbdd79c3f46568cf325da6d0d9188a49.png',
 					category: 'High-Protein',
 					instructions: JSON.stringify([
 						'Slow cook rabbit meat until tender.',
@@ -538,8 +487,8 @@ module.exports = {
 					userId: 2,
 					title: 'Salmon & Green Bean Light Meal',
 					description: 'A lean salmon meal with fiber-rich green beans.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/One-Sheet-Pan-Salmon-Green-Beans-Clean-Eating-Recipe-Clean-Food-Crush.jpg',
 					category: 'Weight Management',
 					instructions: JSON.stringify([
 						'Bake salmon fillet until fully cooked.',
@@ -559,8 +508,8 @@ module.exports = {
 					userId: 3,
 					title: 'Soft Chicken & Pumpkin Puree',
 					description: 'A soft, easy-to-eat meal for senior dogs.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/crema-de-pollo-y-calabaza_version_1670579152.jpg',
 					category: 'Senior Diet',
 					instructions: JSON.stringify([
 						'Boil chicken until tender and shred finely.',
@@ -580,8 +529,8 @@ module.exports = {
 					userId: 1,
 					title: 'Puppy Power Meatballs',
 					description: 'Small, nutritious meatballs for growing puppies.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/pork-meatballs-featured-2022.jpg',
 					category: 'Puppy Diet',
 					instructions: JSON.stringify([
 						'Mix ground chicken, oats, and egg in a bowl.',
@@ -602,8 +551,8 @@ module.exports = {
 					title: 'Salmon & Tuna Delight',
 					description:
 						'A protein-rich meal with salmon and tuna for cats.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/exquisite-seafood-delight-fresh-salmon-red-tuna-sole-fish-chunks-garnished-wooden-plate_1000124-253198.jpg',
 					category: 'Cat Balanced Meal',
 					instructions: JSON.stringify([
 						'Bake salmon until fully cooked.',
@@ -624,8 +573,8 @@ module.exports = {
 					userId: 2,
 					title: 'Chicken & Liver Pâté',
 					description: 'A smooth and tasty chicken pâté for cats.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/online_culinary_school_chicken_liver_pate-1.jpg',
 					category: 'Cat Soft Food',
 					instructions: JSON.stringify([
 						'Boil chicken breast and liver until fully cooked.',
@@ -646,8 +595,8 @@ module.exports = {
 					userId: 3,
 					title: 'Tuna & Egg Scramble',
 					description: 'A simple tuna and egg scramble for cats.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://hiphipgourmet.com/wp-content/uploads/2023/07/20230617_161706-01-1-750x500.jpeg',
 					category: 'Cat Cooked Diet',
 					instructions: JSON.stringify([
 						'Scramble an egg in a pan over low heat.',
@@ -669,8 +618,8 @@ module.exports = {
 					title: 'Sardine & Pumpkin Mix',
 					description:
 						'A nutritious sardine mix with pumpkin for digestion.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/toasty-pumpkin-chickpea-fritters-IMG_4323-3.jpg',
 					category: 'Cat Limited Ingredient',
 					instructions: JSON.stringify([
 						'Mash canned sardines in a bowl.',
@@ -692,8 +641,8 @@ module.exports = {
 					title: 'Turkey & Green Bean Feast',
 					description:
 						'A turkey-based meal with added fiber from green beans.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/Ground-Turkey-and-Green-Bean-Stir-Fry-Photo2-1097x1536.webp',
 					category: 'Cat Balanced Meal',
 					instructions: JSON.stringify([
 						'Cook ground turkey in a pan until fully done.',
@@ -715,8 +664,8 @@ module.exports = {
 					title: 'Rabbit & Blueberry Medley',
 					description:
 						'A lean rabbit meal with antioxidant-rich blueberries.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/Blueberry-Thyme-Red-Wine-Reduction-Featured-1.jpg',
 					category: 'Cat High-Protein',
 					instructions: JSON.stringify([
 						'Slow cook rabbit meat until tender.',
@@ -737,8 +686,8 @@ module.exports = {
 					userId: 3,
 					title: 'Salmon Skin & Rice Treats',
 					description: 'Crunchy salmon skin treats with brown rice.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/salmon-skin-bowls-2.jpg',
 					category: 'Cat Treats',
 					instructions: JSON.stringify([
 						'Bake salmon skin until crispy.',
@@ -759,8 +708,8 @@ module.exports = {
 					userId: 2,
 					title: 'Beef & Liver Mousse',
 					description: 'A soft and easy-to-eat mousse for senior cats.',
-					imageUrl: recipeImages[''],
-
+					imageUrl:
+						'https://souschef-files.s3.us-west-1.amazonaws.com/seeds/Classic-Beef-Liver-Pate-featured-500x500.jpg',
 					category: 'Cat Senior Diet',
 					instructions: JSON.stringify([
 						'Cook beef and liver until soft.',
@@ -783,13 +732,6 @@ module.exports = {
 	},
 
 	down: async (queryInterface, Sequelize) => {
-				const imagesToDelete = [
-					'recipes/chicken_rice.jpg',
-					'recipes/pb_banana_bites.jpg',
-					'recipes/beef_liver_mousse.jpg',
-					'recipes/salmon_quinoa.jpg',
-				];
-		await Promise.all(imagesToDelete.map((key) => deleteFromS3(key)));
 		await queryInterface.bulkDelete(options, null, {});
 	},
 };
