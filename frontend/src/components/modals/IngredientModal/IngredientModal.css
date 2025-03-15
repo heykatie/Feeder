@@ -15,8 +15,9 @@
   color: var(--primary-accent);
   font-size: 1.6rem;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin: 1rem;
   text-align: center;
+  padding: 1rem;
 }
 
 
@@ -79,9 +80,9 @@
 
 
 .ingredient-modal-actions {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
   margin-top: 15px;
 }
 
@@ -97,7 +98,6 @@
   cursor: pointer;
   text-transform: uppercase;
   transition: background 0.2s ease-in-out;
-  width: min-content;
 }
 
 .ingredient-modal .save-btn:hover {
@@ -113,7 +113,6 @@
   border: none;
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
-  width: 48%;
 }
 
 .ingredient-cancel-btn:hover {
@@ -123,3 +122,13 @@
 /* .ingredient-label:hover {
   cursor: pointer;
 } */
+
+.create-ingredient-btn, .create-ingredient-btn button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2px auto;
+  padding: auto;
+  background: none !important;
+  border: none !important;
+}

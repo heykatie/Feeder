@@ -102,7 +102,7 @@ const IngredientModal = ({
 	};
 
 	// const refreshIngredients = async () => {
-	// 	const updatedIngredients = await dispatch(fetchIngredients()).unwrap(); 
+	// 	const updatedIngredients = await dispatch(fetchIngredients()).unwrap();
 	// 	setIngredientList(updatedIngredients); // Update state
 	// };
 
@@ -230,30 +230,29 @@ const IngredientModal = ({
 						</div>
 					);
 				})}
-			</div>
-
-			<div>
-				<OpenModalButton
-					buttonText='➕ Add New Ingredient'
-					className='create-ingredient-btn'
-					parentModal={
-						<IngredientModal
-							handleSaveIngredients={handleSaveIngredients}
-							selectedIngredients={selectedIngredients}
-							setSelectedIngredients={setSelectedIngredients}
-							ingredientQuantities={ingredientQuantities}
-							setIngredientQuantities={setIngredientQuantities}
-							ingredientMeasurements={ingredientMeasurements}
-							setIngredientMeasurements={setIngredientMeasurements}
-							fromCreateList={fromCreateList}
-							onBack={onBack}
-							handleSaveList={handleSaveList}
-						/>
-					}
-					modalComponent={
-						<NewIngredient fetchIngredients={fetchIngredients} />
-					}
-				/>
+				<div className='create-ingredient-btn'>
+					<OpenModalButton
+						buttonText='➕ Add New Ingredient'
+						className='create-ingredient-btn'
+						parentModal={
+							<IngredientModal
+								handleSaveIngredients={handleSaveIngredients}
+								selectedIngredients={selectedIngredients}
+								setSelectedIngredients={setSelectedIngredients}
+								ingredientQuantities={ingredientQuantities}
+								setIngredientQuantities={setIngredientQuantities}
+								ingredientMeasurements={ingredientMeasurements}
+								setIngredientMeasurements={setIngredientMeasurements}
+								fromCreateList={fromCreateList}
+								onBack={onBack}
+								handleSaveList={handleSaveList}
+							/>
+						}
+						modalComponent={
+							<NewIngredient fetchIngredients={fetchIngredients} />
+						}
+					/>
+				</div>
 			</div>
 
 			<div className='ingredient-modal-actions'>
